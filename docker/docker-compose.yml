@@ -15,6 +15,7 @@ services:
     container_name: ${COMPOSE_PROJECT_NAME}-php
     environment:
       PHP_IDE_CONFIG: serverName=local
+      XDEBUG_CONFIG: ide
     build:
       context: ./php
       args:
@@ -28,18 +29,15 @@ services:
       - ./php/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
       - ./php/php.ini:/usr/local/etc/php/conf.d/php.ini
   db:
-    container_name: ${COMPOSE_PROJECT_NAME}-mysql
-    image: mysql/mysql-server:5.7
+    container_name: ${COMPOSE_PROJECT_NAME}-pgsql
+    image: postgres:10.3
     networks:
       default:
         ipv4_address: ${COMPOSE_NETWORK_BASE_ADDRESS}4
     environment:
-      MYSQL_DATABASE: ${COMPOSE_PROJECT_NAME}
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
-      MYSQL_ROOT_PASSWORD: password
-    volumes:
-      - ./mysql/config.conf:/etc/my.cnf
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: user
+      POSTGRES_DB: ${COMPOSE_PROJECT_NAME}
 
 networks:
   default:

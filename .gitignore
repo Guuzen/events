@@ -16,3 +16,10 @@
 ###> symfony/web-server-bundle ###
 /.web-server-pid
 ###< symfony/web-server-bundle ###
+
+###> docker environment ###
+/docker/.env
+/docker/php/php.ini
+/docker/php/xdebug.ini
+/docker/nginx/config.conf
+###< docker environment  ###
