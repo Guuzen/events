@@ -1,0 +1,53 @@
+FORMAT: 1A
+
+# Events
+
+Just some description about api
+
+# Group Participants
+
+## Add Participant [/participant]
+
+### Create a New Participant [POST]
+
+registration to the event
+
++ name (string) - The name of the participant
++ type (string) - Type of ticket
+
++ Request Success registration (application/json)
+
+        {
+            "name": "John",
+            "type": "premium"
+        }
+
++ Response 200 (application/json)
+
+    + Body
+    
+            {
+                "participant-id": "some uuid"
+                "sum": 100 
+            }
+
+
++ Request Invalid registration (application/json)
+
+        {
+            "name": "John",
+            "type": "premium"
+        }
+
++ Response 200 (application/json)
+
+    + Attributes (array[Validation])
+
+## Data Structures
+
+### Validation
++ field: form field name (required)
++ message: error message (required)
+
+### Logic Error
++ message: error message (required)

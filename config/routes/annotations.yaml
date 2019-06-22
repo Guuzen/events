@@ -1,0 +1,9 @@
+#controllers:
+#    resource: ../../src/Controller/
+#    type: annotation
+user_controller:
+    resource: ../../src/User/Action/
+    type: annotation
+queries:
+    resource: ../../src/Queries/
+    type: annotation

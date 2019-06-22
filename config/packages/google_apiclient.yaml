@@ -1,0 +1,12 @@
+parameters:
+    google_docs.registration_table: 1hgYy6LzAhuKGIjRA-qTfazO-slVWN2AiNX6TVSjHf6w
+services:
+    Google_Client:
+        class: Google_Client
+        calls:
+            - [useApplicationDefaultCredentials, [true]]
+            - [setScopes, [!php/const Google_Service_Sheets::SPREADSHEETS]]
+
+    Google_Service_Sheets:
+        class: Google_Service_Sheets
+        arguments: ['@Google_Client']

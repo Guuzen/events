@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script type="text/javascript">
+        </script>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}{% endblock %}
+    </head>
+    <body>
+        {% block body %}
+            <div class="foo">FOO</div>
+            <form enctype="multipart/form-data" action="/foo" method="post">
+                <input id="file" type="file" name="file">
+                <input type="submit">
+            </form>
+        {% endblock %}
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>
