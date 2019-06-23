@@ -22,4 +22,9 @@ class MoneyType extends JsonType
     {
         return self::MONEY;
     }
+
+    public function requiresSQLCommentHint(AbstractPlatform $platform)
+    {
+        return true;
+    }
 }

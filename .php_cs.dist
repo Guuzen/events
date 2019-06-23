@@ -14,6 +14,9 @@ return PhpCsFixer\Config::create()
         'binary_operator_spaces' => [
             'default' => 'align',
         ],
+        'concat_space' => [
+            'spacing' => 'one',
+        ],
     ])
     ->setRiskyAllowed(true)
     ->setFinder($finder)

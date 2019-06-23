@@ -31,6 +31,7 @@
         "symfony/yaml": "^4.0"
     },
     "require-dev": {
+        "coduo/php-matcher": "^3.1",
         "friendsofphp/php-cs-fixer": "^2.15",
         "phpspec/phpspec": "^5.1",
         "symfony/debug-pack": "*",
