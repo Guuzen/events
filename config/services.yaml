@@ -43,3 +43,5 @@ services:
 
 #    App\Queries\FindActiveTariffs:
 #        arguments:
+    App\Order\Action\OrderTicket\HttpAdapter:
+        tags: ['controller.service_arguments']
