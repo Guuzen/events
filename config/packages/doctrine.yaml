@@ -17,28 +17,54 @@ doctrine:
 
         url: '%env(resolve:DATABASE_URL)%'
         types:
-            money: App\Common\MoneyType
+            app_money: App\Common\MoneyType
+            app_datetime: App\Common\DateTimeType
+            app_tariff_price_net: App\Tariff\Doctrine\TariffPriceNetType
+            app_tariff_id: App\Order\Doctrine\TariffIdType
+            app_tariff_ids: App\Tariff\Doctrine\TariffIdsType
+            app_event_id: App\Event\Doctrine\EventIdType
+            app_order_id: App\Order\Doctrine\OrderIdType
+            app_order_ids: App\Order\Doctrine\OrderIdsType
+            app_product_id: App\Order\Doctrine\ProductIdType
+            app_promocode_id: App\Promocode\Doctrine\PromocodeIdType
+            app_ticket_tariff_id: App\Tariff\Doctrine\TicketTariffIdType
+            app_user_id: App\User\Doctrine\UserIdType
+            app_user_fullname: App\User\Doctrine\UserFullNameType
+            app_user_contacts: App\User\Doctrine\UserContactsType
+            app_user_geo: App\User\Doctrine\UserGeoType
+            app_ticket_id: App\Product\Doctrine\TicketIdType
     orm:
         auto_generate_proxy_classes: true
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
         mappings:
-#            App:
-#                is_bundle: false
-#                type: annotation
-#                dir: '%kernel.project_dir%/src/Entity'
-#                prefix: 'App\Entity'
-#                alias: App
-            User:
+            Event:
                 is_bundle: false
                 type: annotation
-                dir: '%kernel.project_dir%/src/User/Model'
+                dir: '%kernel.project_dir%/src/Event/Model'
+                prefix: 'App\Event\Model'
+            Order:
+                is_bundle: false
+                prefix: 'App\Order\Model'
+                type: annotation
+                dir: '%kernel.project_dir%/src/Order/Model'
+            Product:
+                is_bundle: false
+                prefix: 'App\Product\Model'
+                type: annotation
+                dir: '%kernel.project_dir%/src/Product/Model'
+            Promocode:
+                is_bundle: false
+                prefix: 'App\Promocode\Model'
+                type: annotation
+                dir: '%kernel.project_dir%/src/Promocode/Model'
+            Tariff:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/Tariff/Model'
+                prefix: 'App\Tariff\Model'
+            User:
+                is_bundle: false
                 prefix: 'App\User\Model'
-                alias: User
-#            Promocode:
-#                is_bundle: false
-#                type: annotation
-#                dir: '%kernel.project_dir%/src/Promocode'
-#                prefix: 'App\Promocode'
-#                alias: Promocode
-
+                type: annotation
+                dir: '%kernel.project_dir%/src/User/Model'

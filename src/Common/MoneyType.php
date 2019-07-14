@@ -3,28 +3,19 @@ declare(strict_types=1);
 
 namespace App\Common;
 
-use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Types\JsonType;
 use Money\Money;
 
-class MoneyType extends JsonType
+class MoneyType extends JsonDocumentType
 {
-    public const MONEY = 'money';
+    public const MONEY = 'app_money';
 
-    public function convertToPHPValue($value, AbstractPlatform $platform): ?Money
+    protected function className(): string
     {
-        $val = parent::convertToPHPValue($value, $platform);
-
-        return new Money($val['amount'], $val['currency']);
+        return Money::class;
     }
 
     public function getName(): string
     {
         return self::MONEY;
-    }
-
-    public function requiresSQLCommentHint(AbstractPlatform $platform)
-    {
-        return true;
     }
 }

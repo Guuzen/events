@@ -9,38 +9,29 @@ final class EventId
 {
     private $id;
 
-    public function __construct()
+    private function __construct(string $id)
     {
-        $this->id = Uuid::uuid4();
+        $this->id = $id;
     }
 
-//    private function __construct(Uuid $id)
-//    {
-//        $this->id = $id;
-//    }
-//
-//    public function new(): self
-//    {
-//        return new self(Uuid::uuid4());
-//    }
-//
-//    public function fromString(string $id): self
-//    {
-//        if (!Uuid::isValid($id)) {
-//            throw new EventIdIsNotValid();
-//        }
-//
-//        return new self(Uuid::fromString($id));
-//    }
+    public static function new(): self
+    {
+        return new self(Uuid::uuid4()->toString());
+    }
+
+    public static function fromString(string $id): self
+    {
+        return new self(Uuid::fromString($id)->toString());
+    }
 
     public function equals(EventId $eventId): bool
     {
-        return $this->id->equals($eventId->id);
+        return $this->id === $eventId->id;
     }
 
     public function asString(): string
     {
-        return $this->id->toString();
+        return $this->id;
     }
 
     public function __toString(): string

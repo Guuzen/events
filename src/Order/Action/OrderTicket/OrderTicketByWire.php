@@ -3,12 +3,14 @@
 namespace App\Order\Action\OrderTicket;
 
 use App\Common\AppRequest;
+use Symfony\Component\Validator\Constraints as Assert;
 
 // TODO validation
 final class OrderTicketByWire implements AppRequest
 {
     /**
      * @var string
+     * @Assert\NotBlank()
      */
     public $firstName;
 
@@ -30,14 +32,14 @@ final class OrderTicketByWire implements AppRequest
     /**
      * @var string
      */
-    public $tariff;
+    public $tariffId;
 
-    public function __construct(string $firstName, string $lastName, string $email, string $paymentMethod, string $tariff)
+    public function __construct(string $firstName, string $lastName, string $email, string $paymentMethod, string $tariffId)
     {
-        $this->firstName     = $firstName;
-        $this->lastName      = $lastName;
-        $this->email         = $email;
-        $this->paymentMethod = $paymentMethod;
-        $this->tariff        = $tariff;
+        $this->firstName        = $firstName;
+        $this->lastName         = $lastName;
+        $this->email            = $email;
+        $this->paymentMethod    = $paymentMethod;
+        $this->tariffId         = $tariffId;
     }
 }

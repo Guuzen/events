@@ -36,12 +36,16 @@ services:
 
     App\Common\InvalidAppRequestListener:
         tags:
-            - { name: kernel.event_listener, event: kernel.exception } # todo try change name
+            - { name: kernel.event_listener, event: kernel.exception }
     App\User\Action\UserController:
         arguments:
             $tableId: '%google_docs.registration_table%'
 
-#    App\Queries\FindActiveTariffs:
-#        arguments:
+    App\Queries\FindOrders:
+        tags: ['controller.service_arguments']
     App\Order\Action\OrderTicket\HttpAdapter:
         tags: ['controller.service_arguments']
+
+    Symfony\Component\Serializer\Normalizer\PropertyNormalizer:
+        tags:
+            - { name: serializer.normalizer }

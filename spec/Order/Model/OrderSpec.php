@@ -9,7 +9,7 @@ use App\Order\Model\Exception\OrderCancelled;
 use App\Order\Model\Order;
 use App\Order\Model\OrderId;
 use App\Promocode\Model\PromocodeId;
-use App\Tariff\Model\TariffId;
+use App\Tariff\Model\TicketTariffId;
 use App\User\Model\UserId;
 use DateTimeImmutable;
 use Money\Currency;
@@ -23,7 +23,7 @@ class OrderSpec extends ObjectBehavior
         $orderId   = new OrderId();
         $eventId     = new EventId();
         $userId      = new UserId();
-        $tariffId    = new TariffId();
+        $tariffId    = new TicketTariffId();
         $promocodeId = new PromocodeId();
         $sum         = new Money(0, new Currency('RUB'));
         $createdNow  = new DateTimeImmutable('now');
@@ -38,7 +38,7 @@ class OrderSpec extends ObjectBehavior
         $orderId   = new OrderId();
         $eventId     = new EventId();
         $userId      = new UserId();
-        $tariffId    = new TariffId();
+        $tariffId    = new TicketTariffId();
         $promocodeId = new PromocodeId();
         $sum         = new Money(0, new Currency('RUB'));
         $createdNow  = new DateTimeImmutable('now');
@@ -56,7 +56,7 @@ class OrderSpec extends ObjectBehavior
         $orderId   = new OrderId();
         $eventId     = new EventId();
         $userId      = new UserId();
-        $tariffId    = new TariffId();
+        $tariffId    = new TicketTariffId();
         $promocodeId = new PromocodeId();
         $sum         = new Money(0, new Currency('RUB'));
         $createdNow  = new DateTimeImmutable('now');
@@ -74,7 +74,7 @@ class OrderSpec extends ObjectBehavior
         $orderId   = new OrderId();
         $eventId     = new EventId();
         $userId      = new UserId();
-        $tariffId    = new TariffId();
+        $tariffId    = new TicketTariffId();
         $promocodeId = new PromocodeId();
         $sum         = new Money(0, new Currency('RUB'));
         $createdNow  = new DateTimeImmutable('now');
@@ -93,7 +93,7 @@ class OrderSpec extends ObjectBehavior
         $orderId   = new OrderId();
         $eventId     = new EventId();
         $userId      = new UserId();
-        $tariffId    = new TariffId();
+        $tariffId    = new TicketTariffId();
         $promocodeId = new PromocodeId();
         $sum         = new Money(0, new Currency('RUB'));
         $createdNow  = new DateTimeImmutable('now');
@@ -111,7 +111,7 @@ class OrderSpec extends ObjectBehavior
         $orderId   = new OrderId();
         $eventId     = new EventId();
         $userId      = new UserId();
-        $tariffId    = new TariffId();
+        $tariffId    = new TicketTariffId();
         $promocodeId = new PromocodeId();
         $sum         = new Money(0, new Currency('RUB'));
         $createdNow  = new DateTimeImmutable('now');

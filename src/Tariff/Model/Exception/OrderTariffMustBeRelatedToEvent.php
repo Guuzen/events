@@ -5,7 +5,7 @@ namespace App\Tariff\Model\Exception;
 
 use Exception;
 
-final class OrderTariffMustBeRelatedWithEvent extends Exception
+final class OrderTariffMustBeRelatedToEvent extends Exception
 {
 
 }

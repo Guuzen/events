@@ -15,8 +15,8 @@ use App\Promocode\Model\PromocodeId;
 use App\Promocode\Model\RegularPromocode;
 use App\Promocode\Model\AllowedTariffs\SpecificAllowedTariffs;
 use App\Tariff\Model\Exception\PromocodeExpired;
-use App\Tariff\Model\Tariff;
-use App\Tariff\Model\TariffId;
+use App\Tariff\Model\TicketTariff;
+use App\Tariff\Model\TicketTariffId;
 use DateTimeImmutable;
 use Money\Currency;
 use Money\Money;
@@ -62,12 +62,12 @@ class RegularPromocodeSpec extends ObjectBehavior
     }
 
     // use promocode
-    public function it_should_be_used(Tariff $tariff)
+    public function it_should_be_used(TicketTariff $tariff)
     {
         $orderId = new OrderId();
         $now = new DateTimeImmutable('now');
 
-        $tariff->beADoubleOf(Tariff::class);
+        $tariff->beADoubleOf(TicketTariff::class);
         $tariff
             ->relatedToEvent(Argument::any())
             ->willReturn(true)
@@ -83,14 +83,14 @@ class RegularPromocodeSpec extends ObjectBehavior
         ;
     }
 
-    public function it_should_not_be_used_if_not_usable(Tariff $tariff)
+    public function it_should_not_be_used_if_not_usable(TicketTariff $tariff)
     {
         $eventId                  = new EventId();
         $orderId                = new OrderId();
         $zeroDiscount             = new FixedDiscount(new Money(0, new Currency('RUB')));
         $limitedByOneUse          = 1;
         $expireTomorrow           = new DateTimeImmutable('tomorrow');
-        $noSpecificAllowedTariffs = new SpecificAllowedTariffs([new TariffId()]);
+        $noSpecificAllowedTariffs = new SpecificAllowedTariffs([new TicketTariffId()]);
         $now                      = new DateTimeImmutable('now');
         $promocodeId              = new PromocodeId();
         $notUsable                = false;
@@ -104,7 +104,7 @@ class RegularPromocodeSpec extends ObjectBehavior
             $notUsable
         );
 
-        $tariff->beADoubleOf(Tariff::class);
+        $tariff->beADoubleOf(TicketTariff::class);
         $tariff
             ->relatedToEvent(Argument::any())
             ->willReturn(true)
@@ -120,12 +120,12 @@ class RegularPromocodeSpec extends ObjectBehavior
         ;
     }
 
-    public function it_should_not_be_used_twice_in_same_order(Tariff $tariff)
+    public function it_should_not_be_used_twice_in_same_order(TicketTariff $tariff)
     {
         $orderId = new OrderId();
         $now = new DateTimeImmutable('now');
 
-        $tariff->beADoubleOf(Tariff::class);
+        $tariff->beADoubleOf(TicketTariff::class);
         $tariff
             ->relatedToEvent(Argument::any())
             ->willReturn(true)
@@ -142,12 +142,12 @@ class RegularPromocodeSpec extends ObjectBehavior
         ;
     }
 
-    public function it_should_not_be_usable_if_expired(Tariff $tariff)
+    public function it_should_not_be_usable_if_expired(TicketTariff $tariff)
     {
         $orderId = new OrderId();
         $backOfTomorrow = new DateTimeImmutable('tomorrow + 15 minutes');
 
-        $tariff->beADoubleOf(Tariff::class);
+        $tariff->beADoubleOf(TicketTariff::class);
         $tariff
             ->relatedToEvent(Argument::any())
             ->willReturn(true)
@@ -163,12 +163,12 @@ class RegularPromocodeSpec extends ObjectBehavior
         ;
     }
 
-    public function it_should_not_be_used_if_use_limit_exceeded(Tariff $tariff)
+    public function it_should_not_be_used_if_use_limit_exceeded(TicketTariff $tariff)
     {
         $orderId = new OrderId();
         $now = new DateTimeImmutable('now');
 
-        $tariff->beADoubleOf(Tariff::class);
+        $tariff->beADoubleOf(TicketTariff::class);
         $tariff
             ->relatedToEvent(Argument::any())
             ->willReturn(true)
@@ -185,12 +185,12 @@ class RegularPromocodeSpec extends ObjectBehavior
         ;
     }
 
-    public function it_should_not_be_related_to_different_event_with_tariff(Tariff $tariff)
+    public function it_should_not_be_related_to_different_event_with_tariff(TicketTariff $tariff)
     {
         $orderId = new OrderId();
         $now = new DateTimeImmutable('now');
 
-        $tariff->beADoubleOf(Tariff::class);
+        $tariff->beADoubleOf(TicketTariff::class);
         $tariff
             ->relatedToEvent(Argument::any())
             ->willReturn(false)
@@ -206,12 +206,12 @@ class RegularPromocodeSpec extends ObjectBehavior
         ;
     }
 
-    public function it_should_not_be_used_if_tariff_not_allowed(Tariff $tariff)
+    public function it_should_not_be_used_if_tariff_not_allowed(TicketTariff $tariff)
     {
         $orderId = new OrderId();
         $now = new DateTimeImmutable('now');
 
-        $tariff->beADoubleOf(Tariff::class);
+        $tariff->beADoubleOf(TicketTariff::class);
         $tariff
             ->relatedToEvent(Argument::any())
             ->willReturn(true)
@@ -262,12 +262,12 @@ class RegularPromocodeSpec extends ObjectBehavior
 //    }
 
     // cancel promocode
-    public function it_should_be_cancelled(Tariff $tariff)
+    public function it_should_be_cancelled(TicketTariff $tariff)
     {
         $orderId = new OrderId();
         $now = new DateTimeImmutable('now');
 
-        $tariff->beADoubleOf(Tariff::class);
+        $tariff->beADoubleOf(TicketTariff::class);
         $tariff
             ->relatedToEvent(Argument::any())
             ->willReturn(true)

@@ -27,5 +27,6 @@
 
     <listeners>
         <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener" />
+        <listener class="App\Tests\Listeners\DatabaseConfigListener" />
     </listeners>
 </phpunit>

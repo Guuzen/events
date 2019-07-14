@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Product\Model;
@@ -7,23 +8,26 @@ use App\Event\Model\EventId;
 use App\Order\Model\Order;
 use App\Order\Model\OrderId;
 use App\Order\Model\ProductId;
-use App\Promocode\Model\PromocodeId;
-use App\Tariff\Model\TariffId;
+use App\Product\Model\Exception\OrderProductMustBeRelatedToEvent;
+use App\Promocode\Model\Promocode;
+use App\Tariff\Model\Tariff;
 use App\User\Model\User;
 use DateTimeImmutable;
-use Money\Money;
 
 final class BroadcastLink implements Product
 {
     private $id;
 
+    private $eventId;
+
     private $link;
 
     private $reserved;
 
-    public function __construct(BroadcastLinkId $id, string $link, bool $reserved = false)
+    public function __construct(BroadcastLinkId $id, EventId $eventId, string $link, bool $reserved = false)
     {
         $this->id       = $id;
+        $this->eventId  = $eventId;
         $this->link     = $link;
         $this->reserved = $reserved;
     }
@@ -41,15 +45,16 @@ final class BroadcastLink implements Product
     public function makeOrder(
         OrderId $orderId,
         EventId $eventId,
-        TariffId $tariffId,
-        ?PromocodeId $promocodeId,
+        Tariff $tariff,
+        Promocode $promocode,
         User $user,
-        Money $sum,
-        DateTimeImmutable $makedAt
-    ): Order
-    {
-        $productId = new ProductId((string)$this->id);
+        DateTimeImmutable $asOf
+    ): Order {
+        if (!$this->eventId->equals($eventId)) {
+            throw new OrderProductMustBeRelatedToEvent();
+        }
+        $productId = ProductId::fromString((string) $this->id);
 
-        return $user->makeOrder($orderId, $eventId, $tariffId, $promocodeId, $productId, $sum, $makedAt);
+        return $tariff->makeOrder($orderId, $eventId, $productId, $promocode, $user, $asOf);
     }
 }

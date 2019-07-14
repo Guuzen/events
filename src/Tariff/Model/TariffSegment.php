@@ -9,8 +9,14 @@ use Money\Money;
 
 final class TariffSegment
 {
+    /**
+     * @var Money
+     */
     private $price;
 
+    /**
+     * @var TariffTerm
+     */
     private $term;
 
     public function __construct(Money $price, TariffTerm $term)

@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 namespace App\Product\Model;
 
@@ -7,25 +6,52 @@ use App\Event\Model\EventId;
 use App\Order\Model\Order;
 use App\Order\Model\OrderId;
 use App\Order\Model\ProductId;
-use App\Promocode\Model\PromocodeId;
-use App\Tariff\Model\TariffId;
+use App\Product\Model\Exception\OrderProductMustBeRelatedToEvent;
+use App\Promocode\Model\Promocode;
+use App\Tariff\Model\Tariff;
 use App\User\Model\User;
 use DateTimeImmutable;
-use Money\Money;
+use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * @ORM\Entity()
+ */
 final class Ticket implements Product
 {
+    /**
+     * @ORM\Id()
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\Column(type="app_ticket_id")
+     */
     private $id;
 
+    /**
+     * @ORM\Column(type="app_event_id")
+     */
+    private $eventId;
+
+    /**
+     * @ORM\Column(type="string")
+     */
     private $number;
 
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $status;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
     private $reserved;
 
-    public function __construct(TicketId $id, int $number, bool $reserved = false)
+    public function __construct(TicketId $id, EventId $eventId, string $number, string $status, bool $reserved = true)
     {
-        $this->id     = $id;
-        $this->number = $number;
+        $this->id       = $id;
+        $this->number   = $number;
+        $this->status   = $status;
         $this->reserved = $reserved;
+        $this->eventId  = $eventId;
     }
 
     public function reserve(): void
@@ -41,15 +67,16 @@ final class Ticket implements Product
     public function makeOrder(
         OrderId $orderId,
         EventId $eventId,
-        TariffId $tariffId,
-        ?PromocodeId $promocodeId,
+        Tariff $tariff,
+        Promocode $promocode,
         User $user,
-        Money $sum,
-        DateTimeImmutable $makedAt
-    ): Order
-    {
-        $productId = new ProductId((string)$this->id);
+        DateTimeImmutable $asOf
+    ): Order {
+        if (!$this->eventId->equals($eventId)) {
+            throw new OrderProductMustBeRelatedToEvent();
+        }
+        $productId = ProductId::fromString($this->id);
 
-        return $user->makeOrder($orderId, $eventId, $tariffId, $promocodeId, $productId, $sum, $makedAt);
+        return $tariff->makeOrder($orderId, $eventId, $productId, $promocode, $user, $asOf);
     }
 }

@@ -8,8 +8,14 @@ use DateTimeImmutable;
 
 final class TariffTerm
 {
+    /**
+     * @var DateTimeImmutable
+     */
     private $start;
 
+    /**
+     * @var DateTimeImmutable
+     */
     private $end;
 
     public function __construct(DateTimeImmutable $start, DateTimeImmutable $end)

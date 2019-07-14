@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Tariff\Model;
@@ -11,9 +12,11 @@ use Money\Money;
 // TODO цены должны не только не пересекаться, но ещё и идти всегда подряд?
 final class TariffPriceNet
 {
+    /**
+     * @var TariffSegment[]
+     */
     private $segments;
 
-    /** @var TariffSegment[] $segments */
     public function __construct(array $segments)
     {
         static::assertPricesNotIntersects($segments);

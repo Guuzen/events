@@ -5,7 +5,7 @@ namespace App\Promocode\Model;
 use App\Event\Model\EventId;
 use App\Order\Model\Order;
 use App\Order\Model\OrderId;
-use App\Product\Model\Product;
+use App\Order\Model\ProductId;
 use App\Promocode\Model\Discount\Discount;
 use App\Promocode\Model\Exception\OrderPromocodeMustBeRelatedToEvent;
 use App\Promocode\Model\Exception\PromocodeAlreadyUsedInOrder;
@@ -16,7 +16,8 @@ use App\Promocode\Model\Exception\PromocodeNotUsedInOrder;
 use App\Promocode\Model\Exception\PromocodeUseLimitExceeded;
 use App\Promocode\Model\AllowedTariffs\AllowedTariffs;
 use App\Tariff\Model\Exception\PromocodeExpired;
-use App\Tariff\Model\Tariff;
+use App\Tariff\Model\TicketTariff;
+use App\Tariff\Model\TicketTariffId;
 use App\User\Model\User;
 use DateTimeImmutable;
 use Money\Money;
@@ -37,7 +38,10 @@ final class RegularPromocode implements Promocode
     private $allowedTariffs;
 
     /** @var OrderId[] */
-    private $usedInOrders = [];
+    // TODO количество не может быть больше $useLimit
+    // TODO не может быть больше 1 использования в заказе
+    // TODO нельзя применять промокод к отменённому заказу
+    private $usedInOrders;
 
     private $usable;
 
@@ -48,19 +52,20 @@ final class RegularPromocode implements Promocode
         int $useLimit,
         DateTimeImmutable $expireAt,
         AllowedTariffs $allowedTariffs,
+        $usedInOrders = [],
         bool $usable = false
-    )
-    {
+    ) {
         $this->id             = $id;
         $this->eventId        = $eventId;
         $this->discount       = $discount;
         $this->useLimit       = $useLimit;
         $this->expireAt       = $expireAt;
         $this->allowedTariffs = $allowedTariffs;
+        $this->usedInOrders   = $usedInOrders;
         $this->usable         = $usable;
     }
 
-    public function use(OrderId $orderId, Tariff $tariff, DateTimeImmutable $asOf): void
+    public function use(OrderId $orderId, TicketTariff $tariff, DateTimeImmutable $asOf): void
     {
         if (!$this->usable) {
             throw new PromocodeNotUsable();
@@ -111,18 +116,17 @@ final class RegularPromocode implements Promocode
     public function makeOrder(
         OrderId $orderId,
         EventId $eventId,
-        Tariff $tariff,
+        ProductId $productId,
+        TicketTariffId $tariffId,
         User $user,
-        Product $product,
         Money $sum,
-        DateTimeImmutable $makedAt
-    ): Order
-    {
+        DateTimeImmutable $asOf
+    ): Order {
         if (!$this->eventId->equals($eventId)) {
             throw new OrderPromocodeMustBeRelatedToEvent();
         }
 
-        return $tariff->makeOrder($orderId, $eventId, $this->id, $product, $user, $sum, $makedAt);
+        return $user->makeOrder($orderId, $eventId, $productId, $tariffId, $this->id, $sum, $asOf);
     }
 
     public function apply(Money $price): Money

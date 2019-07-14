@@ -2,14 +2,14 @@
 
 namespace App\Promocode\Model\AllowedTariffs;
 
-use App\Tariff\Model\TariffId;
+use App\Order\Model\TariffId;
 
 final class SpecificAllowedTariffs implements AllowedTariffs
 {
     private $tariffIds;
 
     /**
-     * @var TariffId[] $tariffIds
+     * @param TariffId[] $tariffIds
      */
     public function __construct(array $tariffIds)
     {

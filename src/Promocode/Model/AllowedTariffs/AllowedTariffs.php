@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Promocode\Model\AllowedTariffs;
 
-use App\Tariff\Model\TariffId;
+use App\Order\Model\TariffId;
 
 interface AllowedTariffs
 {

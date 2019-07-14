@@ -3,14 +3,14 @@
 namespace spec\App\Promocode\Model\AllowedTariffs;
 
 use App\Promocode\Model\AllowedTariffs\SpecificAllowedTariffs;
-use App\Tariff\Model\TariffId;
+use App\Tariff\Model\TicketTariffId;
 use PhpSpec\ObjectBehavior;
 
 class SpecificAllowedTariffsSpec extends ObjectBehavior
 {
     function it_is_initializable()
     {
-        $tariffId = new TariffId();
+        $tariffId = new TicketTariffId();
         $allowedTariffs = [$tariffId];
         $this->beConstructedWith($allowedTariffs);
         $this->shouldHaveType(SpecificAllowedTariffs::class);
@@ -18,7 +18,7 @@ class SpecificAllowedTariffsSpec extends ObjectBehavior
 
     function it_is_contains_tariff()
     {
-        $tariffId = new TariffId();
+        $tariffId = new TicketTariffId();
         $allowedTariffs = [$tariffId];
         $this->beConstructedWith($allowedTariffs);
 

@@ -21,6 +21,10 @@ final class HttpAdapter extends BaseController
     {
         [$result, $error] = $handler->handle($orderTicketByWire);
 
-        return $this->jsonSuccess();
+        if (!$error) {
+            return $this->jsonSuccess();
+        }
+
+        return $this->jsonError($error);
     }
 }

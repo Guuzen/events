@@ -9,15 +9,33 @@ final class TicketId
 {
     private $id;
 
-    public function __construct()
+    private function __construct(string $id)
     {
-        $this->id = Uuid::uuid4();
+        $this->id = $id;
+    }
+
+    public static function new(): self
+    {
+        return new self(Uuid::uuid4()->toString());
+    }
+
+    public static function fromString(string $id): self
+    {
+        return new self(Uuid::fromString($id)->toString());
     }
 
     public function equals(TicketId $ticketId): bool
     {
-        return $this->id->equals($ticketId->id);
+        return $this->id === $ticketId->id;
     }
 
-//    public static function cretae
+    public function asString(): string
+    {
+        return $this->id;
+    }
+
+    public function __toString(): string
+    {
+        return $this->asString();
+    }
 }
