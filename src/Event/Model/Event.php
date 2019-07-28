@@ -4,8 +4,6 @@ namespace App\Event\Model;
 
 use App\Order\Model\Order;
 use App\Order\Model\OrderId;
-use App\Order\Model\OrderIds;
-use App\Order\Model\TariffId;
 use App\Product\Model\Product;
 use App\Promocode\Model\AllowedTariffs\EventAllowedTariffs;
 use App\Promocode\Model\AllowedTariffs\SpecificAllowedTariffs;
@@ -14,7 +12,6 @@ use App\Promocode\Model\Promocode;
 use App\Promocode\Model\PromocodeId;
 use App\Promocode\Model\RegularPromocode;
 use App\Tariff\Model\Tariff;
-use App\Tariff\Model\TariffIds;
 use App\Tariff\Model\TariffPriceNet;
 use App\Tariff\Model\TicketTariff;
 use App\Tariff\Model\TicketTariffId;
@@ -23,34 +20,20 @@ use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity
  */
 final class Event
 {
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
      * @ORM\Column(type="app_event_id")
      */
     private $id;
 
-    /**
-     * @ORM\Column(type="app_tariff_ids")
-     * @var TariffIds
-     */
-    private $tariffIds;
-
-    /**
-     * @ORM\Column(type="app_order_ids")
-     * @var OrderIds
-     */
-    private $orderIds;
-
-    public function __construct(EventId $id, TariffIds $tariffIds, OrderIds $orderIds)
+    public function __construct(EventId $id)
     {
-        $this->id        = $id;
-        $this->tariffIds = $tariffIds;
-        $this->orderIds  = $orderIds;
+        $this->id = $id;
     }
 
     public function makeOrder(
@@ -61,9 +44,6 @@ final class Event
         User $user,
         DateTimeImmutable $asOf
     ): Order {
-        // TODO check unique ?
-        $this->orderIds->push($orderId);
-
         return $product->makeOrder($orderId, $this->id, $tariff, $promocode, $user, $asOf);
     }
 
@@ -72,9 +52,6 @@ final class Event
         TariffPriceNet $tariffPriceNet,
         string $status
     ): TicketTariff {
-        // TODO check unique ?
-        $this->tariffIds->push(TariffId::fromString($ticketTariffId));
-
         return new TicketTariff($ticketTariffId, $this->id, $tariffPriceNet, $status);
     }
 
@@ -98,25 +75,15 @@ final class Event
         PromocodeId $promocodeId,
         Discount $discount,
         int $useLimit,
-        DateTimeImmutable $expireAt,
-        array $allowedTariffIds,
-        array $usedInOrders
+        DateTimeImmutable $expireAt
     ): RegularPromocode {
-        if (!$this->tariffIds->containsAllOf(new TariffIds($allowedTariffIds))) {
-            throw new \Exception('allowed tariffs is not in event tariffs');
-        }
-        if (!$this->orderIds->containsAllOf(new OrderIds($usedInOrders))) {
-            throw new \Exception('used in orders which not in event order ids');
-        }
-
         return new RegularPromocode(
             $promocodeId,
             $this->id,
             $discount,
             $useLimit,
             $expireAt,
-            new SpecificAllowedTariffs($allowedTariffIds),
-            $usedInOrders
+            new SpecificAllowedTariffs()
         );
     }
 }

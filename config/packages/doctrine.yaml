@@ -31,7 +31,6 @@ doctrine:
             app_user_id: App\User\Doctrine\UserIdType
             app_user_fullname: App\User\Doctrine\UserFullNameType
             app_user_contacts: App\User\Doctrine\UserContactsType
-            app_user_geo: App\User\Doctrine\UserGeoType
             app_ticket_id: App\Product\Doctrine\TicketIdType
     orm:
         auto_generate_proxy_classes: true

@@ -5,6 +5,7 @@ namespace App\Promocode\Model;
 use App\Event\Model\EventId;
 use App\Order\Model\Order;
 use App\Order\Model\OrderId;
+use App\Order\Model\OrderIds;
 use App\Order\Model\ProductId;
 use App\Promocode\Model\Discount\Discount;
 use App\Promocode\Model\Exception\OrderPromocodeMustBeRelatedToEvent;
@@ -21,28 +22,56 @@ use App\Tariff\Model\TicketTariffId;
 use App\User\Model\User;
 use DateTimeImmutable;
 use Money\Money;
+use Doctrine\ORM\Mapping as ORM;
 
 // TODO promocode code?!
+/**
+ * @ORM\Entity
+ */
 final class RegularPromocode implements Promocode
 {
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\Column(type="app_promocode_id")
+     */
     private $id;
 
+    /**
+     * @ORM\Column(type="app_event_id")
+     */
     private $eventId;
 
+    /**
+     * @ORM\Column(type="json_document")
+     */
     private $discount;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
     private $useLimit;
 
+    /**
+     * @ORM\Column(type="datetime_immutable")
+     */
     private $expireAt;
 
+    /**
+     * @ORM\Column(type="json_document")
+     */
     private $allowedTariffs;
 
-    /** @var OrderId[] */
-    // TODO количество не может быть больше $useLimit
-    // TODO не может быть больше 1 использования в заказе
+    /**
+     * @ORM\Column(type="json_document")
+     */
     // TODO нельзя применять промокод к отменённому заказу
     private $usedInOrders;
 
+    // TODO State ?
+    /**
+     * @ORM\Column(type="boolean")
+     */
     private $usable;
 
     public function __construct(
@@ -52,7 +81,6 @@ final class RegularPromocode implements Promocode
         int $useLimit,
         DateTimeImmutable $expireAt,
         AllowedTariffs $allowedTariffs,
-        $usedInOrders = [],
         bool $usable = false
     ) {
         $this->id             = $id;
@@ -61,8 +89,8 @@ final class RegularPromocode implements Promocode
         $this->useLimit       = $useLimit;
         $this->expireAt       = $expireAt;
         $this->allowedTariffs = $allowedTariffs;
-        $this->usedInOrders   = $usedInOrders;
         $this->usable         = $usable;
+        $this->usedInOrders   = new UsedInOrders([]);
     }
 
     public function use(OrderId $orderId, TicketTariff $tariff, DateTimeImmutable $asOf): void
@@ -91,7 +119,7 @@ final class RegularPromocode implements Promocode
             throw new PromocodeNotAllowedForTariff();
         }
 
-        $this->usedInOrders[] = $orderId;
+        $this->usedInOrders->add($orderId);
     }
 
     public function cancel(OrderId $orderId): void
@@ -100,7 +128,7 @@ final class RegularPromocode implements Promocode
             throw new PromocodeNotUsedInOrder();
         }
 
-        $this->usedInOrders = array_diff($this->usedInOrders, [$orderId]);
+        $this->usedInOrders->remove($orderId);
     }
 
     public function makeUsable(): void
@@ -151,11 +179,11 @@ final class RegularPromocode implements Promocode
 
     private function useLimitExceeded(): bool
     {
-        return count($this->usedInOrders) === $this->useLimit;
+        return $this->usedInOrders->count() === $this->useLimit;
     }
 
     private function usedInOrders(OrderId $orderId): bool
     {
-        return in_array($orderId, $this->usedInOrders, true);
+        return $this->usedInOrders->has($orderId);
     }
 }

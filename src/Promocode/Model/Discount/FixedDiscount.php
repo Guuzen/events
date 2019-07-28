@@ -7,6 +7,9 @@ use Money\Money;
 
 final class FixedDiscount implements Discount
 {
+    /**
+     * @var Money
+     */
     private $amount;
 
     public function __construct(Money $amount)

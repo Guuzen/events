@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Tariff\Model;
 
 use App\Event\Model\EventId;
@@ -22,12 +20,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity
  */
 class TicketTariff implements Tariff
 {
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
      * @ORM\Column(type="app_ticket_tariff_id")
      */
@@ -39,7 +37,8 @@ class TicketTariff implements Tariff
     private $eventId;
 
     /**
-     * @ORM\Column(type="app_tariff_price_net")
+     * @var TariffPriceNet
+     * @ORM\Column(type="json_document")
      */
     private $priceNet;
 

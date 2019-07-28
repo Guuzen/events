@@ -15,39 +15,33 @@ use Money\Money;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity
  * @ORM\Table(name="`user`")
  */
 class User
 {
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
      * @ORM\Column(type="app_event_id")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="app_user_fullname")
+     * @ORM\Column(type="json_document")
      */
     private $fullName;
 
     /**
-     * @ORM\Column(type="app_user_contacts")
+     * @ORM\Column(type="json_document")
      */
     private $contacts;
 
-    /**
-     * @ORM\Column(type="app_user_geo")
-     */
-    private $geo;
-
-    public function __construct(UserId $id, FullName $fullName, Contacts $contacts, Geo $geo)
+    public function __construct(UserId $id, FullName $fullName, Contacts $contacts)
     {
         $this->id       = $id;
         $this->fullName = $fullName;
         $this->contacts = $contacts;
-        $this->geo      = $geo;
     }
 
     public function makeOrder(

@@ -2,22 +2,21 @@
 
 $finder = PhpCsFixer\Finder::create()
     ->in(__DIR__)
-    ->exclude('var')
-;
+    ->exclude('var');
 
 return PhpCsFixer\Config::create()
     ->setRules([
-        '@Symfony' => true,
-        'array_syntax' => ['syntax' => 'short'],
-        'date_time_immutable' => true,
-        'array_indentation' => true,
+        '@Symfony'               => true,
+        '@DoctrineAnnotation'    => true,
+        'array_syntax'           => ['syntax' => 'short'],
+        'date_time_immutable'    => true,
+        'array_indentation'      => true,
         'binary_operator_spaces' => [
             'default' => 'align',
         ],
-        'concat_space' => [
+        'concat_space'           => [
             'spacing' => 'one',
         ],
     ])
     ->setRiskyAllowed(true)
-    ->setFinder($finder)
-;
+    ->setFinder($finder);

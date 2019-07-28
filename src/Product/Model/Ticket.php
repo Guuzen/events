@@ -12,14 +12,18 @@ use App\Tariff\Model\Tariff;
 use App\User\Model\User;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\UniqueConstraint;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity
+ * @ORM\Table(uniqueConstraints={
+ *     @UniqueConstraint(name="unique_idx", columns={"event_id", "number"})
+ * })
  */
 final class Ticket implements Product
 {
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
      * @ORM\Column(type="app_ticket_id")
      */

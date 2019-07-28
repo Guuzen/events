@@ -16,6 +16,7 @@ class TestErrorListener
 
         /** @var Exception $exception */
         $response = new JsonResponse([
+            'class'   => get_class($exception),
             'message' => $exception->getMessage(),
             'file'    => $exception->getFile(),
             'line'    => $exception->getLine(),

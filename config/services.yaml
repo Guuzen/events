@@ -23,16 +23,12 @@ services:
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
-#    App\Controller\:
-#        resource: '../src/Controller'
-#        tags: ['controller.service_arguments']
+    #    App\Controller\:
+    #        resource: '../src/Controller'
+    #        tags: ['controller.service_arguments']
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
-
-    App\Common\AppRequestResolver:
-        tags:
-            - { name: controller.argument_value_resolver, priority: 50 }
 
     App\Common\InvalidAppRequestListener:
         tags:
@@ -41,11 +37,58 @@ services:
         arguments:
             $tableId: '%google_docs.registration_table%'
 
-    App\Queries\FindOrders:
-        tags: ['controller.service_arguments']
-    App\Order\Action\OrderTicket\HttpAdapter:
+    App\Order\Action\PlaceOrder\PlaceOrderHttpAdapter:
         tags: ['controller.service_arguments']
 
-    Symfony\Component\Serializer\Normalizer\PropertyNormalizer:
+
+    # http request serializer
+    app.http_request_serializer.normalizer.datetime:
+        class: Symfony\Component\Serializer\Normalizer\DateTimeNormalizer
+
+    app.http_request_serializer.normalizer.object:
+        class: Symfony\Component\Serializer\Normalizer\ObjectNormalizer
+
+    app.http_request_serializer.normalizer.array:
+        class: Symfony\Component\Serializer\Normalizer\ArrayDenormalizer
+
+    app.http_request_serializer:
+        class: Symfony\Component\Serializer\Serializer
+        arguments:
+            $normalizers:
+                - '@serializer.normalizer.datetime'
+                - '@app.http_request_serializer.normalizer.array'
+                - '@app.http_request_serializer.normalizer.object'
+            $encoders:
+                - '@serializer.encoder.json'
+
+    App\Common\AppRequestResolver:
+        arguments:
+            $denormalizer: '@app.http_request_serializer.normalizer.array'
+            $serializer: '@app.http_request_serializer'
         tags:
-            - { name: serializer.normalizer }
+            - { name: controller.argument_value_resolver, priority: 50 }
+
+
+    # persistence serializer
+    dunglas_doctrine_json_odm.datetime_normalizer:
+        class: Symfony\Component\Serializer\Normalizer\DateTimeNormalizer
+
+    dunglas_doctrine_json_odm.without_constructor_property_normalizer:
+        class: App\Common\WithoutConstructorPropertyNormalizer
+        arguments:
+            - ~
+            - '@serializer.name_converter.camel_case_to_snake_case'
+
+    dunglas_doctrine_json_odm.array_denormalizer:
+        class: Symfony\Component\Serializer\Normalizer\ArrayDenormalizer
+
+    dunglas_doctrine_json_odm.serializer:
+        class: Dunglas\DoctrineJsonOdm\Serializer
+        arguments:
+            $normalizers:
+                - '@dunglas_doctrine_json_odm.datetime_normalizer'
+                - '@dunglas_doctrine_json_odm.array_denormalizer'
+                - '@dunglas_doctrine_json_odm.without_constructor_property_normalizer'
+            $encoders:
+                - '@serializer.encoder.json'
+        public: true

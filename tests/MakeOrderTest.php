@@ -5,9 +5,7 @@ namespace App\Tests;
 use App\Event\Model\Event;
 use App\Event\Model\EventId;
 use App\Order\Model\Order;
-use App\Order\Model\OrderIds;
 use App\Product\Model\Ticket;
-use App\Tariff\Model\TariffIds;
 use App\Tariff\Model\TariffPriceNet;
 use App\Tariff\Model\TariffSegment;
 use App\Tariff\Model\TariffTerm;
@@ -61,27 +59,27 @@ class MakeOrderTest extends WebTestCase
         ]);
 
         /** @var EntityManagerInterface $em */
-        $em = static::$container->get('doctrine.orm.default_entity_manager');
-
-        $event = new Event(EventId::fromString(self::EVENT_ID), new TariffIds([]), new OrderIds([]));
+        $em    = static::$container->get('doctrine.orm.default_entity_manager');
+        $event = new Event(EventId::fromString(self::EVENT_ID));
         $em->persist($event);
 
         $ticketTariff = $event->createTicketTariff(
             TicketTariffId::fromString(self::SILVER_TICKET_TARIFF_ID),
             new TariffPriceNet([
                 new TariffSegment(
-                    new Money(100, new Currency('RUB')),
+                    new Money(200, new Currency('RUB')),
                     new TariffTerm(new DateTimeImmutable('-1 year'), new DateTimeImmutable('+1 year'))
                 ),
             ]),
             self::SILVER_TICKET_TARIFF_STATUS
         );
+
         $em->persist($ticketTariff);
 
         $em->flush();
     }
 
-    public function testOrderTicketByWire(): void
+    public function testBuyTicketByWire(): void
     {
         $visitor = self::createClient();
         $visitor->xmlHttpRequest('POST', '/order_ticket_by_wire', [], [], ['CONTENT_TYPE' => 'application/json'],
@@ -91,6 +89,7 @@ class MakeOrderTest extends WebTestCase
                 'email'           => 'john@email.com',
                 'paymentMethod'   => 'wire', // TODO
                 'tariffId'        => self::SILVER_TICKET_TARIFF_ID,
+                'phone'           => '+123456789',
             ])
         );
 
@@ -113,27 +112,17 @@ class MakeOrderTest extends WebTestCase
                         "user_id": "@uuid@",
                         "paid": false,
                         "maked_at": "@string@.isDateTime()",
-                        "status": "silver"
+                        "status": "silver",
+                        "phone": "+123456789",
+                        "first_name": "john",
+                        "last_name": "Doe",
+                        "email": "john@email.com",
+                        "sum": "200",
+                        "currency": "RUB"
                     }
                 ]
             }',
             $admin->getResponse()->getContent()
         );
-//        $this->assertMatchesPattern('{
-//                "data": [
-//                    {
-//                        "id": "@uuid@",
-//                        "first_name": "john",
-//                        "last_name": "Doe",
-//                        "email": "john@email.com",
-//                        "payment_method": "wire",
-//                        "tairff": "silver",
-//                        "paid": false,
-//                        "created_at": "@string@.isDateTime()"
-//                    }
-//                ]
-//            }',
-//            $admin->getResponse()->getContent()
-//        );
     }
 }

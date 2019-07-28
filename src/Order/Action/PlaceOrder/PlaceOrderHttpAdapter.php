@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Order\Action\OrderTicket;
+namespace App\Order\Action\PlaceOrder;
 
 use App\Common\BaseController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-final class HttpAdapter extends BaseController
+final class PlaceOrderHttpAdapter extends BaseController
 {
     public function __construct()
     {
@@ -17,9 +17,9 @@ final class HttpAdapter extends BaseController
     /**
      * @Route("/order_ticket_by_wire", methods={"POST"})
      */
-    public function orderTicketByWire(Request $request, OrderTicketByWire $orderTicketByWire, OrderTicketByWireHandler $handler): Response
+    public function orderTicketByWire(Request $request, PlaceOrder $placeOrder, PlaceOrderHandler $handler): Response
     {
-        [$result, $error] = $handler->handle($orderTicketByWire);
+        [$result, $error] = $handler->handle($placeOrder);
 
         if (!$error) {
             return $this->jsonSuccess();

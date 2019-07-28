@@ -15,13 +15,13 @@ use Money\Money;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity
  * @ORM\Table(name="`order`")
  */
 class Order
 {
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
      * @ORM\Column(type="app_order_id")
      */
@@ -53,7 +53,7 @@ class Order
     private $userId;
 
     /**
-     * @ORM\Column(type="app_money")
+     * @ORM\Column(type="json_document")
      */
     private $sum;
 

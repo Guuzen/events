@@ -1,8 +1,8 @@
 #controllers:
 #    resource: ../../src/Controller/
 #    type: annotation
-order_ticket:
-    resource: ../../src/Order/Action/OrderTicket/
+order.place_order:
+    resource: ../../src/Order/Action/PlaceOrder/
     type: annotation
 user_controller:
     resource: ../../src/User/Action/
