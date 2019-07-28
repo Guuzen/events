@@ -30,6 +30,35 @@ class MakeOrderTest extends WebTestCase
 
     private const SILVER_TICKET_TARIFF_STATUS = 'silver';
 
+    public function testBuyTicketByWire(): void
+    {
+        $visitor = new Visitor(self::createClient());
+        $visitor->visitorPlaceOrder([
+            'firstName'     => 'john',
+            'lastName'      => 'Doe',
+            'email'         => 'john@email.com',
+            'paymentMethod' => 'wire', // TODO
+            'tariffId'      => self::SILVER_TICKET_TARIFF_ID,
+            'phone'         => '+123456789',
+        ]);
+        $visitor->visitorSeeOrderPlaced();
+
+        $manager = new Manager(self::createClient());
+        $manager->managerSeeOrderPlaced([
+            'id'        => '@uuid@',
+            'user_id'   => '@uuid@',
+            'paid'      => false,
+            'maked_at'  => '@string@.isDateTime()',
+            'status'    => 'silver',
+            'phone'     => '+123456789',
+            'first_name'=> 'john',
+            'last_name' => 'Doe',
+            'email'     => 'john@email.com',
+            'sum'       => '200',
+            'currency'  => 'RUB',
+        ]);
+    }
+
     // TODO extract this common method
     private function truncateTables(array $entities)
     {
@@ -77,52 +106,5 @@ class MakeOrderTest extends WebTestCase
         $em->persist($ticketTariff);
 
         $em->flush();
-    }
-
-    public function testBuyTicketByWire(): void
-    {
-        $visitor = self::createClient();
-        $visitor->xmlHttpRequest('POST', '/order_ticket_by_wire', [], [], ['CONTENT_TYPE' => 'application/json'],
-            json_encode([
-                'firstName'       => 'john',
-                'lastName'        => 'Doe',
-                'email'           => 'john@email.com',
-                'paymentMethod'   => 'wire', // TODO
-                'tariffId'        => self::SILVER_TICKET_TARIFF_ID,
-                'phone'           => '+123456789',
-            ])
-        );
-
-        self::assertResponseIsSuccessful();
-        $this->assertMatchesPattern('{
-                "data": []
-            }',
-            $visitor->getResponse()->getContent()
-        );
-
-        ////////////////////////////////////////////////////////////////
-        $admin = self::createClient();
-        $admin->xmlHttpRequest('GET', '/admin/orders?event_id=' . self::EVENT_ID);
-
-        self::assertResponseIsSuccessful();
-        $this->assertMatchesPattern('{
-                "data": [
-                    {
-                        "id": "@uuid@",
-                        "user_id": "@uuid@",
-                        "paid": false,
-                        "maked_at": "@string@.isDateTime()",
-                        "status": "silver",
-                        "phone": "+123456789",
-                        "first_name": "john",
-                        "last_name": "Doe",
-                        "email": "john@email.com",
-                        "sum": "200",
-                        "currency": "RUB"
-                    }
-                ]
-            }',
-            $admin->getResponse()->getContent()
-        );
     }
 }
