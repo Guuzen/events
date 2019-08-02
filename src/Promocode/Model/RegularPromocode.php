@@ -6,7 +6,7 @@ use App\Event\Model\EventId;
 use App\Order\Model\Order;
 use App\Order\Model\OrderId;
 use App\Order\Model\OrderIds;
-use App\Order\Model\ProductId;
+use App\Product\Model\ProductId;
 use App\Promocode\Model\Discount\Discount;
 use App\Promocode\Model\Exception\OrderPromocodeMustBeRelatedToEvent;
 use App\Promocode\Model\Exception\PromocodeAlreadyUsedInOrder;

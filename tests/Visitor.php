@@ -20,7 +20,7 @@ final class Visitor
         $this->client = $client;
     }
 
-    public function visitorPlaceOrder(array $placeOrderData): void
+    public function placeOrder(array $placeOrderData): void
     {
         $this->client->xmlHttpRequest(
             'POST',
@@ -32,7 +32,7 @@ final class Visitor
         );
     }
 
-    public function visitorSeeOrderPlaced(): void
+    public function seeOrderPlaced(): void
     {
         WebTestCase::assertResponseIsSuccessful();
         $this->assertMatchesPattern('{

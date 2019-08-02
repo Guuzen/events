@@ -25,7 +25,7 @@ doctrine:
             app_event_id: App\Event\Doctrine\EventIdType
             app_order_id: App\Order\Doctrine\OrderIdType
             app_order_ids: App\Order\Doctrine\OrderIdsType
-            app_product_id: App\Order\Doctrine\ProductIdType
+            app_product_id: App\Product\Doctrine\ProductIdType
             app_promocode_id: App\Promocode\Doctrine\PromocodeIdType
             app_ticket_tariff_id: App\Tariff\Doctrine\TicketTariffIdType
             app_user_id: App\User\Doctrine\UserIdType
@@ -36,6 +36,9 @@ doctrine:
         auto_generate_proxy_classes: true
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
+        dql:
+            string_functions:
+                JSON_GET_TEXT: \Scienta\DoctrineJsonFunctions\Query\AST\Functions\Postgresql\JsonGetText
         mappings:
             Event:
                 is_bundle: false
@@ -48,6 +51,11 @@ doctrine:
                 type: annotation
                 dir: '%kernel.project_dir%/src/Order/Model'
             Product:
+                is_bundle: false
+                prefix: 'App\Product\Model'
+                type: annotation
+                dir: '%kernel.project_dir%/src/Product/Model'
+            ProductModel:
                 is_bundle: false
                 prefix: 'App\Product\Model'
                 type: annotation

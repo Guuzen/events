@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 namespace App\Product\Model;
 
@@ -10,10 +9,10 @@ final class Tickets extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Product::class);
+        parent::__construct($registry, Ticket::class);
     }
 
-    public function findById(TicketId $ticketId): ?Product
+    public function findById(TicketId $ticketId): ?Ticket
     {
         $query = $this->_em->createQuery('
             select
@@ -28,7 +27,7 @@ final class Tickets extends ServiceEntityRepository
         return $query->getOneOrNullResult();
     }
 
-    public function add(Product $ticket): void
+    public function add(Ticket $ticket): void
     {
         $this->_em->persist($ticket);
     }

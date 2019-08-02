@@ -5,8 +5,11 @@ namespace App\Tariff\Model;
 use App\Event\Model\EventId;
 use App\Order\Model\Order;
 use App\Order\Model\OrderId;
-use App\Order\Model\ProductId;
+use App\Product\Model\Product;
+use App\Product\Model\ProductId;
 use App\Order\Model\TariffId;
+use App\Product\Model\Products;
+use App\Product\Model\ProductType;
 use App\Product\Model\Ticket;
 use App\Product\Model\TicketId;
 use App\Promocode\Model\AllowedTariffs\AllowedTariffs;
@@ -43,16 +46,17 @@ class TicketTariff implements Tariff
     private $priceNet;
 
     /**
-     * @ORM\Column(type="string")
+     * @var ProductType
+     * @ORM\Column(type="json_document")
      */
-    private $status;
+    private $productType;
 
-    public function __construct(TicketTariffId $id, EventId $eventId, TariffPriceNet $priceNet, string $status)
+    public function __construct(TicketTariffId $id, EventId $eventId, TariffPriceNet $priceNet, ProductType $productType)
     {
-        $this->id       = $id;
-        $this->eventId  = $eventId;
-        $this->priceNet = $priceNet;
-        $this->status   = $status;
+        $this->id          = $id;
+        $this->eventId     = $eventId;
+        $this->priceNet    = $priceNet;
+        $this->productType = $productType;
     }
 
     public function calculateSum(Discount $discount, DateTimeImmutable $asOf): ?Money
@@ -70,9 +74,14 @@ class TicketTariff implements Tariff
         return $allowedTariffs->contains(TariffId::fromString($this->id));
     }
 
-    public function createTicket(TicketId $ticketId, string $number): Ticket
+    public function findNotReservedProduct(Products $products): ?Product
     {
-        return new Ticket($ticketId, $this->eventId, $number, $this->status);
+        return $products->findNotReservedByType($this->productType);
+    }
+
+    public function createProduct(ProductId $productId)
+    {
+        return new Product($productId, $this->eventId, $this->productType);
     }
 
     public function makeOrder(

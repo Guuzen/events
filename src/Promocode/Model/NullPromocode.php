@@ -7,7 +7,7 @@ namespace App\Promocode\Model;
 use App\Event\Model\EventId;
 use App\Order\Model\Order;
 use App\Order\Model\OrderId;
-use App\Order\Model\ProductId;
+use App\Product\Model\ProductId;
 use App\Tariff\Model\TicketTariff;
 use App\Tariff\Model\TicketTariffId;
 use App\User\Model\User;

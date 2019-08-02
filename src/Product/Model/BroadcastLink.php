@@ -7,14 +7,14 @@ namespace App\Product\Model;
 use App\Event\Model\EventId;
 use App\Order\Model\Order;
 use App\Order\Model\OrderId;
-use App\Order\Model\ProductId;
+use App\Product\Model\ProductId;
 use App\Product\Model\Exception\OrderProductMustBeRelatedToEvent;
 use App\Promocode\Model\Promocode;
 use App\Tariff\Model\Tariff;
 use App\User\Model\User;
 use DateTimeImmutable;
 
-final class BroadcastLink implements Product
+final class BroadcastLink
 {
     private $id;
 

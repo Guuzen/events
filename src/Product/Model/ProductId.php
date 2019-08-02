@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Order\Model;
+namespace App\Product\Model;
 
 use Ramsey\Uuid\Uuid;
 

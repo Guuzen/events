@@ -18,7 +18,7 @@ final class FindOrders
         $stmt = $this->connection->query('
             select
                 "order".id as id,
-                ticket.status as status,
+                 product.type ->> \'type\' as product,
                 "user".id as user_id,
                 "order".paid as paid,
                 "order".maked_at as maked_at,
@@ -32,7 +32,7 @@ final class FindOrders
                 "order"
             left join ticket_tariff on "order".tariff_id = ticket_tariff.id
             left join "user" on "order".user_id = "user".id
-            left join ticket on "order".product_id = ticket.id
+            left join product on "order".product_id = product.id
         ');
 
         return $stmt->fetchAll();

@@ -5,6 +5,9 @@ namespace App\Tests;
 use App\Event\Model\Event;
 use App\Event\Model\EventId;
 use App\Order\Model\Order;
+use App\Product\Model\Product;
+use App\Product\Model\ProductId;
+use App\Product\Model\ProductType;
 use App\Product\Model\Ticket;
 use App\Tariff\Model\TariffPriceNet;
 use App\Tariff\Model\TariffSegment;
@@ -26,36 +29,38 @@ class MakeOrderTest extends WebTestCase
 
     private const EVENT_ID = 'ac28bf81-08c6-4fc0-beae-7d4aabf1396e';
 
-    private const SILVER_TICKET_TARIFF_ID = '01419cd4-9302-4f2c-8b71-912c4dcf977f';
+    private const SILVER_PASS_TARIFF_ID = '01419cd4-9302-4f2c-8b71-912c4dcf977f';
+
+    private const SILVER_PASS_PRODUCT_ID = '2e9b2533-21d8-4f25-8adc-38ff83182956';
 
     private const SILVER_TICKET_TARIFF_STATUS = 'silver';
 
     public function testBuyTicketByWire(): void
     {
         $visitor = new Visitor(self::createClient());
-        $visitor->visitorPlaceOrder([
+        $visitor->placeOrder([
             'firstName'     => 'john',
             'lastName'      => 'Doe',
             'email'         => 'john@email.com',
             'paymentMethod' => 'wire', // TODO
-            'tariffId'      => self::SILVER_TICKET_TARIFF_ID,
+            'tariffId'      => self::SILVER_PASS_TARIFF_ID,
             'phone'         => '+123456789',
         ]);
-        $visitor->visitorSeeOrderPlaced();
+        $visitor->seeOrderPlaced();
 
         $manager = new Manager(self::createClient());
-        $manager->managerSeeOrderPlaced([
-            'id'        => '@uuid@',
-            'user_id'   => '@uuid@',
-            'paid'      => false,
-            'maked_at'  => '@string@.isDateTime()',
-            'status'    => 'silver',
-            'phone'     => '+123456789',
-            'first_name'=> 'john',
-            'last_name' => 'Doe',
-            'email'     => 'john@email.com',
-            'sum'       => '200',
-            'currency'  => 'RUB',
+        $manager->seeOrderPlaced([
+            'id'         => '@uuid@',
+            'user_id'    => '@uuid@',
+            'paid'       => false,
+            'maked_at'   => '@string@.isDateTime()',
+            'product'    => 'silver_pass',
+            'phone'      => '+123456789',
+            'first_name' => 'john',
+            'last_name'  => 'Doe',
+            'email'      => 'john@email.com',
+            'sum'        => '200',
+            'currency'   => 'RUB',
         ]);
     }
 
@@ -85,6 +90,7 @@ class MakeOrderTest extends WebTestCase
             Ticket::class,
             Order::class,
             User::class,
+            Product::class,
         ]);
 
         /** @var EntityManagerInterface $em */
@@ -93,17 +99,19 @@ class MakeOrderTest extends WebTestCase
         $em->persist($event);
 
         $ticketTariff = $event->createTicketTariff(
-            TicketTariffId::fromString(self::SILVER_TICKET_TARIFF_ID),
+            TicketTariffId::fromString(self::SILVER_PASS_TARIFF_ID),
             new TariffPriceNet([
                 new TariffSegment(
                     new Money(200, new Currency('RUB')),
                     new TariffTerm(new DateTimeImmutable('-1 year'), new DateTimeImmutable('+1 year'))
                 ),
             ]),
-            self::SILVER_TICKET_TARIFF_STATUS
+            ProductType::silverPass()
         );
-
         $em->persist($ticketTariff);
+
+        $product = $ticketTariff->createProduct(ProductId::new());
+        $em->persist($product);
 
         $em->flush();
     }

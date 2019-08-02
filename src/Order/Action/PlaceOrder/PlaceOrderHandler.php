@@ -5,7 +5,7 @@ namespace App\Order\Action\PlaceOrder;
 use App\Event\Model\EventId;
 use App\Event\Model\Events;
 use App\Order\Model\OrderId;
-use App\Product\Model\TicketId;
+use App\Product\Model\Products;
 use App\Promocode\Model\NullPromocode;
 use App\Tariff\Model\TicketTariffId;
 use App\Tariff\Model\TicketTariffs;
@@ -24,14 +24,18 @@ final class PlaceOrderHandler
 
     private $ticketTariffs;
 
+    private $products;
+
     public function __construct(
         EntityManagerInterface $em,
         Events $events,
-        TicketTariffs $ticketTariffs
+        TicketTariffs $ticketTariffs,
+        Products $products
     ) {
         $this->em            = $em;
         $this->events        = $events;
         $this->ticketTariffs = $ticketTariffs;
+        $this->products      = $products;
     }
 
     public function handle(PlaceOrder $orderTicketByWire): array
@@ -50,8 +54,10 @@ final class PlaceOrderHandler
             return [null, 'tariff not found'];
         }
 
-        $ticketId = TicketId::new();
-        $ticket   = $ticketTariff->createTicket($ticketId, random_int(10 * 1000000, 100 * 1000000 - 1));
+        $product = $ticketTariff->findNotReservedProduct($this->products);
+        if (null === $product) {
+            return [null, 'not reserved product not found'];
+        }
 
         $user = new User(
             UserId::new(),
@@ -61,17 +67,16 @@ final class PlaceOrderHandler
 
         $orderDate = new DateTimeImmutable();
         $orderId   = OrderId::new();
-
-        $order = $event->makeOrder(
+        $order     = $event->makeOrder(
             $orderId,
-            $ticket,
+            $product,
             $ticketTariff,
             new NullPromocode(),
             $user,
             $orderDate
         );
 
-        $this->em->persist($ticket);
+        $this->em->persist($product);
         $this->em->persist($user);
         $this->em->persist($order);
         $this->em->flush();

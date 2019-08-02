@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Order\Doctrine;
+namespace App\Product\Doctrine;
 
-use App\Order\Model\ProductId;
+use App\Product\Model\ProductId;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\StringType;
 

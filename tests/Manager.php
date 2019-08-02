@@ -19,7 +19,7 @@ final class Manager
         $this->client = $client;
     }
 
-    public function managerSeeOrderPlaced(array $orderData): void
+    public function seeOrderPlaced(array $orderData): void
     {
         $this->client->xmlHttpRequest('GET', '/admin/orders?event_id=' . self::EVENT_ID);
 

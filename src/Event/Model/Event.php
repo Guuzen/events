@@ -4,7 +4,9 @@ namespace App\Event\Model;
 
 use App\Order\Model\Order;
 use App\Order\Model\OrderId;
+use App\Product\Model\ProductId;
 use App\Product\Model\Product;
+use App\Product\Model\ProductType;
 use App\Promocode\Model\AllowedTariffs\EventAllowedTariffs;
 use App\Promocode\Model\AllowedTariffs\SpecificAllowedTariffs;
 use App\Promocode\Model\Discount\Discount;
@@ -50,9 +52,9 @@ final class Event
     public function createTicketTariff(
         TicketTariffId $ticketTariffId,
         TariffPriceNet $tariffPriceNet,
-        string $status
+        ProductType $productType
     ): TicketTariff {
-        return new TicketTariff($ticketTariffId, $this->id, $tariffPriceNet, $status);
+        return new TicketTariff($ticketTariffId, $this->id, $tariffPriceNet, $productType);
     }
 
     public function createEventPromocode(

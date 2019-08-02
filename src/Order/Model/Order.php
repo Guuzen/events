@@ -7,6 +7,7 @@ use App\Cloudpayments\PaymentStatus;
 use App\Event\Model\EventId;
 use App\Order\Model\Exception\OrderAlreadyPaid;
 use App\Order\Model\Exception\OrderCancelled;
+use App\Product\Model\ProductId;
 use App\Promocode\Model\PromocodeId;
 use App\Tariff\Model\TicketTariffId;
 use App\User\Model\UserId;
