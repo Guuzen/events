@@ -8,7 +8,7 @@ use App\Event\Model\EventId;
 use App\Order\Model\Order;
 use App\Order\Model\OrderId;
 use App\Product\Model\ProductId;
-use App\Tariff\Model\TicketTariff;
+use App\Tariff\Model\Tariff;
 use App\Tariff\Model\TicketTariffId;
 use App\User\Model\User;
 use DateTimeImmutable;
@@ -17,7 +17,7 @@ use Money\Money;
 
 final class NullPromocode implements Promocode
 {
-    public function use(OrderId $orderId, TicketTariff $tariff, DateTimeImmutable $asOf): void
+    public function use(OrderId $orderId, Tariff $tariff, DateTimeImmutable $asOf): void
     {
     }
 

@@ -12,7 +12,7 @@ use App\Product\Model\Ticket;
 use App\Tariff\Model\TariffPriceNet;
 use App\Tariff\Model\TariffSegment;
 use App\Tariff\Model\TariffTerm;
-use App\Tariff\Model\TicketTariff;
+use App\Tariff\Model\Tariff;
 use App\Tariff\Model\TicketTariffId;
 use App\User\Model\User;
 use Coduo\PHPMatcher\PHPUnit\PHPMatcherAssertions;
@@ -86,7 +86,7 @@ class MakeOrderTest extends WebTestCase
         static::bootKernel();
         $this->truncateTables([
             Event::class,
-            TicketTariff::class,
+            Tariff::class,
             Ticket::class,
             Order::class,
             User::class,

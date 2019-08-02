@@ -11,16 +11,16 @@ final class TicketTariffs extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, TicketTariff::class);
+        parent::__construct($registry, Tariff::class);
     }
 
-    public function findById(TicketTariffId $ticketTariffId): ?TicketTariff
+    public function findById(TicketTariffId $ticketTariffId): ?Tariff
     {
         $query = $this->_em->createQuery('
             select
                 t
             from
-                App\Tariff\Model\TicketTariff as t
+                App\Tariff\Model\Tariff as t
             where
                 t.id = :id
         ');
@@ -29,7 +29,7 @@ final class TicketTariffs extends ServiceEntityRepository
         return $query->getOneOrNullResult();
     }
 
-    public function add(TicketTariff $tariff): void
+    public function add(Tariff $tariff): void
     {
         $this->_em->persist($tariff);
     }

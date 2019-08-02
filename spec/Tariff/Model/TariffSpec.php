@@ -7,7 +7,7 @@ use App\Promocode\Model\NullPromocode;
 use App\Tariff\Model\Exception\DisableNotExistsOrderIsNotPossible;
 use App\Tariff\Model\Exception\TariffAlreadyCreatedInOrder;
 use App\Tariff\Model\Exception\TariffTermNotMatchOrderMakeAt;
-use App\Tariff\Model\TicketTariff;
+use App\Tariff\Model\Tariff;
 use App\Tariff\Model\TicketTariffId;
 use App\Tariff\Model\TariffTerm;
 use PhpSpec\ObjectBehavior;

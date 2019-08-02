@@ -4,7 +4,6 @@ namespace App\Event\Model;
 
 use App\Order\Model\Order;
 use App\Order\Model\OrderId;
-use App\Product\Model\ProductId;
 use App\Product\Model\Product;
 use App\Product\Model\ProductType;
 use App\Promocode\Model\AllowedTariffs\EventAllowedTariffs;
@@ -13,9 +12,8 @@ use App\Promocode\Model\Discount\Discount;
 use App\Promocode\Model\Promocode;
 use App\Promocode\Model\PromocodeId;
 use App\Promocode\Model\RegularPromocode;
-use App\Tariff\Model\Tariff;
 use App\Tariff\Model\TariffPriceNet;
-use App\Tariff\Model\TicketTariff;
+use App\Tariff\Model\Tariff;
 use App\Tariff\Model\TicketTariffId;
 use App\User\Model\User;
 use DateTimeImmutable;
@@ -53,8 +51,8 @@ final class Event
         TicketTariffId $ticketTariffId,
         TariffPriceNet $tariffPriceNet,
         ProductType $productType
-    ): TicketTariff {
-        return new TicketTariff($ticketTariffId, $this->id, $tariffPriceNet, $productType);
+    ): Tariff {
+        return new Tariff($ticketTariffId, $this->id, $tariffPriceNet, $productType);
     }
 
     public function createEventPromocode(

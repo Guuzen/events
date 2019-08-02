@@ -17,7 +17,7 @@ use App\Promocode\Model\Exception\PromocodeNotUsedInOrder;
 use App\Promocode\Model\Exception\PromocodeUseLimitExceeded;
 use App\Promocode\Model\AllowedTariffs\AllowedTariffs;
 use App\Tariff\Model\Exception\PromocodeExpired;
-use App\Tariff\Model\TicketTariff;
+use App\Tariff\Model\Tariff;
 use App\Tariff\Model\TicketTariffId;
 use App\User\Model\User;
 use DateTimeImmutable;
@@ -93,7 +93,7 @@ final class RegularPromocode implements Promocode
         $this->usedInOrders   = new UsedInOrders([]);
     }
 
-    public function use(OrderId $orderId, TicketTariff $tariff, DateTimeImmutable $asOf): void
+    public function use(OrderId $orderId, Tariff $tariff, DateTimeImmutable $asOf): void
     {
         if (!$this->usable) {
             throw new PromocodeNotUsable();

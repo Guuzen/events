@@ -7,7 +7,6 @@ namespace App\Product\Model;
 use App\Event\Model\EventId;
 use App\Order\Model\Order;
 use App\Order\Model\OrderId;
-use App\Product\Model\ProductId;
 use App\Product\Model\Exception\OrderProductMustBeRelatedToEvent;
 use App\Promocode\Model\Promocode;
 use App\Tariff\Model\Tariff;
