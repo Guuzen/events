@@ -42,15 +42,15 @@ final class PlaceOrderHandler
     {
         $orderDate = new DateTimeImmutable();
 
-        $eventId   = EventId::fromString('ac28bf81-08c6-4fc0-beae-7d4aabf1396e');
-        $event     = $this->events->findById($eventId);
+        $eventId = EventId::fromString('ac28bf81-08c6-4fc0-beae-7d4aabf1396e');
+        $event   = $this->events->findById($eventId);
         if (null === $event) {
             // TODO нулл плохая замена воиду?
             return [null, 'event not found'];
         }
 
-        $tariffId     = TicketTariffId::fromString($orderTicketByWire->tariffId);
-        $tariff       = $this->ticketTariffs->findById($tariffId);
+        $tariffId = TicketTariffId::fromString($orderTicketByWire->tariffId);
+        $tariff   = $this->ticketTariffs->findById($tariffId);
         if (null === $tariff) {
             return [null, 'tariff not found'];
         }
@@ -73,8 +73,8 @@ final class PlaceOrderHandler
             return [null, 'cant calculate sum'];
         }
 
-        $orderId   = OrderId::new();
-        $order     = $event->makeOrder(
+        $orderId = OrderId::new();
+        $order   = $event->makeOrder(
             $orderId,
             $product,
             $tariff,

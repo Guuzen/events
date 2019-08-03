@@ -6,6 +6,7 @@ use Coduo\PHPMatcher\PHPUnit\PHPMatcherAssertions;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\BrowserKit\AbstractBrowser;
 
+// TODO HATEOAS ?
 final class Manager
 {
     use PHPMatcherAssertions;
@@ -26,6 +27,37 @@ final class Manager
         WebTestCase::assertResponseIsSuccessful();
         $this->assertMatchesPattern(json_encode([
             'data' => [$orderData],
+        ]), $this->client->getResponse()->getContent());
+    }
+
+    public function createsEvent(array $eventData): void
+    {
+        $this->client->xmlHttpRequest(
+            'POST',
+            '/admin/event/create',
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            json_encode($eventData)
+        );
+
+        WebTestCase::assertResponseIsSuccessful();
+        $this->assertMatchesPattern(json_encode([
+            'data' => [
+                'event_id' => '@uuid@',
+            ],
+        ]), $this->client->getResponse()->getContent());
+    }
+
+    public function seesEventCreated(array $eventData): void
+    {
+        $this->client->xmlHttpRequest('GET', '/admin/event/list');
+
+        WebTestCase::assertResponseIsSuccessful();
+        $this->assertMatchesPattern(json_encode([
+            'data' => [
+                $eventData,
+            ],
         ]), $this->client->getResponse()->getContent());
     }
 }

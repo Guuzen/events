@@ -35,9 +35,23 @@ class MakeOrderTest extends WebTestCase
 
     private const SILVER_TICKET_TARIFF_STATUS = 'silver';
 
+    private const EVENT_DOMAIN = '2019foo.event.com';
+
     public function testBuyTicketByWire(): void
     {
-        $visitor = new Visitor(self::createClient());
+        $manager = new Manager(self::createClient());
+
+        $manager->createsEvent([
+            'name'   => '2019 foo event',
+            'domain' => self::EVENT_DOMAIN,
+        ]);
+        $manager->seesEventCreated([
+            'event_id' => '@uuid@',
+            'name'     => '2019 foo event',
+            'domain'   => self::EVENT_DOMAIN,
+        ]);
+
+        $visitor = new Visitor(self::createClient(), self::EVENT_DOMAIN);
         $visitor->placeOrder([
             'firstName'     => 'john',
             'lastName'      => 'Doe',
@@ -46,9 +60,8 @@ class MakeOrderTest extends WebTestCase
             'tariffId'      => self::SILVER_PASS_TARIFF_ID,
             'phone'         => '+123456789',
         ]);
-        $visitor->seeOrderPlaced();
+        $visitor->seeOrderPlaced(); //TODO move to place order ?
 
-        $manager = new Manager(self::createClient());
         $manager->seeOrderPlaced([
             'id'         => '@uuid@',
             'user_id'    => '@uuid@',
