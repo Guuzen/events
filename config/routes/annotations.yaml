@@ -1,6 +1,9 @@
 #controllers:
 #    resource: ../../src/Controller/
 #    type: annotation
+event.create_event:
+    resource: ../../src/Event/Action
+    type: annotation
 order.place_order:
     resource: ../../src/Order/Action/PlaceOrder/
     type: annotation

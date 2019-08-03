@@ -30,7 +30,7 @@ final class Manager
         ]), $this->client->getResponse()->getContent());
     }
 
-    public function createsEvent(array $eventData): void
+    public function createsEvent(array $eventData): string
     {
         $this->client->xmlHttpRequest(
             'POST',
@@ -42,11 +42,14 @@ final class Manager
         );
 
         WebTestCase::assertResponseIsSuccessful();
+        $responseData = json_decode($this->client->getResponse()->getContent(), true);
         $this->assertMatchesPattern(json_encode([
             'data' => [
-                'event_id' => '@uuid@',
+                'id' => '@uuid@',
             ],
         ]), $this->client->getResponse()->getContent());
+
+        return $responseData['data']['id'];
     }
 
     public function seesEventCreated(array $eventData): void
@@ -57,6 +60,74 @@ final class Manager
         $this->assertMatchesPattern(json_encode([
             'data' => [
                 $eventData,
+            ],
+        ]), $this->client->getResponse()->getContent());
+    }
+
+    public function createsTariff(array $tariffData): string
+    {
+        $this->client->xmlHttpRequest(
+            'POST',
+            '/admin/tariff/create',
+            [],
+            [],
+            [],
+            json_encode($tariffData)
+        );
+
+        WebTestCase::assertResponseIsSuccessful();
+        $this->assertMatchesPattern(json_encode([
+            'data' => [
+                'id' => '@uuid@',
+            ],
+        ]), $this->client->getResponse()->getContent());
+        $responseData = json_decode($this->client->getResponse()->getContent(), true);
+
+        return $responseData['data']['id'];
+    }
+
+    public function seesTariffCreated(array $tariffDataPattern): void
+    {
+        $this->client->xmlHttpRequest('GET', '/admin/tariff/list');
+
+        WebTestCase::assertResponseIsSuccessful();
+        $this->assertMatchesPattern(json_encode([
+            'data' => [
+                $tariffDataPattern,
+            ],
+        ]), $this->client->getResponse()->getContent());
+    }
+
+    public function createsTicket(array $ticketData): string
+    {
+        $this->client->request(
+            'POST',
+            '/admin/ticket/create',
+            [],
+            [],
+            [],
+            json_encode($ticketData)
+        );
+
+        WebTestCase::assertResponseIsSuccessful();
+        $this->assertMatchesPattern(json_encode([
+            'data' => [
+                'id' => '@uuid@',
+            ],
+        ]), $this->client->getResponse()->getContent());
+        $responseData = json_decode($this->client->getResponse()->getContent(), true);
+
+        return $responseData['data']['id'];
+    }
+
+    public function seesProductCreated($productDataPattern): void
+    {
+        $this->client->xmlHttpRequest('GET', '/admin/product/list');
+
+        WebTestCase::assertResponseIsSuccessful();
+        $this->assertMatchesPattern(json_encode([
+            'data' => [
+                $productDataPattern,
             ],
         ]), $this->client->getResponse()->getContent());
     }

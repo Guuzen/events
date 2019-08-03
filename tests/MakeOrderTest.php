@@ -3,16 +3,17 @@
 namespace App\Tests;
 
 use App\Event\Model\Event;
+use App\Event\Model\EventConfig;
 use App\Event\Model\EventId;
 use App\Order\Model\Order;
 use App\Product\Model\Product;
 use App\Product\Model\ProductId;
 use App\Product\Model\ProductType;
 use App\Product\Model\Ticket;
+use App\Tariff\Model\Tariff;
 use App\Tariff\Model\TariffPriceNet;
 use App\Tariff\Model\TariffSegment;
 use App\Tariff\Model\TariffTerm;
-use App\Tariff\Model\Tariff;
 use App\Tariff\Model\TicketTariffId;
 use App\User\Model\User;
 use Coduo\PHPMatcher\PHPUnit\PHPMatcherAssertions;
@@ -41,14 +42,51 @@ class MakeOrderTest extends WebTestCase
     {
         $manager = new Manager(self::createClient());
 
-        $manager->createsEvent([
+        $eventId = $manager->createsEvent([
             'name'   => '2019 foo event',
             'domain' => self::EVENT_DOMAIN,
         ]);
         $manager->seesEventCreated([
-            'event_id' => '@uuid@',
-            'name'     => '2019 foo event',
-            'domain'   => self::EVENT_DOMAIN,
+            'id'     => $eventId,
+            'name'   => '2019 foo event',
+            'domain' => self::EVENT_DOMAIN,
+        ]);
+
+        $tariffTermStartDate = (new DateTimeImmutable('-1 day'))->format('Y-m-d H:i:s');
+        $tariffTermEndDate   = (new DateTimeImmutable('+1 day'))->format('Y-m-d H:i:s');
+        $tariffId            = $manager->createsTariff([
+            'eventId'     => $eventId,
+            'productType' => 'silver_pass',
+            'priceNet'    => [
+                [
+                    'price' => [
+                        'amount'   => '200',
+                        'currency' => 'RUB',
+                    ],
+                    'term' => [
+                        'start' => $tariffTermStartDate,
+                        'end'   => $tariffTermEndDate,
+                    ],
+                ],
+            ],
+        ]);
+        $manager->seesTariffCreated([
+            'id'           => $tariffId,
+            'product_type' => 'silver_pass',
+            'price'        => '200 RUB',
+            'term_start'   => $tariffTermStartDate,
+            'term_end'     => $tariffTermEndDate,
+        ]);
+
+        $manager->createsTicket([
+            'number'   => '10002000',
+            'tariffId' => $tariffId,
+        ]);
+        $manager->seesProductCreated([
+            'type'       => 'silver_pass',
+            'number'     => '10002000',
+            'created_at' => '@string@.isDateTime()',
+            'reserved'   => false,
         ]);
 
         $visitor = new Visitor(self::createClient(), self::EVENT_DOMAIN);
@@ -104,28 +142,29 @@ class MakeOrderTest extends WebTestCase
             Order::class,
             User::class,
             Product::class,
+            EventConfig::class,
         ]);
 
-        /** @var EntityManagerInterface $em */
-        $em    = static::$container->get('doctrine.orm.default_entity_manager');
-        $event = new Event(EventId::fromString(self::EVENT_ID));
-        $em->persist($event);
+//        /** @var EntityManagerInterface $em */
+//        $em    = static::$container->get('doctrine.orm.default_entity_manager');
+//        $event = new Event(EventId::fromString(self::EVENT_ID));
+//        $em->persist($event);
+//
+//        $ticketTariff = $event->createTicketTariff(
+//            TicketTariffId::fromString(self::SILVER_PASS_TARIFF_ID),
+//            new TariffPriceNet([
+//                new TariffSegment(
+//                    new Money(200, new Currency('RUB')),
+//                    new TariffTerm(new DateTimeImmutable('-1 year'), new DateTimeImmutable('+1 year'))
+//                ),
+//            ]),
+//            ProductType::silverPass()
+//        );
+//        $em->persist($ticketTariff);
 
-        $ticketTariff = $event->createTicketTariff(
-            TicketTariffId::fromString(self::SILVER_PASS_TARIFF_ID),
-            new TariffPriceNet([
-                new TariffSegment(
-                    new Money(200, new Currency('RUB')),
-                    new TariffTerm(new DateTimeImmutable('-1 year'), new DateTimeImmutable('+1 year'))
-                ),
-            ]),
-            ProductType::silverPass()
-        );
-        $em->persist($ticketTariff);
+//        $product = $ticketTariff->createProduct(ProductId::new());
+//        $em->persist($product);
 
-        $product = $ticketTariff->createProduct(ProductId::new());
-        $em->persist($product);
-
-        $em->flush();
+//        $em->flush();
     }
 }

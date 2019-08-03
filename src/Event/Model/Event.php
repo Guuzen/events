@@ -47,6 +47,7 @@ final class Event
         return $product->makeOrder($orderId, $this->id, $tariff, $sum, $user, $asOf);
     }
 
+    // TODO rename
     public function createTicketTariff(
         TicketTariffId $ticketTariffId,
         TariffPriceNet $tariffPriceNet,

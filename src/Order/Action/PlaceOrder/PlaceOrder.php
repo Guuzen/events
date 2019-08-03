@@ -6,6 +6,7 @@ use App\Common\AppRequest;
 use Symfony\Component\Validator\Constraints as Assert;
 
 // TODO validation
+// TODO denormalizable groups
 final class PlaceOrder implements AppRequest
 {
     /**
@@ -38,6 +39,11 @@ final class PlaceOrder implements AppRequest
      * @var string
      */
     public $phone;
+
+    /**
+     * @var string
+     */
+    public $eventId;
 
     public function __construct(
         ?string $firstName = null,

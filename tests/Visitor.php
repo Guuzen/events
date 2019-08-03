@@ -35,7 +35,7 @@ final class Visitor
             [],
             [
                 'CONTENT_TYPE' => 'application/json',
-                'SERVER_NAME'  => $this->domain,
+                'HTTP_HOST'    => $this->domain,
             ],
             json_encode($placeOrderData)
         );

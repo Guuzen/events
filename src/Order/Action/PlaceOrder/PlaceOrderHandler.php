@@ -38,18 +38,18 @@ final class PlaceOrderHandler
         $this->products      = $products;
     }
 
-    public function handle(PlaceOrder $orderTicketByWire): array
+    public function handle(PlaceOrder $placeOrder): array
     {
         $orderDate = new DateTimeImmutable();
 
-        $eventId = EventId::fromString('ac28bf81-08c6-4fc0-beae-7d4aabf1396e');
+        $eventId = EventId::fromString($placeOrder->eventId);
         $event   = $this->events->findById($eventId);
         if (null === $event) {
             // TODO нулл плохая замена воиду?
             return [null, 'event not found'];
         }
 
-        $tariffId = TicketTariffId::fromString($orderTicketByWire->tariffId);
+        $tariffId = TicketTariffId::fromString($placeOrder->tariffId);
         $tariff   = $this->ticketTariffs->findById($tariffId);
         if (null === $tariff) {
             return [null, 'tariff not found'];
@@ -62,8 +62,8 @@ final class PlaceOrderHandler
 
         $user = new User(
             UserId::new(),
-            new FullName($orderTicketByWire->firstName, $orderTicketByWire->lastName),
-            new Contacts($orderTicketByWire->email, $orderTicketByWire->phone)
+            new FullName($placeOrder->firstName, $placeOrder->lastName),
+            new Contacts($placeOrder->email, $placeOrder->phone)
         );
 
         // TODO не очень понятно где создавать промокод
