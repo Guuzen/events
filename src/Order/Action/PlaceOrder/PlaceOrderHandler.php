@@ -40,21 +40,22 @@ final class PlaceOrderHandler
 
     public function handle(PlaceOrder $orderTicketByWire): array
     {
-        $eventId = EventId::fromString('ac28bf81-08c6-4fc0-beae-7d4aabf1396e');
-        $event   = $this->events->findById($eventId);
+        $orderDate = new DateTimeImmutable();
+
+        $eventId   = EventId::fromString('ac28bf81-08c6-4fc0-beae-7d4aabf1396e');
+        $event     = $this->events->findById($eventId);
         if (null === $event) {
             // TODO нулл плохая замена воиду?
             return [null, 'event not found'];
         }
 
         $tariffId     = TicketTariffId::fromString($orderTicketByWire->tariffId);
-        $ticketTariff = $this->ticketTariffs->findById($tariffId);
-
-        if (null === $ticketTariff) {
+        $tariff       = $this->ticketTariffs->findById($tariffId);
+        if (null === $tariff) {
             return [null, 'tariff not found'];
         }
 
-        $product = $ticketTariff->findNotReservedProduct($this->products);
+        $product = $tariff->findNotReservedProduct($this->products);
         if (null === $product) {
             return [null, 'not reserved product not found'];
         }
@@ -65,18 +66,26 @@ final class PlaceOrderHandler
             new Contacts($orderTicketByWire->email, $orderTicketByWire->phone)
         );
 
-        $orderDate = new DateTimeImmutable();
+        // TODO не очень понятно где создавать промокод
+        $promocode = new NullPromocode();
+        $sum       = $tariff->calculateSum($promocode, $orderDate);
+        if (null === $sum) {
+            return [null, 'cant calculate sum'];
+        }
+
         $orderId   = OrderId::new();
         $order     = $event->makeOrder(
             $orderId,
             $product,
-            $ticketTariff,
-            new NullPromocode(),
+            $tariff,
+            $sum,
             $user,
             $orderDate
         );
 
-        $this->em->persist($product);
+        $promocode->use($orderId, $tariff, $orderDate);
+        $order->applyPromocode($promocode);
+
         $this->em->persist($user);
         $this->em->persist($order);
         $this->em->flush();

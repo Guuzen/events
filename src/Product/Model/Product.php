@@ -6,11 +6,11 @@ use App\Event\Model\EventId;
 use App\Order\Model\Order;
 use App\Order\Model\OrderId;
 use App\Product\Model\Exception\OrderProductMustBeRelatedToEvent;
-use App\Promocode\Model\Promocode;
 use App\Tariff\Model\Tariff;
 use App\User\Model\User;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use Money\Money;
 
 /**
  * @ORM\Entity
@@ -62,7 +62,7 @@ final class Product
         OrderId $orderId,
         EventId $eventId,
         Tariff $tariff,
-        Promocode $promocode,
+        Money $sum,
         User $user,
         DateTimeImmutable $asOf
     ): Order {
@@ -71,6 +71,6 @@ final class Product
             throw new OrderProductMustBeRelatedToEvent();
         }
 
-        return $tariff->makeOrder($orderId, $eventId, $this->id, $promocode, $user, $asOf);
+        return $tariff->makeOrder($orderId, $eventId, $this->id, $sum, $user, $asOf);
     }
 }

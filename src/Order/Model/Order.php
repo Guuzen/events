@@ -8,12 +8,12 @@ use App\Event\Model\EventId;
 use App\Order\Model\Exception\OrderAlreadyPaid;
 use App\Order\Model\Exception\OrderCancelled;
 use App\Product\Model\ProductId;
-use App\Promocode\Model\PromocodeId;
+use App\Promocode\Model\Promocode;
 use App\Tariff\Model\TicketTariffId;
 use App\User\Model\UserId;
 use DateTimeImmutable;
-use Money\Money;
 use Doctrine\ORM\Mapping as ORM;
+use Money\Money;
 
 /**
  * @ORM\Entity
@@ -39,6 +39,8 @@ class Order
     private $productId;
 
     /**
+     * TODO remove ? What is it for?
+     *
      * @ORM\Column(type="app_tariff_id")
      */
     private $tariffId;
@@ -78,7 +80,6 @@ class Order
         EventId $eventId,
         ProductId $productId,
         TicketTariffId $tariffId,
-        ?PromocodeId $promocodeId,
         UserId $userId,
         Money $sum,
         DateTimeImmutable $asOf,
@@ -88,11 +89,15 @@ class Order
         $this->eventId     = $eventId;
         $this->productId   = $productId;
         $this->tariffId    = $tariffId;
-        $this->promocodeId = $promocodeId;
         $this->userId      = $userId;
         $this->sum         = $sum;
         $this->makedAt     = $asOf;
         $this->paid        = $paid;
+    }
+
+    public function applyPromocode(Promocode $promocode): void
+    {
+        $this->sum = $promocode->apply($this->sum);
     }
 
     public function createCloudpaymentsPayment(

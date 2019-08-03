@@ -1,18 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\User\Model;
 
 use App\Event\Model\EventId;
 use App\Order\Model\Order;
 use App\Order\Model\OrderId;
 use App\Product\Model\ProductId;
-use App\Promocode\Model\PromocodeId;
 use App\Tariff\Model\TicketTariffId;
 use DateTimeImmutable;
-use Money\Money;
 use Doctrine\ORM\Mapping as ORM;
+use Money\Money;
 
 /**
  * @ORM\Entity
@@ -49,11 +46,10 @@ class User
         EventId $eventId,
         ProductId $productId,
         TicketTariffId $tariffId,
-        ?PromocodeId $promocodeId,
         Money $sum,
         DateTimeImmutable $makedAt
     ): Order {
-        return new Order($orderId, $eventId, $productId, $tariffId, $promocodeId, $this->id, $sum, $makedAt);
+        return new Order($orderId, $eventId, $productId, $tariffId, $this->id, $sum, $makedAt);
     }
 
 //    public static function registered(RegisterRequest $request): self

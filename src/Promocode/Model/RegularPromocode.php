@@ -3,26 +3,20 @@
 namespace App\Promocode\Model;
 
 use App\Event\Model\EventId;
-use App\Order\Model\Order;
 use App\Order\Model\OrderId;
-use App\Order\Model\OrderIds;
-use App\Product\Model\ProductId;
+use App\Promocode\Model\AllowedTariffs\AllowedTariffs;
 use App\Promocode\Model\Discount\Discount;
-use App\Promocode\Model\Exception\OrderPromocodeMustBeRelatedToEvent;
 use App\Promocode\Model\Exception\PromocodeAlreadyUsedInOrder;
 use App\Promocode\Model\Exception\PromocodeAndTariffRelatedToDifferentEvents;
 use App\Promocode\Model\Exception\PromocodeNotAllowedForTariff;
 use App\Promocode\Model\Exception\PromocodeNotUsable;
 use App\Promocode\Model\Exception\PromocodeNotUsedInOrder;
 use App\Promocode\Model\Exception\PromocodeUseLimitExceeded;
-use App\Promocode\Model\AllowedTariffs\AllowedTariffs;
 use App\Tariff\Model\Exception\PromocodeExpired;
 use App\Tariff\Model\Tariff;
-use App\Tariff\Model\TicketTariffId;
-use App\User\Model\User;
 use DateTimeImmutable;
-use Money\Money;
 use Doctrine\ORM\Mapping as ORM;
+use Money\Money;
 
 // TODO promocode code?!
 /**
@@ -139,22 +133,6 @@ final class RegularPromocode implements Promocode
     public function makeNotUsable(): void
     {
         $this->usable = false;
-    }
-
-    public function makeOrder(
-        OrderId $orderId,
-        EventId $eventId,
-        ProductId $productId,
-        TicketTariffId $tariffId,
-        User $user,
-        Money $sum,
-        DateTimeImmutable $asOf
-    ): Order {
-        if (!$this->eventId->equals($eventId)) {
-            throw new OrderPromocodeMustBeRelatedToEvent();
-        }
-
-        return $user->makeOrder($orderId, $eventId, $productId, $tariffId, $this->id, $sum, $asOf);
     }
 
     public function apply(Money $price): Money

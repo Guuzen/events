@@ -12,8 +12,6 @@ use App\Product\Model\Products;
 use App\Product\Model\ProductType;
 use App\Promocode\Model\AllowedTariffs\AllowedTariffs;
 use App\Promocode\Model\Discount\Discount;
-use App\Promocode\Model\Exception\CantCalculateSum;
-use App\Promocode\Model\Promocode;
 use App\Tariff\Model\Exception\OrderTariffMustBeRelatedToEvent;
 use App\User\Model\User;
 use DateTimeImmutable;
@@ -86,20 +84,15 @@ class Tariff
         OrderId $orderId,
         EventId $eventId,
         ProductId $productId,
-        Promocode $promocode,
+        Money $sum,
         User $user,
         DateTimeImmutable $asOf
     ): Order {
         if (!$this->eventId->equals($eventId)) {
             throw new OrderTariffMustBeRelatedToEvent();
         }
-        // TODO может вытянуть сумму на дату, а скидку по промокоду в промокоде применить?
-        $sum = $this->calculateSum($promocode, $asOf);
-        if (null === $sum) {
-            throw new CantCalculateSum(); // TODO where is this exception belongs ?
-        }
 
-        return $promocode->makeOrder($orderId, $eventId, $productId, $this->id, $user, $sum, $asOf);
+        return $user->makeOrder($orderId, $eventId, $productId, $this->id, $sum, $asOf);
     }
 
 //    public function createActiveTariff(ActiveTariffType $tariffType): ActiveTariff
