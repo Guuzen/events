@@ -30,7 +30,6 @@ final class FindOrders
                 "user".full_name ->> \'last_name\' as last_name
             from
                 "order"
-            left join ticket_tariff on "order".tariff_id = ticket_tariff.id
             left join "user" on "order".user_id = "user".id
             left join product on "order".product_id = product.id
         ');

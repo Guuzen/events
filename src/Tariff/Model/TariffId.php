@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Order\Model;
+namespace App\Tariff\Model;
 
 use Ramsey\Uuid\Uuid;
 
@@ -23,9 +23,9 @@ final class TariffId
         return new self(Uuid::fromString($id)->toString());
     }
 
-    public function equals(TariffId $tariffId): bool
+    public function equals(TariffId $ticketTariffId): bool
     {
-        return $this->id === $tariffId->id;
+        return $this->id === $ticketTariffId->id;
     }
 
     public function __toString(): string

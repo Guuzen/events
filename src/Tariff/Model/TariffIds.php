@@ -1,9 +1,7 @@
 <?php
-declare(strict_types=1);
 
 namespace App\Tariff\Model;
 
-use App\Order\Model\TariffId;
 use Traversable;
 
 final class TariffIds implements \IteratorAggregate

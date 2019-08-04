@@ -16,7 +16,7 @@ use App\Promocode\Model\RegularPromocode;
 use App\Promocode\Model\AllowedTariffs\SpecificAllowedTariffs;
 use App\Tariff\Model\Exception\PromocodeExpired;
 use App\Tariff\Model\Tariff;
-use App\Tariff\Model\TicketTariffId;
+use App\Tariff\Model\TariffId;
 use DateTimeImmutable;
 use Money\Currency;
 use Money\Money;
@@ -90,7 +90,7 @@ class RegularPromocodeSpec extends ObjectBehavior
         $zeroDiscount             = new FixedDiscount(new Money(0, new Currency('RUB')));
         $limitedByOneUse          = 1;
         $expireTomorrow           = new DateTimeImmutable('tomorrow');
-        $noSpecificAllowedTariffs = new SpecificAllowedTariffs([new TicketTariffId()]);
+        $noSpecificAllowedTariffs = new SpecificAllowedTariffs([new TariffId()]);
         $now                      = new DateTimeImmutable('now');
         $promocodeId              = new PromocodeId();
         $notUsable                = false;

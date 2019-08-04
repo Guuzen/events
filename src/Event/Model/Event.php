@@ -6,6 +6,8 @@ use App\Order\Model\Order;
 use App\Order\Model\OrderId;
 use App\Product\Model\Product;
 use App\Product\Model\ProductType;
+use App\Product\Model\Ticket;
+use App\Product\Model\TicketId;
 use App\Promocode\Model\AllowedTariffs\EventAllowedTariffs;
 use App\Promocode\Model\AllowedTariffs\SpecificAllowedTariffs;
 use App\Promocode\Model\Discount\Discount;
@@ -13,7 +15,7 @@ use App\Promocode\Model\PromocodeId;
 use App\Promocode\Model\RegularPromocode;
 use App\Tariff\Model\Tariff;
 use App\Tariff\Model\TariffPriceNet;
-use App\Tariff\Model\TicketTariffId;
+use App\Tariff\Model\TariffId;
 use App\User\Model\User;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
@@ -36,6 +38,12 @@ final class Event
         $this->id = $id;
     }
 
+    // TODO number should be limited to 8 digits!
+    public function createTicket(TicketId $ticketId, string $number): Ticket
+    {
+        return new Ticket($ticketId, $this->id, $number);
+    }
+
     public function makeOrder(
         OrderId $orderId,
         Product $product,
@@ -48,12 +56,12 @@ final class Event
     }
 
     // TODO rename
-    public function createTicketTariff(
-        TicketTariffId $ticketTariffId,
+    public function createTariff(
+        TariffId $tariffId,
         TariffPriceNet $tariffPriceNet,
         ProductType $productType
     ): Tariff {
-        return new Tariff($ticketTariffId, $this->id, $tariffPriceNet, $productType);
+        return new Tariff($tariffId, $this->id, $tariffPriceNet, $productType);
     }
 
     public function createEventPromocode(

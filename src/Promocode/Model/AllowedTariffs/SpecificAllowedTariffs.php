@@ -2,7 +2,8 @@
 
 namespace App\Promocode\Model\AllowedTariffs;
 
-use App\Order\Model\TariffId;
+
+use App\Tariff\Model\TariffId;
 
 final class SpecificAllowedTariffs implements AllowedTariffs
 {

@@ -6,7 +6,7 @@ use App\Event\Model\EventId;
 use App\Order\Model\Order;
 use App\Order\Model\OrderId;
 use App\Product\Model\ProductId;
-use App\Tariff\Model\TicketTariffId;
+use App\Tariff\Model\TariffId;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
@@ -45,7 +45,7 @@ class User
         OrderId $orderId,
         EventId $eventId,
         ProductId $productId,
-        TicketTariffId $tariffId,
+        TariffId $tariffId,
         Money $sum,
         DateTimeImmutable $makedAt
     ): Order {

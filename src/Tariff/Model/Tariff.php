@@ -5,7 +5,6 @@ namespace App\Tariff\Model;
 use App\Event\Model\EventId;
 use App\Order\Model\Order;
 use App\Order\Model\OrderId;
-use App\Order\Model\TariffId;
 use App\Product\Model\Product;
 use App\Product\Model\ProductId;
 use App\Product\Model\Products;
@@ -26,7 +25,7 @@ class Tariff
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\Column(type="app_ticket_tariff_id")
+     * @ORM\Column(type="app_tariff_id")
      */
     private $id;
 
@@ -47,7 +46,7 @@ class Tariff
      */
     private $productType;
 
-    public function __construct(TicketTariffId $id, EventId $eventId, TariffPriceNet $priceNet, ProductType $productType)
+    public function __construct(TariffId $id, EventId $eventId, TariffPriceNet $priceNet, ProductType $productType)
     {
         $this->id          = $id;
         $this->eventId     = $eventId;
@@ -75,9 +74,9 @@ class Tariff
         return $products->findNotReservedByType($this->productType);
     }
 
-    public function createProduct(ProductId $productId)
+    public function createProduct(ProductId $productId, DateTimeImmutable $createdAt): Product
     {
-        return new Product($productId, $this->eventId, $this->productType);
+        return new Product($productId, $this->eventId, $this->productType, $createdAt);
     }
 
     public function makeOrder(

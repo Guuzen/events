@@ -14,7 +14,7 @@ use App\Tariff\Model\Tariff;
 use App\Tariff\Model\TariffPriceNet;
 use App\Tariff\Model\TariffSegment;
 use App\Tariff\Model\TariffTerm;
-use App\Tariff\Model\TicketTariffId;
+use App\Tariff\Model\TariffId;
 use App\User\Model\User;
 use Coduo\PHPMatcher\PHPUnit\PHPMatcherAssertions;
 use DateTimeImmutable;
@@ -52,8 +52,6 @@ class MakeOrderTest extends WebTestCase
             'domain' => self::EVENT_DOMAIN,
         ]);
 
-        $tariffTermStartDate = (new DateTimeImmutable('-1 day'))->format('Y-m-d H:i:s');
-        $tariffTermEndDate   = (new DateTimeImmutable('+1 day'))->format('Y-m-d H:i:s');
         $tariffId            = $manager->createsTariff([
             'eventId'     => $eventId,
             'productType' => 'silver_pass',
@@ -64,8 +62,8 @@ class MakeOrderTest extends WebTestCase
                         'currency' => 'RUB',
                     ],
                     'term' => [
-                        'start' => $tariffTermStartDate,
-                        'end'   => $tariffTermEndDate,
+                        'start' => (new DateTimeImmutable('-1 day'))->format('Y-m-d H:i:s'),
+                        'end'   => (new DateTimeImmutable('+1 day'))->format('Y-m-d H:i:s'),
                     ],
                 ],
             ],
@@ -74,11 +72,12 @@ class MakeOrderTest extends WebTestCase
             'id'           => $tariffId,
             'product_type' => 'silver_pass',
             'price'        => '200 RUB',
-            'term_start'   => $tariffTermStartDate,
-            'term_end'     => $tariffTermEndDate,
+            'term_start'   => '@string@.isDateTime()',
+            'term_end'     => '@string@.isDateTime()',
         ]);
 
         $manager->createsTicket([
+            'eventId' => $eventId,
             'number'   => '10002000',
             'tariffId' => $tariffId,
         ]);
@@ -95,7 +94,7 @@ class MakeOrderTest extends WebTestCase
             'lastName'      => 'Doe',
             'email'         => 'john@email.com',
             'paymentMethod' => 'wire', // TODO
-            'tariffId'      => self::SILVER_PASS_TARIFF_ID,
+            'tariffId'      => $tariffId,
             'phone'         => '+123456789',
         ]);
         $visitor->seeOrderPlaced(); //TODO move to place order ?

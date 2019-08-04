@@ -1,6 +1,12 @@
 #controllers:
 #    resource: ../../src/Controller/
 #    type: annotation
+product:
+    resource: ../../src/Product/Action
+    type: annotation
+tariff:
+    resource: ../../src/Tariff/Action
+    type: annotation
 event.create_event:
     resource: ../../src/Event/Action
     type: annotation

@@ -30,7 +30,6 @@ final class Product
     private $eventId;
 
     /**
-     * @var ProductType
      * @ORM\Column(type="json_document")
      */
     private $type;
@@ -40,12 +39,23 @@ final class Product
      */
     private $reserved;
 
-    public function __construct(ProductId $id, EventId $eventId, ProductType $type, bool $reserved = false)
-    {
-        $this->id       = $id;
-        $this->eventId  = $eventId;
-        $this->type     = $type;
-        $this->reserved = $reserved;
+    /**
+     * @ORM\Column(type="datetime_immutable")
+     */
+    private $createdAt;
+
+    public function __construct(
+        ProductId $id,
+        EventId $eventId,
+        ProductType $type,
+        DateTimeImmutable $createdAt,
+        bool $reserved = false
+    ) {
+        $this->id        = $id;
+        $this->eventId   = $eventId;
+        $this->type      = $type;
+        $this->createdAt = $createdAt;
+        $this->reserved  = $reserved;
     }
 
     public function reserve(): void

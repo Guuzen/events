@@ -27,9 +27,10 @@ final class Manager
         WebTestCase::assertResponseIsSuccessful();
         $this->assertMatchesPattern(json_encode([
             'data' => [$orderData],
-        ]), $this->client->getResponse()->getContent());
+        ]), $this->client->getResponse()->getContent(), 'manager cant see order is placed');
     }
 
+    // TODO error messages on assets
     public function createsEvent(array $eventData): string
     {
         $this->client->xmlHttpRequest(
@@ -41,13 +42,13 @@ final class Manager
             json_encode($eventData)
         );
 
-        WebTestCase::assertResponseIsSuccessful();
+        WebTestCase::assertResponseIsSuccessful('manager got unsuccessful response while creates event');
         $responseData = json_decode($this->client->getResponse()->getContent(), true);
         $this->assertMatchesPattern(json_encode([
             'data' => [
                 'id' => '@uuid@',
             ],
-        ]), $this->client->getResponse()->getContent());
+        ]), $this->client->getResponse()->getContent(), 'manager cant create event');
 
         return $responseData['data']['id'];
     }
@@ -75,27 +76,28 @@ final class Manager
             json_encode($tariffData)
         );
 
-        WebTestCase::assertResponseIsSuccessful();
+        WebTestCase::assertResponseIsSuccessful('manager got unsuccessful response while creates tariff');
         $this->assertMatchesPattern(json_encode([
             'data' => [
                 'id' => '@uuid@',
             ],
-        ]), $this->client->getResponse()->getContent());
+        ]), $this->client->getResponse()->getContent(), 'manager cant create tariff');
         $responseData = json_decode($this->client->getResponse()->getContent(), true);
 
         return $responseData['data']['id'];
     }
 
+    // TODO rename to seesTariffInLinst + rename messages accrodingly
     public function seesTariffCreated(array $tariffDataPattern): void
     {
         $this->client->xmlHttpRequest('GET', '/admin/tariff/list');
 
-        WebTestCase::assertResponseIsSuccessful();
+        WebTestCase::assertResponseIsSuccessful('manager got unsuccessful response while trying to see tariff is created');
         $this->assertMatchesPattern(json_encode([
             'data' => [
                 $tariffDataPattern,
             ],
-        ]), $this->client->getResponse()->getContent());
+        ]), $this->client->getResponse()->getContent(), 'manager cant see tariff is created');
     }
 
     public function createsTicket(array $ticketData): string
@@ -109,12 +111,12 @@ final class Manager
             json_encode($ticketData)
         );
 
-        WebTestCase::assertResponseIsSuccessful();
+        WebTestCase::assertResponseIsSuccessful('manager got unsuccessful response while creates ticket');
         $this->assertMatchesPattern(json_encode([
             'data' => [
                 'id' => '@uuid@',
             ],
-        ]), $this->client->getResponse()->getContent());
+        ]), $this->client->getResponse()->getContent(), 'manager cant create ticket');
         $responseData = json_decode($this->client->getResponse()->getContent(), true);
 
         return $responseData['data']['id'];
@@ -129,6 +131,6 @@ final class Manager
             'data' => [
                 $productDataPattern,
             ],
-        ]), $this->client->getResponse()->getContent());
+        ]), $this->client->getResponse()->getContent(), 'manager cant see product is created');
     }
 }

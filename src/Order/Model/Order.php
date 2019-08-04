@@ -9,7 +9,7 @@ use App\Order\Model\Exception\OrderAlreadyPaid;
 use App\Order\Model\Exception\OrderCancelled;
 use App\Product\Model\ProductId;
 use App\Promocode\Model\Promocode;
-use App\Tariff\Model\TicketTariffId;
+use App\Tariff\Model\TariffId;
 use App\User\Model\UserId;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
@@ -79,7 +79,7 @@ class Order
         OrderId $id,
         EventId $eventId,
         ProductId $productId,
-        TicketTariffId $tariffId,
+        TariffId $tariffId,
         UserId $userId,
         Money $sum,
         DateTimeImmutable $asOf,

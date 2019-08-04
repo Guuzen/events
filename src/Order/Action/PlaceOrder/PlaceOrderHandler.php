@@ -7,7 +7,7 @@ use App\Event\Model\Events;
 use App\Order\Model\OrderId;
 use App\Product\Model\Products;
 use App\Promocode\Model\NullPromocode;
-use App\Tariff\Model\TicketTariffId;
+use App\Tariff\Model\TariffId;
 use App\Tariff\Model\TicketTariffs;
 use App\User\Model\Contacts;
 use App\User\Model\FullName;
@@ -49,7 +49,7 @@ final class PlaceOrderHandler
             return [null, 'event not found'];
         }
 
-        $tariffId = TicketTariffId::fromString($placeOrder->tariffId);
+        $tariffId = TariffId::fromString($placeOrder->tariffId);
         $tariff   = $this->ticketTariffs->findById($tariffId);
         if (null === $tariff) {
             return [null, 'tariff not found'];

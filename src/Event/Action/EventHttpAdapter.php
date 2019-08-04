@@ -6,7 +6,7 @@ use App\Common\BaseController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-final class HttpAdapter extends BaseController
+final class EventHttpAdapter extends BaseController
 {
     /**
      * @Route("/admin/event/create", methods={"POST"})
@@ -20,6 +20,6 @@ final class HttpAdapter extends BaseController
         }
 
         // TODO how about response objects ?
-        return $this->jsonSuccess(['event_id' => (string) $eventId]);
+        return $this->jsonSuccess(['id' => (string) $eventId]);
     }
 }

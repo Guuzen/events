@@ -19,6 +19,7 @@ final class TariffPriceNet
 
     public function __construct(array $segments)
     {
+        static::assertSegmentsNotEmpty($segments);
         static::assertPricesNotIntersects($segments);
         $this->segments = $segments;
     }
@@ -57,6 +58,13 @@ final class TariffPriceNet
                     throw new TariffSegmentsCantIntersects();
                 }
             }
+        }
+    }
+
+    private static function assertSegmentsNotEmpty(array $segments): void
+    {
+        if ([] === $segments) {
+            throw new \Exception('segments should not be empty');
         }
     }
 }

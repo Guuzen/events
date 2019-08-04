@@ -1,30 +1,28 @@
 <?php
-declare(strict_types=1);
 
 namespace App\Tariff\Model;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
-// TODO удалить зависимость от EntityRepository
-final class TicketTariffs extends ServiceEntityRepository
+final class Tariffs extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Tariff::class);
     }
 
-    public function findById(TariffId $ticketTariffId): ?Tariff
+    public function findById(TariffId $tariffId): ?Tariff
     {
         $query = $this->_em->createQuery('
             select
-                t
+                tariff
             from
-                App\Tariff\Model\Tariff as t
+                App\Tariff\Model\Tariff as tariff
             where
-                t.id = :id
+                tariff.id = :tariff_id
         ');
-        $query->setParameter('id', $ticketTariffId);
+        $query->setParameter('tariff_id', $tariffId);
 
         return $query->getOneOrNullResult();
     }
