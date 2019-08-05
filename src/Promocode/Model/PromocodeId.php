@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Promocode\Model;
 
 use Ramsey\Uuid\Uuid;

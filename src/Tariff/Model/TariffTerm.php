@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Tariff\Model;
 
 use App\Tariff\Model\Exception\TariffTermMustStartBeforeEnd;

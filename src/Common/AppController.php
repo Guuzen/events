@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Common;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -8,7 +7,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class AppController extends AbstractController
 {
-
     protected function successJson(array $data = [], $status = 200, array $headers = [], array $context = []): JsonResponse
     {
         return $this->json([

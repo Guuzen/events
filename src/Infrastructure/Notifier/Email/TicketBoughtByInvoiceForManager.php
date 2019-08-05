@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Infrastructure\Notifier\Email;
 
 use Swift_Attachment;
@@ -21,14 +20,14 @@ final class TicketBoughtByInvoiceForManager implements Factory
     public function __construct(TranslatorInterface $translator, Environment $twig, string $from, string $nameFrom)
     {
         $this->translator = $translator;
-        $this->twig = $twig;
-        $this->from = $from;
-        $this->nameFrom = $nameFrom;
+        $this->twig       = $twig;
+        $this->from       = $from;
+        $this->nameFrom   = $nameFrom;
     }
 
     public function create(array $event): Swift_Message
     {
-        $letter = $this->twig->render('', $event);
+        $letter  = $this->twig->render('', $event);
         $subject = $this->translator->trans('');
         $message = (new Swift_Message())
             ->setSubject($subject)

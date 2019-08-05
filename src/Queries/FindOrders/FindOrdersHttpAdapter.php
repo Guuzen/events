@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Queries\FindOrders;
 
 use App\Common\AppController;

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Promocode\Model;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;

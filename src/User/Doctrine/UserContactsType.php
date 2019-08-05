@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\User\Doctrine;
 
 use App\Common\JsonDocumentType as JsonDocumentTypeAlias;

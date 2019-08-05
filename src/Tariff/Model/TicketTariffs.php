@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Tariff\Model;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;

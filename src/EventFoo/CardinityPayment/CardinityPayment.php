@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\EventFoo\CardinityPayment;
 
 use App\EventFoo\Invoice\Model\Invoice;

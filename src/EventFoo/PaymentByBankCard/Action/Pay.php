@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\EventFoo\PaymentByBankCard\Action;
 
 use App\Common\AppRequest;
@@ -40,14 +39,14 @@ final class Pay implements AppRequest
         string $holder
     ) {
         $this->invoiceId = $invoiceId;
-        $this->lang = $lang;
-        $this->country = $country;
-        $this->city = $city;
-        $this->ip = $ip;
-        $this->pan = $pan;
-        $this->expYear = $expYear;
-        $this->expMonth = $expMonth;
-        $this->cvc = $cvc;
-        $this->holder = $holder;
+        $this->lang      = $lang;
+        $this->country   = $country;
+        $this->city      = $city;
+        $this->ip        = $ip;
+        $this->pan       = $pan;
+        $this->expYear   = $expYear;
+        $this->expMonth  = $expMonth;
+        $this->cvc       = $cvc;
+        $this->holder    = $holder;
     }
 }

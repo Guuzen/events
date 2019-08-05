@@ -1,15 +1,11 @@
 <?php
 
-
 namespace App\User\Action;
 
 //use App\Common\AppController;
 use App\Common\AppController;
-use App\Common\GoogleApi;
-use App\User\Action\Register\RegisterRequest;
 use App\User\Model\User;
 use App\User\Model\UserRepository;
-use Google_Client;
 use Google_Service_Sheets;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,8 +26,8 @@ class UserController extends AppController
 
     public function __construct(UserRepository $users, Google_Service_Sheets $sheets, string $tableId)
     {
-        $this->users = $users;
-        $this->sheets = $sheets;
+        $this->users   = $users;
+        $this->sheets  = $sheets;
         $this->tableId = $tableId;
     }
 
@@ -73,7 +69,6 @@ class UserController extends AppController
         ]);
 
         $this->sheets->spreadsheets_values->append($this->tableId, 'foo', $body, static::DEFAULT_PARAMS);
-
 
 //        $user = User::registered($register);
 //        $this->users->add($user);

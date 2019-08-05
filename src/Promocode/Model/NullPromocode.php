@@ -1,7 +1,5 @@
 <?php
 
-
-
 namespace App\Promocode\Model;
 
 use App\Order\Model\OrderId;

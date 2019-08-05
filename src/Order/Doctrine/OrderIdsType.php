@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Order\Doctrine;
 
 use App\Common\JsonDocumentType;

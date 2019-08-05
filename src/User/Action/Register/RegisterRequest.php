@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\User\Action\Register;
 
 use App\Common\AppRequest;
@@ -9,33 +8,33 @@ use Symfony\Component\Validator\Constraints as Assert;
 class RegisterRequest implements AppRequest
 {
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank
      */
     public $firstName;
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank
      */
     public $lastName;
 
     /**
-     * @Assert\NotBlank()
-     * @Assert\Email()
+     * @Assert\NotBlank
+     * @Assert\Email
      */
     public $email;
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank
      */
     public $phone;
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank
      */
     public $country;
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank
      */
     public $city;
 }

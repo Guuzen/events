@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Promocode\Doctrine;
 
 use App\Common\JsonDocumentType;

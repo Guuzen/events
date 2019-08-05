@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Infrastructure\Notifier\Email;
 
 use App\Infrastructure\Notifier\Notifier;
@@ -14,7 +13,7 @@ final class Email implements Notifier
 
     public function __construct(Swift_Mailer $mailer, Factory $emailFactory)
     {
-        $this->mailer = $mailer;
+        $this->mailer       = $mailer;
         $this->emailFactory = $emailFactory;
     }
 

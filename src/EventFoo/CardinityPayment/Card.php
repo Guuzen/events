@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\EventFoo\CardinityPayment;
 
 final class Card
@@ -48,7 +47,7 @@ final class Card
 
     private function assertCvc(string $cvc): void
     {
-        if (mb_strlen($cvc) !== 3) {
+        if (3 !== mb_strlen($cvc)) {
             throw new \Exception('CVC code length must be equals 3');
         }
     }

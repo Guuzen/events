@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\EventFoo;
 
 use Ramsey\Uuid\UuidInterface;
@@ -19,10 +18,10 @@ class Visitor
 
     public function __construct(UuidInterface $id, string $lang, string $country, string $city, string $ip)
     {
-        $this->id = $id;
-        $this->lang = $lang;
+        $this->id      = $id;
+        $this->lang    = $lang;
         $this->country = $country;
-        $this->city = $city;
-        $this->ip = $ip;
+        $this->city    = $city;
+        $this->ip      = $ip;
     }
 }

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Infrastructure\Notifier;
 
 interface Notifier

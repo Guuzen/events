@@ -3,7 +3,6 @@
 namespace App\Queries;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\FetchMode;
 
 // TODO maybe make gateway?
 final class FindEventIdByDomain

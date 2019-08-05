@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Event\Model;
 
 use Ramsey\Uuid\Uuid;

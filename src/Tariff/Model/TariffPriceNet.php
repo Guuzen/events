@@ -1,7 +1,5 @@
 <?php
 
-
-
 namespace App\Tariff\Model;
 
 use App\Promocode\Model\Discount\Discount;

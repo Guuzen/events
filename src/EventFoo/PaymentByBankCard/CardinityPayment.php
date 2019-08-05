@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\EventFoo\PaymentByBankCard;
 
 use App\EventFoo\Invoice\Model\Invoice;
@@ -19,14 +18,14 @@ final class CardinityPayment implements Payment
 
     public function pay(Visitor $visitor, Invoice $invoice, BankCard $bankCard): void
     {
-        $amount = $invoice->getSum();
+        $amount  = $invoice->getSum();
         $payment = new Create([
             'amount'             => $amount->getAmount(),
             'currency'           => $amount->getCurrency(),
             'settle'             => true,
             'description'        => $invoice->description(),
             'order_id'           => $invoice->getHumanId(),
-//            'country'            => $visitor->country,
+            //            'country'            => $visitor->country,
             'payment_method'     => Create::CARD,
             'payment_instrument' => [
                 'pan'       => $bankCard->getPan(),

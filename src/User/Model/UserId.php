@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\User\Model;
 
 use Ramsey\Uuid\Uuid;

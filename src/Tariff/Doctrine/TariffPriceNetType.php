@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Tariff\Doctrine;
 
 use App\Common\JsonDocumentType;

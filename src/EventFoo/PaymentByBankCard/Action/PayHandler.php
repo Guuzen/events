@@ -17,7 +17,7 @@ final class PayHandler
     public function __construct(Invoices $invoices, Payment $payment)
     {
         $this->invoices = $invoices;
-        $this->payment = $payment;
+        $this->payment  = $payment;
     }
 
     public function handle(Pay $pay): void

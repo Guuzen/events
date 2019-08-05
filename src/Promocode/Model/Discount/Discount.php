@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Promocode\Model\Discount;
 
 use Money\Money;

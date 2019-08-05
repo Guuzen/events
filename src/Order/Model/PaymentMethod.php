@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Order\Model;
 
 final class PaymentMethod
@@ -13,12 +12,14 @@ final class PaymentMethod
 
     public function __construct(string $method)
     {
-        if ($method === self::METHOD_CLOUDPAYMENTS) {
+        if (self::METHOD_CLOUDPAYMENTS === $method) {
             $this->method = $method;
+
             return;
         }
-        if ($method === self::METOD_BY_ACCOUNT) {
+        if (self::METOD_BY_ACCOUNT === $method) {
             $this->method = $method;
+
             return;
         }
 

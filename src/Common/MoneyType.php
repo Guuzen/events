@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Common;
 
 use Money\Money;

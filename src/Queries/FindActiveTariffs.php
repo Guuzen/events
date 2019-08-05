@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Queries;
 
 use App\Common\AppController;

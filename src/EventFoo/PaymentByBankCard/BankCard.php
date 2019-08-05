@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\EventFoo\PaymentByBankCard;
 
 final class BankCard
@@ -17,11 +16,11 @@ final class BankCard
 
     public function __construct(string $pan, int $expYear, int $expMonth, string $cvc, string $holder)
     {
-        $this->pan = $pan;
-        $this->expYear = $expYear;
+        $this->pan      = $pan;
+        $this->expYear  = $expYear;
         $this->expMonth = $expMonth;
-        $this->cvc = $cvc;
-        $this->holder = $holder;
+        $this->cvc      = $cvc;
+        $this->holder   = $holder;
     }
 
     public function getPan(): string

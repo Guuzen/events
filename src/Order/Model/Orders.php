@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Order\Model;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
