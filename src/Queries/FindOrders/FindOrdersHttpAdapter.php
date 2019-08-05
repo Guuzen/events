@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+
 
 namespace App\Queries\FindOrders;
 
@@ -9,9 +9,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/admin/orders")
+ * @Route("/admin/order/list")
  */
-final class HttpAdapter extends AppController
+final class FindOrdersHttpAdapter extends AppController
 {
     private $findOrders;
 
@@ -22,7 +22,7 @@ final class HttpAdapter extends AppController
 
     public function __invoke(Request $request): Response
     {
-        $orders = ($this->findOrders)();
+        $orders = ($this->findOrders)($request->get('eventId'));
 
         return $this->successJson($orders);
     }

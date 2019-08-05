@@ -30,7 +30,7 @@ final class Visitor
     {
         $this->client->xmlHttpRequest(
             'POST',
-            '/order_ticket_by_wire',
+            '/order/place',
             [],
             [],
             [

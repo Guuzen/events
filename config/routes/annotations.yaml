@@ -10,8 +10,8 @@ tariff:
 event.create_event:
     resource: ../../src/Event/Action
     type: annotation
-order.place_order:
-    resource: ../../src/Order/Action/PlaceOrder/
+order:
+    resource: ../../src/Order/Action
     type: annotation
 user_controller:
     resource: ../../src/User/Action/

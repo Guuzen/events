@@ -7,6 +7,7 @@ use App\Promocode\Model\Discount\Discount;
 use App\Tariff\Model\Tariff;
 use DateTimeImmutable;
 
+// TODO скидка и промокод - может быть это 2 разных контекста ?
 interface Promocode extends Discount
 {
     // TODO order instead of orderId

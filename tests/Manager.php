@@ -11,8 +11,6 @@ final class Manager
 {
     use PHPMatcherAssertions;
 
-    private const EVENT_ID = 'ac28bf81-08c6-4fc0-beae-7d4aabf1396e';
-
     private $client;
 
     public function __construct(AbstractBrowser $client)
@@ -20,9 +18,11 @@ final class Manager
         $this->client = $client;
     }
 
-    public function seeOrderPlaced(array $orderData): void
+    public function seesOrderPlaced(array $orderData, string $eventId): void
     {
-        $this->client->xmlHttpRequest('GET', '/admin/orders?event_id=' . self::EVENT_ID);
+        $this->client->xmlHttpRequest('GET', '/admin/order/list', [
+            'eventId' => $eventId,
+        ]);
 
         WebTestCase::assertResponseIsSuccessful();
         $this->assertMatchesPattern(json_encode([
@@ -53,9 +53,11 @@ final class Manager
         return $responseData['data']['id'];
     }
 
-    public function seesEventCreated(array $eventData): void
+    public function seesEventCreated(array $eventData, string $eventId): void
     {
-        $this->client->xmlHttpRequest('GET', '/admin/event/list');
+        $this->client->xmlHttpRequest('GET', '/admin/event/list', [
+            'eventId' => $eventId,
+        ]);
 
         WebTestCase::assertResponseIsSuccessful();
         $this->assertMatchesPattern(json_encode([
@@ -88,9 +90,11 @@ final class Manager
     }
 
     // TODO rename to seesTariffInLinst + rename messages accrodingly
-    public function seesTariffCreated(array $tariffDataPattern): void
+    public function seesTariffCreated(array $tariffDataPattern, string $eventId): void
     {
-        $this->client->xmlHttpRequest('GET', '/admin/tariff/list');
+        $this->client->xmlHttpRequest('GET', '/admin/tariff/list', [
+            'eventId' => $eventId,
+        ]);
 
         WebTestCase::assertResponseIsSuccessful('manager got unsuccessful response while trying to see tariff is created');
         $this->assertMatchesPattern(json_encode([
@@ -122,7 +126,7 @@ final class Manager
         return $responseData['data']['id'];
     }
 
-    public function seesProductCreated($productDataPattern): void
+    public function seesProductCreated($productDataPattern, string $eventId): void
     {
         $this->client->xmlHttpRequest('GET', '/admin/product/list');
 

@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @Route("/admin/event/list", methods={"GET"})
  */
-final class HttpAdapter extends AppController
+final class FindEventsHttpAdapter extends AppController
 {
     /**
      * @var FindEvents

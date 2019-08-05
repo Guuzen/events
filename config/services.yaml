@@ -37,7 +37,7 @@ services:
         arguments:
             $tableId: '%google_docs.registration_table%'
 
-    App\Order\Action\PlaceOrder\PlaceOrderHttpAdapter:
+    App\Order\Action\OrderHttpAdapter:
         tags: ['controller.service_arguments']
 
 

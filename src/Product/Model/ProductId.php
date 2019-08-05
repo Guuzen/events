@@ -4,7 +4,6 @@ namespace App\Product\Model;
 
 use Ramsey\Uuid\Uuid;
 
-// TODO move to Products namespace ?
 final class ProductId
 {
     private $id;

@@ -11,7 +11,7 @@ final class EventHttpAdapter extends BaseController
     /**
      * @Route("/admin/event/create", methods={"POST"})
      */
-    public function createEvent(CreateEvent $createEvent, CreateEventHandler $handler): Response
+    public function createEvent(CreateEvent $createEvent, EventHandler $handler): Response
     {
         [$eventId, $error] = $handler->createEvent($createEvent);
 

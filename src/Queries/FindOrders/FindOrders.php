@@ -13,10 +13,11 @@ final class FindOrders
         $this->connection = $connection;
     }
 
-    public function __invoke(): array
+    public function __invoke(string $eventId): array
     {
-        $stmt = $this->connection->query('
+        $stmt = $this->connection->prepare('
             select
+                "order".event_id,
                 "order".id as id,
                  product.type ->> \'type\' as product,
                 "user".id as user_id,
@@ -30,9 +31,18 @@ final class FindOrders
                 "user".full_name ->> \'last_name\' as last_name
             from
                 "order"
-            left join "user" on "order".user_id = "user".id
-            left join product on "order".product_id = product.id
+            left join
+                "user" on "order".user_id = "user".id
+            left join
+                product on "order".product_id = product.id
+            left join
+                event on "order".event_id = event.id
+            where
+                event.id = :event_id
+                
         ');
+        $stmt->bindParam('event_id', $eventId);
+        $stmt->execute();
 
         return $stmt->fetchAll();
     }

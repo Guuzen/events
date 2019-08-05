@@ -8,7 +8,7 @@ use App\Event\Model\EventId;
 use App\Event\Model\Events;
 use Doctrine\ORM\EntityManagerInterface;
 
-final class CreateEventHandler
+final class EventHandler
 {
     /**
      * @var EntityManagerInterface

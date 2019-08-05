@@ -4,24 +4,15 @@ namespace App\Tests;
 
 use App\Event\Model\Event;
 use App\Event\Model\EventConfig;
-use App\Event\Model\EventId;
 use App\Order\Model\Order;
 use App\Product\Model\Product;
-use App\Product\Model\ProductId;
-use App\Product\Model\ProductType;
 use App\Product\Model\Ticket;
 use App\Tariff\Model\Tariff;
-use App\Tariff\Model\TariffPriceNet;
-use App\Tariff\Model\TariffSegment;
-use App\Tariff\Model\TariffTerm;
-use App\Tariff\Model\TariffId;
 use App\User\Model\User;
 use Coduo\PHPMatcher\PHPUnit\PHPMatcherAssertions;
 use DateTimeImmutable;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
-use Money\Currency;
-use Money\Money;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class MakeOrderTest extends WebTestCase
@@ -50,9 +41,9 @@ class MakeOrderTest extends WebTestCase
             'id'     => $eventId,
             'name'   => '2019 foo event',
             'domain' => self::EVENT_DOMAIN,
-        ]);
+        ], $eventId);
 
-        $tariffId            = $manager->createsTariff([
+        $tariffId = $manager->createsTariff([
             'eventId'     => $eventId,
             'productType' => 'silver_pass',
             'priceNet'    => [
@@ -74,10 +65,10 @@ class MakeOrderTest extends WebTestCase
             'price'        => '200 RUB',
             'term_start'   => '@string@.isDateTime()',
             'term_end'     => '@string@.isDateTime()',
-        ]);
+        ], $eventId);
 
         $manager->createsTicket([
-            'eventId' => $eventId,
+            'eventId'  => $eventId,
             'number'   => '10002000',
             'tariffId' => $tariffId,
         ]);
@@ -86,7 +77,7 @@ class MakeOrderTest extends WebTestCase
             'number'     => '10002000',
             'created_at' => '@string@.isDateTime()',
             'reserved'   => false,
-        ]);
+        ], $eventId);
 
         $visitor = new Visitor(self::createClient(), self::EVENT_DOMAIN);
         $visitor->placeOrder([
@@ -99,7 +90,7 @@ class MakeOrderTest extends WebTestCase
         ]);
         $visitor->seeOrderPlaced(); //TODO move to place order ?
 
-        $manager->seeOrderPlaced([
+        $manager->seesOrderPlaced([
             'id'         => '@uuid@',
             'user_id'    => '@uuid@',
             'paid'       => false,
@@ -111,7 +102,8 @@ class MakeOrderTest extends WebTestCase
             'email'      => 'john@email.com',
             'sum'        => '200',
             'currency'   => 'RUB',
-        ]);
+            'event_id'   => $eventId,
+        ], $eventId);
     }
 
     // TODO extract this common method
@@ -143,27 +135,5 @@ class MakeOrderTest extends WebTestCase
             Product::class,
             EventConfig::class,
         ]);
-
-//        /** @var EntityManagerInterface $em */
-//        $em    = static::$container->get('doctrine.orm.default_entity_manager');
-//        $event = new Event(EventId::fromString(self::EVENT_ID));
-//        $em->persist($event);
-//
-//        $ticketTariff = $event->createTicketTariff(
-//            TicketTariffId::fromString(self::SILVER_PASS_TARIFF_ID),
-//            new TariffPriceNet([
-//                new TariffSegment(
-//                    new Money(200, new Currency('RUB')),
-//                    new TariffTerm(new DateTimeImmutable('-1 year'), new DateTimeImmutable('+1 year'))
-//                ),
-//            ]),
-//            ProductType::silverPass()
-//        );
-//        $em->persist($ticketTariff);
-
-//        $product = $ticketTariff->createProduct(ProductId::new());
-//        $em->persist($product);
-
-//        $em->flush();
     }
 }

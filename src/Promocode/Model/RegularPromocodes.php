@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+
 
 namespace App\Promocode\Model;
 
@@ -19,8 +19,10 @@ final class RegularPromocodes extends ServiceEntityRepository
         $query = $this->_em->createQuery('
             select
                 promocode
-            from App\Promocode\Model\RegularPromocode as promocode
-            where promocode.id = :promocode_id
+            from
+                App\Promocode\Model\RegularPromocode as promocode
+            where
+                promocode.id = :promocode_id
         ');
         $query->setParameter('promocode_id', $promocodeId);
 

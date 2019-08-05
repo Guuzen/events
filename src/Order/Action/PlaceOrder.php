@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Order\Action\PlaceOrder;
+namespace App\Order\Action;
 
 use App\Common\AppRequest;
 use Symfony\Component\Validator\Constraints as Assert;
 
 // TODO validation
-// TODO denormalizable groups
+// TODO denormalizable groups or constructor requirements?
 final class PlaceOrder implements AppRequest
 {
     /**

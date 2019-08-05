@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Order\Action\PlaceOrder;
+namespace App\Order\Action;
 
 use App\Event\Model\EventId;
 use App\Event\Model\Events;
@@ -16,7 +16,7 @@ use App\User\Model\UserId;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 
-final class PlaceOrderHandler
+final class OrderHandler
 {
     private $em;
 
@@ -38,7 +38,7 @@ final class PlaceOrderHandler
         $this->products      = $products;
     }
 
-    public function handle(PlaceOrder $placeOrder): array
+    public function placeOrder(PlaceOrder $placeOrder): array
     {
         $orderDate = new DateTimeImmutable();
 
@@ -83,6 +83,7 @@ final class PlaceOrderHandler
             $orderDate
         );
 
+        // TODO нафиг нужно считать сумму с промокодом, если потом можно всё равно промокод применить ?
         $promocode->use($orderId, $tariff, $orderDate);
         $order->applyPromocode($promocode);
 
