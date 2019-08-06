@@ -2,11 +2,11 @@
 
 namespace App\Event\Action;
 
-use App\Common\BaseController;
+use App\Common\AppController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-final class EventHttpAdapter extends BaseController
+final class EventHttpAdapter extends AppController
 {
     /**
      * @Route("/admin/event/create", methods={"POST"})
@@ -16,10 +16,10 @@ final class EventHttpAdapter extends BaseController
         [$eventId, $error] = $handler->createEvent($createEvent);
 
         if ($error) {
-            return $this->jsonError($error);
+            return $this->errorJson($error);
         }
 
         // TODO how about response objects ?
-        return $this->jsonSuccess(['id' => (string) $eventId]);
+        return $this->successJson(['id' => (string) $eventId]);
     }
 }

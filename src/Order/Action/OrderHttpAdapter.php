@@ -2,13 +2,13 @@
 
 namespace App\Order\Action;
 
-use App\Common\BaseController;
+use App\Common\AppController;
 use App\Queries\FindEventIdByDomain;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-final class OrderHttpAdapter extends BaseController
+final class OrderHttpAdapter extends AppController
 {
     private $findEventIdByDomain;
 
@@ -30,9 +30,9 @@ final class OrderHttpAdapter extends BaseController
         [$result, $error]    = $this->handler->placeOrder($placeOrder);
 
         if (null !== $error) {
-            return $this->jsonError($error);
+            return $this->errorJson($error);
         }
 
-        return $this->jsonSuccess();
+        return $this->successJson();
     }
 }
