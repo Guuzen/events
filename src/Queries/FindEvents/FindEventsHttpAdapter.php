@@ -6,8 +6,6 @@ use App\Common\AppController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-// TODO REMOVE one controller App or Base
-
 /**
  * @Route("/admin/event/list", methods={"GET"})
  */

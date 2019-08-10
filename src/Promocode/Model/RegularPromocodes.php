@@ -12,7 +12,6 @@ final class RegularPromocodes extends ServiceEntityRepository
         parent::__construct($registry, RegularPromocode::class);
     }
 
-    // TODO rename promocodeId to RegularPromocodeId
     public function findById(PromocodeId $promocodeId): ?RegularPromocode
     {
         $query = $this->_em->createQuery('
