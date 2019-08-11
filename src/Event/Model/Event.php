@@ -8,6 +8,7 @@ use App\Product\Model\Product;
 use App\Product\Model\ProductType;
 use App\Product\Model\Ticket;
 use App\Product\Model\TicketId;
+use App\Promocode\Model\AllowedTariffs\AllowedTariffs;
 use App\Promocode\Model\AllowedTariffs\EventAllowedTariffs;
 use App\Promocode\Model\AllowedTariffs\SpecificAllowedTariffs;
 use App\Promocode\Model\Discount\Discount;
@@ -83,7 +84,8 @@ final class Event
         PromocodeId $promocodeId,
         Discount $discount,
         int $useLimit,
-        DateTimeImmutable $expireAt
+        DateTimeImmutable $expireAt,
+        AllowedTariffs $allowedTariffs
     ): RegularPromocode {
         return new RegularPromocode(
             $promocodeId,
@@ -91,7 +93,7 @@ final class Event
             $discount,
             $useLimit,
             $expireAt,
-            new SpecificAllowedTariffs()
+            $allowedTariffs
         );
     }
 }

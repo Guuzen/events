@@ -1,6 +1,9 @@
 #controllers:
 #    resource: ../../src/Controller/
 #    type: annotation
+promocode:
+    resource: ../../src/Promocode/Action
+    type: annotation
 product:
     resource: ../../src/Product/Action
     type: annotation

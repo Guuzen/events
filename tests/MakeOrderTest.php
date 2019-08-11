@@ -7,6 +7,7 @@ use App\Event\Model\EventConfig;
 use App\Order\Model\Order;
 use App\Product\Model\Product;
 use App\Product\Model\Ticket;
+use App\Promocode\Model\RegularPromocode;
 use App\Tariff\Model\Tariff;
 use App\User\Model\User;
 use Coduo\PHPMatcher\PHPUnit\PHPMatcherAssertions;
@@ -29,6 +30,7 @@ class MakeOrderTest extends WebTestCase
 
     private const EVENT_DOMAIN = '2019foo.event.com';
 
+    // TODO no consistency between request camalcase and response underscore
     public function testBuyTicketByWire(): void
     {
         $manager = new Manager(self::createClient());
@@ -66,6 +68,34 @@ class MakeOrderTest extends WebTestCase
             'term_start'   => '@string@.isDateTime()',
             'term_end'     => '@string@.isDateTime()',
         ], $eventId);
+
+        // TODO createsRegularPromocode ?
+        $promocodeId = $manager->createsPromocode([
+            'eventId'  => $eventId,
+            'discount' => [
+                'amount'   => '100',
+                'currency' => 'RUB',
+            ],
+            'type'           => 'regular',
+            'useLimit'       => 1,
+            'expireAt'       => (new DateTimeImmutable('tomorrow'))->format('Y-m-d H:i:s'),
+            'allowedTariffs' => [$tariffId],
+            'usable'         => true,
+        ]);
+
+//        $manager->seesPromocodeCreated([
+//            'id'       => $promocodeId,
+//            'event_id' => $eventId,
+//            'discount' => [
+//                'amount'   => '100',
+//                'currency' => 'RUB',
+//            ],
+//            'type'           => 'regular',
+//            'useLimit'       => 1,
+//            'expireAt'       => (new DateTimeImmutable('tomorrow'))->format('Y-m-d H:i:s'),
+//            'allowedTariffs' => [$tariffId],
+//            'usable'         => true,
+//        ], $eventId);
 
         $manager->createsTicket([
             'eventId'  => $eventId,
@@ -134,6 +164,7 @@ class MakeOrderTest extends WebTestCase
             User::class,
             Product::class,
             EventConfig::class,
+            RegularPromocode::class,
         ]);
     }
 }

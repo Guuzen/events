@@ -137,4 +137,41 @@ final class Manager
             ],
         ]), $this->client->getResponse()->getContent(), 'manager cant see product is created');
     }
+
+    // TODO extract common things to api gateway ?
+    public function createsPromocode(array $promocodeData): string
+    {
+        $this->client->request(
+            'POST',
+            '/admin/promocode/create',
+            [],
+            [],
+            [],
+            json_encode($promocodeData)
+        );
+
+        WebTestCase::assertResponseIsSuccessful('manager got unsuccessful response while creates promocode');
+        $this->assertMatchesPattern(json_encode([
+            'data' => [
+                'id' => '@uuid@',
+            ],
+        ]), $this->client->getResponse()->getContent(), 'manager cant create promocode');
+        $responseData = json_decode($this->client->getResponse()->getContent(), true);
+
+        return $responseData['data']['id'];
+    }
+
+    public function seesPromocodeCreated($promocodeDataPattern, string $eventId): void
+    {
+        $this->client->xmlHttpRequest('GET', '/admin/promocode/list', [
+            'eventId' => $eventId,
+        ]);
+
+        WebTestCase::assertResponseIsSuccessful();
+        $this->assertMatchesPattern(json_encode([
+            'data' => [
+                $promocodeDataPattern,
+            ],
+        ]), $this->client->getResponse()->getContent(), 'manager cant see promocode is created');
+    }
 }

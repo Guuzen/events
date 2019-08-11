@@ -22,7 +22,7 @@ use Money\Money;
 /**
  * @ORM\Entity
  */
-final class RegularPromocode implements Promocode
+class RegularPromocode implements Promocode
 {
     /**
      * @ORM\Id
@@ -74,8 +74,8 @@ final class RegularPromocode implements Promocode
         Discount $discount,
         int $useLimit,
         DateTimeImmutable $expireAt,
-        AllowedTariffs $allowedTariffs,
-        bool $usable = false
+        AllowedTariffs $allowedTariffs, // TODO tariffs MUST be for same event as promocode
+        bool $usable = false // TODO зачем нужен этот флаг ?
     ) {
         $this->id             = $id;
         $this->eventId        = $eventId;

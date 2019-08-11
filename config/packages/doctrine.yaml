@@ -33,6 +33,7 @@ doctrine:
             app_product_id: App\Product\Doctrine\ProductIdType
 
             app_promocode_id: App\Promocode\Doctrine\PromocodeIdType
+            app_promocode_discount: App\Promocode\Doctrine\DiscountType
 
             app_user_id: App\User\Doctrine\UserIdType
             app_user_fullname: App\User\Doctrine\UserFullNameType
