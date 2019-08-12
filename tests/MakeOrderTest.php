@@ -39,11 +39,12 @@ class MakeOrderTest extends WebTestCase
             'name'   => '2019 foo event',
             'domain' => self::EVENT_DOMAIN,
         ]);
+
         $manager->seesEventCreated([
             'id'     => $eventId,
             'name'   => '2019 foo event',
             'domain' => self::EVENT_DOMAIN,
-        ], $eventId);
+        ]);
 
         $tariffId = $manager->createsTariff([
             'eventId'     => $eventId,
@@ -63,10 +64,10 @@ class MakeOrderTest extends WebTestCase
         ]);
         $manager->seesTariffCreated([
             'id'           => $tariffId,
-            'product_type' => 'silver_pass',
+            'productType'  => 'silver_pass',
             'price'        => '200 RUB',
-            'term_start'   => '@string@.isDateTime()',
-            'term_end'     => '@string@.isDateTime()',
+            'termStart'    => '@string@.isDateTime()',
+            'termEnd'      => '@string@.isDateTime()',
         ], $eventId);
 
         // TODO createsRegularPromocode ?
@@ -85,7 +86,7 @@ class MakeOrderTest extends WebTestCase
 
 //        $manager->seesPromocodeCreated([
 //            'id'       => $promocodeId,
-//            'event_id' => $eventId,
+//            'eventId' => $eventId,
 //            'discount' => [
 //                'amount'   => '100',
 //                'currency' => 'RUB',
@@ -105,7 +106,7 @@ class MakeOrderTest extends WebTestCase
         $manager->seesProductCreated([
             'type'       => 'silver_pass',
             'number'     => '10002000',
-            'created_at' => '@string@.isDateTime()',
+            'createdAt'  => '@string@.isDateTime()',
             'reserved'   => false,
         ], $eventId);
 
@@ -122,17 +123,17 @@ class MakeOrderTest extends WebTestCase
 
         $manager->seesOrderPlaced([
             'id'         => '@uuid@',
-            'user_id'    => '@uuid@',
+            'userId'     => '@uuid@',
             'paid'       => false,
-            'maked_at'   => '@string@.isDateTime()',
+            'makedAt'    => '@string@.isDateTime()',
             'product'    => 'silver_pass',
             'phone'      => '+123456789',
-            'first_name' => 'john',
-            'last_name'  => 'Doe',
+            'firstName'  => 'john',
+            'lastName'   => 'Doe',
             'email'      => 'john@email.com',
             'sum'        => '200',
             'currency'   => 'RUB',
-            'event_id'   => $eventId,
+            'eventId'    => $eventId,
         ], $eventId);
     }
 

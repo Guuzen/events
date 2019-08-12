@@ -53,16 +53,14 @@ final class Manager
         return $responseData['data']['id'];
     }
 
-    public function seesEventCreated(array $eventData, string $eventId): void
+    public function seesEventCreated(array $eventPattern): void
     {
-        $this->client->xmlHttpRequest('GET', '/admin/event/list', [
-            'eventId' => $eventId,
-        ]);
+        $this->client->xmlHttpRequest('GET', '/admin/event/list');
 
         WebTestCase::assertResponseIsSuccessful();
         $this->assertMatchesPattern(json_encode([
             'data' => [
-                $eventData,
+                $eventPattern,
             ],
         ]), $this->client->getResponse()->getContent());
     }

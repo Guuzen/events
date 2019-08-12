@@ -17,18 +17,18 @@ final class FindOrders
     {
         $stmt = $this->connection->prepare('
             select
-                "order".event_id,
+                "order".event_id as "eventId",
                 "order".id as id,
                  product.type ->> \'type\' as product,
-                "user".id as user_id,
+                "user".id as "userId",
                 "order".paid as paid,
-                "order".maked_at as maked_at,
+                "order".maked_at as "makedAt",
                 "order".sum ->> \'amount\' as sum,
                 "order".sum -> \'currency\' ->> \'code\' as currency,
                 "user".contacts ->> \'phone\' as phone,
                 "user".contacts ->> \'email\' as email,   
-                "user".full_name ->> \'first_name\' as first_name,
-                "user".full_name ->> \'last_name\' as last_name
+                "user".full_name ->> \'first_name\' as "firstName",
+                "user".full_name ->> \'last_name\' as "lastName"
             from
                 "order"
             left join
