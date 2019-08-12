@@ -25,12 +25,12 @@ class User
     private $id;
 
     /**
-     * @ORM\Column(type="json_document")
+     * @ORM\Column(type="app_user_contacts")
      */
     private $fullName;
 
     /**
-     * @ORM\Column(type="json_document")
+     * @ORM\Column(type="app_user_fullname")
      */
     private $contacts;
 

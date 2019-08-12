@@ -7,8 +7,6 @@ use App\Tariff\Model\TariffPriceNet;
 
 final class TariffPriceNetType extends JsonDocumentType
 {
-    public const TYPE = 'app_tariff_price_net';
-
     protected function className(): string
     {
         return TariffPriceNet::class;
@@ -16,6 +14,6 @@ final class TariffPriceNetType extends JsonDocumentType
 
     public function getName(): string
     {
-        return self::TYPE;
+        return 'app_tariff_price_net';
     }
 }

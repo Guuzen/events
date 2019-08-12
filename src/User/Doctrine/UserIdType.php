@@ -8,8 +8,6 @@ use Doctrine\DBAL\Types\StringType;
 
 final class UserIdType extends StringType
 {
-    private const TYPE = 'app_user_id';
-
     public function convertToPHPValue($value, AbstractPlatform $platform): UserId
     {
         // TODO create via reflection ?
@@ -18,7 +16,7 @@ final class UserIdType extends StringType
 
     public function getName(): string
     {
-        return self::TYPE;
+        return 'app_user_id';
     }
 
     public function requiresSQLCommentHint(AbstractPlatform $platform): bool

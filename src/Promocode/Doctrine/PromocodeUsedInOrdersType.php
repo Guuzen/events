@@ -3,17 +3,17 @@
 namespace App\Promocode\Doctrine;
 
 use App\Common\JsonDocumentType;
-use App\Promocode\Model\Discount\Discount;
+use App\Promocode\Model\UsedInOrders;
 
-final class PromocodeDiscountType extends JsonDocumentType
+final class PromocodeUsedInOrdersType extends JsonDocumentType
 {
     protected function className(): string
     {
-        return Discount::class;
+        return UsedInOrders::class;
     }
 
     public function getName(): string
     {
-        return 'app_promocode_discount';
+        return 'app_promocode_used_in_orders';
     }
 }

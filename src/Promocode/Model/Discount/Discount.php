@@ -9,8 +9,8 @@ use Symfony\Component\Serializer\Annotation\DiscriminatorMap;
  * @DiscriminatorMap(
  *     typeProperty="type",
  *     mapping={
- *         "regular": "App\Promocode\Model\RegularPromocode",
- *         "null": "App\Promocode\Model\NullPromocode"
+ *         "fixed": "App\Promocode\Model\Discount\FixedDiscount",
+ *         "foo": "App\Promocode\Model\NullPromocode"
  *     }
  * )
  */

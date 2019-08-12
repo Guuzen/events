@@ -25,8 +25,8 @@ final class FindTariffs
                     \' \',
                     json_array_elements(price_net -> \'segments\') -> \'price\' -> \'currency\' ->> \'code\'
                 ) as price,
-                (json_array_elements(price_net -> \'segments\') -> \'term\' -> \'start\' ->> \'#scalar\') as term_start,
-                (json_array_elements(price_net -> \'segments\') -> \'term\' -> \'end\' ->> \'#scalar\') as term_end
+                (json_array_elements(price_net -> \'segments\') -> \'term\' ->> \'start\' ) as term_start,
+                (json_array_elements(price_net -> \'segments\') -> \'term\' ->> \'end\') as term_end
             from
                 tariff
         ');

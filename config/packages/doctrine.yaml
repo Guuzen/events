@@ -31,9 +31,12 @@ doctrine:
             app_order_ids: App\Order\Doctrine\OrderIdsType
 
             app_product_id: App\Product\Doctrine\ProductIdType
+            app_product_type: App\Product\Doctrine\ProductTypeType
 
             app_promocode_id: App\Promocode\Doctrine\PromocodeIdType
-            app_promocode_discount: App\Promocode\Doctrine\DiscountType
+            app_promocode_discount: App\Promocode\Doctrine\PromocodeDiscountType
+            app_promocode_allowed_tariffs: App\Promocode\Doctrine\PromocodeAllowedTariffsType
+            app_promocode_used_in_orders: App\Promocode\Doctrine\PromocodeUsedInOrdersType
 
             app_user_id: App\User\Doctrine\UserIdType
             app_user_fullname: App\User\Doctrine\UserFullNameType

@@ -56,7 +56,7 @@ class Order
     private $userId;
 
     /**
-     * @ORM\Column(type="json_document")
+     * @ORM\Column(type="app_money")
      */
     private $sum;
 

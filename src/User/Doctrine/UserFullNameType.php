@@ -14,6 +14,6 @@ final class UserFullNameType extends JsonDocumentType
 
     public function getName(): string
     {
-        return 'app_user_fullname_type';
+        return 'app_user_fullname';
     }
 }

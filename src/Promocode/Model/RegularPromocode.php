@@ -37,7 +37,7 @@ class RegularPromocode implements Promocode
     private $eventId;
 
     /**
-     * @ORM\Column(type="json_document")
+     * @ORM\Column(type="app_promocode_discount")
      */
     private $discount;
 
@@ -52,14 +52,14 @@ class RegularPromocode implements Promocode
     private $expireAt;
 
     /**
-     * @ORM\Column(type="json_document")
+     * @ORM\Column(type="app_promocode_allowed_tariffs")
      */
     private $allowedTariffs;
 
-    /**
-     * @ORM\Column(type="json_document")
-     */
     // TODO нельзя применять промокод к отменённому заказу
+    /**
+     * @ORM\Column(type="app_promocode_used_in_orders")
+     */
     private $usedInOrders;
 
     // TODO State ?

@@ -35,14 +35,12 @@ class Tariff
     private $eventId;
 
     /**
-     * @var TariffPriceNet
-     * @ORM\Column(type="json_document")
+     * @ORM\Column(type="app_tariff_price_net")
      */
     private $priceNet;
 
     /**
-     * @var ProductType
-     * @ORM\Column(type="json_document")
+     * @ORM\Column(type="app_product_type")
      */
     private $productType;
 

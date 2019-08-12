@@ -8,8 +8,6 @@ use Doctrine\DBAL\Types\StringType;
 
 final class OrderIdType extends StringType
 {
-    private const TYPE = 'app_order_id';
-
     public function convertToPHPValue($value, AbstractPlatform $platform): OrderId
     {
         // TODO create via reflection ?
@@ -18,7 +16,7 @@ final class OrderIdType extends StringType
 
     public function getName(): string
     {
-        return self::TYPE;
+        return 'app_order_id';
     }
 
     public function requiresSQLCommentHint(AbstractPlatform $platform): bool

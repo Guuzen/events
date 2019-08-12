@@ -2,10 +2,10 @@
 
 namespace App\User\Doctrine;
 
-use App\Common\JsonDocumentType as JsonDocumentTypeAlias;
+use App\Common\JsonDocumentType;
 use App\User\Model\Contacts;
 
-final class UserContactsType extends JsonDocumentTypeAlias
+final class UserContactsType extends JsonDocumentType
 {
     protected function className(): string
     {

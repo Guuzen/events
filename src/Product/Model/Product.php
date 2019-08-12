@@ -30,7 +30,7 @@ final class Product
     private $eventId;
 
     /**
-     * @ORM\Column(type="json_document")
+     * @ORM\Column(type="app_product_type")
      */
     private $type;
 
