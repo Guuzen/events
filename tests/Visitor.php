@@ -46,7 +46,9 @@ final class Visitor
         // TODO move to placeOrder
         WebTestCase::assertResponseIsSuccessful();
         $this->assertMatchesPattern('{
-                "data": []
+                "data": {
+                    "id": "@uuid@"
+                }
             }',
             $this->client->getResponse()->getContent()
         );

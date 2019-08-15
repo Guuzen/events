@@ -91,6 +91,6 @@ final class OrderHandler
         $this->em->persist($order);
         $this->em->flush();
 
-        return [null, null];
+        return [$orderId, null];
     }
 }

@@ -21,7 +21,7 @@ final class Manager
     public function seesOrderPlaced(array $orderData, string $eventId): void
     {
         $this->client->xmlHttpRequest('GET', '/admin/order/list', [
-            'eventId' => $eventId,
+            'event_id' => $eventId,
         ]);
 
         WebTestCase::assertResponseIsSuccessful();
@@ -91,7 +91,7 @@ final class Manager
     public function seesTariffCreated(array $tariffDataPattern, string $eventId): void
     {
         $this->client->xmlHttpRequest('GET', '/admin/tariff/list', [
-            'eventId' => $eventId,
+            'event_id' => $eventId,
         ]);
 
         WebTestCase::assertResponseIsSuccessful('manager got unsuccessful response while trying to see tariff is created');

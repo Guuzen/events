@@ -4,10 +4,8 @@ namespace App\Common;
 
 use Money\Money;
 
-class MoneyType extends JsonDocumentType
+final class MoneyType extends JsonDocumentType
 {
-    public const MONEY = 'app_money';
-
     protected function className(): string
     {
         return Money::class;
@@ -15,6 +13,6 @@ class MoneyType extends JsonDocumentType
 
     public function getName(): string
     {
-        return self::MONEY;
+        return 'app_money';
     }
 }

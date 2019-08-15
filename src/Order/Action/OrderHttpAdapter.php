@@ -25,14 +25,14 @@ final class OrderHttpAdapter extends AppController
      */
     public function placeOrder(Request $request, PlaceOrder $placeOrder): Response
     {
-        $domain              = $request->getHost();
-        $placeOrder->eventId = ($this->findEventIdByDomain)($domain);
-        [$result, $error]    = $this->handler->placeOrder($placeOrder);
+        $domain               = $request->getHost();
+        $placeOrder->eventId  = ($this->findEventIdByDomain)($domain);
+        [$orderId, $error]    = $this->handler->placeOrder($placeOrder);
 
         if (null !== $error) {
             return $this->errorJson($error);
         }
 
-        return $this->successJson();
+        return $this->successJson($orderId);
     }
 }

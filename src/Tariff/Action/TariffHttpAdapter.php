@@ -29,6 +29,6 @@ final class TariffHttpAdapter extends AppController
             return $this->errorJson($error);
         }
 
-        return $this->successJson(['id' => (string) $tariffId]);
+        return $this->successJson($tariffId);
     }
 }

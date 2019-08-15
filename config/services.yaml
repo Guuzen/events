@@ -14,6 +14,11 @@ services:
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        bind:
+            $httpAdapterLocator: '@app.http_adapter_service_locator'
+    _instanceof:
+        App\Common\AppController:
+            tags: ['controller.service_arguments']
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
@@ -41,32 +46,45 @@ services:
         tags: ['controller.service_arguments']
 
 
-    # http request serializer
-    app.http_request_serializer.normalizer.datetime:
+    # http serializer
+    app.http_serializer.normalizer.datetime:
         class: Symfony\Component\Serializer\Normalizer\DateTimeNormalizer
 
-    app.http_request_serializer.normalizer.object:
+    app.http_serializer.normalizer.object:
         class: Symfony\Component\Serializer\Normalizer\ObjectNormalizer
 
-    app.http_request_serializer.normalizer.array:
+    app.http_serializer.normalizer.array:
         class: Symfony\Component\Serializer\Normalizer\ArrayDenormalizer
 
-    app.http_request_serializer:
+    app.http_serializer.without_constructor_property_normalizer:
+        class: App\Common\WithoutConstructorPropertyNormalizer
+        arguments:
+            - ~
+            - '@serializer.name_converter.camel_case_to_snake_case'
+
+    app.http_serializer:
         class: Symfony\Component\Serializer\Serializer
         arguments:
             $normalizers:
                 - '@serializer.normalizer.datetime'
-                - '@app.http_request_serializer.normalizer.array'
-                - '@app.http_request_serializer.normalizer.object'
+                - '@app.http_serializer.normalizer.array'
+                - '@app.http_serializer.without_constructor_property_normalizer'
             $encoders:
                 - '@serializer.encoder.json'
 
     App\Common\AppRequestResolver:
         arguments:
-            $denormalizer: '@app.http_request_serializer.normalizer.array'
-            $serializer: '@app.http_request_serializer'
+            $denormalizer: '@app.http_serializer.normalizer.array'
+            $serializer: '@app.http_serializer'
         tags:
             - { name: controller.argument_value_resolver, priority: 50 }
+
+
+    # locator for http adapters
+    app.http_adapter_service_locator:
+        class: Symfony\Component\DependencyInjection\ServiceLocator
+        arguments:
+            -   serializer: '@app.http_serializer'
 
 
     # persistence serializer

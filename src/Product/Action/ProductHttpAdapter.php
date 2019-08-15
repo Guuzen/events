@@ -26,6 +26,6 @@ final class ProductHttpAdapter extends AppController
             return $this->errorJson($error);
         }
 
-        return $this->successJson(['id' => (string) $ticketId]);
+        return $this->successJson($ticketId);
     }
 }

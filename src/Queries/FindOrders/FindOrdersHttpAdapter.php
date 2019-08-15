@@ -21,7 +21,7 @@ final class FindOrdersHttpAdapter extends AppController
 
     public function __invoke(Request $request): Response
     {
-        $orders = ($this->findOrders)($request->get('eventId'));
+        $orders = ($this->findOrders)($request->get('event_id'));
 
         return $this->successJson($orders);
     }

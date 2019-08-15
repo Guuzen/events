@@ -18,7 +18,7 @@ final class FindProducts
         $stmt = $this->connection->query('
             select
                 product.type ->> \'type\' as type,
-                product.created_at as "createdAt",
+                product.created_at as "created_at",
                 ticket.number,
                 product.reserved
             from

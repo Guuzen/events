@@ -26,6 +26,6 @@ final class PromocodeHttpAdapter extends AppController
             return $this->errorJson($error);
         }
 
-        return $this->successJson(['id' => (string) $promocodeId]);
+        return $this->successJson($promocodeId);
     }
 }
