@@ -31,7 +31,7 @@ class MakeOrderTest extends WebTestCase
     private const EVENT_DOMAIN = '2019foo.event.com';
 
     // TODO no consistency between request camalcase and response underscore
-    public function testBuyTicketByWire(): void
+    private function testBuyTicketByWire(): void
     {
         $manager = new Manager(self::createClient());
 

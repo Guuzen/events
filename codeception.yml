@@ -1,0 +1,13 @@
+namespace: App\Tests
+paths:
+    tests: tests
+    output: tests/_output
+    data: tests/_data
+    support: tests/_support
+
+settings:
+    shuffle: false
+    lint: true
+params:
+    - .env
+    - .env.test
