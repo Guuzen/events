@@ -195,19 +195,51 @@ class Manager extends ApiTester
         $I->seeResponseMatchesJsonType(['string:uuid'], '$.data[0].user_id');
         $I->seeResponseMatchesJsonType(['string:uuid'], '$.data[0].id');
         $I->seeResponseMatchesJsonType(['string:date'], '$.data[0].maked_at');
+        // TODO add order id
         $I->seeResponseContainsJson([
-            'product_id' => $productId,
-            'tariff_id'  => $tariffId,
-            'paid'       => false,
-            'product'    => 'silver_pass',
-            'phone'      => '+123456789',
-            'first_name' => 'john',
-            'last_name'  => 'Doe',
-            'email'      => 'john@email.com',
-            'sum'        => '200',
-            'currency'   => 'RUB',
-            'event_id'   => $eventId,
-            'cancelled'  => false,
+            'data' => [
+                [
+                    'product_id' => $productId,
+                    'tariff_id'  => $tariffId,
+                    'paid'       => false,
+                    'product'    => 'silver_pass',
+                    'phone'      => '+123456789',
+                    'first_name' => 'john',
+                    'last_name'  => 'Doe',
+                    'email'      => 'john@email.com',
+                    'sum'        => '200',
+                    'currency'   => 'RUB',
+                    'event_id'   => $eventId,
+                    'cancelled'  => false,
+                ],
+            ],
+        ]);
+    }
+
+    public function seeOrderById(string $orderId, string $eventId, string $tariffId, string $productId): void
+    {
+        $I = $this;
+
+        $I->sendGET('/admin/order/show', [
+            'order_id' => $orderId
+        ]);
+
+        $I->seeResponseCodeIsSuccessful();
+        $I->seeResponseContainsJson([
+            'data' => [
+                'product_id' => $productId,
+                'tariff_id'  => $tariffId,
+                'paid'       => false,
+                'product'    => 'silver_pass',
+                'phone'      => '+123456789',
+                'first_name' => 'john',
+                'last_name'  => 'Doe',
+                'email'      => 'john@email.com',
+                'sum'        => '200',
+                'currency'   => 'RUB',
+                'event_id'   => $eventId,
+                'cancelled'  => false,
+            ],
         ]);
     }
 

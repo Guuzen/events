@@ -23,8 +23,9 @@ class BuyProductTestCest
         $manager->seeTicketInTicketList($eventId, $ticketId, 'silver_pass');
         $manager->seeTicketById($eventId, $ticketId, 'silver_pass');
 
-        $visitor->placeOrder($tariffId);
+        $orderId = $visitor->placeOrder($tariffId);
         $manager->seeOrderInOrderList($eventId, $tariffId, $ticketId);
+        $manager->seeOrderById($orderId, $eventId, $tariffId, $ticketId);
 
 //        $promocodeId = $manager->createsPromocode($eventId, $tariffId);
 //        $manager->seePromocodeCreated($eventId, $tariffId, $promocodeId);
