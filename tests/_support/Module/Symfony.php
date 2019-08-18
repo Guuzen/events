@@ -4,17 +4,23 @@ namespace App\Tests\Module;
 
 use Codeception\Util\JsonType;
 use Doctrine\DBAL\Connection;
+use Ramsey\Uuid\Uuid;
 
 final class Symfony extends \Codeception\Module\Symfony
 {
     public function _initialize()
     {
         parent::_initialize();
+
         JsonType::addCustomFilter('date', function ($value) {
             return preg_match(
                 '/^(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})$/',
                 $value
             );
+        });
+
+        JsonType::addCustomFilter('uuid', function ($value) {
+            return Uuid::isValid($value);
         });
     }
 

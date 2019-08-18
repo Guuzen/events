@@ -7,17 +7,19 @@ $finder = PhpCsFixer\Finder::create()
 
 return PhpCsFixer\Config::create()
     ->setRules([
-        '@Symfony'               => true,
-        '@DoctrineAnnotation'    => true,
-        'array_syntax'           => ['syntax' => 'short'],
-        'date_time_immutable'    => true,
-        'array_indentation'      => true,
-        'binary_operator_spaces' => [
+        '@Symfony'                   => true,
+        '@DoctrineAnnotation'        => true,
+        'array_syntax'               => ['syntax' => 'short'],
+        'date_time_immutable'        => true,
+        'array_indentation'          => true,
+        'binary_operator_spaces'     => [
             'default' => 'align',
         ],
-        'concat_space'           => [
+        'concat_space'               => [
             'spacing' => 'one',
         ],
+        'no_superfluous_phpdoc_tags' => true,
+        'phpdoc_order'               => true,
     ])
     ->setRiskyAllowed(true)
     ->setFinder($finder);

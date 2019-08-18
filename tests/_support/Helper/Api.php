@@ -15,7 +15,7 @@ class Api extends \Codeception\Module
     {
         /** @var REST $restModule */
         $restModule = $this->getModule('REST');
-        $restModule->seeResponseMatchesJsonType(['string'], self::ID_PATH); // TODO uuid check ?
+        $restModule->seeResponseMatchesJsonType(['string:uuid'], self::ID_PATH);
     }
 
     public function grabIdFromResponse(): string

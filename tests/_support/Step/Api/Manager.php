@@ -42,6 +42,24 @@ class Manager extends ApiTester
         ]);
     }
 
+    public function seeEventById(string $eventId): void
+    {
+        $I = $this;
+
+        $I->sendGET('/admin/event/show', [
+            'event_id' => $eventId,
+        ]);
+
+        $I->seeResponseCodeIsSuccessful();
+        $I->seeResponseContainsJson([
+            'data' => [
+                'id'     => $eventId,
+                'name'   => '2019 foo event',
+                'domain' => '2019foo.event.com',
+            ],
+        ]);
+    }
+
     public function createsTariff(string $eventId, string $productType): string
     {
         $I = $this;
@@ -54,7 +72,7 @@ class Manager extends ApiTester
                         'amount'   => '200',
                         'currency' => 'RUB',
                     ],
-                    'term' => [
+                    'term'  => [
                         'start' => (new DateTimeImmutable('-1 day'))->format('Y-m-d H:i:s'),
                         'end'   => (new DateTimeImmutable('+1 day'))->format('Y-m-d H:i:s'),
                     ],
@@ -82,10 +100,28 @@ class Manager extends ApiTester
         $I->seeResponseContainsJson([
             'data' => [
                 [
-                    'id'            => $tariffId,
-                    'product_type'  => $productType,
-                    'price'         => '200 RUB',
+                    'id'           => $tariffId,
+                    'product_type' => $productType,
+                    'price'        => '200 RUB',
                 ],
+            ],
+        ]);
+    }
+
+    public function seeTariffById(string $tariffId, string $productType): void
+    {
+        $I = $this;
+
+        $I->sendGET('/admin/tariff/show', [
+            'tariff_id' => $tariffId,
+        ]);
+
+        $I->seeResponseCodeIsSuccessful();
+        $I->seeResponseContainsJson([
+            [
+                'id'           => $tariffId,
+                'product_type' => $productType,
+                'price'        => '200 RUB',
             ],
         ]);
     }
@@ -106,23 +142,43 @@ class Manager extends ApiTester
         return $I->grabIdFromResponse();
     }
 
-    public function seeTicketInTicketList(string $ticketType): void
+    public function seeTicketInTicketList(string $eventId, string $ticketId, string $ticketType): void
     {
         $I = $this;
 
-        $I->sendGET('/admin/product/list');
+        $I->sendGET('/admin/ticket/list');
 
         $I->seeResponseCodeIsSuccessful();
         $I->seeResponseMatchesJsonType(['string:date'], '$.data[0].created_at');
-        // TODO add event id to product data ?
-        // TODO add product id to product data ?
         $I->seeResponseContainsJson([
             'data' => [
                 [
-                    'type'        => $ticketType,
-                    'number'      => '10002000',
-                    'reserved'    => false,
+                    'event_id' => $eventId,
+                    'id'       => $ticketId,
+                    'type'     => $ticketType,
+                    'number'   => '10002000',
+                    'reserved' => false,
                 ],
+            ],
+        ]);
+    }
+
+    public function seeTicketById(string $eventId, string $ticketId, string $ticketType): void
+    {
+        $I = $this;
+
+        $I->sendGET('/admin/ticket/show', [
+            'ticket_id' => $ticketId,
+        ]);
+
+        $I->seeResponseCodeIsSuccessful();
+        $I->seeResponseContainsJson([
+            'data' => [
+                'event_id' => $eventId,
+                'id'       => $ticketId,
+                'type'     => $ticketType,
+                'number'   => '10002000',
+                'reserved' => false,
             ],
         ]);
     }
@@ -136,22 +192,22 @@ class Manager extends ApiTester
         ]);
 
         $I->seeResponseCodeIsSuccessful();
-        $I->seeResponseMatchesJsonType(['string'], '$.data[0].user_id');
-        $I->seeResponseMatchesJsonType(['string'], '$.data[0].id');
+        $I->seeResponseMatchesJsonType(['string:uuid'], '$.data[0].user_id');
+        $I->seeResponseMatchesJsonType(['string:uuid'], '$.data[0].id');
         $I->seeResponseMatchesJsonType(['string:date'], '$.data[0].maked_at');
         $I->seeResponseContainsJson([
-            'product_id'   => $productId,
-            'tariff_id'    => $tariffId,
-            'paid'         => false,
-            'product'      => 'silver_pass',
-            'phone'        => '+123456789',
-            'first_name'   => 'john',
-            'last_name'    => 'Doe',
-            'email'        => 'john@email.com',
-            'sum'          => '200',
-            'currency'     => 'RUB',
-            'event_id'     => $eventId,
-            'cancelled'    => false,
+            'product_id' => $productId,
+            'tariff_id'  => $tariffId,
+            'paid'       => false,
+            'product'    => 'silver_pass',
+            'phone'      => '+123456789',
+            'first_name' => 'john',
+            'last_name'  => 'Doe',
+            'email'      => 'john@email.com',
+            'sum'        => '200',
+            'currency'   => 'RUB',
+            'event_id'   => $eventId,
+            'cancelled'  => false,
         ]);
     }
 
@@ -160,8 +216,8 @@ class Manager extends ApiTester
         $I = $this;
 
         $I->sendPOST('/admin/promocode/create', [
-            'event_id'  => $eventId,
-            'discount'  => [
+            'event_id'        => $eventId,
+            'discount'        => [
                 'amount'   => '100',
                 'currency' => 'RUB',
             ],
@@ -187,9 +243,9 @@ class Manager extends ApiTester
         $I->seeResponseCodeIsSuccessful();
         $I->seeResponseContainsJson([
             'data' => [
-                'id'        => $promocodeId,
-                'event_id'  => $eventId,
-                'discount'  => [
+                'id'              => $promocodeId,
+                'event_id'        => $eventId,
+                'discount'        => [
                     'amount'   => '100',
                     'currency' => 'RUB',
                 ],

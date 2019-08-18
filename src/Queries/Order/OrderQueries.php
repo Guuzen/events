@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Queries\FindOrders;
+namespace App\Queries\Order;
 
 use Doctrine\DBAL\Connection;
 
-final class FindOrders
+final class OrderQueries
 {
     private $connection;
 
@@ -13,7 +13,7 @@ final class FindOrders
         $this->connection = $connection;
     }
 
-    public function __invoke(string $eventId): array
+    public function findAll(string $eventId): array
     {
         $stmt = $this->connection->prepare('
             select

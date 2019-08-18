@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Queries\FindPromocodes;
+namespace App\Queries\Promocode;
 
 use Doctrine\DBAL\Connection;
 
-final class FindPromocodes
+final class PromocodeQueries
 {
     private $connection;
 
@@ -14,7 +14,7 @@ final class FindPromocodes
     }
 
     // TODO filter all queries by event id
-    public function __invoke(): array
+    public function findAll(): array
     {
         $stmt = $this->connection->query('
             select
