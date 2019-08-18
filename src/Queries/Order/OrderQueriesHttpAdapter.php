@@ -28,4 +28,15 @@ final class OrderQueriesHttpAdapter extends AppController
 
         return $this->successJson($orders);
     }
+
+    /**
+     * @Route("/show")
+     */
+    public function findById(Request $request): Response
+    {
+        $orderId = $request->get('order_id');
+        $order   = $this->orderQueries->findById($orderId);
+
+        return $this->successJson($order);
+    }
 }

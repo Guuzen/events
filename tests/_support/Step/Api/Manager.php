@@ -221,7 +221,7 @@ class Manager extends ApiTester
         $I = $this;
 
         $I->sendGET('/admin/order/show', [
-            'order_id' => $orderId
+            'order_id' => $orderId,
         ]);
 
         $I->seeResponseCodeIsSuccessful();
