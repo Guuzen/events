@@ -8,9 +8,13 @@ use Doctrine\DBAL\Types\StringType;
 
 final class PromocodeIdType extends StringType
 {
-    public function convertToPHPValue($value, AbstractPlatform $platform): PromocodeId
+    public function convertToPHPValue($value, AbstractPlatform $platform): ?PromocodeId
     {
         // TODO create via reflection ?
+        if (null === $value) {
+            return null;
+        }
+
         return PromocodeId::fromString($value);
     }
 

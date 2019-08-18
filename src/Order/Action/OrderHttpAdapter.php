@@ -41,7 +41,7 @@ final class OrderHttpAdapter extends AppController
      */
     public function markOrderPaid(MarkOrderPaid $markOrderPaid): Response
     {
-
+        $this->handler->markOrderPaid($markOrderPaid);
 
         return $this->successJson();
     }

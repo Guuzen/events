@@ -106,5 +106,11 @@ final class OrderHandler
         if (null === $order) {
             return [null, 'order not found'];
         }
+
+        $order->markPaid();
+
+        $this->em->flush();
+
+        return [null, null];
     }
 }
