@@ -125,7 +125,12 @@ class Order
         // TODO raise InvoiceCancelled for cancel Promocode
     }
 
-    public function markPaid()
+    public function markPaid(): void
     {
+        if (true === $this->paid) {
+            throw new OrderAlreadyPaid();
+        }
+
+        $this->paid = true;
     }
 }
