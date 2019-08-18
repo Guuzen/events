@@ -2,12 +2,10 @@
 
 namespace spec\App\Order\Model;
 
-use App\Cloudpayments\PaymentStatus;
 use App\Event\Model\EventId;
-use App\Order\Model\Exception\OrderAlreadyPaid;
 use App\Order\Model\Exception\OrderCancelled;
-use App\Order\Model\Order;
 use App\Order\Model\OrderId;
+use App\Product\Model\ProductId;
 use App\Promocode\Model\PromocodeId;
 use App\Tariff\Model\TariffId;
 use App\User\Model\UserId;
@@ -18,6 +16,46 @@ use PhpSpec\ObjectBehavior;
 
 class OrderSpec extends ObjectBehavior
 {
+    public function let()
+    {
+        $orderId       = OrderId::new();
+        $eventId       = EventId::new();
+        $productId     = ProductId::new();
+        $tariffId      = TariffId::new();
+        $userId        = UserId::new();
+        $hundredRubles = new Money('100', new Currency('RUB'));
+        $now           = new DateTimeImmutable('now');
+        $this->beConstructedWith(
+            $orderId,
+            $eventId,
+            $productId,
+            $tariffId,
+            $userId,
+            $hundredRubles,
+            $now
+        );
+    }
+
+    public function it_should_be_possible_to_mark_paid()
+    {
+        $this
+            ->shouldNotThrow()
+            ->during('markPaid')
+        ;
+    }
+
+    public function it_should_not_be_possible_to_mark_paid_if_already_paid()
+    {
+    }
+
+    public function it_should_not_be_possible_to_cancel_if_paid()
+    {
+    }
+
+    public function it_should_not_be_possible_to_apply_promocode_if_paid()
+    {
+    }
+
 //    function it_should_be_cancelled()
 //    {
 //        $orderId   = new OrderId();

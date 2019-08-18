@@ -27,7 +27,7 @@ class BuyProductTestCest
         $manager->seeOrderById($orderId, $eventId, $tariffId, $ticketId);
 
         // TODO check that email was sent
-        $manager->markOrderAsPaid($orderId);
+        $manager->markOrderPaid($orderId);
         $manager->seeOrderPaidInOrderList($orderId, $eventId);
         $manager->seeOrderPaidById($orderId);
 

@@ -35,4 +35,14 @@ final class OrderHttpAdapter extends AppController
 
         return $this->successJson($orderId);
     }
+
+    /**
+     * @Route("/admin/order/mark_paid", methods={"POST"})
+     */
+    public function markOrderPaid(MarkOrderPaid $markOrderPaid): Response
+    {
+
+
+        return $this->successJson();
+    }
 }

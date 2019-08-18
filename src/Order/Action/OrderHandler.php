@@ -5,6 +5,7 @@ namespace App\Order\Action;
 use App\Event\Model\EventId;
 use App\Event\Model\Events;
 use App\Order\Model\OrderId;
+use App\Order\Model\Orders;
 use App\Product\Model\Products;
 use App\Promocode\Model\NullPromocode;
 use App\Tariff\Model\TariffId;
@@ -25,17 +26,20 @@ final class OrderHandler
     private $ticketTariffs;
 
     private $products;
+    private $orders;
 
     public function __construct(
         EntityManagerInterface $em,
         Events $events,
         TicketTariffs $ticketTariffs,
-        Products $products
+        Products $products,
+        Orders $orders
     ) {
-        $this->em            = $em;
-        $this->events        = $events;
+        $this->em = $em;
+        $this->events = $events;
         $this->ticketTariffs = $ticketTariffs;
-        $this->products      = $products;
+        $this->products = $products;
+        $this->orders = $orders;
     }
 
     public function placeOrder(PlaceOrder $placeOrder): array
@@ -92,5 +96,15 @@ final class OrderHandler
         $this->em->flush();
 
         return [$orderId, null];
+    }
+
+    public function markOrderPaid(MarkOrderPaid $markOrderPaid): array
+    {
+        $orderId = OrderId::fromString($markOrderPaid->orderId);
+
+        $order = $this->orders->findById($orderId);
+        if (null === $order) {
+            return [null, 'order not found'];
+        }
     }
 }

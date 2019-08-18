@@ -292,7 +292,7 @@ class Manager extends ApiTester
         ]);
     }
 
-    public function markOrderAsPaid(string $orderId): void
+    public function markOrderPaid(string $orderId): void
     {
         $I = $this;
 
