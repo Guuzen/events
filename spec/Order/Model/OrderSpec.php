@@ -3,6 +3,7 @@
 namespace spec\App\Order\Model;
 
 use App\Event\Model\EventId;
+use App\Order\Model\Exception\OrderAlreadyPaid;
 use App\Order\Model\Exception\OrderCancelled;
 use App\Order\Model\OrderId;
 use App\Product\Model\ProductId;
@@ -46,6 +47,11 @@ class OrderSpec extends ObjectBehavior
 
     public function it_should_not_be_possible_to_mark_paid_if_already_paid()
     {
+        $this->markPaid();
+        $this
+            ->shouldThrow(OrderAlreadyPaid::class)
+            ->during('markPaid')
+        ;
     }
 
     public function it_should_not_be_possible_to_cancel_if_paid()
