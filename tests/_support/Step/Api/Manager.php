@@ -6,6 +6,7 @@ use App\Tests\ApiTester;
 use DateTimeImmutable;
 
 // TODO data builders ?
+// TODO group list + show to one method
 class Manager extends ApiTester
 {
     public function createsFoo2019Event(): string
@@ -266,6 +267,7 @@ class Manager extends ApiTester
         return $I->grabIdFromResponse();
     }
 
+    // TODO in list?
     public function seePromocodeCreated(string $eventId, string $tariffId, string $promocodeId): void
     {
         $I = $this;
@@ -286,6 +288,57 @@ class Manager extends ApiTester
                 'expire_at'       => (new DateTimeImmutable('tomorrow'))->format('Y-m-d H:i:s'),
                 'allowed_tariffs' => [$tariffId],
                 'usable'          => true,
+            ],
+        ]);
+    }
+
+    public function markOrderAsPaid(string $orderId): void
+    {
+        $I = $this;
+
+        // TODO extract api requests to Api or helper ?
+        $I->sendPOST('/admin/order/mark_paid', [
+            'order_id' => $orderId,
+        ]);
+
+        $I->seeResponseCodeIsSuccessful();
+        $I->seeResponseContainsJson([
+            'data' => [],
+        ]);
+    }
+
+    public function seeOrderPaidInOrderList(string $orderId, string $eventId): void
+    {
+        $I = $this;
+
+        $I->sendGET('/admin/order/list', [
+            'event_id' => $eventId,
+        ]);
+
+        $I->seeResponseCodeIsSuccessful();
+        $I->seeResponseContainsJson([
+            'data' => [
+                [
+                    'id'   => $orderId,
+                    'paid' => true,
+                ],
+            ],
+        ]);
+    }
+
+    public function seeOrderPaidById(string $orderId): void
+    {
+        $I = $this;
+
+        $I->sendGET('/admin/order/show', [
+            'order_id' => $orderId,
+        ]);
+
+        $I->seeResponseCodeIsSuccessful();
+        $I->seeResponseContainsJson([
+            'data' => [
+                'id'   => $orderId,
+                'paid' => true,
             ],
         ]);
     }

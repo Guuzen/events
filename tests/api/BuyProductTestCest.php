@@ -26,6 +26,11 @@ class BuyProductTestCest
         $manager->seeOrderInOrderList($orderId, $eventId, $tariffId, $ticketId);
         $manager->seeOrderById($orderId, $eventId, $tariffId, $ticketId);
 
+        // TODO check that email was sent
+        $manager->markOrderAsPaid($orderId);
+        $manager->seeOrderPaidInOrderList($orderId, $eventId);
+        $manager->seeOrderPaidById($orderId);
+
 //        $promocodeId = $manager->createsPromocode($eventId, $tariffId);
 //        $manager->seePromocodeCreated($eventId, $tariffId, $promocodeId);
     }
