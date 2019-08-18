@@ -14,7 +14,6 @@ class BuyProductTestCest
         $manager->seeEventInEventList($eventId);
         $manager->seeEventById($eventId);
 
-        // TODO additionally check show page, not only list
         $tariffId = $manager->createsTariff($eventId, 'silver_pass');
         $manager->seeTariffInTariffList($eventId, $tariffId, 'silver_pass');
         $manager->seeTariffById($tariffId, 'silver_pass');
@@ -24,7 +23,7 @@ class BuyProductTestCest
         $manager->seeTicketById($eventId, $ticketId, 'silver_pass');
 
         $orderId = $visitor->placeOrder($tariffId);
-        $manager->seeOrderInOrderList($eventId, $tariffId, $ticketId);
+        $manager->seeOrderInOrderList($orderId, $eventId, $tariffId, $ticketId);
         $manager->seeOrderById($orderId, $eventId, $tariffId, $ticketId);
 
 //        $promocodeId = $manager->createsPromocode($eventId, $tariffId);

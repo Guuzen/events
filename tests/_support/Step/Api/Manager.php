@@ -183,7 +183,7 @@ class Manager extends ApiTester
         ]);
     }
 
-    public function seeOrderInOrderList(string $eventId, string $tariffId, string $productId): void
+    public function seeOrderInOrderList(string $orderId, string $eventId, string $tariffId, string $productId): void
     {
         $I = $this;
 
@@ -195,10 +195,10 @@ class Manager extends ApiTester
         $I->seeResponseMatchesJsonType(['string:uuid'], '$.data[0].user_id');
         $I->seeResponseMatchesJsonType(['string:uuid'], '$.data[0].id');
         $I->seeResponseMatchesJsonType(['string:date'], '$.data[0].maked_at');
-        // TODO add order id
         $I->seeResponseContainsJson([
             'data' => [
                 [
+                    'id'         => $orderId,
                     'product_id' => $productId,
                     'tariff_id'  => $tariffId,
                     'paid'       => false,
