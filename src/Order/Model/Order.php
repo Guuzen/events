@@ -124,4 +124,8 @@ class Order
         $this->cancelled = true;
         // TODO raise InvoiceCancelled for cancel Promocode
     }
+
+    public function markPaid()
+    {
+    }
 }
