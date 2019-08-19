@@ -2,7 +2,7 @@
 
 namespace App\Tests\AppRequest\Event;
 
-final class CreateEvent implements \JsonSerializable
+final class CreateEvent
 {
     private $name;
 
@@ -12,13 +12,5 @@ final class CreateEvent implements \JsonSerializable
     {
         $this->name   = $name;
         $this->domain = $domain;
-    }
-
-    public function jsonSerialize(): array
-    {
-        return [
-            'name'   => $this->name,
-            'domain' => $this->domain,
-        ];
     }
 }

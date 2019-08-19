@@ -2,7 +2,7 @@
 
 namespace App\Tests\AppResponse\OrderInList;
 
-final class OrderInList implements \JsonSerializable
+final class OrderInList
 {
     private $id;
 
@@ -58,24 +58,5 @@ final class OrderInList implements \JsonSerializable
         $this->sum       = $sum;
         $this->currency  = $currency;
         $this->cancelled = $cancelled;
-    }
-
-    public function jsonSerialize(): array
-    {
-        return [
-            'id'         => $this->id,
-            'event_id'   => $this->eventId,
-            'tariff_id'  => $this->tariffId,
-            'product_id' => $this->productId,
-            'paid'       => $this->paid,
-            'product'    => $this->product,
-            'phone'      => $this->phone,
-            'first_name' => $this->firstName,
-            'last_name'  => $this->lastName,
-            'email'      => $this->email,
-            'sum'        => $this->sum,
-            'currency'   => $this->currency,
-            'cancelled'  => $this->cancelled,
-        ];
     }
 }

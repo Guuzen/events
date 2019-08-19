@@ -2,7 +2,7 @@
 
 namespace App\Tests\AppRequest\Ticket;
 
-final class CreateTicket implements \JsonSerializable
+final class CreateTicket
 {
     private $eventId;
 
@@ -15,14 +15,5 @@ final class CreateTicket implements \JsonSerializable
         $this->eventId  = $eventId;
         $this->tariffId = $tariffId;
         $this->number   = $number;
-    }
-
-    public function jsonSerialize(): array
-    {
-        return [
-            'event_id'  => $this->eventId,
-            'tariff_id' => $this->tariffId,
-            'number'    => $this->number,
-        ];
     }
 }

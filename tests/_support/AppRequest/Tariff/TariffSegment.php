@@ -2,7 +2,7 @@
 
 namespace App\Tests\AppRequest\Tariff;
 
-final class TariffSegment implements \JsonSerializable
+final class TariffSegment
 {
     private $price;
 
@@ -12,13 +12,5 @@ final class TariffSegment implements \JsonSerializable
     {
         $this->price = $price;
         $this->term  = $term;
-    }
-
-    public function jsonSerialize(): array
-    {
-        return [
-            'price' => $this->price->jsonSerialize(),
-            'term'  => $this->term->jsonSerialize(),
-        ];
     }
 }

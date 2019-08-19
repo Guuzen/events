@@ -2,7 +2,7 @@
 
 namespace App\Tests\AppRequest\Order;
 
-final class PlaceOrder implements \JsonSerializable
+final class PlaceOrder
 {
     private $tariffId;
 
@@ -30,17 +30,5 @@ final class PlaceOrder implements \JsonSerializable
         $this->email         = $email;
         $this->paymentMethod = $paymentMethod;
         $this->phone         = $phone;
-    }
-
-    public function jsonSerialize(): array
-    {
-        return [
-            'first_name'     => $this->firstName,
-            'last_name'      => $this->lastName,
-            'email'          => $this->email,
-            'payment_method' => $this->paymentMethod,
-            'tariff_id'      => $this->tariffId,
-            'phone'          => $this->phone,
-        ];
     }
 }

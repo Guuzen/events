@@ -2,35 +2,24 @@
 
 namespace App\Tests\AppResponse\TicketInList;
 
-final class TicketInList implements \JsonSerializable
+final class TicketInList
 {
     private $id;
 
     private $eventId;
 
-    private $ticketType;
+    private $type;
 
     private $number;
 
     private $reserved;
 
-    public function __construct(string $id, string $eventId, string $ticketType, string $number, bool $reserved)
+    public function __construct(string $id, string $eventId, string $type, string $number, bool $reserved)
     {
         $this->id         = $id;
         $this->eventId    = $eventId;
-        $this->ticketType = $ticketType;
+        $this->type       = $type;
         $this->number     = $number;
         $this->reserved   = $reserved;
-    }
-
-    public function jsonSerialize(): array
-    {
-        return [
-            'id'       => $this->id,
-            'event_id' => $this->eventId,
-            'type'     => $this->ticketType,
-            'number'   => $this->number,
-            'reserved' => $this->reserved,
-        ];
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Tests\AppRequest\Tariff;
 
-final class CreateTariff implements \JsonSerializable
+final class CreateTariff
 {
     private $eventId;
 
@@ -15,14 +15,5 @@ final class CreateTariff implements \JsonSerializable
         $this->eventId     = $eventId;
         $this->productType = $productType;
         $this->priceNet    = $priceNet;
-    }
-
-    public function jsonSerialize(): array
-    {
-        return [
-            'event_id'     => $this->eventId,
-            'product_type' => $this->productType,
-            'price_net'    => $this->priceNet->jsonSerialize(),
-        ];
     }
 }

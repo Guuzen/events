@@ -40,12 +40,10 @@ class Manager extends ApiTester
         $I->sendGET('/admin/event/list');
 
         $I->seeResponseCodeIsSuccessful();
-        $I->seeResponseContainsJson([
-            'data' => [$event->jsonSerialize()],
-        ]);
+        $I->seeResponseContainsJson([$event]);
     }
 
-    public function seeEventById(string $eventId, EventById $eventById): void
+    public function seeEventById(string $eventId, EventById $event): void
     {
         $I = $this;
 
@@ -54,9 +52,7 @@ class Manager extends ApiTester
         ]);
 
         $I->seeResponseCodeIsSuccessful();
-        $I->seeResponseContainsJson([
-            'data' => $eventById->jsonSerialize(),
-        ]);
+        $I->seeResponseContainsJson($event);
     }
 
     public function createsTariff(CreateTariff $createTariff): string
@@ -79,9 +75,7 @@ class Manager extends ApiTester
         ]);
 
         $I->seeResponseCodeIsSuccessful();
-        $I->seeResponseContainsJson([
-            'data' => [$tariff->jsonSerialize()],
-        ]);
+        $I->seeResponseContainsJson([$tariff]);
     }
 
     public function seeTariffById(string $tariffId, TariffById $tariff): void
@@ -93,7 +87,7 @@ class Manager extends ApiTester
         ]);
 
         $I->seeResponseCodeIsSuccessful();
-        $I->seeResponseContainsJson([$tariff->jsonSerialize()]);
+        $I->seeResponseContainsJson($tariff);
     }
 
     public function createsTicket(CreateTicket $createTicket): string
@@ -117,9 +111,7 @@ class Manager extends ApiTester
         ]);
 
         $I->seeResponseCodeIsSuccessful();
-        $I->seeResponseContainsJson([
-            'data' => [$ticket->jsonSerialize()],
-        ]);
+        $I->seeResponseContainsJson([$ticket]);
     }
 
     public function seeTicketById(string $ticketId, TicketById $ticket): void
@@ -131,7 +123,7 @@ class Manager extends ApiTester
         ]);
 
         $I->seeResponseCodeIsSuccessful();
-        $I->seeResponseContainsJson(['data' => $ticket->jsonSerialize()]);
+        $I->seeResponseContainsJson($ticket);
     }
 
     public function seeOrderInList(string $eventId, OrderInList $order): void
@@ -143,9 +135,7 @@ class Manager extends ApiTester
         ]);
 
         $I->seeResponseCodeIsSuccessful();
-        $I->seeResponseContainsJson([
-            'data' => [$order->jsonSerialize()],
-        ]);
+        $I->seeResponseContainsJson($order);
     }
 
     public function seeOrderById(string $orderId, OrderById $order): void
@@ -157,9 +147,7 @@ class Manager extends ApiTester
         ]);
 
         $I->seeResponseCodeIsSuccessful();
-        $I->seeResponseContainsJson([
-            'data' => $order->jsonSerialize(),
-        ]);
+        $I->seeResponseContainsJson($order);
     }
 
     public function createsPromocode(string $eventId, string $tariffId): string
@@ -217,8 +205,6 @@ class Manager extends ApiTester
         $I->sendPOST('/admin/order/mark_paid', $markOrderPaid);
 
         $I->seeResponseCodeIsSuccessful();
-        $I->seeResponseContainsJson([
-            'data' => [],
-        ]);
+        $I->seeResponseContainsJson([]);
     }
 }

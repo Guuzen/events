@@ -2,7 +2,7 @@
 
 namespace App\Tests\AppResponse\EventById;
 
-final class EventById implements \JsonSerializable
+final class EventById
 {
     private $id;
 
@@ -15,14 +15,5 @@ final class EventById implements \JsonSerializable
         $this->id     = $id;
         $this->name   = $name;
         $this->domain = $domain;
-    }
-
-    public function jsonSerialize(): array
-    {
-        return [
-            'id'     => $this->id,
-            'name'   => $this->name,
-            'domain' => $this->domain,
-        ];
     }
 }

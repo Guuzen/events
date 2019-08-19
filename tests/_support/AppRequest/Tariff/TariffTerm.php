@@ -2,7 +2,7 @@
 
 namespace App\Tests\AppRequest\Tariff;
 
-final class TariffTerm implements \JsonSerializable
+final class TariffTerm
 {
     private $start;
 
@@ -12,13 +12,5 @@ final class TariffTerm implements \JsonSerializable
     {
         $this->start = $start;
         $this->end   = $end;
-    }
-
-    public function jsonSerialize(): array
-    {
-        return [
-            'start' => $this->start,
-            'end'   => $this->end,
-        ];
     }
 }

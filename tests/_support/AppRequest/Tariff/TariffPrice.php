@@ -2,7 +2,7 @@
 
 namespace App\Tests\AppRequest\Tariff;
 
-final class TariffPrice implements \JsonSerializable
+final class TariffPrice
 {
     private $amount;
 
@@ -12,13 +12,5 @@ final class TariffPrice implements \JsonSerializable
     {
         $this->amount   = $amount;
         $this->currency = $currency;
-    }
-
-    public function jsonSerialize(): array
-    {
-        return [
-            'amount'   => $this->amount,
-            'currency' => $this->currency,
-        ];
     }
 }

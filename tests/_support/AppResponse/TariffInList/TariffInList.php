@@ -2,7 +2,7 @@
 
 namespace App\Tests\AppResponse\TariffInList;
 
-final class TariffInList implements \JsonSerializable
+final class TariffInList
 {
     private $id;
 
@@ -21,16 +21,5 @@ final class TariffInList implements \JsonSerializable
         $this->price       = $price;
         $this->termStart   = $termStart;
         $this->termEnd     = $termEnd;
-    }
-
-    public function jsonSerialize(): array
-    {
-        return [
-            'id'           => $this->id,
-            'product_type' => $this->productType,
-            'price'        => $this->price,
-            'term_start'   => $this->termStart,
-            'term_end'     => $this->termEnd,
-        ];
     }
 }
