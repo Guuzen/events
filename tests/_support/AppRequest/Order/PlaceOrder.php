@@ -2,7 +2,7 @@
 
 namespace App\Tests\AppRequest\Order;
 
-final class Order implements \JsonSerializable
+final class PlaceOrder implements \JsonSerializable
 {
     private $tariffId;
 

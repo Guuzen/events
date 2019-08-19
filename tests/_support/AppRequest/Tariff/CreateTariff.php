@@ -2,7 +2,7 @@
 
 namespace App\Tests\AppRequest\Tariff;
 
-final class Tariff implements \JsonSerializable
+final class CreateTariff implements \JsonSerializable
 {
     private $eventId;
 

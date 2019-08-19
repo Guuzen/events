@@ -2,7 +2,7 @@
 
 namespace App\Tests\AppRequest\Event;
 
-final class Event implements \JsonSerializable
+final class CreateEvent implements \JsonSerializable
 {
     private $name;
 

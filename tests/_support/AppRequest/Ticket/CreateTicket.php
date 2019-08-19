@@ -2,7 +2,7 @@
 
 namespace App\Tests\AppRequest\Ticket;
 
-final class Ticket implements \JsonSerializable
+final class CreateTicket implements \JsonSerializable
 {
     private $eventId;
 

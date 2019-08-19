@@ -2,7 +2,7 @@
 
 namespace App\Tests\AppRequest\Order;
 
-final class OrderBuilder
+final class CreateOrderBuilder
 {
     private $tariffId;
 
@@ -37,9 +37,9 @@ final class OrderBuilder
         return new self(null, 'john', 'Doe', 'john@email.com', 'wire', '+123456789');
     }
 
-    public function build(): Order
+    public function build(): PlaceOrder
     {
-        return new Order(
+        return new PlaceOrder(
             $this->tariffId,
             $this->firstName,
             $this->lastName,

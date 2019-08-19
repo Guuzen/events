@@ -2,7 +2,7 @@
 
 namespace App\Tests\AppRequest\Ticket;
 
-final class TicketBuilder
+final class CreateTicketBuilder
 {
     private $eventId;
 
@@ -22,9 +22,9 @@ final class TicketBuilder
         return new self(null, null, '10002000');
     }
 
-    public function build(): Ticket
+    public function build(): CreateTicket
     {
-        return new Ticket($this->eventId, $this->tariffId, $this->number);
+        return new CreateTicket($this->eventId, $this->tariffId, $this->number);
     }
 
     public function withEventId(string $eventId): self

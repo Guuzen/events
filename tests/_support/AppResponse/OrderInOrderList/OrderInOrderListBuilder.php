@@ -29,7 +29,7 @@ final class OrderInOrderListBuilder
     private $currency;
 
     private $cancelled;
-
+    // TODO add payment method
     private function __construct(
         ?string $id,
         ?string $eventId,

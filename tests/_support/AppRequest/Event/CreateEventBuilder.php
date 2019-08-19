@@ -2,7 +2,7 @@
 
 namespace App\Tests\AppRequest\Event;
 
-final class EventBuilder
+final class CreateEventBuilder
 {
     private $name;
 
@@ -19,9 +19,9 @@ final class EventBuilder
         return new self('2019 foo event', '2019foo.event.com');
     }
 
-    public function build(): Event
+    public function build(): CreateEvent
     {
-        return new Event($this->name, $this->domain);
+        return new CreateEvent($this->name, $this->domain);
     }
 
     public function withName(string $name): self

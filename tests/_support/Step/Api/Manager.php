@@ -4,29 +4,29 @@ namespace App\Tests\Step\Api;
 
 use App\Tests\ApiTester;
 
-use App\Tests\AppRequest\Event\Event;
+use App\Tests\AppRequest\Event\CreateEvent;
 use App\Tests\AppRequest\MarkOrderPaid\MarkOrderPaid;
-use App\Tests\AppRequest\Tariff\Tariff;
-use App\Tests\AppRequest\Ticket\Ticket;
+use App\Tests\AppRequest\Tariff\CreateTariff;
+use App\Tests\AppRequest\Ticket\CreateTicket;
 use App\Tests\AppResponse\EventById\EventById;
 use App\Tests\AppResponse\EventInList\EventInList;
 use App\Tests\AppResponse\OrderById\OrderById;
 use App\Tests\AppResponse\OrderInOrderList\OrderInOrderList;
 use App\Tests\AppResponse\TariffById\TariffById;
 use App\Tests\AppResponse\TariffInList\TariffInList;
+use App\Tests\AppResponse\TicketById\TicketById;
 use App\Tests\AppResponse\TicketInTicketList\TicketInTicketList;
 use DateTimeImmutable;
 
-// TODO data builders ?
 // TODO group list + show to one method
 class Manager extends ApiTester
 {
-    public function createsEvent(Event $event): string
+    public function createsEvent(CreateEvent $createEvent): string
     {
         $I = $this;
 
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/admin/event/create', $event);
+        $I->sendPOST('/admin/event/create', $createEvent);
 
         $I->seeResponseCodeIsSuccessful();
         $I->seeResponseContainsId();
@@ -60,10 +60,10 @@ class Manager extends ApiTester
         ]);
     }
 
-    public function createsTariff(Tariff $tariff): string
+    public function createsTariff(CreateTariff $createTariff): string
     {
         $I = $this;
-        $I->sendPOST('/admin/tariff/create', $tariff);
+        $I->sendPOST('/admin/tariff/create', $createTariff);
 
         $I->seeResponseCodeIsSuccessful();
         $I->seeResponseContainsId();
@@ -97,11 +97,11 @@ class Manager extends ApiTester
         $I->seeResponseContainsJson([$tariff->jsonSerialize()]);
     }
 
-    public function createsTicket(Ticket $ticket): string
+    public function createsTicket(CreateTicket $createTicket): string
     {
         $I = $this;
 
-        $I->sendPOST('/admin/ticket/create', $ticket);
+        $I->sendPOST('/admin/ticket/create', $createTicket);
 
         $I->seeResponseCodeIsSuccessful();
         $I->seeResponseContainsId();
@@ -123,7 +123,7 @@ class Manager extends ApiTester
         ]);
     }
 
-    public function seeTicketById(string $eventId, string $ticketId, string $ticketType): void
+    public function seeTicketById(string $ticketId, TicketById $ticket): void
     {
         $I = $this;
 
@@ -132,15 +132,7 @@ class Manager extends ApiTester
         ]);
 
         $I->seeResponseCodeIsSuccessful();
-        $I->seeResponseContainsJson([
-            'data' => [
-                'event_id' => $eventId,
-                'id'       => $ticketId,
-                'type'     => $ticketType,
-                'number'   => '10002000',
-                'reserved' => false,
-            ],
-        ]);
+        $I->seeResponseContainsJson(['data' => $ticket->jsonSerialize()]);
     }
 
     public function seeOrderInOrderList(string $eventId, OrderInOrderList $order): void

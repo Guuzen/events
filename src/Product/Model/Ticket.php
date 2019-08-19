@@ -31,6 +31,7 @@ final class Ticket
      */
     private $number;
 
+    // TODO ticket type ?
     public function __construct(TicketId $id, EventId $eventId, string $number)
     {
         $this->id      = $id;

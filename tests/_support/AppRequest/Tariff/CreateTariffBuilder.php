@@ -2,7 +2,7 @@
 
 namespace App\Tests\AppRequest\Tariff;
 
-final class TariffBuilder
+final class CreateTariffBuilder
 {
     private $eventId;
 
@@ -37,8 +37,8 @@ final class TariffBuilder
         return new self(null, 'silver_pass', TariffPriceNetBuilder::any()->build());
     }
 
-    public function build(): Tariff
+    public function build(): CreateTariff
     {
-        return new Tariff($this->eventId, $this->productType, $this->priceNet);
+        return new CreateTariff($this->eventId, $this->productType, $this->priceNet);
     }
 }
