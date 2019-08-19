@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Tests\AppResponse\OrderInOrderList;
+namespace App\Tests\AppResponse\OrderInList;
 
-final class OrderInOrderListBuilder
+final class OrderInListBuilder
 {
     private $id;
 
@@ -79,9 +79,9 @@ final class OrderInOrderListBuilder
         );
     }
 
-    public function build(): OrderInOrderList
+    public function build(): OrderInList
     {
-        return new OrderInOrderList(
+        return new OrderInList(
             $this->id,
             $this->eventId,
             $this->tariffId,

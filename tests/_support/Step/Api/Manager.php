@@ -11,14 +11,13 @@ use App\Tests\AppRequest\Ticket\CreateTicket;
 use App\Tests\AppResponse\EventById\EventById;
 use App\Tests\AppResponse\EventInList\EventInList;
 use App\Tests\AppResponse\OrderById\OrderById;
-use App\Tests\AppResponse\OrderInOrderList\OrderInOrderList;
+use App\Tests\AppResponse\OrderInList\OrderInList;
 use App\Tests\AppResponse\TariffById\TariffById;
 use App\Tests\AppResponse\TariffInList\TariffInList;
 use App\Tests\AppResponse\TicketById\TicketById;
-use App\Tests\AppResponse\TicketInTicketList\TicketInTicketList;
+use App\Tests\AppResponse\TicketInList\TicketInList;
 use DateTimeImmutable;
 
-// TODO group list + show to one method
 class Manager extends ApiTester
 {
     public function createsEvent(CreateEvent $createEvent): string
@@ -34,7 +33,7 @@ class Manager extends ApiTester
         return $I->grabIdFromResponse();
     }
 
-    public function seeEventInEventList(EventInList $event): void
+    public function seeEventInList(EventInList $event): void
     {
         $I = $this;
 
@@ -71,7 +70,7 @@ class Manager extends ApiTester
         return $I->grabIdFromResponse();
     }
 
-    public function seeTariffInTariffList(string $eventId, TariffInList $tariff): void
+    public function seeTariffInList(string $eventId, TariffInList $tariff): void
     {
         $I = $this;
 
@@ -109,7 +108,7 @@ class Manager extends ApiTester
         return $I->grabIdFromResponse();
     }
 
-    public function seeTicketInTicketList(string $eventId, TicketInTicketList $ticket): void
+    public function seeTicketInList(string $eventId, TicketInList $ticket): void
     {
         $I = $this;
 
@@ -135,7 +134,7 @@ class Manager extends ApiTester
         $I->seeResponseContainsJson(['data' => $ticket->jsonSerialize()]);
     }
 
-    public function seeOrderInOrderList(string $eventId, OrderInOrderList $order): void
+    public function seeOrderInList(string $eventId, OrderInList $order): void
     {
         $I = $this;
 
@@ -215,7 +214,6 @@ class Manager extends ApiTester
     {
         $I = $this;
 
-        // TODO extract api requests to Api or helper ?
         $I->sendPOST('/admin/order/mark_paid', $markOrderPaid);
 
         $I->seeResponseCodeIsSuccessful();

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Tests\AppResponse\TicketInTicketList;
+namespace App\Tests\AppResponse\TicketInList;
 
-final class TicketInTicketListBuilder
+final class TicketInListBuilder
 {
     private $id;
 
@@ -28,9 +28,9 @@ final class TicketInTicketListBuilder
         return new self(null, null, 'silver_pass', '10002000', false);
     }
 
-    public function build(): TicketInTicketList
+    public function build(): TicketInList
     {
-        return new TicketInTicketList($this->id, $this->eventId, $this->ticketType, $this->number, $this->reserved);
+        return new TicketInList($this->id, $this->eventId, $this->ticketType, $this->number, $this->reserved);
     }
 
     public function withId(string $id): self

@@ -10,11 +10,11 @@ use App\Tests\AppRequest\Ticket\CreateTicketBuilder;
 use App\Tests\AppResponse\EventById\EventByIdBuilder;
 use App\Tests\AppResponse\EventInList\EventInListBuilder;
 use App\Tests\AppResponse\OrderById\OrderByIdBuilder;
-use App\Tests\AppResponse\OrderInOrderList\OrderInOrderListBuilder;
+use App\Tests\AppResponse\OrderInList\OrderInListBuilder;
 use App\Tests\AppResponse\TariffById\TariffByIdBuilder;
 use App\Tests\AppResponse\TariffInList\TariffInListBuilder;
 use App\Tests\AppResponse\TicketById\TicketByIdBuilder;
-use App\Tests\AppResponse\TicketInTicketList\TicketInTicketListBuilder;
+use App\Tests\AppResponse\TicketInList\TicketInListBuilder;
 use App\Tests\Step\Api\Manager;
 use App\Tests\Step\Api\Visitor;
 
@@ -26,7 +26,7 @@ class BuyProductTestCest
     public function silverTicketByWireWithoutPromocode(Manager $manager, Visitor $visitor): void
     {
         $eventId = $manager->createsEvent(CreateEventBuilder::any()->build());
-        $manager->seeEventInEventList(
+        $manager->seeEventInList(
             EventInListBuilder::any()
                 ->withId($eventId)
                 ->build()
@@ -44,7 +44,7 @@ class BuyProductTestCest
                 ->withProductType('silver_pass')
                 ->build()
         );
-        $manager->seeTariffInTariffList(
+        $manager->seeTariffInList(
             $eventId,
             TariffInListBuilder::any()
                 ->withId($tariffId)
@@ -64,9 +64,9 @@ class BuyProductTestCest
                 ->withTariffId($tariffId)
                 ->build()
         );
-        $manager->seeTicketInTicketList(
+        $manager->seeTicketInList(
             $eventId,
-            TicketInTicketListBuilder::any()
+            TicketInListBuilder::any()
                 ->withId($ticketId)
                 ->withEventId($eventId)
                 ->withTicketType('silver_pass')
@@ -87,9 +87,9 @@ class BuyProductTestCest
                 ->withPaymentMethod('wire')
                 ->build()
         );
-        $manager->seeOrderInOrderList(
+        $manager->seeOrderInList(
             $eventId,
-            OrderInOrderListBuilder::any()
+            OrderInListBuilder::any()
                 ->withId($orderId)
                 ->withEventId($eventId)
                 ->withTariffId($tariffId)
@@ -114,9 +114,9 @@ class BuyProductTestCest
                 ->withOrderId($orderId)
                 ->build()
         );
-        $manager->seeOrderInOrderList(
+        $manager->seeOrderInList(
             $eventId,
-            OrderInOrderListBuilder::any()
+            OrderInListBuilder::any()
                 ->withId($orderId)
                 ->withEventId($eventId)
                 ->withTariffId($tariffId)

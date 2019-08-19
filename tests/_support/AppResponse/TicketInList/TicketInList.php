@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Tests\AppResponse\TicketInTicketList;
+namespace App\Tests\AppResponse\TicketInList;
 
-final class TicketInTicketList implements \JsonSerializable
+final class TicketInList implements \JsonSerializable
 {
     private $id;
 

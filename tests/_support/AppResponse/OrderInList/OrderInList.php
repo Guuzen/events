@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Tests\AppResponse\OrderInOrderList;
+namespace App\Tests\AppResponse\OrderInList;
 
-final class OrderInOrderList implements \JsonSerializable
+final class OrderInList implements \JsonSerializable
 {
     private $id;
 
