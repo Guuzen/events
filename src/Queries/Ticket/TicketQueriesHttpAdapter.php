@@ -24,7 +24,7 @@ final class TicketQueriesHttpAdapter extends AppController
      */
     public function findAll(Request $request): Response
     {
-        $tickets = $this->ticketQueries->findAll();
+        $tickets = $this->ticketQueries->findAll($request->get('event_id'));
 
         return $this->successJson($tickets);
     }

@@ -3,21 +3,30 @@
 namespace App\Tests\Step\Api;
 
 use App\Tests\ApiTester;
+
+use App\Tests\AppRequest\Event\Event;
+use App\Tests\AppRequest\MarkOrderPaid\MarkOrderPaid;
+use App\Tests\AppRequest\Tariff\Tariff;
+use App\Tests\AppRequest\Ticket\Ticket;
+use App\Tests\AppResponse\EventById\EventById;
+use App\Tests\AppResponse\EventInList\EventInList;
+use App\Tests\AppResponse\OrderById\OrderById;
+use App\Tests\AppResponse\OrderInOrderList\OrderInOrderList;
+use App\Tests\AppResponse\TariffById\TariffById;
+use App\Tests\AppResponse\TariffInList\TariffInList;
+use App\Tests\AppResponse\TicketInTicketList\TicketInTicketList;
 use DateTimeImmutable;
 
 // TODO data builders ?
 // TODO group list + show to one method
 class Manager extends ApiTester
 {
-    public function createsFoo2019Event(): string
+    public function createsEvent(Event $event): string
     {
         $I = $this;
 
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/admin/event/create', [
-            'name'   => '2019 foo event',
-            'domain' => '2019foo.event.com',
-        ]);
+        $I->sendPOST('/admin/event/create', $event);
 
         $I->seeResponseCodeIsSuccessful();
         $I->seeResponseContainsId();
@@ -25,7 +34,7 @@ class Manager extends ApiTester
         return $I->grabIdFromResponse();
     }
 
-    public function seeEventInEventList(string $eventId): void
+    public function seeEventInEventList(EventInList $event): void
     {
         $I = $this;
 
@@ -33,17 +42,11 @@ class Manager extends ApiTester
 
         $I->seeResponseCodeIsSuccessful();
         $I->seeResponseContainsJson([
-            'data' => [
-                [
-                    'id'     => $eventId,
-                    'name'   => '2019 foo event',
-                    'domain' => '2019foo.event.com',
-                ],
-            ],
+            'data' => [$event->jsonSerialize()],
         ]);
     }
 
-    public function seeEventById(string $eventId): void
+    public function seeEventById(string $eventId, EventById $eventById): void
     {
         $I = $this;
 
@@ -53,33 +56,14 @@ class Manager extends ApiTester
 
         $I->seeResponseCodeIsSuccessful();
         $I->seeResponseContainsJson([
-            'data' => [
-                'id'     => $eventId,
-                'name'   => '2019 foo event',
-                'domain' => '2019foo.event.com',
-            ],
+            'data' => $eventById->jsonSerialize(),
         ]);
     }
 
-    public function createsTariff(string $eventId, string $productType): string
+    public function createsTariff(Tariff $tariff): string
     {
         $I = $this;
-        $I->sendPOST('/admin/tariff/create', [
-            'event_id'     => $eventId,
-            'product_type' => $productType,
-            'price_net'    => [
-                [
-                    'price' => [
-                        'amount'   => '200',
-                        'currency' => 'RUB',
-                    ],
-                    'term'  => [
-                        'start' => (new DateTimeImmutable('-1 day'))->format('Y-m-d H:i:s'),
-                        'end'   => (new DateTimeImmutable('+1 day'))->format('Y-m-d H:i:s'),
-                    ],
-                ],
-            ],
-        ]);
+        $I->sendPOST('/admin/tariff/create', $tariff);
 
         $I->seeResponseCodeIsSuccessful();
         $I->seeResponseContainsId();
@@ -87,7 +71,7 @@ class Manager extends ApiTester
         return $I->grabIdFromResponse();
     }
 
-    public function seeTariffInTariffList(string $eventId, string $tariffId, string $productType): void
+    public function seeTariffInTariffList(string $eventId, TariffInList $tariff): void
     {
         $I = $this;
 
@@ -96,20 +80,12 @@ class Manager extends ApiTester
         ]);
 
         $I->seeResponseCodeIsSuccessful();
-        $I->seeResponseMatchesJsonType(['string:date'], '$.data[0].term_start');
-        $I->seeResponseMatchesJsonType(['string:date'], '$.data[0].term_end');
         $I->seeResponseContainsJson([
-            'data' => [
-                [
-                    'id'           => $tariffId,
-                    'product_type' => $productType,
-                    'price'        => '200 RUB',
-                ],
-            ],
+            'data' => [$tariff->jsonSerialize()],
         ]);
     }
 
-    public function seeTariffById(string $tariffId, string $productType): void
+    public function seeTariffById(string $tariffId, TariffById $tariff): void
     {
         $I = $this;
 
@@ -118,24 +94,14 @@ class Manager extends ApiTester
         ]);
 
         $I->seeResponseCodeIsSuccessful();
-        $I->seeResponseContainsJson([
-            [
-                'id'           => $tariffId,
-                'product_type' => $productType,
-                'price'        => '200 RUB',
-            ],
-        ]);
+        $I->seeResponseContainsJson([$tariff->jsonSerialize()]);
     }
 
-    public function createsTicket(string $eventId, string $tariffId): string
+    public function createsTicket(Ticket $ticket): string
     {
         $I = $this;
 
-        $I->sendPOST('/admin/ticket/create', [
-            'event_id'  => $eventId,
-            'number'    => '10002000',
-            'tariff_id' => $tariffId,
-        ]);
+        $I->sendPOST('/admin/ticket/create', $ticket);
 
         $I->seeResponseCodeIsSuccessful();
         $I->seeResponseContainsId();
@@ -143,24 +109,17 @@ class Manager extends ApiTester
         return $I->grabIdFromResponse();
     }
 
-    public function seeTicketInTicketList(string $eventId, string $ticketId, string $ticketType): void
+    public function seeTicketInTicketList(string $eventId, TicketInTicketList $ticket): void
     {
         $I = $this;
 
-        $I->sendGET('/admin/ticket/list');
+        $I->sendGET('/admin/ticket/list', [
+            'event_id' => $eventId,
+        ]);
 
         $I->seeResponseCodeIsSuccessful();
-        $I->seeResponseMatchesJsonType(['string:date'], '$.data[0].created_at');
         $I->seeResponseContainsJson([
-            'data' => [
-                [
-                    'event_id' => $eventId,
-                    'id'       => $ticketId,
-                    'type'     => $ticketType,
-                    'number'   => '10002000',
-                    'reserved' => false,
-                ],
-            ],
+            'data' => [$ticket->jsonSerialize()],
         ]);
     }
 
@@ -184,7 +143,7 @@ class Manager extends ApiTester
         ]);
     }
 
-    public function seeOrderInOrderList(string $orderId, string $eventId, string $tariffId, string $productId): void
+    public function seeOrderInOrderList(string $eventId, OrderInOrderList $order): void
     {
         $I = $this;
 
@@ -193,31 +152,12 @@ class Manager extends ApiTester
         ]);
 
         $I->seeResponseCodeIsSuccessful();
-        $I->seeResponseMatchesJsonType(['string:uuid'], '$.data[0].user_id');
-        $I->seeResponseMatchesJsonType(['string:uuid'], '$.data[0].id');
-        $I->seeResponseMatchesJsonType(['string:date'], '$.data[0].maked_at');
         $I->seeResponseContainsJson([
-            'data' => [
-                [
-                    'id'         => $orderId,
-                    'product_id' => $productId,
-                    'tariff_id'  => $tariffId,
-                    'paid'       => false,
-                    'product'    => 'silver_pass',
-                    'phone'      => '+123456789',
-                    'first_name' => 'john',
-                    'last_name'  => 'Doe',
-                    'email'      => 'john@email.com',
-                    'sum'        => '200',
-                    'currency'   => 'RUB',
-                    'event_id'   => $eventId,
-                    'cancelled'  => false,
-                ],
-            ],
+            'data' => [$order->jsonSerialize()],
         ]);
     }
 
-    public function seeOrderById(string $orderId, string $eventId, string $tariffId, string $productId): void
+    public function seeOrderById(string $orderId, OrderById $order): void
     {
         $I = $this;
 
@@ -227,20 +167,7 @@ class Manager extends ApiTester
 
         $I->seeResponseCodeIsSuccessful();
         $I->seeResponseContainsJson([
-            'data' => [
-                'product_id' => $productId,
-                'tariff_id'  => $tariffId,
-                'paid'       => false,
-                'product'    => 'silver_pass',
-                'phone'      => '+123456789',
-                'first_name' => 'john',
-                'last_name'  => 'Doe',
-                'email'      => 'john@email.com',
-                'sum'        => '200',
-                'currency'   => 'RUB',
-                'event_id'   => $eventId,
-                'cancelled'  => false,
-            ],
+            'data' => $order->jsonSerialize(),
         ]);
     }
 
@@ -292,54 +219,16 @@ class Manager extends ApiTester
         ]);
     }
 
-    public function markOrderPaid(string $orderId): void
+    public function markOrderPaid(MarkOrderPaid $markOrderPaid): void
     {
         $I = $this;
 
         // TODO extract api requests to Api or helper ?
-        $I->sendPOST('/admin/order/mark_paid', [
-            'order_id' => $orderId,
-        ]);
+        $I->sendPOST('/admin/order/mark_paid', $markOrderPaid);
 
         $I->seeResponseCodeIsSuccessful();
         $I->seeResponseContainsJson([
             'data' => [],
-        ]);
-    }
-
-    public function seeOrderPaidInOrderList(string $orderId, string $eventId): void
-    {
-        $I = $this;
-
-        $I->sendGET('/admin/order/list', [
-            'event_id' => $eventId,
-        ]);
-
-        $I->seeResponseCodeIsSuccessful();
-        $I->seeResponseContainsJson([
-            'data' => [
-                [
-                    'id'   => $orderId,
-                    'paid' => true,
-                ],
-            ],
-        ]);
-    }
-
-    public function seeOrderPaidById(string $orderId): void
-    {
-        $I = $this;
-
-        $I->sendGET('/admin/order/show', [
-            'order_id' => $orderId,
-        ]);
-
-        $I->seeResponseCodeIsSuccessful();
-        $I->seeResponseContainsJson([
-            'data' => [
-                'id'   => $orderId,
-                'paid' => true,
-            ],
         ]);
     }
 }

@@ -13,9 +13,9 @@ final class TicketQueries
         $this->connection = $connection;
     }
 
-    public function findAll(): array
+    public function findAll(string $eventId): array
     {
-        $stmt = $this->connection->query('
+        $stmt = $this->connection->prepare('
             select
                 ticket.id as id,
                 ticket.event_id as event_id,
@@ -27,7 +27,11 @@ final class TicketQueries
                 product
             left join
                 ticket on ticket.id = product.id
+            where
+                ticket.event_id = :event_id
         ');
+        $stmt->bindValue('event_id', $eventId);
+        $stmt->execute();
 
         return $stmt->fetchAll();
     }
