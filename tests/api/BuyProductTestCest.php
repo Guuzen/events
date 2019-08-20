@@ -21,6 +21,7 @@ use App\Tests\Step\Api\Visitor;
 
 // TODO HATEOAS ?
 // TODO need generator for reguest/response data structures and their builders
+// TODO group by methods ex seeTicketReserved
 class BuyProductTestCest
 {
     public function silverTicketByWireWithoutPromocode(Manager $manager, Visitor $visitor): void
@@ -107,6 +108,21 @@ class BuyProductTestCest
                 ->withProduct('silver_pass')
                 ->build()
         );
+        $manager->seeTicketInList(
+            $eventId,
+            TicketInListBuilder::any()
+                ->withReserved(true)
+                ->withTicketType('silver_pass')
+                ->build()
+        );
+        $manager->seeTicketById(
+            $ticketId,
+            TicketByIdBuilder::any()
+                ->withReserved(true)
+                ->withTicketType('silver_pass')
+                ->build()
+        );
+        // TODO product should be reserved
 
         // TODO check that email was sent
         $manager->markOrderPaid(
