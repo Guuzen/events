@@ -5,7 +5,7 @@ namespace App\Tests\Step\Api;
 use App\Tests\ApiTester;
 
 use App\Tests\AppRequest\Event\CreateEvent;
-use App\Tests\AppRequest\MarkOrderPaid\MarkOrderPaid;
+use App\Tests\AppRequest\Order\MarkOrderPaid;
 use App\Tests\AppRequest\Tariff\CreateTariff;
 use App\Tests\AppRequest\Ticket\CreateTicket;
 use App\Tests\AppResponse\EventById\EventById;

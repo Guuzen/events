@@ -3,8 +3,8 @@
 namespace App\Tests;
 
 use App\Tests\AppRequest\Event\CreateEventBuilder;
-use App\Tests\AppRequest\MarkOrderPaid\MarkOrderPaidBuilder;
-use App\Tests\AppRequest\Order\CreateOrderBuilder;
+use App\Tests\AppRequest\Order\MarkOrderPaidBuilder;
+use App\Tests\AppRequest\Order\PlaceOrderBuilder;
 use App\Tests\AppRequest\Tariff\CreateTariffBuilder;
 use App\Tests\AppRequest\Ticket\CreateTicketBuilder;
 use App\Tests\AppResponse\EventById\EventByIdBuilder;
@@ -20,7 +20,6 @@ use App\Tests\Step\Api\Visitor;
 
 // TODO HATEOAS ?
 // TODO need generator for reguest/response data structures and their builders
-// TODO override seeresponsejson serializer ?
 class BuyProductTestCest
 {
     public function silverTicketByWireWithoutPromocode(Manager $manager, Visitor $visitor): void
@@ -82,7 +81,7 @@ class BuyProductTestCest
         );
 
         $orderId = $visitor->placeOrder(
-            CreateOrderBuilder::any()
+            PlaceOrderBuilder::any()
                 ->withTariffId($tariffId)
                 ->withPaymentMethod('wire')
                 ->build()

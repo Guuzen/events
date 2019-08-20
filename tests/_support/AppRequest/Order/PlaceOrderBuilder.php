@@ -2,7 +2,7 @@
 
 namespace App\Tests\AppRequest\Order;
 
-final class CreateOrderBuilder
+final class PlaceOrderBuilder
 {
     private $tariffId;
 

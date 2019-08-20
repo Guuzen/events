@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\AppRequest\MarkOrderPaid;
+namespace App\Tests\AppRequest\Order;
 
 final class MarkOrderPaidBuilder
 {
