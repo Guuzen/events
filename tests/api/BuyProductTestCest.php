@@ -7,6 +7,7 @@ use App\Tests\AppRequest\Order\MarkOrderPaidBuilder;
 use App\Tests\AppRequest\Order\PlaceOrderBuilder;
 use App\Tests\AppRequest\Tariff\CreateTariffBuilder;
 use App\Tests\AppRequest\Ticket\CreateTicketBuilder;
+use App\Tests\AppResponse\EmailWithTicket\EmailWithTicketBuilder;
 use App\Tests\AppResponse\EventById\EventByIdBuilder;
 use App\Tests\AppResponse\EventInList\EventInListBuilder;
 use App\Tests\AppResponse\OrderById\OrderByIdBuilder;
@@ -131,6 +132,10 @@ class BuyProductTestCest
                 ->withTariffId($tariffId)
                 ->withProductId($ticketId)
                 ->withPaid(true)
+                ->build()
+        );
+        $manager->seeEmailWithTicketSent(
+            EmailWithTicketBuilder::any()
                 ->build()
         );
 

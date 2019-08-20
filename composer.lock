@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5716234aa515b543410ccfd7378cd536",
+    "content-hash": "74288c7610bae8c49fee7f91fcc3707d",
     "packages": [
         {
             "name": "cardinity/cardinity-sdk-php",
@@ -6943,6 +6943,122 @@
             "time": "2019-03-02T15:35:10+00:00"
         },
         {
+            "name": "coduo/php-matcher",
+            "version": "3.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/coduo/php-matcher.git",
+                "reference": "26f53fcb53b3478dd18c9296bdd710c5e76dacbb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/coduo/php-matcher/zipball/26f53fcb53b3478dd18c9296bdd710c5e76dacbb",
+                "reference": "26f53fcb53b3478dd18c9296bdd710c5e76dacbb",
+                "shasum": ""
+            },
+            "require": {
+                "coduo/php-to-string": "^2",
+                "doctrine/lexer": "^1.0",
+                "ext-filter": "*",
+                "ext-json": "*",
+                "openlss/lib-array2xml": "^1.0",
+                "php": ">=7.0.0",
+                "symfony/expression-language": "^2.3|^3.0|^4.0",
+                "symfony/property-access": "^2.3|^3.0|^4.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.4",
+                "phpunit/phpunit": "^6.0|^7.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Coduo\\PHPMatcher\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michał Dąbrowski",
+                    "email": "dabrowski@brillante.pl"
+                },
+                {
+                    "name": "Norbert Orzechowicz",
+                    "email": "norbert@orzechowicz.pl"
+                }
+            ],
+            "description": "PHP Matcher enables you to match values with patterns",
+            "keywords": [
+                "Match",
+                "json",
+                "matcher",
+                "tests"
+            ],
+            "time": "2019-08-11T07:23:36+00:00"
+        },
+        {
+            "name": "coduo/php-to-string",
+            "version": "2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/coduo/php-to-string.git",
+                "reference": "4c1d7e2e76017719edc70e944ace0ec570748a78"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/coduo/php-to-string/zipball/4c1d7e2e76017719edc70e944ace0ec570748a78",
+                "reference": "4c1d7e2e76017719edc70e944ace0ec570748a78",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "coduo/phpspec-data-provider-extension": "^1",
+                "phpspec/phpspec": "^2"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Norbert Orzechowicz",
+                    "email": "norbert@orzechowicz.pl"
+                },
+                {
+                    "name": "Michał Dąbrowski",
+                    "email": "dabrowski@brillante.pl"
+                }
+            ],
+            "keywords": [
+                "php",
+                "string",
+                "to",
+                "to string"
+            ],
+            "time": "2016-01-20T18:29:02+00:00"
+        },
+        {
             "name": "composer/semver",
             "version": "1.5.0",
             "source": {
@@ -7934,6 +8050,55 @@
                 "php"
             ],
             "time": "2019-05-25T20:07:01+00:00"
+        },
+        {
+            "name": "openlss/lib-array2xml",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nullivex/lib-array2xml.git",
+                "reference": "a91f18a8dfc69ffabe5f9b068bc39bb202c81d90"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nullivex/lib-array2xml/zipball/a91f18a8dfc69ffabe5f9b068bc39bb202c81d90",
+                "reference": "a91f18a8dfc69ffabe5f9b068bc39bb202c81d90",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "LSS": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Bryan Tong",
+                    "email": "bryan@nullivex.com",
+                    "homepage": "https://www.nullivex.com"
+                },
+                {
+                    "name": "Tony Butler",
+                    "email": "spudz76@gmail.com",
+                    "homepage": "https://www.nullivex.com"
+                }
+            ],
+            "description": "Array2XML conversion library credit to lalit.org",
+            "homepage": "https://www.nullivex.com",
+            "keywords": [
+                "array",
+                "array conversion",
+                "xml",
+                "xml conversion"
+            ],
+            "time": "2019-03-29T20:06:56+00:00"
         },
         {
             "name": "phar-io/manifest",

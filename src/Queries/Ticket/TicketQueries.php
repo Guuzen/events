@@ -56,6 +56,6 @@ final class TicketQueries
         $stmt->bindValue('ticket_id', $ticketId);
         $stmt->execute();
 
-        return $stmt->fetchAll();
+        return $stmt->fetch();
     }
 }

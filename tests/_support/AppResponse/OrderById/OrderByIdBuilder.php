@@ -12,6 +12,8 @@ final class OrderByIdBuilder
 
     private $productId;
 
+    private $userId;
+
     private $paid;
 
     private $product;
@@ -30,11 +32,16 @@ final class OrderByIdBuilder
 
     private $cancelled;
 
+    private $makedAt;
+
+    private $deliveredAt;
+
     private function __construct(
         ?string $id,
         ?string $eventId,
         ?string $tariffId,
         ?string $productId,
+        ?string $userId,
         bool $paid,
         string $product,
         string $phone,
@@ -43,21 +50,26 @@ final class OrderByIdBuilder
         string $email,
         string $sum,
         string $currency,
-        bool $cancelled
+        bool $cancelled,
+        string $makedAt,
+        ?string $deliveredAt
     ) {
-        $this->id        = $id;
-        $this->eventId   = $eventId;
-        $this->tariffId  = $tariffId;
-        $this->productId = $productId;
-        $this->paid      = $paid;
-        $this->product   = $product;
-        $this->phone     = $phone;
-        $this->firstName = $firstName;
-        $this->lastName  = $lastName;
-        $this->email     = $email;
-        $this->sum       = $sum;
-        $this->currency  = $currency;
-        $this->cancelled = $cancelled;
+        $this->id          = $id;
+        $this->eventId     = $eventId;
+        $this->tariffId    = $tariffId;
+        $this->productId   = $productId;
+        $this->userId      = $userId;
+        $this->paid        = $paid;
+        $this->product     = $product;
+        $this->phone       = $phone;
+        $this->firstName   = $firstName;
+        $this->lastName    = $lastName;
+        $this->email       = $email;
+        $this->sum         = $sum;
+        $this->currency    = $currency;
+        $this->cancelled   = $cancelled;
+        $this->makedAt     = $makedAt;
+        $this->deliveredAt = $deliveredAt;
     }
 
     public static function any(): self
@@ -67,6 +79,7 @@ final class OrderByIdBuilder
             null,
             null,
             null,
+            '@uuid@',
             false,
             'silver_pass',
             '+123456789',
@@ -75,7 +88,9 @@ final class OrderByIdBuilder
             'john@email.com',
             '200',
             'RUB',
-            false
+            false,
+            '@string@.isDateTime()',
+            null
         );
     }
 
@@ -86,6 +101,7 @@ final class OrderByIdBuilder
             $this->eventId,
             $this->tariffId,
             $this->productId,
+            $this->userId,
             $this->paid,
             $this->product,
             $this->phone,
@@ -94,7 +110,9 @@ final class OrderByIdBuilder
             $this->email,
             $this->sum,
             $this->currency,
-            $this->cancelled
+            $this->cancelled,
+            $this->makedAt,
+            $this->deliveredAt
         );
     }
 
@@ -105,6 +123,7 @@ final class OrderByIdBuilder
             $this->eventId,
             $this->tariffId,
             $this->productId,
+            $this->userId,
             $this->paid,
             $this->product,
             $this->phone,
@@ -113,7 +132,9 @@ final class OrderByIdBuilder
             $this->email,
             $this->sum,
             $this->currency,
-            $this->cancelled
+            $this->cancelled,
+            $this->makedAt,
+            $this->deliveredAt
         );
     }
 
@@ -124,6 +145,7 @@ final class OrderByIdBuilder
             $eventId,
             $this->tariffId,
             $this->productId,
+            $this->userId,
             $this->paid,
             $this->product,
             $this->phone,
@@ -132,7 +154,9 @@ final class OrderByIdBuilder
             $this->email,
             $this->sum,
             $this->currency,
-            $this->cancelled
+            $this->cancelled,
+            $this->makedAt,
+            $this->deliveredAt
         );
     }
 
@@ -143,6 +167,7 @@ final class OrderByIdBuilder
             $this->eventId,
             $tariffId,
             $this->productId,
+            $this->userId,
             $this->paid,
             $this->product,
             $this->phone,
@@ -151,7 +176,9 @@ final class OrderByIdBuilder
             $this->email,
             $this->sum,
             $this->currency,
-            $this->cancelled
+            $this->cancelled,
+            $this->makedAt,
+            $this->deliveredAt
         );
     }
 
@@ -162,6 +189,7 @@ final class OrderByIdBuilder
             $this->eventId,
             $this->tariffId,
             $productId,
+            $this->userId,
             $this->paid,
             $this->product,
             $this->phone,
@@ -170,7 +198,9 @@ final class OrderByIdBuilder
             $this->email,
             $this->sum,
             $this->currency,
-            $this->cancelled
+            $this->cancelled,
+            $this->makedAt,
+            $this->deliveredAt
         );
     }
 
@@ -181,6 +211,7 @@ final class OrderByIdBuilder
             $this->eventId,
             $this->tariffId,
             $this->productId,
+            $this->userId,
             $paid,
             $this->product,
             $this->phone,
@@ -189,7 +220,9 @@ final class OrderByIdBuilder
             $this->email,
             $this->sum,
             $this->currency,
-            $this->cancelled
+            $this->cancelled,
+            $this->makedAt,
+            $this->deliveredAt
         );
     }
 
@@ -200,6 +233,7 @@ final class OrderByIdBuilder
             $this->eventId,
             $this->tariffId,
             $this->productId,
+            $this->userId,
             $this->paid,
             $product,
             $this->phone,
@@ -208,7 +242,9 @@ final class OrderByIdBuilder
             $this->email,
             $this->sum,
             $this->currency,
-            $this->cancelled
+            $this->cancelled,
+            $this->makedAt,
+            $this->deliveredAt
         );
     }
 
@@ -219,6 +255,7 @@ final class OrderByIdBuilder
             $this->eventId,
             $this->tariffId,
             $this->productId,
+            $this->userId,
             $this->paid,
             $this->product,
             $phone,
@@ -227,7 +264,9 @@ final class OrderByIdBuilder
             $this->email,
             $this->sum,
             $this->currency,
-            $this->cancelled
+            $this->cancelled,
+            $this->makedAt,
+            $this->deliveredAt
         );
     }
 
@@ -238,6 +277,7 @@ final class OrderByIdBuilder
             $this->eventId,
             $this->tariffId,
             $this->productId,
+            $this->userId,
             $this->paid,
             $this->product,
             $this->phone,
@@ -246,7 +286,9 @@ final class OrderByIdBuilder
             $this->email,
             $this->sum,
             $this->currency,
-            $this->cancelled
+            $this->cancelled,
+            $this->makedAt,
+            $this->deliveredAt
         );
     }
 
@@ -257,6 +299,7 @@ final class OrderByIdBuilder
             $this->eventId,
             $this->tariffId,
             $this->productId,
+            $this->userId,
             $this->paid,
             $this->product,
             $this->phone,
@@ -265,7 +308,9 @@ final class OrderByIdBuilder
             $this->email,
             $this->sum,
             $this->currency,
-            $this->cancelled
+            $this->cancelled,
+            $this->makedAt,
+            $this->deliveredAt
         );
     }
 
@@ -276,6 +321,7 @@ final class OrderByIdBuilder
             $this->eventId,
             $this->tariffId,
             $this->productId,
+            $this->userId,
             $this->paid,
             $this->product,
             $this->phone,
@@ -284,7 +330,9 @@ final class OrderByIdBuilder
             $email,
             $this->sum,
             $this->currency,
-            $this->cancelled
+            $this->cancelled,
+            $this->makedAt,
+            $this->deliveredAt
         );
     }
 
@@ -295,6 +343,7 @@ final class OrderByIdBuilder
             $this->eventId,
             $this->tariffId,
             $this->productId,
+            $this->userId,
             $this->paid,
             $this->product,
             $this->phone,
@@ -303,7 +352,9 @@ final class OrderByIdBuilder
             $this->email,
             $sum,
             $this->currency,
-            $this->cancelled
+            $this->cancelled,
+            $this->makedAt,
+            $this->deliveredAt
         );
     }
 
@@ -314,6 +365,7 @@ final class OrderByIdBuilder
             $this->eventId,
             $this->tariffId,
             $this->productId,
+            $this->userId,
             $this->paid,
             $this->product,
             $this->phone,
@@ -322,7 +374,9 @@ final class OrderByIdBuilder
             $this->email,
             $this->sum,
             $currency,
-            $this->cancelled
+            $this->cancelled,
+            $this->makedAt,
+            $this->deliveredAt
         );
     }
 
@@ -333,6 +387,7 @@ final class OrderByIdBuilder
             $this->eventId,
             $this->tariffId,
             $this->productId,
+            $this->userId,
             $this->paid,
             $this->product,
             $this->phone,
@@ -341,7 +396,75 @@ final class OrderByIdBuilder
             $this->email,
             $this->sum,
             $this->currency,
-            $cancelled
+            $cancelled,
+            $this->makedAt,
+            $this->deliveredAt
+        );
+    }
+
+    public function withUserId(bool $userId): self
+    {
+        return new self(
+            $this->id,
+            $this->eventId,
+            $this->tariffId,
+            $this->productId,
+            $userId,
+            $this->paid,
+            $this->product,
+            $this->phone,
+            $this->firstName,
+            $this->lastName,
+            $this->email,
+            $this->sum,
+            $this->currency,
+            $this->cancelled,
+            $this->makedAt,
+            $this->deliveredAt
+        );
+    }
+
+    public function withMakedAt(string $makedAt): self
+    {
+        return new self(
+            $this->id,
+            $this->eventId,
+            $this->tariffId,
+            $this->productId,
+            $this->userId,
+            $this->paid,
+            $this->product,
+            $this->phone,
+            $this->firstName,
+            $this->lastName,
+            $this->email,
+            $this->sum,
+            $this->currency,
+            $this->cancelled,
+            $makedAt,
+            $this->deliveredAt
+        );
+    }
+
+    public function withDeliveredAt(string $deliveredAt): self
+    {
+        return new self(
+            $this->id,
+            $this->eventId,
+            $this->tariffId,
+            $this->productId,
+            $this->userId,
+            $this->paid,
+            $this->product,
+            $this->phone,
+            $this->firstName,
+            $this->lastName,
+            $this->email,
+            $this->sum,
+            $this->currency,
+            $this->cancelled,
+            $this->makedAt,
+            $this->deliveredAt
         );
     }
 }

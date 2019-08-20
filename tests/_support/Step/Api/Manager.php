@@ -3,11 +3,11 @@
 namespace App\Tests\Step\Api;
 
 use App\Tests\ApiTester;
-
 use App\Tests\AppRequest\Event\CreateEvent;
 use App\Tests\AppRequest\Order\MarkOrderPaid;
 use App\Tests\AppRequest\Tariff\CreateTariff;
 use App\Tests\AppRequest\Ticket\CreateTicket;
+use App\Tests\AppResponse\EmailWithTicket\EmailWithTicket;
 use App\Tests\AppResponse\EventById\EventById;
 use App\Tests\AppResponse\EventInList\EventInList;
 use App\Tests\AppResponse\OrderById\OrderById;
@@ -135,7 +135,7 @@ class Manager extends ApiTester
         ]);
 
         $I->seeResponseCodeIsSuccessful();
-        $I->seeResponseContainsJson($order);
+        $I->seeResponseContainsJson([$order]);
     }
 
     public function seeOrderById(string $orderId, OrderById $order): void
@@ -206,5 +206,19 @@ class Manager extends ApiTester
 
         $I->seeResponseCodeIsSuccessful();
         $I->seeResponseContainsJson([]);
+    }
+
+    public function seeEmailWithTicketSent(EmailWithTicket $expectedEmail): void
+    {
+        $I = $this;
+
+        $I->seeEmailIsSent(1);
+        $email       = $I->grabEmailMessages()[0];
+        $actualEmail = new EmailWithTicket(
+            $email->getSubject(),
+            key($email->getFrom()),
+            key($email->getTo())
+        );
+        $I->assertSame($expectedEmail, $actualEmail);
     }
 }

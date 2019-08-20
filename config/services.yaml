@@ -42,10 +42,6 @@ services:
         arguments:
             $tableId: '%google_docs.registration_table%'
 
-    App\Order\Action\OrderHttpAdapter:
-        tags: ['controller.service_arguments']
-
-
     # http serializer
     app.http_serializer.normalizer.datetime:
         class: Symfony\Component\Serializer\Normalizer\DateTimeNormalizer

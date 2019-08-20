@@ -35,6 +35,7 @@
     },
     "require-dev": {
         "codeception/codeception": "^3.0",
+        "coduo/php-matcher": "^3.2",
         "flow/jsonpath": "^0.4.0",
         "friendsofphp/php-cs-fixer": "^2.15",
         "phpspec/phpspec": "^5.1",

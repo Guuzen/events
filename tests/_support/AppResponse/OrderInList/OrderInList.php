@@ -12,6 +12,8 @@ final class OrderInList
 
     private $productId;
 
+    private $userId;
+
     private $paid;
 
     private $product;
@@ -30,11 +32,16 @@ final class OrderInList
 
     private $cancelled;
 
+    private $makedAt;
+
+    private $deliveredAt;
+
     public function __construct(
         string $id,
         string $eventId,
         string $tariffId,
         string $productId,
+        string $userId,
         bool $paid,
         string $product,
         string $phone,
@@ -43,20 +50,25 @@ final class OrderInList
         string $email,
         string $sum,
         string $currency,
-        bool $cancelled
+        bool $cancelled,
+        string $makedAt,
+        ?string $deliveredAt
     ) {
-        $this->id        = $id;
-        $this->eventId   = $eventId;
-        $this->tariffId  = $tariffId;
-        $this->productId = $productId;
-        $this->paid      = $paid;
-        $this->product   = $product;
-        $this->phone     = $phone;
-        $this->firstName = $firstName;
-        $this->lastName  = $lastName;
-        $this->email     = $email;
-        $this->sum       = $sum;
-        $this->currency  = $currency;
-        $this->cancelled = $cancelled;
+        $this->id          = $id;
+        $this->eventId     = $eventId;
+        $this->tariffId    = $tariffId;
+        $this->productId   = $productId;
+        $this->userId      = $userId;
+        $this->paid        = $paid;
+        $this->product     = $product;
+        $this->phone       = $phone;
+        $this->firstName   = $firstName;
+        $this->lastName    = $lastName;
+        $this->email       = $email;
+        $this->sum         = $sum;
+        $this->currency    = $currency;
+        $this->cancelled   = $cancelled;
+        $this->makedAt     = $makedAt;
+        $this->deliveredAt = $deliveredAt;
     }
 }

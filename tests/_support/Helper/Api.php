@@ -7,6 +7,7 @@ namespace App\Tests\Helper;
 
 use Codeception\Module;
 use Codeception\Module\REST;
+use Coduo\PHPMatcher\PHPUnit\PHPMatcherAssertions;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
 use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
@@ -15,6 +16,8 @@ use Symfony\Component\Serializer\Serializer;
 
 class Api extends Module
 {
+    use PHPMatcherAssertions;
+
     private const ID_PATH = '$.data.id';
 
     /** @var Serializer $serializer */
@@ -48,18 +51,19 @@ class Api extends Module
         return $this->restModule->grabDataFromResponseByJsonPath(self::ID_PATH)[0];
     }
 
-    public function seeResponseContainsJson($json = null): void
+    public function seeResponseContainsJson($pattern = null): void
     {
-        $json = [
-            'data' => $this->serializer->normalize($json, 'json'),
+        $pattern = [
+            'data' => $this->serializer->normalize($pattern, 'json'),
         ];
+        $pattern = $this->serializer->encode($pattern, 'json');
 
-        $this->restModule->seeResponseContainsJson($json);
+        $this->assertMatchesPattern($pattern, $this->restModule->grabResponse());
     }
 
     public function sendPOST(string $url, $params = [], $files = []): void
     {
-        $params = $this->serializer->normalize($params, 'json');
+        $params = $this->serializer->normalize($params, 'json'); // TODO do i need json?
 
         $this->restModule->sendPOST($url, $params, $files);
     }

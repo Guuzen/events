@@ -8,4 +8,4 @@ modules:
                 url: /
                 depends: App\Tests\Module\Symfony
         -   App\Tests\Helper\Api
-
+        -   Asserts

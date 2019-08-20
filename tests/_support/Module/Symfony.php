@@ -5,6 +5,7 @@ namespace App\Tests\Module;
 use Codeception\Util\JsonType;
 use Doctrine\DBAL\Connection;
 use Ramsey\Uuid\Uuid;
+use Symfony\Bundle\SwiftmailerBundle\DataCollector\MessageDataCollector;
 
 final class Symfony extends \Codeception\Module\Symfony
 {
@@ -41,5 +42,24 @@ final class Symfony extends \Codeception\Module\Symfony
             END
             $$;
         ');
+    }
+
+    /**
+     * @return \Swift_Message[]
+     */
+    public function grabEmailMessages()
+    {
+        $profile = $this->getProfile();
+        if (!$profile) {
+            $this->fail('Emails can\'t be tested without Profiler');
+        }
+        if (!$profile->hasCollector('swiftmailer')) {
+            $this->fail('Emails can\'t be tested without SwiftMailer connector');
+        }
+
+        /** @var MessageDataCollector $mailCollector */
+        $mailCollector = $profile->getCollector('swiftmailer');
+
+        return $mailCollector->getMessages();
     }
 }
