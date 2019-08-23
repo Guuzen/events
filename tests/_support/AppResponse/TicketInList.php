@@ -45,4 +45,9 @@ final class TicketInList
     {
         return new self($ticketId, $eventId, 'silver_pass', '10002000', true, '@string@.isDateTime()', null);
     }
+
+    public static function anySilverReservedDeliveredWith(string $ticketId, string $eventId): self
+    {
+        return new self($ticketId, $eventId, 'silver_pass', '10002000', true, '@string@.isDateTime()', '@string@.isDateTime()');
+    }
 }

@@ -54,7 +54,7 @@ class Api extends Module
     public function seeResponseContainsJson($pattern = null): void
     {
         $pattern = [
-            'data' => $this->serializer->normalize($pattern, 'json'),
+            'data' => $this->serializer->normalize($pattern),
         ];
         $pattern = $this->serializer->encode($pattern, 'json');
 
@@ -63,7 +63,7 @@ class Api extends Module
 
     public function sendPOST(string $url, $params = [], $files = []): void
     {
-        $params = $this->serializer->normalize($params, 'json'); // TODO do i need json?
+        $params = $this->serializer->normalize($params);
 
         $this->restModule->sendPOST($url, $params, $files);
     }

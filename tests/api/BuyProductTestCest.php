@@ -46,8 +46,8 @@ class BuyProductTestCest
         $manager->seeEmailWithTicketSent(EmailWithTicket::any());
         $manager->seeOrderInList($eventId, OrderInList::anySilverPaidDeliveredWith($orderId, $eventId, $tariffId, $ticketId));
         $manager->seeOrderById($orderId, OrderById::anySilverPaidDeliveredWith($orderId, $eventId, $tariffId, $ticketId));
-
-        // TODO see ticket delivered too?
+        $manager->seeTicketById($ticketId, TicketById::anySilverReservedDeliveredWith($ticketId, $eventId));
+        $manager->seeTicketInList($eventId, TicketInList::anySilverReservedDeliveredWith($ticketId, $eventId));
 
 //        $promocodeId = $manager->createsPromocode($eventId, $tariffId);
 //        $manager->seePromocodeCreated($eventId, $tariffId, $promocodeId);
