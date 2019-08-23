@@ -16,7 +16,7 @@ final class PlaceOrder
 
     private $phone;
 
-    public function __construct(
+    private function __construct(
         string $tariffId,
         string $firstName,
         string $lastName,
@@ -30,5 +30,10 @@ final class PlaceOrder
         $this->email         = $email;
         $this->paymentMethod = $paymentMethod;
         $this->phone         = $phone;
+    }
+
+    public static function withPaymentMethodWireWith(string $tariffId): self
+    {
+        return new self($tariffId, 'john', 'Doe', 'john@email.com', 'wire', '+123456789');
     }
 }

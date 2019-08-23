@@ -10,10 +10,15 @@ final class CreateTicket
 
     private $number;
 
-    public function __construct(string $eventId, string $tariffId, string $number)
+    private function __construct(string $eventId, string $tariffId, string $number)
     {
         $this->eventId  = $eventId;
         $this->tariffId = $tariffId;
         $this->number   = $number;
+    }
+
+    public static function anyWith(string $eventId, string $tariffId): self
+    {
+        return new self($eventId, $tariffId, '10002000');
     }
 }

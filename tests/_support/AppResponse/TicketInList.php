@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\AppResponse\TicketInList;
+namespace App\Tests\AppResponse;
 
 final class TicketInList
 {
@@ -18,7 +18,7 @@ final class TicketInList
 
     private $deliveredAt;
 
-    public function __construct(
+    private function __construct(
         string $id,
         string $eventId,
         string $type,
@@ -34,5 +34,15 @@ final class TicketInList
         $this->reserved    = $reserved;
         $this->createdAt   = $createdAt;
         $this->deliveredAt = $deliveredAt;
+    }
+
+    public static function anySilverNotReservedNotDeliveredWith(string $ticketId, string $eventId): self
+    {
+        return new self($ticketId, $eventId, 'silver_pass', '10002000', false, '@string@.isDateTime()', null);
+    }
+
+    public static function anySilverReservedNotDeliveredWith(string $ticketId, string $eventId): self
+    {
+        return new self($ticketId, $eventId, 'silver_pass', '10002000', true, '@string@.isDateTime()', null);
     }
 }

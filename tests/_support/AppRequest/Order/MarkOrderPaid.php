@@ -6,8 +6,13 @@ final class MarkOrderPaid
 {
     private $orderId;
 
-    public function __construct(string $orderId)
+    private function __construct(string $orderId)
     {
         $this->orderId = $orderId;
+    }
+
+    public static function with(string $orderId): self
+    {
+        return new self($orderId);
     }
 }

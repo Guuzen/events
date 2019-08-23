@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\AppResponse\TariffInList;
+namespace App\Tests\AppResponse;
 
 final class TariffInList
 {
@@ -14,12 +14,17 @@ final class TariffInList
 
     private $termEnd;
 
-    public function __construct(string $id, string $productType, string $price, string $termStart, string $termEnd)
+    private function __construct(string $id, string $productType, string $price, string $termStart, string $termEnd)
     {
         $this->id          = $id;
         $this->productType = $productType;
         $this->price       = $price;
         $this->termStart   = $termStart;
         $this->termEnd     = $termEnd;
+    }
+
+    public static function anySilverActiveNowWith(string $tariffId): self
+    {
+        return new self($tariffId, 'silver_pass', '200 RUB', '2000-01-01 12:00:00', '3000-01-01 12:00:00');
     }
 }

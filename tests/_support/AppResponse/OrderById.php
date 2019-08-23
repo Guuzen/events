@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\AppResponse\OrderById;
+namespace App\Tests\AppResponse;
 
 final class OrderById
 {
@@ -36,7 +36,7 @@ final class OrderById
 
     private $deliveredAt;
 
-    public function __construct(
+    private function __construct(
         string $id,
         string $eventId,
         string $tariffId,
@@ -70,5 +70,49 @@ final class OrderById
         $this->cancelled   = $cancelled;
         $this->makedAt     = $makedAt;
         $this->deliveredAt = $deliveredAt;
+    }
+
+    public static function anySilverNotPaidNotDeliveredWith(string $orderId, string $eventId, string $tariffId, string $ticketId): self
+    {
+        return new self(
+            $orderId,
+            $eventId,
+            $tariffId,
+            $ticketId,
+            '@uuid@',
+            false,
+            'silver_pass',
+            '+123456789',
+            'john',
+            'Doe',
+            'john@email.com',
+            '200',
+            'RUB',
+            false,
+            '@string@.isDateTime()',
+            null
+        );
+    }
+
+    public static function anySilverPaidDeliveredWith(string $orderId, string $eventId, string $tariffId, string $ticketId): self
+    {
+        return new self(
+            $orderId,
+            $eventId,
+            $tariffId,
+            $ticketId,
+            '@uuid@',
+            true,
+            'silver_pass',
+            '+123456789',
+            'john',
+            'Doe',
+            'john@email.com',
+            '200',
+            'RUB',
+            false,
+            '@string@.isDateTime()',
+            '@string@.isDateTime()'
+        );
     }
 }

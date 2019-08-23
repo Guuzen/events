@@ -7,15 +7,17 @@ use App\Tests\AppRequest\Event\CreateEvent;
 use App\Tests\AppRequest\Order\MarkOrderPaid;
 use App\Tests\AppRequest\Tariff\CreateTariff;
 use App\Tests\AppRequest\Ticket\CreateTicket;
-use App\Tests\AppResponse\EmailWithTicket\EmailWithTicket;
-use App\Tests\AppResponse\EventById\EventById;
-use App\Tests\AppResponse\EventInList\EventInList;
-use App\Tests\AppResponse\OrderById\OrderById;
-use App\Tests\AppResponse\OrderInList\OrderInList;
-use App\Tests\AppResponse\TariffById\TariffById;
-use App\Tests\AppResponse\TariffInList\TariffInList;
-use App\Tests\AppResponse\TicketById\TicketById;
-use App\Tests\AppResponse\TicketInList\TicketInList;
+use App\Tests\AppResponse\EmailWithTicket;
+use App\Tests\AppResponse\EventById;
+use App\Tests\AppResponse\EventById\EventByIdBuilder;
+use App\Tests\AppResponse\EventInList;
+use App\Tests\AppResponse\EventInList\EventInListBuilder;
+use App\Tests\AppResponse\OrderById;
+use App\Tests\AppResponse\OrderInList;
+use App\Tests\AppResponse\TariffById;
+use App\Tests\AppResponse\TariffInList;
+use App\Tests\AppResponse\TicketById;
+use App\Tests\AppResponse\TicketInList;
 use DateTimeImmutable;
 
 class Manager extends ApiTester

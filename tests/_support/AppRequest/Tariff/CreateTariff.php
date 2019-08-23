@@ -10,10 +10,16 @@ final class CreateTariff
 
     private $priceNet;
 
-    public function __construct(string $eventId, string $productType, TariffPriceNet $priceNet)
+    private function __construct(string $eventId, string $productType, TariffPriceNet $priceNet)
     {
         $this->eventId     = $eventId;
         $this->productType = $productType;
         $this->priceNet    = $priceNet;
     }
+
+    public static function anySilverActiveNowWith(string $eventId): self
+    {
+        return new self($eventId, 'silver_pass', TariffPriceNet::withOne200RubSegmentActiveNow());
+    }
 }
+

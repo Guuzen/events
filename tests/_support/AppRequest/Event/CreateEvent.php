@@ -8,9 +8,14 @@ final class CreateEvent
 
     private $domain;
 
-    public function __construct(string $name, string $domain)
+    private function __construct(string $name, string $domain)
     {
         $this->name   = $name;
         $this->domain = $domain;
+    }
+
+    public static function any(): self
+    {
+        return new self('2019 foo event', '2019foo.event.com');
     }
 }

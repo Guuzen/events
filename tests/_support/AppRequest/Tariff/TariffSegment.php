@@ -8,9 +8,14 @@ final class TariffSegment
 
     private $term;
 
-    public function __construct(TariffPrice $price, TariffTerm $term)
+    private function __construct(TariffPrice $price, TariffTerm $term)
     {
         $this->price = $price;
         $this->term  = $term;
+    }
+
+    public static function activeNow200Rub(): self
+    {
+        return new self(TariffPrice::is200Rub(), TariffTerm::activeNow());
     }
 }

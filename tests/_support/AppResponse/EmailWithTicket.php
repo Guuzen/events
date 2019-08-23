@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\AppResponse\EmailWithTicket;
+namespace App\Tests\AppResponse;
 
 final class EmailWithTicket
 {
@@ -15,5 +15,10 @@ final class EmailWithTicket
         $this->subject = $subject;
         $this->from    = $from;
         $this->to      = $to;
+    }
+
+    public static function any(): self
+    {
+        return new self('Thanks for buy ticket', 'no-reply@event.com', 'john@email.com');
     }
 }

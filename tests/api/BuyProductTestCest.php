@@ -2,164 +2,52 @@
 
 namespace App\Tests;
 
-use App\Tests\AppRequest\Event\CreateEventBuilder;
-use App\Tests\AppRequest\Order\MarkOrderPaidBuilder;
-use App\Tests\AppRequest\Order\PlaceOrderBuilder;
-use App\Tests\AppRequest\Tariff\CreateTariffBuilder;
-use App\Tests\AppRequest\Ticket\CreateTicketBuilder;
-use App\Tests\AppResponse\EmailWithTicket\EmailWithTicketBuilder;
-use App\Tests\AppResponse\EventById\EventByIdBuilder;
-use App\Tests\AppResponse\EventInList\EventInListBuilder;
-use App\Tests\AppResponse\OrderById\OrderByIdBuilder;
-use App\Tests\AppResponse\OrderInList\OrderInListBuilder;
-use App\Tests\AppResponse\TariffById\TariffByIdBuilder;
-use App\Tests\AppResponse\TariffInList\TariffInListBuilder;
-use App\Tests\AppResponse\TicketById\TicketByIdBuilder;
-use App\Tests\AppResponse\TicketInList\TicketInListBuilder;
+use App\Tests\AppRequest\Event\CreateEvent;
+use App\Tests\AppRequest\Order\MarkOrderPaid;
+use App\Tests\AppRequest\Order\PlaceOrder;
+use App\Tests\AppRequest\Tariff\CreateTariff;
+use App\Tests\AppRequest\Ticket\CreateTicket;
+use App\Tests\AppResponse\EmailWithTicket;
+use App\Tests\AppResponse\EventById;
+use App\Tests\AppResponse\EventInList;
+use App\Tests\AppResponse\OrderById;
+use App\Tests\AppResponse\OrderInList;
+use App\Tests\AppResponse\TariffById;
+use App\Tests\AppResponse\TariffInList;
+use App\Tests\AppResponse\TicketById;
+use App\Tests\AppResponse\TicketInList;
 use App\Tests\Step\Api\Manager;
 use App\Tests\Step\Api\Visitor;
 
 // TODO HATEOAS ?
-// TODO need generator for reguest/response data structures and their builders
-// TODO group by methods ex seeTicketReserved
 class BuyProductTestCest
 {
     public function silverTicketByWireWithoutPromocode(Manager $manager, Visitor $visitor): void
     {
-        $eventId = $manager->createsEvent(CreateEventBuilder::any()->build());
-        $manager->seeEventInList(
-            EventInListBuilder::any()
-                ->withId($eventId)
-                ->build()
-        );
-        $manager->seeEventById(
-            $eventId,
-            EventByIdBuilder::any()
-                ->withId($eventId)
-                ->build()
-        );
+        $eventId = $manager->createsEvent(CreateEvent::any());
+        $manager->seeEventInList(EventInList::anyWith($eventId));
+        $manager->seeEventById($eventId, EventById::anyWith($eventId));
 
-        $tariffId = $manager->createsTariff(
-            CreateTariffBuilder::any()
-                ->withEventId($eventId)
-                ->withProductType('silver_pass')
-                ->build()
-        );
-        $manager->seeTariffInList(
-            $eventId,
-            TariffInListBuilder::any()
-                ->withId($tariffId)
-                ->withProductType('silver_pass')
-                ->build()
-        );
-        $manager->seeTariffById($tariffId,
-            TariffByIdBuilder::any()
-                ->withId($tariffId)
-                ->withProductType('silver_pass')
-                ->build()
-        );
+        $tariffId = $manager->createsTariff(CreateTariff::anySilverActiveNowWith($eventId));
+        $manager->seeTariffInList($eventId, TariffInList::anySilverActiveNowWith($tariffId));
+        $manager->seeTariffById($tariffId, TariffById::anySilverActiveNowWith($tariffId));
 
-        $ticketId = $manager->createsTicket(
-            CreateTicketBuilder::any()
-                ->withEventId($eventId)
-                ->withTariffId($tariffId)
-                ->build()
-        );
-        $manager->seeTicketInList(
-            $eventId,
-            TicketInListBuilder::any()
-                ->withId($ticketId)
-                ->withEventId($eventId)
-                ->withTicketType('silver_pass')
-                ->build()
-        );
-        $manager->seeTicketById(
-            $ticketId,
-            TicketByIdBuilder::any()
-                ->withId($ticketId)
-                ->withEventId($eventId)
-                ->withTicketType('silver_pass')
-                ->build()
-        );
+        $ticketId = $manager->createsTicket(CreateTicket::anyWith($eventId, $tariffId));
+        $manager->seeTicketInList($eventId, TicketInList::anySilverNotReservedNotDeliveredWith($ticketId, $eventId));
+        $manager->seeTicketById($ticketId, TicketById::anySilverNotReservedNotDeliveredWith($ticketId, $eventId));
 
-        $orderId = $visitor->placeOrder(
-            PlaceOrderBuilder::any()
-                ->withTariffId($tariffId)
-                ->withPaymentMethod('wire')
-                ->build()
-        );
-        $manager->seeOrderInList(
-            $eventId,
-            OrderInListBuilder::any()
-                ->withId($orderId)
-                ->withEventId($eventId)
-                ->withTariffId($tariffId)
-                ->withProductId($ticketId)
-                ->withProduct('silver_pass')
-                ->build()
-        );
-        $manager->seeOrderById(
-            $orderId,
-            OrderByIdBuilder::any()
-                ->withId($orderId)
-                ->withEventId($eventId)
-                ->withTariffId($tariffId)
-                ->withProductId($ticketId)
-                ->withProduct('silver_pass')
-                ->build()
-        );
-        $manager->seeTicketInList(
-            $eventId,
-            TicketInListBuilder::any()
-                ->withId($ticketId)
-                ->withEventId($eventId)
-                ->withReserved(true)
-                ->withTicketType('silver_pass')
-                ->build()
-        );
-        $manager->seeTicketById(
-            $ticketId,
-            TicketByIdBuilder::any()
-                ->withId($ticketId)
-                ->withEventId($eventId)
-                ->withReserved(true)
-                ->withTicketType('silver_pass')
-                ->build()
-        );
-        // TODO product should be reserved
+        $orderId = $visitor->placeOrder(PlaceOrder::withPaymentMethodWireWith($tariffId));
+        $manager->seeOrderInList($eventId, OrderInList::anySilverNotPaidNotDeliveredWith($orderId, $eventId, $tariffId, $ticketId));
+        $manager->seeOrderById($orderId, OrderById::anySilverNotPaidNotDeliveredWith($orderId, $eventId, $tariffId, $ticketId));
+        $manager->seeTicketInList($eventId, TicketInList::anySilverReservedNotDeliveredWith($ticketId, $eventId));
+        $manager->seeTicketById($ticketId, TicketById::anySilverReservedNotDeliveredWith($ticketId, $eventId));
 
-        // TODO check that email was sent
-        $manager->markOrderPaid(
-            MarkOrderPaidBuilder::any()
-                ->withOrderId($orderId)
-                ->build()
-        );
-        $manager->seeEmailWithTicketSent(
-            EmailWithTicketBuilder::any()
-                ->build()
-        );
-        $manager->seeOrderInList(
-            $eventId,
-            OrderInListBuilder::any()
-                ->withId($orderId)
-                ->withEventId($eventId)
-                ->withTariffId($tariffId)
-                ->withProductId($ticketId)
-                ->withPaid(true)
-                ->withDeliveredAt('@string@.isDateTime()')
-                ->build()
-        );
-        $manager->seeOrderById(
-            $orderId,
-            OrderByIdBuilder::any()
-                ->withId($orderId)
-                ->withEventId($eventId)
-                ->withTariffId($tariffId)
-                ->withProductId($ticketId)
-                ->withPaid(true)
-                ->withDeliveredAt('@string@.isDateTime()')
-                ->build()
-        );
+        $manager->markOrderPaid(MarkOrderPaid::with($orderId));
+        $manager->seeEmailWithTicketSent(EmailWithTicket::any());
+        $manager->seeOrderInList($eventId, OrderInList::anySilverPaidDeliveredWith($orderId, $eventId, $tariffId, $ticketId));
+        $manager->seeOrderById($orderId, OrderById::anySilverPaidDeliveredWith($orderId, $eventId, $tariffId, $ticketId));
+
+        // TODO see ticket delivered too?
 
 //        $promocodeId = $manager->createsPromocode($eventId, $tariffId);
 //        $manager->seePromocodeCreated($eventId, $tariffId, $promocodeId);
