@@ -22,7 +22,8 @@ final class TicketQueries
                 product.type ->> \'type\' as type,
                 product.created_at as "created_at",
                 ticket.number,
-                product.reserved
+                product.reserved,
+                product.delivered_at
             from
                 product
             left join
@@ -45,7 +46,8 @@ final class TicketQueries
                 product.type ->> \'type\' as type,
                 product.created_at as "created_at",
                 ticket.number,
-                product.reserved
+                product.reserved,
+                product.delivered_at
             from
                 product
             left join

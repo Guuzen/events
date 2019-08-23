@@ -31,22 +31,11 @@ final class Ticket
      */
     private $number;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $delivered;
-
-    /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
-     */
-    private $deliveredAt;
-
     // TODO ticket type ?
-    public function __construct(TicketId $id, EventId $eventId, string $number, bool $delivered = false)
+    public function __construct(TicketId $id, EventId $eventId, string $number)
     {
         $this->id        = $id;
         $this->eventId   = $eventId;
         $this->number    = $number;
-        $this->delivered = $delivered;
     }
 }

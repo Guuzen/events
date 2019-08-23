@@ -7,7 +7,9 @@ use App\Cloudpayments\PaymentStatus;
 use App\Event\Model\EventId;
 use App\Order\Model\Exception\OrderAlreadyPaid;
 use App\Order\Model\Exception\OrderCancelled;
+use App\Product\Model\Product;
 use App\Product\Model\ProductId;
+use App\Product\Model\Products;
 use App\Promocode\Model\Promocode;
 use App\Tariff\Model\TariffId;
 use App\User\Model\UserId;
@@ -125,6 +127,7 @@ class Order
         // TODO raise InvoiceCancelled for cancel Promocode
     }
 
+    // TODO rename pay ?
     public function markPaid(): void
     {
         if (true === $this->paid) {
@@ -132,5 +135,10 @@ class Order
         }
 
         $this->paid = true;
+    }
+
+    public function findProductById(Products $products): ?Product
+    {
+        return $products->findById($this->productId);
     }
 }

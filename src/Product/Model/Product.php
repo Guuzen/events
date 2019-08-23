@@ -6,6 +6,9 @@ use App\Event\Model\EventId;
 use App\Order\Model\Order;
 use App\Order\Model\OrderId;
 use App\Product\Model\Exception\OrderProductMustBeRelatedToEvent;
+use App\Product\Model\Exception\ProductReserveCantBeCancelledIfAlreadyDelivered;
+use App\Product\Model\Exception\ProductCantBeDeliveredIfNotReserved;
+use App\Product\Model\Exception\ProductCantBeReservedIfAlreadyReserved;
 use App\Tariff\Model\Tariff;
 use App\User\Model\User;
 use DateTimeImmutable;
@@ -44,28 +47,59 @@ final class Product
      */
     private $createdAt;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $delivered;
+
+    /**
+     * @ORM\Column(type="datetime_immutable", nullable=true)
+     */
+    private $deliveredAt;
+
     public function __construct(
         ProductId $id,
         EventId $eventId,
         ProductType $type,
         DateTimeImmutable $createdAt,
-        bool $reserved = false
+        bool $reserved = false,
+        bool $delivered = false
     ) {
         $this->id        = $id;
         $this->eventId   = $eventId;
         $this->type      = $type;
         $this->createdAt = $createdAt;
         $this->reserved  = $reserved;
+        $this->delivered = $delivered;
     }
 
+    // TODO reserved at
     public function reserve(): void
     {
+        if (true === $this->reserved) {
+            throw new ProductCantBeReservedIfAlreadyReserved();
+        }
+
         $this->reserved = true;
     }
 
     public function cancelReserve(): void
     {
+        if (true === $this->delivered) {
+            throw new ProductReserveCantBeCancelledIfAlreadyDelivered();
+        }
+
         $this->reserved = false;
+    }
+
+    public function delivered(DateTimeImmutable $deliveredAt): void
+    {
+        if (false === $this->reserved) {
+            throw new ProductCantBeDeliveredIfNotReserved();
+        }
+
+        $this->delivered   = true;
+        $this->deliveredAt = $deliveredAt;
     }
 
     public function makeOrder(

@@ -464,7 +464,7 @@ final class OrderByIdBuilder
             $this->currency,
             $this->cancelled,
             $this->makedAt,
-            $this->deliveredAt
+            $deliveredAt
         );
     }
 }

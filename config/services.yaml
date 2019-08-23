@@ -8,6 +8,7 @@
 
 parameters:
     locale: 'en'
+    app.no_reply_email: no-reply@event.com
 
 services:
     # default configuration for services in *this* file
@@ -106,3 +107,7 @@ services:
             $encoders:
                 - '@serializer.encoder.json'
         public: true
+
+    App\Infrastructure\Notifier\SendTicketToBuyerByEmailNotifier:
+        arguments:
+            $from: '%app.no_reply_email%'

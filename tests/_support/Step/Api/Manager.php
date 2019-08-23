@@ -219,6 +219,6 @@ class Manager extends ApiTester
             key($email->getFrom()),
             key($email->getTo())
         );
-        $I->assertSame($expectedEmail, $actualEmail);
+        $I->assertEquals($expectedEmail, $actualEmail);
     }
 }

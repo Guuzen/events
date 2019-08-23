@@ -111,6 +111,8 @@ class BuyProductTestCest
         $manager->seeTicketInList(
             $eventId,
             TicketInListBuilder::any()
+                ->withId($ticketId)
+                ->withEventId($eventId)
                 ->withReserved(true)
                 ->withTicketType('silver_pass')
                 ->build()
@@ -118,6 +120,8 @@ class BuyProductTestCest
         $manager->seeTicketById(
             $ticketId,
             TicketByIdBuilder::any()
+                ->withId($ticketId)
+                ->withEventId($eventId)
                 ->withReserved(true)
                 ->withTicketType('silver_pass')
                 ->build()
@@ -130,6 +134,10 @@ class BuyProductTestCest
                 ->withOrderId($orderId)
                 ->build()
         );
+        $manager->seeEmailWithTicketSent(
+            EmailWithTicketBuilder::any()
+                ->build()
+        );
         $manager->seeOrderInList(
             $eventId,
             OrderInListBuilder::any()
@@ -138,6 +146,7 @@ class BuyProductTestCest
                 ->withTariffId($tariffId)
                 ->withProductId($ticketId)
                 ->withPaid(true)
+                ->withDeliveredAt('@string@.isDateTime()')
                 ->build()
         );
         $manager->seeOrderById(
@@ -148,10 +157,7 @@ class BuyProductTestCest
                 ->withTariffId($tariffId)
                 ->withProductId($ticketId)
                 ->withPaid(true)
-                ->build()
-        );
-        $manager->seeEmailWithTicketSent(
-            EmailWithTicketBuilder::any()
+                ->withDeliveredAt('@string@.isDateTime()')
                 ->build()
         );
 

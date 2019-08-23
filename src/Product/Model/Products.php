@@ -33,13 +33,13 @@ final class Products extends ServiceEntityRepository
     {
         $query = $this->_em->createQuery('
             select
-                p
+                product
             from
-                App\Event\Model\ProductModel as p
+                App\Product\Model\Product as product
             where
-                p.id = :id
+                product.id = :product_id
         ');
-        $query->setParameter('id', $productId);
+        $query->setParameter('product_id', $productId);
 
         return $query->getOneOrNullResult();
     }

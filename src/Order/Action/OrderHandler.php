@@ -4,10 +4,12 @@ namespace App\Order\Action;
 
 use App\Event\Model\EventId;
 use App\Event\Model\Events;
+use App\Infrastructure\Notifier\SendTicketToBuyerByEmailNotifier;
 use App\Order\Model\OrderId;
 use App\Order\Model\Orders;
 use App\Product\Model\Products;
 use App\Promocode\Model\NullPromocode;
+use App\Queries\FindDataForSendTicketToByerByEmail;
 use App\Tariff\Model\TariffId;
 use App\Tariff\Model\TicketTariffs;
 use App\User\Model\Contacts;
@@ -26,20 +28,29 @@ final class OrderHandler
     private $ticketTariffs;
 
     private $products;
+
     private $orders;
+
+    private $sendTicketToBuyerByEmailNotifier;
+
+    private $findDataForSendTicketToByerByEmail;
 
     public function __construct(
         EntityManagerInterface $em,
         Events $events,
         TicketTariffs $ticketTariffs,
         Products $products,
-        Orders $orders
+        Orders $orders,
+        SendTicketToBuyerByEmailNotifier $sendTicketToBuyerByEmailNotifier,
+        FindDataForSendTicketToByerByEmail $findDataForSendTicketToByerByEmail
     ) {
-        $this->em = $em;
-        $this->events = $events;
-        $this->ticketTariffs = $ticketTariffs;
-        $this->products = $products;
-        $this->orders = $orders;
+        $this->em                                 = $em;
+        $this->events                             = $events;
+        $this->ticketTariffs                      = $ticketTariffs;
+        $this->products                           = $products;
+        $this->orders                             = $orders;
+        $this->sendTicketToBuyerByEmailNotifier   = $sendTicketToBuyerByEmailNotifier;
+        $this->findDataForSendTicketToByerByEmail = $findDataForSendTicketToByerByEmail;
     }
 
     public function placeOrder(PlaceOrder $placeOrder): array
@@ -91,6 +102,13 @@ final class OrderHandler
         $promocode->use($orderId, $tariff, $orderDate);
         $order->applyPromocode($promocode);
 
+        $product = $order->findProductById($this->products);
+        if (null === $product) {
+            return [null, 'product not found'];
+        }
+        // TODO catch exception
+        $product->reserve();
+
         $this->em->persist($user);
         $this->em->persist($order);
         $this->em->flush();
@@ -106,8 +124,19 @@ final class OrderHandler
         if (null === $order) {
             return [null, 'order not found'];
         }
-
+        // TODO catch exception
         $order->markPaid();
+
+        $this->em->flush();
+
+        $orderPaid = ($this->findDataForSendTicketToByerByEmail)($orderId);
+        $this->sendTicketToBuyerByEmailNotifier->notify($orderPaid);
+
+        $product = $order->findProductById($this->products);
+        if (null === $product) {
+            return [null, 'product not found'];
+        }
+        $product->delivered(new DateTimeImmutable('now'));
 
         $this->em->flush();
 

@@ -18,6 +18,7 @@ final class TicketInListBuilder
 
     private $deliveredAt;
 
+    // TODO constructors in builder needed?
     private function __construct(
         ?string $id,
         ?string $eventId,
@@ -27,12 +28,12 @@ final class TicketInListBuilder
         string $createdAt,
         ?string $deliveredAt
     ) {
-        $this->id         = $id;
-        $this->eventId    = $eventId;
-        $this->ticketType = $ticketType;
-        $this->number     = $number;
-        $this->reserved   = $reserved;
-        $this->createdAt  = $createdAt;
+        $this->id          = $id;
+        $this->eventId     = $eventId;
+        $this->ticketType  = $ticketType;
+        $this->number      = $number;
+        $this->reserved    = $reserved;
+        $this->createdAt   = $createdAt;
         $this->deliveredAt = $deliveredAt;
     }
 

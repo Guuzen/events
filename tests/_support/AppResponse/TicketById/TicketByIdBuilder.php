@@ -25,7 +25,7 @@ final class TicketByIdBuilder
         string $number,
         bool $reserved,
         string $createdAt,
-        string $deliveredAt
+        ?string $deliveredAt
     ) {
         $this->id          = $id;
         $this->eventId     = $eventId;
@@ -76,7 +76,7 @@ final class TicketByIdBuilder
         return new self($this->id, $this->eventId, $this->ticketType, $this->number, $this->reserved, $createdAt, $this->deliveredAt);
     }
 
-    public function withDeliveredAt(string $deliveredAt): self
+    public function withDeliveredAt(?string $deliveredAt): self
     {
         return new self($this->id, $this->eventId, $this->ticketType, $this->number, $this->reserved, $this->createdAt, $deliveredAt);
     }
