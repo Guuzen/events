@@ -20,12 +20,12 @@ final class ProductHttpAdapter extends AppController
      */
     public function createTicket(CreateTicket $createTicket): Response
     {
-        [$ticketId, $error]    = $this->handler->createTicket($createTicket);
+        $result = $this->handler->createTicket($createTicket);
 
-        if (null !== $error) {
-            return $this->errorJson($error);
+        if ($result->isErr()) {
+            return $this->errorJson($result);
         }
 
-        return $this->successJson($ticketId);
+        return $this->successJson($result->value());
     }
 }

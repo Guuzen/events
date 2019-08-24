@@ -2,13 +2,15 @@
 
 namespace App\Product\Model;
 
+use App\Common\Result\Ok;
+use App\Common\Result\Result;
 use App\Event\Model\EventId;
 use App\Order\Model\Order;
 use App\Order\Model\OrderId;
+use App\Product\Model\Error\ProductCantBeDeliveredIfNotReserved;
+use App\Product\Model\Error\ProductCantBeReservedIfAlreadyReserved;
 use App\Product\Model\Exception\OrderProductMustBeRelatedToEvent;
 use App\Product\Model\Exception\ProductReserveCantBeCancelledIfAlreadyDelivered;
-use App\Product\Model\Exception\ProductCantBeDeliveredIfNotReserved;
-use App\Product\Model\Exception\ProductCantBeReservedIfAlreadyReserved;
 use App\Tariff\Model\Tariff;
 use App\User\Model\User;
 use DateTimeImmutable;
@@ -74,32 +76,36 @@ final class Product
     }
 
     // TODO reserved at
-    public function reserve(): void
+    public function reserve(): Result
     {
-        if (true === $this->reserved) {
-            throw new ProductCantBeReservedIfAlreadyReserved();
+        if ($this->reserved) {
+            return new ProductCantBeReservedIfAlreadyReserved();
         }
 
         $this->reserved = true;
+
+        return new Ok();
     }
 
     public function cancelReserve(): void
     {
-        if (true === $this->delivered) {
+        if ($this->delivered) {
             throw new ProductReserveCantBeCancelledIfAlreadyDelivered();
         }
 
         $this->reserved = false;
     }
 
-    public function delivered(DateTimeImmutable $deliveredAt): void
+    public function delivered(DateTimeImmutable $deliveredAt): Result
     {
-        if (false === $this->reserved) {
-            throw new ProductCantBeDeliveredIfNotReserved();
+        if (!$this->reserved) {
+            return new ProductCantBeDeliveredIfNotReserved();
         }
 
         $this->delivered   = true;
         $this->deliveredAt = $deliveredAt;
+
+        return new Ok();
     }
 
     public function makeOrder(

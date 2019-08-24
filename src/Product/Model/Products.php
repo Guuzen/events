@@ -2,6 +2,10 @@
 
 namespace App\Product\Model;
 
+use App\Common\Result\Ok;
+use App\Common\Result\Result;
+use App\Product\Model\Error\NotReservedProductNotFound;
+use App\Product\Model\Error\ProductNotFound;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -12,7 +16,7 @@ final class Products extends ServiceEntityRepository
         parent::__construct($registry, Product::class);
     }
 
-    public function findNotReservedByType(ProductType $type): ?Product
+    public function findNotReservedByType(ProductType $type): Result
     {
         $query = $this->_em->createQuery('
             select
@@ -26,10 +30,15 @@ final class Products extends ServiceEntityRepository
         ');
         $query->setParameter('type', $type);
 
-        return $query->getOneOrNullResult();
+        $product = $query->getOneOrNullResult();
+        if (null === $product) {
+            return new NotReservedProductNotFound();
+        }
+
+        return new Ok($product);
     }
 
-    public function findById(ProductId $productId): ?Product
+    public function findById(ProductId $productId): Result
     {
         $query = $this->_em->createQuery('
             select
@@ -41,7 +50,12 @@ final class Products extends ServiceEntityRepository
         ');
         $query->setParameter('product_id', $productId);
 
-        return $query->getOneOrNullResult();
+        $product = $query->getOneOrNullResult();
+        if (null === $product) {
+            return new ProductNotFound();
+        }
+
+        return new Ok($product);
     }
 
     public function add(Product $product): void

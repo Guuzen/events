@@ -2,13 +2,13 @@
 
 namespace App\Promocode\Action;
 
+use App\Event\Model\Event;
 use App\Event\Model\EventId;
 use App\Event\Model\Events;
 use App\Promocode\Model\AllowedTariffs\SpecificAllowedTariffs;
 use App\Promocode\Model\Discount\FixedDiscount;
 use App\Promocode\Model\PromocodeId;
 use App\Promocode\Model\RegularPromocodes;
-use App\Tariff\Model\Tariff;
 use App\Tariff\Model\TariffId;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
@@ -43,11 +43,13 @@ final class PromocodeHandler
         }
         $promocodeId = PromocodeId::new();
 
-        $eventId     = EventId::fromString($createRegularPromocode->eventId);
-        $event       = $this->events->findById($eventId);
-        if (null === $event) {
-            return [null, 'event not found'];
+        $eventId         = EventId::fromString($createRegularPromocode->eventId);
+        $findEventResult = $this->events->findById($eventId);
+        if ($findEventResult->isErr()) {
+            return $findEventResult;
         }
+        /** @var Event $event */
+        $event = $findEventResult->value();
 
         $promocode = $event->createRegularPromocode(
             $promocodeId,

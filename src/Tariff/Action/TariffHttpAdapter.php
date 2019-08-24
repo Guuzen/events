@@ -23,12 +23,12 @@ final class TariffHttpAdapter extends AppController
      */
     public function create(CreateTariff $createTariff): Response
     {
-        [$tariffId, $error] = $this->handler->handleCreateTariff($createTariff);
+        $result = $this->handler->createTariff($createTariff);
 
-        if ($error) {
-            return $this->errorJson($error);
+        if ($result->isErr()) {
+            return $this->errorJson($result);
         }
 
-        return $this->successJson($tariffId);
+        return $this->successJson($result->value());
     }
 }

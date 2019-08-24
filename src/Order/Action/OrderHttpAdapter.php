@@ -27,13 +27,13 @@ final class OrderHttpAdapter extends AppController
     {
         $domain               = $request->getHost();
         $placeOrder->eventId  = ($this->findEventIdByDomain)($domain);
-        [$orderId, $error]    = $this->handler->placeOrder($placeOrder);
+        $result               = $this->handler->placeOrder($placeOrder);
 
-        if (null !== $error) {
-            return $this->errorJson($error);
+        if ($result->isErr()) {
+            return $this->errorJson($result);
         }
 
-        return $this->successJson($orderId);
+        return $this->successJson($result->value());
     }
 
     /**
@@ -41,7 +41,10 @@ final class OrderHttpAdapter extends AppController
      */
     public function markOrderPaid(MarkOrderPaid $markOrderPaid): Response
     {
-        $this->handler->markOrderPaid($markOrderPaid);
+        $result = $this->handler->markOrderPaid($markOrderPaid);
+        if ($result->isErr()) {
+            return $this->errorJson($result);
+        }
 
         return $this->successJson();
     }

@@ -2,12 +2,11 @@
 
 namespace spec\App\Order\Model;
 
+use App\Common\Result\Ok;
 use App\Event\Model\EventId;
-use App\Order\Model\Exception\OrderAlreadyPaid;
-use App\Order\Model\Exception\OrderCancelled;
+use App\Order\Model\Error\OrderAlreadyPaid;
 use App\Order\Model\OrderId;
 use App\Product\Model\ProductId;
-use App\Promocode\Model\PromocodeId;
 use App\Tariff\Model\TariffId;
 use App\User\Model\UserId;
 use DateTimeImmutable;
@@ -39,19 +38,13 @@ class OrderSpec extends ObjectBehavior
 
     public function it_should_be_possible_to_mark_paid()
     {
-        $this
-            ->shouldNotThrow()
-            ->during('markPaid')
-        ;
+        $this->markPaid()->shouldReturnAnInstanceOf(Ok::class);
     }
 
     public function it_should_not_be_possible_to_mark_paid_if_already_paid()
     {
         $this->markPaid();
-        $this
-            ->shouldThrow(OrderAlreadyPaid::class)
-            ->during('markPaid')
-        ;
+        $this->markPaid()->shouldReturnAnInstanceOf(OrderAlreadyPaid::class);
     }
 
     public function it_should_not_be_possible_to_cancel_if_paid()

@@ -13,13 +13,13 @@ final class EventHttpAdapter extends AppController
      */
     public function createEvent(CreateEvent $createEvent, EventHandler $handler): Response
     {
-        [$eventId, $error] = $handler->createEvent($createEvent);
+        $result = $handler->createEvent($createEvent);
 
-        if ($error) {
-            return $this->errorJson($error);
+        if ($result->isErr()) {
+            return $this->errorJson($result);
         }
 
         // TODO how about response objects ?
-        return $this->successJson($eventId);
+        return $this->successJson($result->value());
     }
 }

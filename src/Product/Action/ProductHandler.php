@@ -2,12 +2,16 @@
 
 namespace App\Product\Action;
 
+use App\Common\Result\Ok;
+use App\Common\Result\Result;
+use App\Event\Model\Event;
 use App\Event\Model\EventId;
 use App\Event\Model\Events;
 use App\Product\Model\ProductId;
 use App\Product\Model\Products;
 use App\Product\Model\TicketId;
 use App\Product\Model\Tickets;
+use App\Tariff\Model\Tariff;
 use App\Tariff\Model\TariffId;
 use App\Tariff\Model\Tariffs;
 use DateTimeImmutable;
@@ -39,28 +43,34 @@ final class ProductHandler
         $this->events   = $events;
     }
 
-    public function createTicket(CreateTicket $createTicket): array
+    public function createTicket(CreateTicket $createTicket): Result
     {
         $eventId   = EventId::fromString($createTicket->eventId);
         $tariffId  = TariffId::fromString($createTicket->tariffId);
         $productId = ProductId::new();
 
-        $tariff    = $this->tariffs->findById($tariffId);
-        if (null === $tariff) {
-            return [null, 'tariff not found'];
+        $findTariffResult = $this->tariffs->findById($tariffId);
+        if ($findTariffResult->isErr()) {
+            return $findTariffResult;
         }
+        /** @var Tariff $tariff */
+        $tariff = $findTariffResult->value();
+
         $product = $tariff->createProduct($productId, new DateTimeImmutable());
         $this->products->add($product);
 
-        $event  = $this->events->findById($eventId);
-        if (null === $event) {
-            return [null, 'event not found'];
+        $findEventResult = $this->events->findById($eventId);
+        if ($findEventResult->isErr()) {
+            return $findEventResult;
         }
+        /** @var Event $event */
+        $event = $findEventResult->value();
+
         $ticket = $event->createTicket(TicketId::fromString($productId), $createTicket->number);
         $this->tickets->add($ticket);
 
         $this->em->flush();
 
-        return [$productId, null];
+        return new Ok($productId);
     }
 }

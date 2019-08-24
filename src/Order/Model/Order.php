@@ -4,6 +4,8 @@ namespace App\Order\Model;
 
 use App\Cloudpayments\Payment;
 use App\Cloudpayments\PaymentStatus;
+use App\Common\Result\Ok;
+use App\Common\Result\Result;
 use App\Event\Model\EventId;
 use App\Order\Model\Exception\OrderAlreadyPaid;
 use App\Order\Model\Exception\OrderCancelled;
@@ -128,16 +130,18 @@ class Order
     }
 
     // TODO rename pay ?
-    public function markPaid(): void
+    public function markPaid(): Result
     {
-        if (true === $this->paid) {
-            throw new OrderAlreadyPaid();
+        if ($this->paid) {
+            return new Error\OrderAlreadyPaid();
         }
 
         $this->paid = true;
+
+        return new Ok();
     }
 
-    public function findProductById(Products $products): ?Product
+    public function findProductById(Products $products): Result
     {
         return $products->findById($this->productId);
     }

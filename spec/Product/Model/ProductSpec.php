@@ -2,10 +2,11 @@
 
 namespace spec\App\Product\Model;
 
+use App\Common\Result\Ok;
 use App\Event\Model\EventId;
+use App\Product\Model\Error\ProductCantBeDeliveredIfNotReserved;
+use App\Product\Model\Error\ProductCantBeReservedIfAlreadyReserved;
 use App\Product\Model\Exception\ProductReserveCantBeCancelledIfAlreadyDelivered;
-use App\Product\Model\Exception\ProductCantBeDeliveredIfNotReserved;
-use App\Product\Model\Exception\ProductCantBeReservedIfAlreadyReserved;
 use App\Product\Model\ProductId;
 use App\Product\Model\ProductType;
 use DateTimeImmutable;
@@ -26,38 +27,26 @@ class ProductSpec extends ObjectBehavior
 
     public function it_should_be_possible_to_reserve()
     {
-        $this
-            ->shouldNotThrow()
-            ->during('reserve')
-        ;
+        $this->reserve()->shouldReturnAnInstanceOf(Ok::class);
     }
 
     public function it_should_not_be_possible_to_reserve_if_already_reserved()
     {
         $this->reserve();
-        $this
-            ->shouldThrow(ProductCantBeReservedIfAlreadyReserved::class)
-            ->during('reserve')
-        ;
+        $this->reserve()->shouldReturnAnInstanceOf(ProductCantBeReservedIfAlreadyReserved::class);
     }
 
     public function it_should_be_delivered_if_reserved()
     {
         $now = new DateTimeImmutable('now');
         $this->reserve();
-        $this
-            ->shouldNotThrow()
-            ->during('delivered', [$now])
-        ;
+        $this->delivered($now)->shouldReturnAnInstanceOf(Ok::class);
     }
 
     public function it_should_not_be_delivered_if_not_reserved()
     {
         $now = new DateTimeImmutable('now');
-        $this
-            ->shouldThrow(ProductCantBeDeliveredIfNotReserved::class)
-            ->during('delivered', [$now])
-        ;
+        $this->delivered($now)->shouldReturnAnInstanceOf(ProductCantBeDeliveredIfNotReserved::class);
     }
 
     public function its_reserve_cant_be_cancelled_if_already_delivered()

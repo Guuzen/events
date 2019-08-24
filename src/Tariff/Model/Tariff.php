@@ -2,6 +2,7 @@
 
 namespace App\Tariff\Model;
 
+use App\Common\Result\Result;
 use App\Event\Model\EventId;
 use App\Order\Model\Order;
 use App\Order\Model\OrderId;
@@ -52,7 +53,7 @@ class Tariff
         $this->productType = $productType;
     }
 
-    public function calculateSum(Discount $discount, DateTimeImmutable $asOf): ?Money
+    public function calculateSum(Discount $discount, DateTimeImmutable $asOf): Result
     {
         return $this->priceNet->calculateSum($discount, $asOf);
     }
@@ -67,7 +68,7 @@ class Tariff
         return $allowedTariffs->contains(TariffId::fromString($this->id));
     }
 
-    public function findNotReservedProduct(Products $products): ?Product
+    public function findNotReservedProduct(Products $products): Result
     {
         return $products->findNotReservedByType($this->productType);
     }

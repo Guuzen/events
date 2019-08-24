@@ -2,22 +2,29 @@
 
 namespace App\Order\Action;
 
+use App\Common\Result\Ok;
+use App\Common\Result\Result;
+use App\Event\Model\Event;
 use App\Event\Model\EventId;
 use App\Event\Model\Events;
 use App\Infrastructure\Notifier\SendTicketToBuyerByEmailNotifier;
+use App\Order\Model\Order;
 use App\Order\Model\OrderId;
 use App\Order\Model\Orders;
+use App\Product\Model\Product;
 use App\Product\Model\Products;
 use App\Promocode\Model\NullPromocode;
 use App\Queries\FindDataForSendTicketToByerByEmail;
+use App\Tariff\Model\Tariff;
 use App\Tariff\Model\TariffId;
-use App\Tariff\Model\TicketTariffs;
+use App\Tariff\Model\Tariffs;
 use App\User\Model\Contacts;
 use App\User\Model\FullName;
 use App\User\Model\User;
 use App\User\Model\UserId;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
+use Money\Money;
 
 final class OrderHandler
 {
@@ -25,7 +32,7 @@ final class OrderHandler
 
     private $events;
 
-    private $ticketTariffs;
+    private $tariffs;
 
     private $products;
 
@@ -38,7 +45,7 @@ final class OrderHandler
     public function __construct(
         EntityManagerInterface $em,
         Events $events,
-        TicketTariffs $ticketTariffs,
+        Tariffs $tariffs,
         Products $products,
         Orders $orders,
         SendTicketToBuyerByEmailNotifier $sendTicketToBuyerByEmailNotifier,
@@ -46,34 +53,39 @@ final class OrderHandler
     ) {
         $this->em                                 = $em;
         $this->events                             = $events;
-        $this->ticketTariffs                      = $ticketTariffs;
+        $this->tariffs                            = $tariffs;
         $this->products                           = $products;
         $this->orders                             = $orders;
         $this->sendTicketToBuyerByEmailNotifier   = $sendTicketToBuyerByEmailNotifier;
         $this->findDataForSendTicketToByerByEmail = $findDataForSendTicketToByerByEmail;
     }
 
-    public function placeOrder(PlaceOrder $placeOrder): array
+    public function placeOrder(PlaceOrder $placeOrder): Result
     {
         $orderDate = new DateTimeImmutable();
 
-        $eventId = EventId::fromString($placeOrder->eventId);
-        $event   = $this->events->findById($eventId);
-        if (null === $event) {
-            // TODO нулл плохая замена воиду?
-            return [null, 'event not found'];
+        $eventId         = EventId::fromString($placeOrder->eventId);
+        $findEventResult = $this->events->findById($eventId);
+        if ($findEventResult->isErr()) {
+            return $findEventResult;
         }
+        /** @var Event $event */
+        $event = $findEventResult->value();
 
-        $tariffId = TariffId::fromString($placeOrder->tariffId);
-        $tariff   = $this->ticketTariffs->findById($tariffId);
-        if (null === $tariff) {
-            return [null, 'tariff not found'];
+        $tariffId         = TariffId::fromString($placeOrder->tariffId);
+        $findTariffResult = $this->tariffs->findById($tariffId);
+        if ($findTariffResult->isErr()) {
+            return $findTariffResult;
         }
+        /** @var Tariff $tariff */
+        $tariff = $findTariffResult->value();
 
-        $product = $tariff->findNotReservedProduct($this->products);
-        if (null === $product) {
-            return [null, 'not reserved product not found'];
+        $findProductResult = $tariff->findNotReservedProduct($this->products);
+        if ($findProductResult->isErr()) {
+            return $findProductResult;
         }
+        /** @var Product $product */
+        $product = $findProductResult->value();
 
         $user = new User(
             UserId::new(),
@@ -82,11 +94,13 @@ final class OrderHandler
         );
 
         // TODO не очень понятно где создавать промокод
-        $promocode = new NullPromocode();
-        $sum       = $tariff->calculateSum($promocode, $orderDate);
-        if (null === $sum) {
-            return [null, 'cant calculate sum'];
+        $promocode          = new NullPromocode();
+        $calculateSumResult = $tariff->calculateSum($promocode, $orderDate);
+        if ($calculateSumResult->isErr()) {
+            return $calculateSumResult;
         }
+        /** @var Money $sum */
+        $sum = $calculateSumResult->value();
 
         $orderId = OrderId::new();
         $order   = $event->makeOrder(
@@ -102,44 +116,61 @@ final class OrderHandler
         $promocode->use($orderId, $tariff, $orderDate);
         $order->applyPromocode($promocode);
 
-        $product = $order->findProductById($this->products);
-        if (null === $product) {
-            return [null, 'product not found'];
+        $findProductResult = $order->findProductById($this->products);
+        if ($findProductResult->isErr()) {
+            return $findProductResult;
         }
-        // TODO catch exception
-        $product->reserve();
+        /** @var Product $product */
+        $product = $findProductResult->value();
 
+        $reserveResult = $product->reserve();
+        if ($reserveResult->isErr()) {
+            return $reserveResult;
+        }
+
+        // TODO explicit add ?
         $this->em->persist($user);
         $this->em->persist($order);
         $this->em->flush();
 
-        return [$orderId, null];
+        return new Ok($orderId);
     }
 
-    public function markOrderPaid(MarkOrderPaid $markOrderPaid): array
+    public function markOrderPaid(MarkOrderPaid $markOrderPaid): Result
     {
         $orderId = OrderId::fromString($markOrderPaid->orderId);
 
-        $order = $this->orders->findById($orderId);
-        if (null === $order) {
-            return [null, 'order not found'];
+        $findOrderResult = $this->orders->findById($orderId);
+        if ($findOrderResult->isErr()) {
+            return $findOrderResult;
         }
-        // TODO catch exception
-        $order->markPaid();
+        /** @var Order $order */
+        $order = $findOrderResult->value();
+
+        $markPaidResult = $order->markPaid();
+        if ($markPaidResult->isErr()) {
+            return $markPaidResult;
+        }
 
         $this->em->flush();
 
         $orderPaid = ($this->findDataForSendTicketToByerByEmail)($orderId);
         $this->sendTicketToBuyerByEmailNotifier->notify($orderPaid);
 
-        $product = $order->findProductById($this->products);
-        if (null === $product) {
-            return [null, 'product not found'];
+        $findProductResult = $order->findProductById($this->products);
+        if ($findProductResult->isErr()) {
+            return $findProductResult;
         }
-        $product->delivered(new DateTimeImmutable('now'));
+        /** @var Product $product */
+        $product = $findProductResult->value();
+
+        $deliveredResult = $product->delivered(new DateTimeImmutable('now'));
+        if ($deliveredResult->isErr()) {
+            return $deliveredResult;
+        }
 
         $this->em->flush();
 
-        return [null, null];
+        return new Ok();
     }
 }
