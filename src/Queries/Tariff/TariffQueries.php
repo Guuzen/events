@@ -55,6 +55,7 @@ final class TariffQueries
         $stmt->bindValue('tariff_id', $tariffId);
         $stmt->execute();
 
+        /** @var array */
         return $stmt->fetch();
     }
 }

@@ -86,6 +86,7 @@ final class OrderQueries
         $stmt->bindValue('order_id', $orderId);
         $stmt->execute();
 
+        /** @var array */
         return $stmt->fetch();
     }
 }

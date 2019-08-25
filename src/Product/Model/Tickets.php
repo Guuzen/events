@@ -24,6 +24,7 @@ final class Tickets extends ServiceEntityRepository
         ');
         $query->setParameter('id', $ticketId);
 
+        /** @var Ticket|null */
         return $query->getOneOrNullResult();
     }
 

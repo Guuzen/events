@@ -11,6 +11,9 @@ final class SpecificAllowedTariffs implements AllowedTariffs
      */
     private $tariffIds;
 
+    /**
+     * @param TariffId[] $tariffIds
+     */
     public function __construct(array $tariffIds)
     {
         $this->tariffIds = $tariffIds;

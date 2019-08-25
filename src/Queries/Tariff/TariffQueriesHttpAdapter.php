@@ -34,7 +34,8 @@ final class TariffQueriesHttpAdapter extends AppController
      */
     public function findById(Request $request): Response
     {
-        $tariffId = $request->get('tariff_id');
+        // TODO create request object for requests by id ?
+        $tariffId = (string) $request->get('tariff_id');
         $tariff   = $this->tariffQueries->findById($tariffId);
 
         return $this->successJson($tariff);

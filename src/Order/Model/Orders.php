@@ -29,9 +29,10 @@ final class Orders extends ServiceEntityRepository
         ');
         $query->setParameter('order_id', $orderId);
 
+        /** @var Order|null */
         $order = $query->getOneOrNullResult();
         if (null === $order) {
-            new OrderNotFound();
+            return new OrderNotFound();
         }
 
         return $order;

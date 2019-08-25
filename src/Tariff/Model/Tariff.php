@@ -68,7 +68,7 @@ class Tariff
 
     public function allowedForUse(AllowedTariffs $allowedTariffs): bool
     {
-        return $allowedTariffs->contains(TariffId::fromString($this->id));
+        return $allowedTariffs->contains(TariffId::fromString((string) $this->id));
     }
 
     /**

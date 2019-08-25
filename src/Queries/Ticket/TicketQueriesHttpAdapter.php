@@ -24,7 +24,7 @@ final class TicketQueriesHttpAdapter extends AppController
      */
     public function findAll(Request $request): Response
     {
-        $tickets = $this->ticketQueries->findAll($request->get('event_id'));
+        $tickets = $this->ticketQueries->findAll((string) $request->get('event_id'));
 
         return $this->successJson($tickets);
     }
@@ -34,7 +34,7 @@ final class TicketQueriesHttpAdapter extends AppController
      */
     public function findById(Request $request): Response
     {
-        $ticketId = $request->get('ticket_id');
+        $ticketId = (string) $request->get('ticket_id');
         $ticket   = $this->ticketQueries->findById($ticketId);
 
         return $this->successJson($ticket);

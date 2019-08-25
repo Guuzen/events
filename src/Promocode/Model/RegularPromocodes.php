@@ -2,6 +2,8 @@
 
 namespace App\Promocode\Model;
 
+use App\Common\Error;
+use App\Promocode\Model\Error\PromocodeNotFound;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -12,7 +14,10 @@ final class RegularPromocodes extends ServiceEntityRepository
         parent::__construct($registry, RegularPromocode::class);
     }
 
-    public function findById(PromocodeId $promocodeId): ?RegularPromocode
+    /**
+     * @return Promocode|Error
+     */
+    public function findById(PromocodeId $promocodeId)
     {
         $query = $this->_em->createQuery('
             select
@@ -24,6 +29,12 @@ final class RegularPromocodes extends ServiceEntityRepository
         ');
         $query->setParameter('promocode_id', $promocodeId);
 
-        return $query->getOneOrNullResult();
+        /** @var Promocode|null */
+        $promocode = $query->getOneOrNullResult();
+        if (null === $promocode) {
+            return new PromocodeNotFound();
+        }
+
+        return $promocode;
     }
 }

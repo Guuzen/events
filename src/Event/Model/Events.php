@@ -29,6 +29,7 @@ final class Events extends ServiceEntityRepository
         ');
         $query->setParameter('id', $eventId);
 
+        /** @var Event|null */
         $event = $query->getOneOrNullResult();
         if (null === $event) {
             return new EventNotFound();

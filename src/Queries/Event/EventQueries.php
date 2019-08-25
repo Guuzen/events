@@ -38,6 +38,7 @@ final class EventQueries
         $stmt->bindValue('event_id', $eventId);
         $stmt->execute();
 
+        /** @var array */
         return $stmt->fetch();
     }
 }

@@ -32,6 +32,7 @@ final class Products extends ServiceEntityRepository
         ');
         $query->setParameter('type', $type);
 
+        /** @var Product|null */
         $product = $query->getOneOrNullResult();
         if (null === $product) {
             return new NotReservedProductNotFound();
@@ -55,6 +56,7 @@ final class Products extends ServiceEntityRepository
         ');
         $query->setParameter('product_id', $productId);
 
+        /** @var Product|null */
         $product = $query->getOneOrNullResult();
         if (null === $product) {
             return new ProductNotFound();

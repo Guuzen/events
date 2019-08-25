@@ -12,9 +12,8 @@ final class WithoutConstructorPropertyNormalizer extends PropertyNormalizer
     private $discriminatorCache = [];
 
     /**
-     * {@inheritdoc}
-     *
-     * @psalm-suppress MissingParamType
+     * @param string $class
+     * @param array|bool $allowedAttributes
      */
     protected function instantiateObject(
         array &$data,
@@ -28,10 +27,11 @@ final class WithoutConstructorPropertyNormalizer extends PropertyNormalizer
     }
 
     /**
-     * {@inheritdoc}
+     * @param object $object
+     * @param string $attribute
+     * @param string|null $format
      *
-     * @psalm-suppress MissingParamType
-     * @psalm-suppress MissingReturnType
+     * @return mixed
      */
     protected function getAttributeValue($object, $attribute, $format = null, array $context = [])
     {

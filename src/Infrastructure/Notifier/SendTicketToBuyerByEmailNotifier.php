@@ -4,7 +4,7 @@ namespace App\Infrastructure\Notifier;
 
 use Swift_Message;
 
-final class SendTicketToBuyerByEmailNotifier implements Notifier
+final class SendTicketToBuyerByEmailNotifier
 {
     private $mailer;
 
@@ -16,6 +16,9 @@ final class SendTicketToBuyerByEmailNotifier implements Notifier
         $this->from   = $from;
     }
 
+    /**
+     * @param array{email: string, number: string} $event
+     */
     public function notify(array $event): void
     {
         $message = (new Swift_Message())

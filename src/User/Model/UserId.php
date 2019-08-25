@@ -20,6 +20,7 @@ final class UserId
 
     public static function fromString(string $id): self
     {
+        // TODO validate uuid ?
         return new self(Uuid::fromString($id)->toString());
     }
 

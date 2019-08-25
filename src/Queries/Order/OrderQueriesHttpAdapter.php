@@ -24,7 +24,7 @@ final class OrderQueriesHttpAdapter extends AppController
      */
     public function findAll(Request $request): Response
     {
-        $orders = $this->orderQueries->findAll($request->get('event_id'));
+        $orders = $this->orderQueries->findAll((string) $request->get('event_id'));
 
         return $this->successJson($orders);
     }
@@ -34,7 +34,7 @@ final class OrderQueriesHttpAdapter extends AppController
      */
     public function findById(Request $request): Response
     {
-        $orderId = $request->get('order_id');
+        $orderId = (string) $request->get('order_id');
         $order   = $this->orderQueries->findById($orderId);
 
         return $this->successJson($order);

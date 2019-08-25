@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <psalm
-    totallyTyped="false"
+    totallyTyped="true"
     resolveFromConfigFile="true"
     ignoreInternalFunctionFalseReturn="false"
     ignoreInternalFunctionNullReturn="false"
@@ -12,21 +12,13 @@
         <directory name="src" />
         <ignoreFiles>
             <directory name="vendor" />
+            <file name="src/Kernel.php"/>
         </ignoreFiles>
     </projectFiles>
 
     <issueHandlers>
-        <LessSpecificReturnType errorLevel="info" />
-
         <!-- level 3 issues - slightly lazy code writing, but provably low false-negatives -->
 
         <PropertyNotSetInConstructor errorLevel="suppress" />
-
-        <UnresolvableInclude errorLevel="suppress" />
-
-        <!-- level 5 issues - should be avoided at mosts costs... -->
-
-        <ImplicitToStringCast errorLevel="info" />
-
     </issueHandlers>
 </psalm>

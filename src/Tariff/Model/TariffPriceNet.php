@@ -17,6 +17,9 @@ final class TariffPriceNet
      */
     private $segments;
 
+    /**
+     * @param TariffSegment[] $segments
+     */
     public function __construct(array $segments)
     {
         static::assertSegmentsNotEmpty($segments);
@@ -51,7 +54,9 @@ final class TariffPriceNet
         return new TariffSegmentNotFound();
     }
 
-    /** @var TariffSegment[] $segments */
+    /**
+     * @param TariffSegment[] $segments
+     */
     private static function assertPricesNotIntersects(array $segments): void
     {
         foreach ($segments as $outerIndex => $outerSegment) {

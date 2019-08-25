@@ -4,6 +4,7 @@ namespace App\Common;
 
 use Psr\Container\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\SerializerInterface;
 
 abstract class AppController
 {
@@ -49,7 +50,9 @@ abstract class AppController
      */
     private function toJson($data, int $status, array $headers = [], array $context = []): JsonResponse
     {
-        $json = $this->locator->get('serializer')->serialize($data, 'json', array_merge([
+        /** @var SerializerInterface */
+        $serializer = $this->locator->get('serializer');
+        $json       = $serializer->serialize($data, 'json', array_merge([
             'json_encode_options' => JsonResponse::DEFAULT_ENCODING_OPTIONS,
         ], $context));
 

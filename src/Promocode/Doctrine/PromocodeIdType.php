@@ -15,7 +15,7 @@ final class PromocodeIdType extends StringType
             return null;
         }
 
-        return PromocodeId::fromString($value);
+        return PromocodeId::fromString((string) $value);
     }
 
     public function getName(): string

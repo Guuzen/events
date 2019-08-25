@@ -62,7 +62,7 @@ final class ProductHandler
             return $event;
         }
 
-        $ticket = $event->createTicket(TicketId::fromString($productId), $createTicket->number);
+        $ticket = $event->createTicket(TicketId::fromString((string) $productId), $createTicket->number);
         $this->tickets->add($ticket);
 
         $this->em->flush();

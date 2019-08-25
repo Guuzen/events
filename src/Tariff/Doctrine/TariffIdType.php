@@ -11,7 +11,7 @@ final class TariffIdType extends StringType
     public function convertToPHPValue($value, AbstractPlatform $platform): TariffId
     {
         // TODO create via reflection ?
-        return TariffId::fromString($value);
+        return TariffId::fromString((string) $value);
     }
 
     public function getName(): string

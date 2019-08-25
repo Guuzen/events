@@ -11,7 +11,7 @@ final class TicketIdType extends StringType
     public function convertToPHPValue($value, AbstractPlatform $platform): OrderId
     {
         // TODO create via reflection ?
-        return OrderId::fromString($value);
+        return OrderId::fromString((string) $value);
     }
 
     public function getName(): string

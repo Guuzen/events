@@ -15,6 +15,9 @@ final class FindDataForSendTicketToByerByEmail
     }
 
     // TODO delivery address in order ?
+    /**
+     * @return array{email: string, number: string}
+     */
     public function __invoke(string $orderId): array
     {
         $stmt = $this->connection->prepare('
@@ -32,6 +35,7 @@ final class FindDataForSendTicketToByerByEmail
         $stmt->bindValue('order_id', $orderId);
         $stmt->execute();
 
+        /** @var array{email: string, number: string} */
         return $stmt->fetch();
     }
 }

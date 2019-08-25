@@ -11,7 +11,7 @@ final class ProductIdType extends StringType
     public function convertToPHPValue($value, AbstractPlatform $platform): ProductId
     {
         // TODO create via reflection ?
-        return ProductId::fromString($value);
+        return ProductId::fromString((string) $value);
     }
 
     public function getName(): string

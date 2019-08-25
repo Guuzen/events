@@ -33,11 +33,15 @@ class RegularPromocode implements Promocode
 
     /**
      * @ORM\Column(type="app_event_id")
+     *
+     * @var EventId
      */
     private $eventId;
 
     /**
      * @ORM\Column(type="app_promocode_discount")
+     *
+     * @var Discount
      */
     private $discount;
 
@@ -53,12 +57,16 @@ class RegularPromocode implements Promocode
 
     /**
      * @ORM\Column(type="app_promocode_allowed_tariffs")
+     *
+     * @var AllowedTariffs
      */
     private $allowedTariffs;
 
     // TODO нельзя применять промокод к отменённому заказу
     /**
      * @ORM\Column(type="app_promocode_used_in_orders")
+     *
+     * @var UsedInOrders
      */
     private $usedInOrders;
 

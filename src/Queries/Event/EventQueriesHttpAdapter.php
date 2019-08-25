@@ -34,7 +34,7 @@ final class EventQueriesHttpAdapter extends AppController
      */
     public function findById(Request $request): Response
     {
-        $eventId = $request->get('event_id');
+        $eventId = (string) $request->get('event_id');
         $event   = $this->eventQueries->findById($eventId);
 
         return $this->successJson($event);

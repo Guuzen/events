@@ -26,6 +26,7 @@ final class FindEventIdByDomain
         ');
         $stmt->bindParam('domain', $domain);
         $stmt->execute();
+        /** @var array{id: string} */
         $result = $stmt->fetch();
 
         return $result['id'];

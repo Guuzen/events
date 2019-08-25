@@ -139,7 +139,7 @@ final class OrderHandler
 
         $this->em->flush();
 
-        $orderPaid = ($this->findDataForSendTicketToByerByEmail)($orderId);
+        $orderPaid = ($this->findDataForSendTicketToByerByEmail)((string) $orderId);
         $this->sendTicketToBuyerByEmailNotifier->notify($orderPaid);
 
         $product = $order->findProductById($this->products);

@@ -29,6 +29,7 @@ final class Tariffs extends ServiceEntityRepository
         ');
         $query->setParameter('tariff_id', $tariffId);
 
+        /** @var Tariff|null */
         $tariff = $query->getOneOrNullResult();
         if (null === $tariff) {
             return new TariffNotFound();

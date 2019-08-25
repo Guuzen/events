@@ -37,6 +37,7 @@ final class TicketQueries
         return $stmt->fetchAll();
     }
 
+    // TODO return error type for all find methods
     public function findById(string $ticketId): array
     {
         $stmt = $this->connection->prepare('
@@ -58,6 +59,7 @@ final class TicketQueries
         $stmt->bindValue('ticket_id', $ticketId);
         $stmt->execute();
 
+        /** @var array */
         return $stmt->fetch();
     }
 }

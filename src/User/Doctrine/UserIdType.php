@@ -11,7 +11,7 @@ final class UserIdType extends StringType
     public function convertToPHPValue($value, AbstractPlatform $platform): UserId
     {
         // TODO create via reflection ?
-        return UserId::fromString($value);
+        return UserId::fromString((string) $value);
     }
 
     public function getName(): string
