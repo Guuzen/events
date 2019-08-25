@@ -12,7 +12,7 @@ final class BatchNotifier implements Notifier
         $this->notifiers = $notifiers;
     }
 
-    public function notify(array $event)
+    public function notify(array $event): void
     {
         foreach ($this->notifiers as $notifier) {
             $notifier->notify($event);

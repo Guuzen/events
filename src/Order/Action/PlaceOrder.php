@@ -10,34 +10,18 @@ use Symfony\Component\Validator\Constraints as Assert;
 final class PlaceOrder implements AppRequest
 {
     /**
-     * @var string
      * @Assert\NotBlank
      */
     public $firstName;
 
-    /**
-     * @var string
-     */
     public $lastName;
 
-    /**
-     * @var string
-     */
     public $email;
 
-    /**
-     * @var string
-     */
     public $paymentMethod;
 
-    /**
-     * @var string
-     */
     public $tariffId;
 
-    /**
-     * @var string
-     */
     public $phone;
 
     /**
@@ -46,12 +30,12 @@ final class PlaceOrder implements AppRequest
     public $eventId;
 
     public function __construct(
-        ?string $firstName = null,
-        ?string $lastName = null,
-        ?string $email = null,
-        ?string $paymentMethod = null,
-        ?string $tariffId = null,
-        ?string $phone = null
+        string $firstName,
+        string $lastName,
+        string $email,
+        string $paymentMethod,
+        string $tariffId,
+        string $phone
     ) {
         $this->firstName     = $firstName;
         $this->lastName      = $lastName;

@@ -6,6 +6,7 @@ use App\Common\Error;
 use App\Event\Model\EventId;
 use App\Order\Model\Error\OrderAlreadyPaid;
 use App\Order\Model\Exception\OrderCancelled;
+use App\Product\Model\Product;
 use App\Product\Model\ProductId;
 use App\Product\Model\Products;
 use App\Promocode\Model\Promocode;
@@ -122,6 +123,9 @@ class Order
         return null;
     }
 
+    /**
+     * @return Product|Error
+     */
     public function findProductById(Products $products)
     {
         return $products->findById($this->productId);

@@ -16,7 +16,7 @@ final class SendTicketToBuyerByEmailNotifier implements Notifier
         $this->from   = $from;
     }
 
-    public function notify(array $event)
+    public function notify(array $event): void
     {
         $message = (new Swift_Message())
             ->setSubject('Thanks for buy ticket')

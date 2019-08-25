@@ -6,8 +6,16 @@ use Symfony\Component\Serializer\Normalizer\PropertyNormalizer;
 
 final class WithoutConstructorPropertyNormalizer extends PropertyNormalizer
 {
+    /**
+     * @var array
+     */
     private $discriminatorCache = [];
 
+    /**
+     * {@inheritdoc}
+     *
+     * @psalm-suppress MissingParamType
+     */
     protected function instantiateObject(
         array &$data,
         $class,
@@ -19,6 +27,12 @@ final class WithoutConstructorPropertyNormalizer extends PropertyNormalizer
         return $reflectionClass->newInstanceWithoutConstructor();
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @psalm-suppress MissingParamType
+     * @psalm-suppress MissingReturnType
+     */
     protected function getAttributeValue($object, $attribute, $format = null, array $context = [])
     {
         $cacheKey = get_class($object);
@@ -30,7 +44,7 @@ final class WithoutConstructorPropertyNormalizer extends PropertyNormalizer
             }
         }
 
-        if ($attribute === $this->discriminatorCache[$cacheKey]) {
+        if (null !== $this->classDiscriminatorResolver && $attribute === $this->discriminatorCache[$cacheKey]) {
             return $this->classDiscriminatorResolver->getTypeForMappedObject($object);
         }
 

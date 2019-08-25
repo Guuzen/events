@@ -3,6 +3,7 @@
 namespace App\Promocode\Action;
 
 use App\Common\AppController;
+use App\Common\Error;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -20,10 +21,10 @@ final class PromocodeHttpAdapter extends AppController
      */
     public function createRegularPromocode(CreateRegularPromocode $createRegularPromocode): Response
     {
-        [$promocodeId, $error] = $this->handler->createRegularPromocode($createRegularPromocode);
+        $promocodeId = $this->handler->createRegularPromocode($createRegularPromocode);
 
-        if (null !== $error) {
-            return $this->errorJson($error);
+        if ($promocodeId instanceof Error) {
+            return $this->errorJson($promocodeId);
         }
 
         return $this->successJson($promocodeId);

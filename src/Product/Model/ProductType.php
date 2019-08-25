@@ -14,6 +14,9 @@ final class ProductType
 
     private const TYPE_BROADCAST_LINK = 'broadcast_link';
 
+    /**
+     * @var string
+     */
     private $type;
 
     public function __construct(string $type)

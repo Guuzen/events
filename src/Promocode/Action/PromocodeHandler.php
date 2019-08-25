@@ -35,7 +35,10 @@ final class PromocodeHandler
         $this->events            = $events;
     }
 
-    public function createRegularPromocode(CreateRegularPromocode $createRegularPromocode): array
+    /**
+     * @return PromocodeId|Error
+     */
+    public function createRegularPromocode(CreateRegularPromocode $createRegularPromocode)
     {
         $allowedTariffIds = [];
         foreach ($createRegularPromocode->allowedTariffs as $allowedTariff) {
@@ -65,6 +68,6 @@ final class PromocodeHandler
 
         $this->em->flush();
 
-        return [$promocodeId, null];
+        return $promocodeId;
     }
 }

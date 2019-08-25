@@ -17,7 +17,7 @@ final class Email implements Notifier
         $this->emailFactory = $emailFactory;
     }
 
-    public function notify(array $event)
+    public function notify(array $event): void
     {
         $message = $this->emailFactory->create($event);
 

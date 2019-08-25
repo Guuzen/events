@@ -7,6 +7,9 @@ use Throwable;
 
 class InvalidAppRequest extends \Exception
 {
+    /**
+     * @var ConstraintViolationListInterface
+     */
     private $errors;
 
     public function __construct(

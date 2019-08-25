@@ -22,13 +22,11 @@ doctrine:
             app_datetime: App\Common\DateTimeType
 
             app_tariff_price_net: App\Tariff\Doctrine\TariffPriceNetType
-            app_tariff_ids: App\Tariff\Doctrine\TariffIdsType
             app_tariff_id: App\Tariff\Doctrine\TariffIdType
 
             app_event_id: App\Event\Doctrine\EventIdType
 
             app_order_id: App\Order\Doctrine\OrderIdType
-            app_order_ids: App\Order\Doctrine\OrderIdsType
 
             app_product_id: App\Product\Doctrine\ProductIdType
             app_product_type: App\Product\Doctrine\ProductTypeType

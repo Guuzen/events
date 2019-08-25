@@ -20,7 +20,10 @@ abstract class AppController
         $this->locator = $httpAdapterLocator;
     }
 
-    protected function successJson($data = [], $status = 200, array $headers = [], array $context = []): JsonResponse
+    /**
+     * @param mixed $data
+     */
+    protected function successJson($data = [], int $status = 200, array $headers = [], array $context = []): JsonResponse
     {
         return $this->toJson([
             'data' => $data,
@@ -30,7 +33,7 @@ abstract class AppController
     /**
      * @param Error|string $message
      */
-    protected function errorJson($message, $status = 400, array $headers = [], array $context = []): JsonResponse
+    protected function errorJson($message, int $status = 400, array $headers = [], array $context = []): JsonResponse
     {
         if ($message instanceof Error) {
             $message = $this->stringifyError($message);
@@ -41,7 +44,10 @@ abstract class AppController
         ], $status, $headers, $context);
     }
 
-    private function toJson($data, int $status = 200, array $headers = [], array $context = []): JsonResponse
+    /**
+     * @param mixed $data
+     */
+    private function toJson($data, int $status, array $headers = [], array $context = []): JsonResponse
     {
         $json = $this->locator->get('serializer')->serialize($data, 'json', array_merge([
             'json_encode_options' => JsonResponse::DEFAULT_ENCODING_OPTIONS,
@@ -53,7 +59,11 @@ abstract class AppController
     private function stringifyError(Error $errorObject): string
     {
         $errorClassName = (new \ReflectionClass($errorObject))->getShortName();
+        $errorClassName = preg_replace('/[A-Z]/', ' \\0', lcfirst($errorClassName));
+        if (null === $errorClassName) {
+            throw new \Exception();
+        }
 
-        return strtolower(preg_replace('/[A-Z]/', ' \\0', lcfirst($errorClassName)));
+        return strtolower($errorClassName);
     }
 }

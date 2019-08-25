@@ -18,19 +18,23 @@ use Symfony\Component\Serializer\Serializer;
 
 abstract class JsonDocumentType extends Type
 {
-    /** @var Serializer $serializer */
+    /** @var Serializer|null */
     private $serializer;
 
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
-        $this->initSerializer();
+        if (null === $this->serializer) {
+            $this->serializer = $this->createSerializer();
+        }
 
         return $this->serializer->deserialize($value, $this->className(), 'json');
     }
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
-        $this->initSerializer();
+        if (null === $this->serializer) {
+            $this->serializer = $this->createSerializer();
+        }
 
         return $this->serializer->serialize($value, 'json');
     }
@@ -40,7 +44,7 @@ abstract class JsonDocumentType extends Type
         return $platform->getJsonTypeDeclarationSQL($fieldDeclaration);
     }
 
-    public function requiresSQLCommentHint(AbstractPlatform $platform)
+    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
     {
         return true;
     }
@@ -50,16 +54,12 @@ abstract class JsonDocumentType extends Type
     abstract public function getName(): string;
 
     // TODO to container ?
-    private function initSerializer(): void
+    private function createSerializer(): Serializer
     {
-        if (null !== $this->serializer) {
-            return;
-        }
-
         $classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader(new AnnotationReader()));
         $discriminator        = new ClassDiscriminatorFromClassMetadata($classMetadataFactory);
 
-        $this->serializer = new Serializer([
+        return new Serializer([
             new DateTimeNormalizer([DateTimeNormalizer::FORMAT_KEY => 'Y-m-d H:i:s'], new DateTimeZone('UTC')),
             new ArrayDenormalizer(),
             new WithoutConstructorPropertyNormalizer(
