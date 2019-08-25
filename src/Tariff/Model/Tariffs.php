@@ -2,8 +2,7 @@
 
 namespace App\Tariff\Model;
 
-use App\Common\Result\Ok;
-use App\Common\Result\Result;
+use App\Common\Error;
 use App\Tariff\Model\Error\TariffNotFound;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -15,7 +14,10 @@ final class Tariffs extends ServiceEntityRepository
         parent::__construct($registry, Tariff::class);
     }
 
-    public function findById(TariffId $tariffId): Result
+    /**
+     * @return Tariff|Error
+     */
+    public function findById(TariffId $tariffId)
     {
         $query = $this->_em->createQuery('
             select
@@ -32,7 +34,7 @@ final class Tariffs extends ServiceEntityRepository
             return new TariffNotFound();
         }
 
-        return new Ok($tariff);
+        return $tariff;
     }
 
     public function add(Tariff $tariff): void

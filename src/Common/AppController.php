@@ -2,8 +2,6 @@
 
 namespace App\Common;
 
-use App\Common\Result\Err;
-use App\Common\Result\Result;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -29,9 +27,12 @@ abstract class AppController
         ], $status, $headers, $context);
     }
 
+    /**
+     * @param Error|string $message
+     */
     protected function errorJson($message, $status = 400, array $headers = [], array $context = []): JsonResponse
     {
-        if ($message instanceof Err) {
+        if ($message instanceof Error) {
             $message = $this->stringifyError($message);
         }
 
@@ -49,7 +50,7 @@ abstract class AppController
         return new JsonResponse($json, $status, $headers, true);
     }
 
-    private function stringifyError(Err $errorObject): string
+    private function stringifyError(Error $errorObject): string
     {
         $errorClassName = (new \ReflectionClass($errorObject))->getShortName();
 

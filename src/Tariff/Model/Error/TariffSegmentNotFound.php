@@ -2,9 +2,9 @@
 
 namespace App\Tariff\Model\Error;
 
-use App\Common\Result\Err;
+use App\Common\Error;
 
-final class TariffSegmentNotFound extends Err
+final class TariffSegmentNotFound extends Error
 {
 
 }

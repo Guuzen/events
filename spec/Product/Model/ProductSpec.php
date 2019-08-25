@@ -2,7 +2,6 @@
 
 namespace spec\App\Product\Model;
 
-use App\Common\Result\Ok;
 use App\Event\Model\EventId;
 use App\Product\Model\Error\ProductCantBeDeliveredIfNotReserved;
 use App\Product\Model\Error\ProductCantBeReservedIfAlreadyReserved;
@@ -27,7 +26,7 @@ class ProductSpec extends ObjectBehavior
 
     public function it_should_be_possible_to_reserve()
     {
-        $this->reserve()->shouldReturnAnInstanceOf(Ok::class);
+        $this->reserve()->shouldReturn(null);
     }
 
     public function it_should_not_be_possible_to_reserve_if_already_reserved()
@@ -40,7 +39,7 @@ class ProductSpec extends ObjectBehavior
     {
         $now = new DateTimeImmutable('now');
         $this->reserve();
-        $this->delivered($now)->shouldReturnAnInstanceOf(Ok::class);
+        $this->delivered($now)->shouldReturn(null);
     }
 
     public function it_should_not_be_delivered_if_not_reserved()

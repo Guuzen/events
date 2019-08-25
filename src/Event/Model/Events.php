@@ -2,8 +2,7 @@
 
 namespace App\Event\Model;
 
-use App\Common\Result\Ok;
-use App\Common\Result\Result;
+use App\Common\Error;
 use App\Event\Model\Error\EventNotFound;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -15,7 +14,10 @@ final class Events extends ServiceEntityRepository
         parent::__construct($registry, Event::class);
     }
 
-    public function findById(EventId $eventId): Result
+    /**
+     * @return Event|Error
+     */
+    public function findById(EventId $eventId)
     {
         $query = $this->_em->createQuery('
             select
@@ -32,7 +34,7 @@ final class Events extends ServiceEntityRepository
             return new EventNotFound();
         }
 
-        return new Ok($event);
+        return $event;
     }
 
     public function add(Event $event): void

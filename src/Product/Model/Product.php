@@ -2,8 +2,7 @@
 
 namespace App\Product\Model;
 
-use App\Common\Result\Ok;
-use App\Common\Result\Result;
+use App\Common\Error;
 use App\Event\Model\EventId;
 use App\Order\Model\Order;
 use App\Order\Model\OrderId;
@@ -76,7 +75,7 @@ final class Product
     }
 
     // TODO reserved at
-    public function reserve(): Result
+    public function reserve(): ?Error
     {
         if ($this->reserved) {
             return new ProductCantBeReservedIfAlreadyReserved();
@@ -84,7 +83,7 @@ final class Product
 
         $this->reserved = true;
 
-        return new Ok();
+        return null;
     }
 
     public function cancelReserve(): void
@@ -96,7 +95,7 @@ final class Product
         $this->reserved = false;
     }
 
-    public function delivered(DateTimeImmutable $deliveredAt): Result
+    public function delivered(DateTimeImmutable $deliveredAt): ?Error
     {
         if (!$this->reserved) {
             return new ProductCantBeDeliveredIfNotReserved();
@@ -105,7 +104,7 @@ final class Product
         $this->delivered   = true;
         $this->deliveredAt = $deliveredAt;
 
-        return new Ok();
+        return null;
     }
 
     public function makeOrder(

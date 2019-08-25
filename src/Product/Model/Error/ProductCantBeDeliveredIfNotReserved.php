@@ -2,9 +2,9 @@
 
 namespace App\Product\Model\Error;
 
-use App\Common\Result\Err;
+use App\Common\Error;
 
-final class ProductCantBeDeliveredIfNotReserved extends Err
+final class ProductCantBeDeliveredIfNotReserved extends Error
 {
 
 }

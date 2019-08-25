@@ -2,9 +2,9 @@
 
 namespace App\Order\Model\Error;
 
-use App\Common\Result\Err;
+use App\Common\Error;
 
-final class OrderAlreadyPaid extends Err
+final class OrderAlreadyPaid extends Error
 {
 
 }

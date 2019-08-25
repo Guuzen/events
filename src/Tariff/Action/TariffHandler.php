@@ -2,9 +2,7 @@
 
 namespace App\Tariff\Action;
 
-use App\Common\Result\Ok;
-use App\Common\Result\Result;
-use App\Event\Model\Event;
+use App\Common\Error;
 use App\Event\Model\EventId;
 use App\Event\Model\Events;
 use App\Product\Model\ProductType;
@@ -37,16 +35,17 @@ final class TariffHandler
         $this->events  = $events;
     }
 
-    public function createTariff(CreateTariff $createTariff): Result
+    /**
+     * @return TariffId|Error
+     */
+    public function createTariff(CreateTariff $createTariff)
     {
-        $tariffId        = TariffId::new();
-        $eventId         = EventId::fromString($createTariff->eventId);
-        $findEventResult = $this->events->findById($eventId);
-        if ($findEventResult->isErr()) {
-            return $findEventResult;
+        $tariffId = TariffId::new();
+        $eventId  = EventId::fromString($createTariff->eventId);
+        $event    = $this->events->findById($eventId);
+        if ($event instanceof Error) {
+            return $event;
         }
-        /** @var Event $event */
-        $event = $findEventResult->value();
 
         $tariffSegments = [];
         foreach ($createTariff->priceNet['segments'] as $segment) {
@@ -71,6 +70,6 @@ final class TariffHandler
 
         $this->em->flush();
 
-        return new Ok($tariffId);
+        return $tariffId;
     }
 }

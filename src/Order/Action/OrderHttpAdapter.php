@@ -3,6 +3,7 @@
 namespace App\Order\Action;
 
 use App\Common\AppController;
+use App\Common\Error;
 use App\Queries\FindEventIdByDomain;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,15 +26,15 @@ final class OrderHttpAdapter extends AppController
      */
     public function placeOrder(Request $request, PlaceOrder $placeOrder): Response
     {
-        $domain               = $request->getHost();
-        $placeOrder->eventId  = ($this->findEventIdByDomain)($domain);
-        $result               = $this->handler->placeOrder($placeOrder);
+        $domain              = $request->getHost();
+        $placeOrder->eventId = ($this->findEventIdByDomain)($domain);
+        $orderId             = $this->handler->placeOrder($placeOrder);
 
-        if ($result->isErr()) {
-            return $this->errorJson($result);
+        if ($orderId instanceof Error) {
+            return $this->errorJson($orderId);
         }
 
-        return $this->successJson($result->value());
+        return $this->successJson($orderId);
     }
 
     /**
@@ -42,7 +43,7 @@ final class OrderHttpAdapter extends AppController
     public function markOrderPaid(MarkOrderPaid $markOrderPaid): Response
     {
         $result = $this->handler->markOrderPaid($markOrderPaid);
-        if ($result->isErr()) {
+        if ($result instanceof Error) {
             return $this->errorJson($result);
         }
 

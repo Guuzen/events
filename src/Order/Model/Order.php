@@ -2,14 +2,10 @@
 
 namespace App\Order\Model;
 
-use App\Cloudpayments\Payment;
-use App\Cloudpayments\PaymentStatus;
-use App\Common\Result\Ok;
-use App\Common\Result\Result;
+use App\Common\Error;
 use App\Event\Model\EventId;
-use App\Order\Model\Exception\OrderAlreadyPaid;
+use App\Order\Model\Error\OrderAlreadyPaid;
 use App\Order\Model\Exception\OrderCancelled;
-use App\Product\Model\Product;
 use App\Product\Model\ProductId;
 use App\Product\Model\Products;
 use App\Promocode\Model\Promocode;
@@ -104,21 +100,6 @@ class Order
         $this->sum = $promocode->apply($this->sum);
     }
 
-    public function createCloudpaymentsPayment(
-        string $transactionId,
-        PaymentStatus $status
-    ): Payment {
-        if ($this->cancelled) {
-            throw new OrderCancelled();
-        }
-
-        if ($this->paid) {
-            throw new OrderAlreadyPaid();
-        }
-
-        return new Payment($transactionId, $this->id, $this->sum, $status);
-    }
-
     public function cancel(): void
     {
         if ($this->cancelled) {
@@ -130,18 +111,18 @@ class Order
     }
 
     // TODO rename pay ?
-    public function markPaid(): Result
+    public function markPaid(): ?Error
     {
         if ($this->paid) {
-            return new Error\OrderAlreadyPaid();
+            return new OrderAlreadyPaid();
         }
 
         $this->paid = true;
 
-        return new Ok();
+        return null;
     }
 
-    public function findProductById(Products $products): Result
+    public function findProductById(Products $products)
     {
         return $products->findById($this->productId);
     }

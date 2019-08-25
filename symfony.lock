@@ -1,4 +1,10 @@
 {
+    "amphp/amp": {
+        "version": "v2.2.0"
+    },
+    "amphp/byte-stream": {
+        "version": "v1.6.1"
+    },
     "behat/gherkin": {
         "version": "v4.6.0"
     },
@@ -140,6 +146,12 @@
     "facebook/webdriver": {
         "version": "1.7.1"
     },
+    "felixfbecker/advanced-json-rpc": {
+        "version": "v3.0.3"
+    },
+    "felixfbecker/language-server-protocol": {
+        "version": "v1.4.0"
+    },
     "fig/link-util": {
         "version": "1.0.0"
     },
@@ -229,6 +241,9 @@
     },
     "myclabs/deep-copy": {
         "version": "1.9.3"
+    },
+    "netresearch/jsonmapper": {
+        "version": "v1.6.0"
     },
     "nikic/php-parser": {
         "version": "v4.1.1"
@@ -662,8 +677,17 @@
     "twig/twig": {
         "version": "v2.6.0"
     },
+    "vimeo/psalm": {
+        "version": "3.4.12"
+    },
     "webmozart/assert": {
         "version": "1.4.0"
+    },
+    "webmozart/glob": {
+        "version": "4.1.0"
+    },
+    "webmozart/path-util": {
+        "version": "2.3.0"
     },
     "zendframework/zend-code": {
         "version": "3.3.1"

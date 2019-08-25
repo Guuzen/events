@@ -2,8 +2,7 @@
 
 namespace App\Order\Model;
 
-use App\Common\Result\Ok;
-use App\Common\Result\Result;
+use App\Common\Error;
 use App\Order\Model\Error\OrderNotFound;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -15,7 +14,10 @@ final class Orders extends ServiceEntityRepository
         parent::__construct($registry, Order::class);
     }
 
-    public function findById(OrderId $orderId): Result
+    /**
+     * @return Order|Error
+     */
+    public function findById(OrderId $orderId)
     {
         $query = $this->_em->createQuery('
             select
@@ -32,6 +34,6 @@ final class Orders extends ServiceEntityRepository
             new OrderNotFound();
         }
 
-        return new Ok($order);
+        return $order;
     }
 }

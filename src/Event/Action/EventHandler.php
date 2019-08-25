@@ -2,8 +2,6 @@
 
 namespace App\Event\Action;
 
-use App\Common\Result\Ok;
-use App\Common\Result\Result;
 use App\Event\Model\Event;
 use App\Event\Model\EventConfig;
 use App\Event\Model\EventId;
@@ -28,7 +26,7 @@ final class EventHandler
         $this->events = $events;
     }
 
-    public function createEvent(CreateEvent $createEvent): Result
+    public function createEvent(CreateEvent $createEvent): EventId
     {
         $eventId = EventId::new();
         $event   = new Event($eventId);
@@ -42,6 +40,6 @@ final class EventHandler
 
         $this->em->flush();
 
-        return new Ok($eventId);
+        return $eventId;
     }
 }

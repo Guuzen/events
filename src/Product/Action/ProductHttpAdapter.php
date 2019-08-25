@@ -3,6 +3,7 @@
 namespace App\Product\Action;
 
 use App\Common\AppController;
+use App\Common\Error;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -20,12 +21,12 @@ final class ProductHttpAdapter extends AppController
      */
     public function createTicket(CreateTicket $createTicket): Response
     {
-        $result = $this->handler->createTicket($createTicket);
+        $ticketId = $this->handler->createTicket($createTicket);
 
-        if ($result->isErr()) {
-            return $this->errorJson($result);
+        if ($ticketId instanceof Error) {
+            return $this->errorJson($ticketId);
         }
 
-        return $this->successJson($result->value());
+        return $this->successJson($ticketId);
     }
 }

@@ -2,8 +2,7 @@
 
 namespace App\Tariff\Model;
 
-use App\Common\Result\Ok;
-use App\Common\Result\Result;
+use App\Common\Error;
 use App\Promocode\Model\Discount\Discount;
 use App\Tariff\Model\Error\TariffSegmentNotFound;
 use App\Tariff\Model\Exception\TariffSegmentsCantIntersects;
@@ -25,23 +24,27 @@ final class TariffPriceNet
         $this->segments = $segments;
     }
 
-    public function calculateSum(Discount $discount, DateTimeImmutable $asOf): Result
+    /**
+     * @return Money|Error
+     */
+    public function calculateSum(Discount $discount, DateTimeImmutable $asOf)
     {
-        $result = $this->findSegmentAsOF($asOf);
-        if ($result->isErr()) {
-            return $result;
+        $segment = $this->findSegmentAsOF($asOf);
+        if ($segment instanceof Error) {
+            return $segment;
         }
-        /** @var TariffSegment $segment */
-        $segment = $result->value();
 
-        return new Ok($segment->calculateSum($discount));
+        return $segment->calculateSum($discount);
     }
 
-    private function findSegmentAsOF(DateTimeImmutable $asOf): Result
+    /**
+     * @return TariffSegment|Error
+     */
+    private function findSegmentAsOF(DateTimeImmutable $asOf)
     {
         foreach ($this->segments as $segment) {
             if ($segment->includes($asOf)) {
-                return new Ok($segment);
+                return $segment;
             }
         }
 

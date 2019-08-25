@@ -2,7 +2,7 @@
 
 namespace App\Promocode\Action;
 
-use App\Event\Model\Event;
+use App\Common\Error;
 use App\Event\Model\EventId;
 use App\Event\Model\Events;
 use App\Promocode\Model\AllowedTariffs\SpecificAllowedTariffs;
@@ -43,13 +43,11 @@ final class PromocodeHandler
         }
         $promocodeId = PromocodeId::new();
 
-        $eventId         = EventId::fromString($createRegularPromocode->eventId);
-        $findEventResult = $this->events->findById($eventId);
-        if ($findEventResult->isErr()) {
-            return $findEventResult;
+        $eventId = EventId::fromString($createRegularPromocode->eventId);
+        $event   = $this->events->findById($eventId);
+        if ($event instanceof Error) {
+            return $event;
         }
-        /** @var Event $event */
-        $event = $findEventResult->value();
 
         $promocode = $event->createRegularPromocode(
             $promocodeId,
