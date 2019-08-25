@@ -5,24 +5,17 @@ namespace App\Common;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
-use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
-use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class AppRequestResolver implements ArgumentValueResolverInterface
 {
-    private $denormalizer;
-
     private $serializer;
 
     private $validator;
 
-    public function __construct(
-        ArrayDenormalizer $denormalizer,
-        SerializerInterface $serializer,
-        ValidatorInterface $validator
-    ) {
-        $this->denormalizer = $denormalizer;
+    public function __construct(Serializer $serializer, ValidatorInterface $validator)
+    {
         $this->serializer   = $serializer;
         $this->validator    = $validator;
     }
@@ -37,7 +30,7 @@ class AppRequestResolver implements ArgumentValueResolverInterface
         /* @var AppRequest $appRequest */
         if (Request::METHOD_GET === $request->getMethod()) {
             $params     = $request->query->all();
-            $appRequest = $this->denormalizer->denormalize($params, $argument->getType());
+            $appRequest = $this->serializer->denormalize($params, $argument->getType());
         } else {
             $appRequest = $this->serializer->deserialize($request->getContent(), $argument->getType(), 'json');
         }

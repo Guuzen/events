@@ -3,7 +3,6 @@
 namespace App\Queries\Tariff;
 
 use App\Common\AppController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -22,9 +21,9 @@ final class TariffQueriesHttpAdapter extends AppController
     /**
      * @Route("/list")
      */
-    public function findAll(Request $request): Response
+    public function findEventTariffs(FindEventTariffs $findEventTariffs): Response
     {
-        $tariffs = $this->tariffQueries->findAll();
+        $tariffs = $this->tariffQueries->findEventTariffs($findEventTariffs->eventId);
 
         return $this->successJson($tariffs);
     }
@@ -32,11 +31,9 @@ final class TariffQueriesHttpAdapter extends AppController
     /**
      * @Route("/show")
      */
-    public function findById(Request $request): Response
+    public function findTariffById(FindTariffById $findTariffById): Response
     {
-        // TODO create request object for requests by id ?
-        $tariffId = (string) $request->get('tariff_id');
-        $tariff   = $this->tariffQueries->findById($tariffId);
+        $tariff = $this->tariffQueries->findById($findTariffById->tariffId);
 
         return $this->successJson($tariff);
     }

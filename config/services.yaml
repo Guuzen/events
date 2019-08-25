@@ -68,7 +68,6 @@ services:
 
     App\Common\AppRequestResolver:
         arguments:
-            $denormalizer: '@app.http_serializer.normalizer.array'
             $serializer: '@app.http_serializer'
         tags:
             - { name: controller.argument_value_resolver, priority: 50 }

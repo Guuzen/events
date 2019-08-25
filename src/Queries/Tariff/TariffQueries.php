@@ -13,10 +13,10 @@ final class TariffQueries
         $this->connection = $connection;
     }
 
-    // TODO stop doing formatting in db
-    public function findAll(): array
+    // TODO stop doing formatting in db ?
+    public function findEventTariffs(string $eventId): array
     {
-        $stmt = $this->connection->query('
+        $stmt = $this->connection->prepare('
             select
                 id,
                 product_type ->> \'type\' as "product_type",
@@ -29,7 +29,11 @@ final class TariffQueries
                 (json_array_elements(price_net -> \'segments\') -> \'term\' ->> \'end\') as "term_end"
             from
                 tariff
+            where
+                tariff.event_id = :event_id
         ');
+        $stmt->bindValue('event_id', $eventId);
+        $stmt->execute();
 
         return $stmt->fetchAll();
     }

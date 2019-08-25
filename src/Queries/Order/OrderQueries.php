@@ -13,7 +13,7 @@ final class OrderQueries
         $this->connection = $connection;
     }
 
-    public function findAll(string $eventId): array
+    public function findEventOrders(string $eventId): array
     {
         $stmt = $this->connection->prepare('
             select
@@ -51,7 +51,7 @@ final class OrderQueries
         return $stmt->fetchAll();
     }
 
-    public function findById(string $orderId): array
+    public function findOrderById(string $orderId): array
     {
         $stmt = $this->connection->prepare('
             select

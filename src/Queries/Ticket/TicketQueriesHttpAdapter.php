@@ -3,7 +3,6 @@
 namespace App\Queries\Ticket;
 
 use App\Common\AppController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -22,9 +21,9 @@ final class TicketQueriesHttpAdapter extends AppController
     /**
      * @Route("/list")
      */
-    public function findAll(Request $request): Response
+    public function findEventTickets(FindEventTickets $findEventTickets): Response
     {
-        $tickets = $this->ticketQueries->findAll((string) $request->get('event_id'));
+        $tickets = $this->ticketQueries->findAll($findEventTickets->eventId);
 
         return $this->successJson($tickets);
     }
@@ -32,10 +31,9 @@ final class TicketQueriesHttpAdapter extends AppController
     /**
      * @Route("/show")
      */
-    public function findById(Request $request): Response
+    public function findById(FindTicketById $findTicketById): Response
     {
-        $ticketId = (string) $request->get('ticket_id');
-        $ticket   = $this->ticketQueries->findById($ticketId);
+        $ticket = $this->ticketQueries->findById($findTicketById->ticketId);
 
         return $this->successJson($ticket);
     }

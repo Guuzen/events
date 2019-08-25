@@ -3,7 +3,6 @@
 namespace App\Queries\Order;
 
 use App\Common\AppController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -22,9 +21,9 @@ final class OrderQueriesHttpAdapter extends AppController
     /**
      * @Route("/list")
      */
-    public function findAll(Request $request): Response
+    public function findEventOrders(FindEventOrders $findEventOrders): Response
     {
-        $orders = $this->orderQueries->findAll((string) $request->get('event_id'));
+        $orders = $this->orderQueries->findEventOrders($findEventOrders->eventId);
 
         return $this->successJson($orders);
     }
@@ -32,10 +31,9 @@ final class OrderQueriesHttpAdapter extends AppController
     /**
      * @Route("/show")
      */
-    public function findById(Request $request): Response
+    public function findOrderById(FindOrderById $findOrderById): Response
     {
-        $orderId = (string) $request->get('order_id');
-        $order   = $this->orderQueries->findById($orderId);
+        $order   = $this->orderQueries->findOrderById($findOrderById->orderId);
 
         return $this->successJson($order);
     }

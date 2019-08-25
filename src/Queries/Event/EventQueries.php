@@ -25,7 +25,7 @@ final class EventQueries
         return $stmt->fetchAll();
     }
 
-    public function findById(string $eventId): array
+    public function findEventById(string $eventId): array
     {
         $stmt = $this->connection->prepare('
             select
