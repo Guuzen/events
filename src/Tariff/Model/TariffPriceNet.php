@@ -28,7 +28,7 @@ final class TariffPriceNet
     }
 
     /**
-     * @return Money|Error
+     * @return Money|TariffSegmentNotFound
      */
     public function calculateSum(Discount $discount, DateTimeImmutable $asOf)
     {
@@ -41,7 +41,7 @@ final class TariffPriceNet
     }
 
     /**
-     * @return TariffSegment|Error
+     * @return TariffSegment|TariffSegmentNotFound
      */
     private function findSegmentAsOF(DateTimeImmutable $asOf)
     {

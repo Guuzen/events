@@ -2,10 +2,10 @@
 
 namespace App\Order\Model;
 
-use App\Common\Error;
 use App\Event\Model\EventId;
 use App\Order\Model\Error\OrderAlreadyPaid;
 use App\Order\Model\Exception\OrderCancelled;
+use App\Product\Model\Error\ProductNotFound;
 use App\Product\Model\Product;
 use App\Product\Model\ProductId;
 use App\Product\Model\Products;
@@ -112,7 +112,7 @@ class Order
     }
 
     // TODO rename pay ?
-    public function markPaid(): ?Error
+    public function markPaid(): ?OrderAlreadyPaid
     {
         if ($this->paid) {
             return new OrderAlreadyPaid();
@@ -124,7 +124,7 @@ class Order
     }
 
     /**
-     * @return Product|Error
+     * @return Product|ProductNotFound
      */
     public function findProductById(Products $products)
     {

@@ -3,6 +3,7 @@
 namespace App\Tariff\Action;
 
 use App\Common\Error;
+use App\Event\Model\Error\EventNotFound;
 use App\Event\Model\EventId;
 use App\Event\Model\Events;
 use App\Product\Model\ProductType;
@@ -36,7 +37,7 @@ final class TariffHandler
     }
 
     /**
-     * @return TariffId|Error
+     * @return TariffId|EventNotFound
      */
     public function createTariff(CreateTariff $createTariff)
     {

@@ -62,11 +62,11 @@ abstract class AppController
     private function stringifyError(Error $errorObject): string
     {
         $errorClassName = (new \ReflectionClass($errorObject))->getShortName();
-        $errorClassName = preg_replace('/[A-Z]/', ' \\0', lcfirst($errorClassName));
-        if (null === $errorClassName) {
+        $message        = preg_replace('/[A-Z]/', ' \\0', lcfirst($errorClassName));
+        if (null === $message) {
             throw new \Exception();
         }
 
-        return strtolower($errorClassName);
+        return strtolower($message);
     }
 }

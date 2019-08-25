@@ -2,7 +2,6 @@
 
 namespace App\Promocode\Model;
 
-use App\Common\Error;
 use App\Promocode\Model\Error\PromocodeNotFound;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -15,7 +14,7 @@ final class RegularPromocodes extends ServiceEntityRepository
     }
 
     /**
-     * @return Promocode|Error
+     * @return Promocode|PromocodeNotFound
      */
     public function findById(PromocodeId $promocodeId)
     {

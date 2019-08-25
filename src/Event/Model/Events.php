@@ -2,7 +2,6 @@
 
 namespace App\Event\Model;
 
-use App\Common\Error;
 use App\Event\Model\Error\EventNotFound;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -15,7 +14,7 @@ final class Events extends ServiceEntityRepository
     }
 
     /**
-     * @return Event|Error
+     * @return Event|EventNotFound
      */
     public function findById(EventId $eventId)
     {

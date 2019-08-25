@@ -3,12 +3,14 @@
 namespace App\Product\Action;
 
 use App\Common\Error;
+use App\Event\Model\Error\EventNotFound;
 use App\Event\Model\EventId;
 use App\Event\Model\Events;
 use App\Product\Model\ProductId;
 use App\Product\Model\Products;
 use App\Product\Model\TicketId;
 use App\Product\Model\Tickets;
+use App\Tariff\Model\Error\TariffNotFound;
 use App\Tariff\Model\TariffId;
 use App\Tariff\Model\Tariffs;
 use DateTimeImmutable;
@@ -41,7 +43,7 @@ final class ProductHandler
     }
 
     /**
-     * @return ProductId|Error
+     * @return ProductId|TariffNotFound|EventNotFound
      */
     public function createTicket(CreateTicket $createTicket)
     {

@@ -2,7 +2,6 @@
 
 namespace App\Product\Model;
 
-use App\Common\Error;
 use App\Event\Model\EventId;
 use App\Order\Model\Order;
 use App\Order\Model\OrderId;
@@ -75,7 +74,8 @@ final class Product
     }
 
     // TODO reserved at
-    public function reserve(): ?Error
+    // TODO ?Error
+    public function reserve(): ?ProductCantBeReservedIfAlreadyReserved
     {
         if ($this->reserved) {
             return new ProductCantBeReservedIfAlreadyReserved();
@@ -95,7 +95,7 @@ final class Product
         $this->reserved = false;
     }
 
-    public function delivered(DateTimeImmutable $deliveredAt): ?Error
+    public function delivered(DateTimeImmutable $deliveredAt): ?ProductCantBeDeliveredIfNotReserved
     {
         if (!$this->reserved) {
             return new ProductCantBeDeliveredIfNotReserved();

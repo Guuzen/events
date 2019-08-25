@@ -2,7 +2,6 @@
 
 namespace App\Tariff\Model;
 
-use App\Common\Error;
 use App\Tariff\Model\Error\TariffNotFound;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -15,7 +14,7 @@ final class Tariffs extends ServiceEntityRepository
     }
 
     /**
-     * @return Tariff|Error
+     * @return Tariff|TariffNotFound
      */
     public function findById(TariffId $tariffId)
     {

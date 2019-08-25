@@ -3,6 +3,7 @@
 namespace App\Promocode\Action;
 
 use App\Common\Error;
+use App\Event\Model\Error\EventNotFound;
 use App\Event\Model\EventId;
 use App\Event\Model\Events;
 use App\Promocode\Model\AllowedTariffs\SpecificAllowedTariffs;
@@ -36,7 +37,7 @@ final class PromocodeHandler
     }
 
     /**
-     * @return PromocodeId|Error
+     * @return PromocodeId|EventNotFound
      */
     public function createRegularPromocode(CreateRegularPromocode $createRegularPromocode)
     {

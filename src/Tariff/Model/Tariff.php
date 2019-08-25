@@ -2,16 +2,17 @@
 
 namespace App\Tariff\Model;
 
-use App\Common\Error;
 use App\Event\Model\EventId;
 use App\Order\Model\Order;
 use App\Order\Model\OrderId;
+use App\Product\Model\Error\NotReservedProductNotFound;
 use App\Product\Model\Product;
 use App\Product\Model\ProductId;
 use App\Product\Model\Products;
 use App\Product\Model\ProductType;
 use App\Promocode\Model\AllowedTariffs\AllowedTariffs;
 use App\Promocode\Model\Discount\Discount;
+use App\Tariff\Model\Error\TariffSegmentNotFound;
 use App\Tariff\Model\Exception\OrderTariffMustBeRelatedToEvent;
 use App\User\Model\User;
 use DateTimeImmutable;
@@ -54,7 +55,7 @@ class Tariff
     }
 
     /**
-     * @return Money|Error
+     * @return Money|TariffSegmentNotFound
      */
     public function calculateSum(Discount $discount, DateTimeImmutable $asOf)
     {
@@ -72,7 +73,7 @@ class Tariff
     }
 
     /**
-     * @return Product|Error
+     * @return Product|NotReservedProductNotFound
      */
     public function findNotReservedProduct(Products $products)
     {

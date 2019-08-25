@@ -2,7 +2,6 @@
 
 namespace App\Product\Model;
 
-use App\Common\Error;
 use App\Product\Model\Error\NotReservedProductNotFound;
 use App\Product\Model\Error\ProductNotFound;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -16,7 +15,7 @@ final class Products extends ServiceEntityRepository
     }
 
     /**
-     * @return Product|Error
+     * @return Product|NotReservedProductNotFound
      */
     public function findNotReservedByType(ProductType $type)
     {
@@ -42,7 +41,7 @@ final class Products extends ServiceEntityRepository
     }
 
     /**
-     * @return Product|Error
+     * @return Product|ProductNotFound
      */
     public function findById(ProductId $productId)
     {

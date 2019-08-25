@@ -3,14 +3,23 @@
 namespace App\Order\Action;
 
 use App\Common\Error;
+use App\Event\Model\Error\EventNotFound;
 use App\Event\Model\EventId;
 use App\Event\Model\Events;
 use App\Infrastructure\Notifier\SendTicketToBuyerByEmailNotifier;
+use App\Order\Model\Error\OrderAlreadyPaid;
+use App\Order\Model\Error\OrderNotFound;
 use App\Order\Model\OrderId;
 use App\Order\Model\Orders;
+use App\Product\Model\Error\NotReservedProductNotFound;
+use App\Product\Model\Error\ProductCantBeDeliveredIfNotReserved;
+use App\Product\Model\Error\ProductCantBeReservedIfAlreadyReserved;
+use App\Product\Model\Error\ProductNotFound;
 use App\Product\Model\Products;
 use App\Promocode\Model\NullPromocode;
 use App\Queries\FindDataForSendTicketToByerByEmail;
+use App\Tariff\Model\Error\TariffNotFound;
+use App\Tariff\Model\Error\TariffSegmentNotFound;
 use App\Tariff\Model\TariffId;
 use App\Tariff\Model\Tariffs;
 use App\User\Model\Contacts;
@@ -55,7 +64,7 @@ final class OrderHandler
     }
 
     /**
-     * @return OrderId|Error
+     * @return OrderId|EventNotFound|TariffNotFound|NotReservedProductNotFound|TariffSegmentNotFound|ProductNotFound|ProductCantBeReservedIfAlreadyReserved
      */
     public function placeOrder(PlaceOrder $placeOrder)
     {
@@ -123,7 +132,10 @@ final class OrderHandler
         return $orderId;
     }
 
-    public function markOrderPaid(MarkOrderPaid $markOrderPaid): ?Error
+    /**
+     * @return OrderNotFound|OrderAlreadyPaid|ProductNotFound|ProductCantBeDeliveredIfNotReserved|null
+     */
+    public function markOrderPaid(MarkOrderPaid $markOrderPaid)
     {
         $orderId = OrderId::fromString($markOrderPaid->orderId);
 
