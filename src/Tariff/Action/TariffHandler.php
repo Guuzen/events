@@ -49,15 +49,15 @@ final class TariffHandler
         }
 
         $tariffSegments = [];
-        foreach ($createTariff->priceNet['segments'] as $segment) {
+        foreach ($createTariff->priceNet->segments as $segment) {
             $tariffSegments[] = new TariffSegment(
                 new Money(
-                    $segment['price']['amount'],
-                    new Currency($segment['price']['currency'])
+                    $segment->price->amount,
+                    new Currency($segment->price->currency)
                 ),
                 new TariffTerm(
-                    new DateTimeImmutable($segment['term']['start']),
-                    new DateTimeImmutable($segment['term']['end'])
+                    new DateTimeImmutable($segment->term->start),
+                    new DateTimeImmutable($segment->term->end)
                 )
             );
         }

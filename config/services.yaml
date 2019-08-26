@@ -50,17 +50,15 @@ services:
     app.http_serializer.normalizer.array:
         class: Symfony\Component\Serializer\Normalizer\ArrayDenormalizer
 
+    app.http_serializer.php_doc_extractor:
+        class: Symfony\Component\PropertyInfo\Extractor\PhpDocExtractor
+
     app.http_serializer.property_normalizer:
         class: Symfony\Component\Serializer\Normalizer\PropertyNormalizer
         arguments:
-            - ~
+            - '@serializer.mapping.class_metadata_factory'
             - '@serializer.name_converter.camel_case_to_snake_case'
-
-    #    app.http_serializer.without_constructor_property_normalizer:
-    #        class: App\Common\WithoutConstructorPropertyNormalizer
-    #        arguments:
-    #            - ~
-    #            - '@serializer.name_converter.camel_case_to_snake_case'
+            - '@app.http_serializer.php_doc_extractor'
 
     app.http_serializer:
         class: Symfony\Component\Serializer\Serializer

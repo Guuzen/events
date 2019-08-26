@@ -12,37 +12,9 @@ final class CreateTariff implements AppRequest
     public $productType;
 
     // TODO embedded object?
-    /**
-     * @psalm-var array{
-     *      segments: array{
-     *          price: array{
-     *              amount: string,
-     *              currency: string,
-     *          },
-     *          term: array{
-     *              start: string,
-     *              end: string,
-     *          },
-     *      },
-     * }[]
-     */
     public $priceNet;
 
-    /**
-     * @psalm-param array{
-     *      segments: array{
-     *          price: array{
-     *              amount: string,
-     *              currency: string,
-     *          },
-     *          term: array{
-     *              start: string,
-     *              end: string,
-     *          },
-     *      },
-     * }[] $priceNet
-     */
-    public function __construct(string $eventId, string $productType, array $priceNet)
+    public function __construct(string $eventId, string $productType, CreateTariffPriceNet $priceNet)
     {
         $this->eventId     = $eventId;
         $this->productType = $productType;
