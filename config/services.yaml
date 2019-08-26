@@ -50,11 +50,17 @@ services:
     app.http_serializer.normalizer.array:
         class: Symfony\Component\Serializer\Normalizer\ArrayDenormalizer
 
-    app.http_serializer.without_constructor_property_normalizer:
-        class: App\Common\WithoutConstructorPropertyNormalizer
+    app.http_serializer.property_normalizer:
+        class: Symfony\Component\Serializer\Normalizer\PropertyNormalizer
         arguments:
             - ~
             - '@serializer.name_converter.camel_case_to_snake_case'
+
+    #    app.http_serializer.without_constructor_property_normalizer:
+    #        class: App\Common\WithoutConstructorPropertyNormalizer
+    #        arguments:
+    #            - ~
+    #            - '@serializer.name_converter.camel_case_to_snake_case'
 
     app.http_serializer:
         class: Symfony\Component\Serializer\Serializer
@@ -62,7 +68,7 @@ services:
             $normalizers:
                 - '@serializer.normalizer.datetime'
                 - '@app.http_serializer.normalizer.array'
-                - '@app.http_serializer.without_constructor_property_normalizer'
+                - '@app.http_serializer.property_normalizer'
             $encoders:
                 - '@serializer.encoder.json'
 
@@ -71,6 +77,12 @@ services:
             $serializer: '@app.http_serializer'
         tags:
             - { name: controller.argument_value_resolver, priority: 50 }
+
+    App\Order\Action\PlaceOrderRequestResolver:
+        arguments:
+            $serializer: '@app.http_serializer'
+        tags:
+            - { name: controller.argument_value_resolver, priority: 51 }
 
 
     # locator for http adapters
@@ -107,3 +119,14 @@ services:
     App\Infrastructure\Notifier\SendTicketToBuyerByEmailNotifier:
         arguments:
             $from: '%app.no_reply_email%'
+
+    annotations.reader:
+        class: Doctrine\Common\Annotations\AnnotationReader
+        calls:
+            -   method: addGlobalIgnoredName
+                arguments:
+                    - 'required'
+            -   method: addGlobalIgnoredName
+                arguments:
+                    - 'readonly'
+

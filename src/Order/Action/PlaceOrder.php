@@ -11,21 +11,37 @@ final class PlaceOrder implements AppRequest
 {
     /**
      * @Assert\NotBlank
+     * @readonly
      */
     public $firstName;
 
+    /**
+     * @readonly
+     */
     public $lastName;
 
+    /**
+     * @readonly
+     */
     public $email;
 
+    /**
+     * @readonly
+     */
     public $paymentMethod;
 
+    /**
+     * @readonly
+     */
     public $tariffId;
 
+    /**
+     * @readonly
+     */
     public $phone;
 
     /**
-     * @var string
+     * @readonly
      */
     public $eventId;
 
@@ -35,7 +51,8 @@ final class PlaceOrder implements AppRequest
         string $email,
         string $paymentMethod,
         string $tariffId,
-        string $phone
+        string $phone,
+        string $eventId
     ) {
         $this->firstName     = $firstName;
         $this->lastName      = $lastName;
@@ -43,5 +60,6 @@ final class PlaceOrder implements AppRequest
         $this->paymentMethod = $paymentMethod;
         $this->tariffId      = $tariffId;
         $this->phone         = $phone;
+        $this->eventId       = $eventId;
     }
 }

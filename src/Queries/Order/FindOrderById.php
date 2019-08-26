@@ -6,6 +6,9 @@ use App\Common\AppRequest;
 
 final class FindOrderById implements AppRequest
 {
+    /**
+     * @readonly
+     */
     public $orderId;
 
     public function __construct(string $orderId)

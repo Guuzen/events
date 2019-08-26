@@ -6,6 +6,9 @@ use App\Common\AppRequest;
 
 final class FindEventTariffs implements AppRequest
 {
+    /**
+     * @readonly
+     */
     public $eventId;
 
     public function __construct(string $eventId)

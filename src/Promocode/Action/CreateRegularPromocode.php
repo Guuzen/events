@@ -6,6 +6,9 @@ use App\Common\AppRequest;
 
 final class CreateRegularPromocode implements AppRequest
 {
+    /**
+     * @readonly
+     */
     public $eventId;
 
     /**
@@ -16,18 +19,29 @@ final class CreateRegularPromocode implements AppRequest
      */
     public $discount;
 
+    /**
+     * @readonly
+     */
     public $useLimit;
 
+    /**
+     * @readonly
+     */
     public $expireAt;
 
+    /**
+     * @readonly
+     */
     public $usable;
 
     /**
+     * @readonly
      * @var string[]
      */
     public $allowedTariffs;
 
     /**
+     * @readonly
      * @psalm-param array{
      *      amount: string,
      *      currency: string

@@ -6,18 +6,17 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class AppRequestResolver implements ArgumentValueResolverInterface
+final class AppRequestResolver implements ArgumentValueResolverInterface
 {
     private $serializer;
 
     private $validator;
 
-    public function __construct(Serializer $serializer, ValidatorInterface $validator)
+    public function __construct(Serializer $serializer, AppRequestValidator $validator)
     {
-        $this->serializer   = $serializer;
-        $this->validator    = $validator;
+        $this->serializer = $serializer;
+        $this->validator  = $validator;
     }
 
     public function supports(Request $request, ArgumentMetadata $argument): bool
@@ -27,19 +26,15 @@ class AppRequestResolver implements ArgumentValueResolverInterface
 
     public function resolve(Request $request, ArgumentMetadata $argument): \Generator
     {
-        /* @var AppRequest $appRequest */
         if (Request::METHOD_GET === $request->getMethod()) {
             $params     = $request->query->all();
+            /** @var AppRequest $appRequest */
             $appRequest = $this->serializer->denormalize($params, $argument->getType());
         } else {
+            /** @var AppRequest $appRequest */
             $appRequest = $this->serializer->deserialize($request->getContent(), $argument->getType(), 'json');
         }
 
-        $errors = $this->validator->validate($appRequest);
-        if (count($errors) > 0) {
-            throw new InvalidAppRequest($errors);
-        }
-
-        yield $appRequest;
+        yield from $this->validator->validate($appRequest);
     }
 }

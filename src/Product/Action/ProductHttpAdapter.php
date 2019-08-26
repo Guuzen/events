@@ -13,7 +13,7 @@ final class ProductHttpAdapter extends AppController
 
     public function __construct(ProductHandler $handler)
     {
-        $this->handler             = $handler;
+        $this->handler = $handler;
     }
 
     /**

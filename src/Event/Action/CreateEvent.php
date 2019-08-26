@@ -7,8 +7,14 @@ use App\Common\AppRequest;
 
 final class CreateEvent implements AppRequest
 {
+    /**
+     * @readonly
+     */
     public $name;
 
+    /**
+     * @readonly
+     */
     public $domain;
 
     public function __construct(string $name, string $domain)

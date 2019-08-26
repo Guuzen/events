@@ -6,6 +6,9 @@ use App\Common\AppRequest;
 
 final class FindEventById implements AppRequest
 {
+    /**
+     * @readonly
+     */
     public $eventId;
 
     public function __construct(string $eventId)
