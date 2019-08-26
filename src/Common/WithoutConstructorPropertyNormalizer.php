@@ -12,7 +12,7 @@ final class WithoutConstructorPropertyNormalizer extends PropertyNormalizer
     private $discriminatorCache = [];
 
     /**
-     * @param string $class
+     * @param string     $class
      * @param array|bool $allowedAttributes
      */
     protected function instantiateObject(
@@ -27,8 +27,8 @@ final class WithoutConstructorPropertyNormalizer extends PropertyNormalizer
     }
 
     /**
-     * @param object $object
-     * @param string $attribute
+     * @param object      $object
+     * @param string      $attribute
      * @param string|null $format
      *
      * @return mixed

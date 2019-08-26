@@ -9,7 +9,7 @@ final class CreateRegularPromocode implements AppRequest
     public $eventId;
 
     /**
-     * @var array{
+     * @psalm-var array{
      *      amount: string,
      *      currency: string,
      * }
@@ -28,12 +28,11 @@ final class CreateRegularPromocode implements AppRequest
     public $allowedTariffs;
 
     /**
-     * @param array{
+     * @psalm-param array{
      *      amount: string,
      *      currency: string
      * } $discount
      * @param string[] $allowedTariffs
-     *
      */
     public function __construct(
         string $eventId,

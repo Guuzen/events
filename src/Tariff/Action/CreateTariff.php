@@ -13,7 +13,7 @@ final class CreateTariff implements AppRequest
 
     // TODO embedded object?
     /**
-     * @var array{
+     * @psalm-var array{
      *      segments: array{
      *          price: array{
      *              amount: string,
@@ -29,7 +29,7 @@ final class CreateTariff implements AppRequest
     public $priceNet;
 
     /**
-     * @param array{
+     * @psalm-param array{
      *      segments: array{
      *          price: array{
      *              amount: string,

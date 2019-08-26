@@ -21,7 +21,6 @@ return PhpCsFixer\Config::create()
         'no_superfluous_phpdoc_tags' => ['allow_mixed' => true],
         'phpdoc_order'               => true,
         'phpdoc_to_comment'          => false,
-        'phpdoc_align'               => false
     ])
     ->setRiskyAllowed(true)
     ->setFinder($finder);

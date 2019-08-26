@@ -10,7 +10,6 @@ use App\Product\Model\Ticket;
 use App\Product\Model\TicketId;
 use App\Promocode\Model\AllowedTariffs\AllowedTariffs;
 use App\Promocode\Model\AllowedTariffs\EventAllowedTariffs;
-use App\Promocode\Model\AllowedTariffs\SpecificAllowedTariffs;
 use App\Promocode\Model\Discount\Discount;
 use App\Promocode\Model\PromocodeId;
 use App\Promocode\Model\RegularPromocode;

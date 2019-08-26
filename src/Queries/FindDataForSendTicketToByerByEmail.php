@@ -15,6 +15,7 @@ final class FindDataForSendTicketToByerByEmail
     }
 
     // TODO delivery address in order ?
+
     /**
      * @return array{email: string, number: string}
      */

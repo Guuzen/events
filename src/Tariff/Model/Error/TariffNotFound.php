@@ -6,5 +6,4 @@ use App\Common\Error;
 
 final class TariffNotFound extends Error
 {
-
 }
