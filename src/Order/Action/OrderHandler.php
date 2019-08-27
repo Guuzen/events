@@ -6,7 +6,7 @@ use App\Common\Error;
 use App\Event\Model\Error\EventNotFound;
 use App\Event\Model\EventId;
 use App\Event\Model\Events;
-use App\Infrastructure\Notifier\SendTicketToBuyerByEmailNotifier;
+use App\Order\Action\SendTicketByEmail;
 use App\Order\Model\Error\OrderAlreadyPaid;
 use App\Order\Model\Error\OrderNotFound;
 use App\Order\Model\OrderId;
@@ -51,7 +51,7 @@ final class OrderHandler
         Tariffs $tariffs,
         Products $products,
         Orders $orders,
-        SendTicketToBuyerByEmailNotifier $sendTicketToBuyerByEmailNotifier,
+        SendTicketByEmail $sendTicketToBuyerByEmailNotifier,
         FindDataForSendTicketToByerByEmail $findDataForSendTicketToByerByEmail
     ) {
         $this->em                                 = $em;
@@ -152,13 +152,14 @@ final class OrderHandler
         $this->em->flush();
 
         $orderPaid = ($this->findDataForSendTicketToByerByEmail)((string) $orderId);
-        $this->sendTicketToBuyerByEmailNotifier->notify($orderPaid);
+        $this->sendTicketToBuyerByEmailNotifier->send($orderPaid);
 
         $product = $order->findProductById($this->products);
         if ($product instanceof Error) {
             return $product;
         }
 
+        // TODO move it to send ticket by email or extract to another action ?
         $deliveredError = $product->delivered(new DateTimeImmutable('now'));
         if ($deliveredError instanceof Error) {
             return $deliveredError;

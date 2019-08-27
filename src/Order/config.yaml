@@ -1,0 +1,29 @@
+doctrine:
+    dbal:
+        types:
+            app_order_id: App\Order\Doctrine\OrderIdType
+    orm:
+        mappings:
+            Order:
+                is_bundle: false
+                prefix: 'App\Order\Model'
+                type: annotation
+                dir: '%kernel.project_dir%/src/Order/Model'
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    App\Order\Action\OrderHandler: ~
+    App\Order\Model\Orders: ~
+
+    App\Order\Action\PlaceOrderRequestResolver:
+        arguments:
+            $serializer: '@app.infrastructure.http.serializer'
+        tags:
+            - { name: controller.argument_value_resolver, priority: 51 }
+
+    App\Order\Action\SendTicketByEmail:
+        arguments:
+            $from: '%app.no_reply_email%'

@@ -3,7 +3,7 @@
 namespace App\Event\Action;
 
 // TODO validation
-use App\Common\AppRequest;
+use App\Infrastructure\Http\AppRequest;
 
 final class CreateEvent implements AppRequest
 {

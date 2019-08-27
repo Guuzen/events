@@ -2,7 +2,7 @@
 
 namespace App\Queries\Order;
 
-use App\Common\AppRequest;
+use App\Infrastructure\Http\AppRequest;
 
 final class FindEventOrders implements AppRequest
 {

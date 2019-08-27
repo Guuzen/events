@@ -2,7 +2,7 @@
 
 namespace App\Queries\Event;
 
-use App\Common\AppRequest;
+use App\Infrastructure\Http\AppRequest;
 
 final class FindEventById implements AppRequest
 {

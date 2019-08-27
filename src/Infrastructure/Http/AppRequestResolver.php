@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Common;
+namespace App\Infrastructure\Http;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
@@ -21,18 +21,28 @@ final class AppRequestResolver implements ArgumentValueResolverInterface
 
     public function supports(Request $request, ArgumentMetadata $argument): bool
     {
-        return is_subclass_of($argument->getType(), AppRequest::class);
+        $argumentType = $argument->getType();
+        if (null === $argumentType) {
+            throw new \Exception();
+        }
+
+        return is_subclass_of($argumentType, AppRequest::class);
     }
 
     public function resolve(Request $request, ArgumentMetadata $argument): \Generator
     {
+        $argumentType = $argument->getType();
+        if (null === $argumentType) {
+            throw new \Exception();
+        }
+
         if (Request::METHOD_GET === $request->getMethod()) {
             $params     = $request->query->all();
             /** @var AppRequest $appRequest */
-            $appRequest = $this->serializer->denormalize($params, $argument->getType());
+            $appRequest = $this->serializer->denormalize($params, $argumentType);
         } else {
             /** @var AppRequest $appRequest */
-            $appRequest = $this->serializer->deserialize($request->getContent(), $argument->getType(), 'json');
+            $appRequest = $this->serializer->deserialize($request->getContent(), $argumentType, 'json');
         }
 
         yield from $this->validator->validate($appRequest);

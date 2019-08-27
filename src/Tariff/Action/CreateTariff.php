@@ -2,7 +2,7 @@
 
 namespace App\Tariff\Action;
 
-use App\Common\AppRequest;
+use App\Infrastructure\Http\AppRequest;
 
 final class CreateTariff implements AppRequest
 {

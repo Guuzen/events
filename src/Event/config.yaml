@@ -1,0 +1,20 @@
+doctrine:
+    dbal:
+        types:
+            app_event_id: App\Event\Doctrine\EventIdType
+    orm:
+        mappings:
+            Event:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/Event/Model'
+                prefix: 'App\Event\Model'
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    App\Event\Action\EventHandler: ~
+    App\Event\Model\Events: ~

@@ -1,0 +1,61 @@
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        bind:
+            $locator: '@Symfony\Component\DependencyInjection\ServiceLocator'
+            # todo locator local name ?
+    _instanceof:
+        App\Infrastructure\Http\AppController:
+            tags: ['controller.service_arguments']
+
+    App\Infrastructure\Http\AppRequestValidator: ~
+
+    # HTTP ADAPTERS
+    App\:
+        resource: '../../../src/**/*HttpAdapter.php'
+
+    # LOCATOR FOR HTTP ADAPTERS
+    Symfony\Component\DependencyInjection\ServiceLocator:
+        arguments:
+            -   serializer: '@app.infrastructure.http.serializer'
+
+    # LISTENER FOR VALIDATION ERRORS HANDLING
+    App\Infrastructure\Http\InvalidAppRequestListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }
+
+    # RESOLVER FOR INJECTING APP REQUESTS AS HTTP ADAPTERS METHODS ARGUMENTS
+    App\Infrastructure\Http\AppRequestResolver:
+        arguments:
+            $serializer: '@app.infrastructure.http.serializer'
+        tags:
+            - { name: controller.argument_value_resolver, priority: 50 }
+
+    # SERIALIZER
+    app.infrastructure.http.serializer.normalizer.datetime:
+        class: Symfony\Component\Serializer\Normalizer\DateTimeNormalizer
+
+    app.infrastructure.http.serializer.normalizer.array:
+        class: Symfony\Component\Serializer\Normalizer\ArrayDenormalizer
+
+    app.infrastructure.http.serializer.php_doc_extractor:
+        class: Symfony\Component\PropertyInfo\Extractor\PhpDocExtractor
+
+    app.infrastructure.http.serializer.property_normalizer:
+        class: Symfony\Component\Serializer\Normalizer\PropertyNormalizer
+        arguments:
+            - '@serializer.mapping.class_metadata_factory'
+            - '@serializer.name_converter.camel_case_to_snake_case'
+            - '@app.infrastructure.http.serializer.php_doc_extractor'
+
+    app.infrastructure.http.serializer:
+        class: Symfony\Component\Serializer\Serializer
+        arguments:
+            $normalizers:
+                - '@serializer.normalizer.datetime'
+                - '@app.infrastructure.http.serializer.normalizer.array'
+                - '@app.infrastructure.http.serializer.property_normalizer'
+            $encoders:
+                - '@serializer.encoder.json'

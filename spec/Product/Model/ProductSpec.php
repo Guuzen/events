@@ -59,15 +59,15 @@ class ProductSpec extends ObjectBehavior
         ;
     }
 
-    public function it_should_be_possible_to_cancel_reserve()
-    {
-    }
-
-    public function it_should_not_be_possible_to_cancel_reserve_if_reserve_cancelled()
-    {
-    }
-
-    public function it_should_not_be_possible_to_cancel_reserve_if_not_reserved()
-    {
-    }
+//    public function it_should_be_possible_to_cancel_reserve()
+//    {
+//    }
+//
+//    public function it_should_not_be_possible_to_cancel_reserve_if_reserve_cancelled()
+//    {
+//    }
+//
+//    public function it_should_not_be_possible_to_cancel_reserve_if_not_reserved()
+//    {
+//    }
 }

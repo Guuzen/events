@@ -7,7 +7,6 @@
         "ext-iconv": "*",
         "ext-json": "*",
         "cardinity/cardinity-sdk-php": "^2.1",
-        "dunglas/doctrine-json-odm": "dev-master",
         "google/apiclient": "^2.2",
         "league/event": "^2.2",
         "moneyphp/money": "^3.2",
@@ -81,6 +80,11 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
+        ],
+        "test": [
+            "phpspec run --ansi",
+            "codecept run",
+            "psalm"
         ]
     },
     "conflict": {

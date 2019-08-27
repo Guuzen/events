@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Common;
+namespace App\Infrastructure\Http;
 
+use App\Common\Error;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -16,9 +17,9 @@ abstract class AppController
     /**
      * @required
      */
-    public function setLocator(ContainerInterface $httpAdapterLocator): void
+    public function setLocator(ContainerInterface $locator): void
     {
-        $this->locator = $httpAdapterLocator;
+        $this->locator = $locator;
     }
 
     /**

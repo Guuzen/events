@@ -2,7 +2,7 @@
 
 namespace App\Queries\Ticket;
 
-use App\Common\AppRequest;
+use App\Infrastructure\Http\AppRequest;
 
 final class FindTicketById implements AppRequest
 {

@@ -2,7 +2,7 @@
 
 namespace App\Promocode\Action;
 
-use App\Common\AppRequest;
+use App\Infrastructure\Http\AppRequest;
 
 final class CreateRegularPromocode implements AppRequest
 {

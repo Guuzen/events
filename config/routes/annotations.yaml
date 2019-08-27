@@ -1,24 +1,6 @@
 #controllers:
 #    resource: ../../src/Controller/
 #    type: annotation
-promocode:
-    resource: ../../src/Promocode/Action
-    type: annotation
-product:
-    resource: ../../src/Product/Action
-    type: annotation
-tariff:
-    resource: ../../src/Tariff/Action
-    type: annotation
-event.create_event:
-    resource: ../../src/Event/Action
-    type: annotation
-order:
-    resource: ../../src/Order/Action
-    type: annotation
-user_controller:
-    resource: ../../src/User/Action/
-    type: annotation
-queries:
-    resource: ../../src/Queries/
+http_adapters:
+    resource: ../../src/**/*HttpAdapter.php
     type: annotation

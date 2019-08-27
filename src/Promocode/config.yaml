@@ -1,0 +1,16 @@
+doctrine:
+    dbal:
+        types:
+            app_promocode_id: App\Promocode\Doctrine\PromocodeIdType
+            app_promocode_discount: App\Promocode\Doctrine\PromocodeDiscountType
+            app_promocode_allowed_tariffs: App\Promocode\Doctrine\PromocodeAllowedTariffsType
+            app_promocode_used_in_orders: App\Promocode\Doctrine\PromocodeUsedInOrdersType
+    orm:
+        mappings:
+            Promocode:
+                is_bundle: false
+                prefix: 'App\Promocode\Model'
+                type: annotation
+                dir: '%kernel.project_dir%/src/Promocode/Model'
+services:
+    App\Promocode\Action\PromocodeHandler: ~

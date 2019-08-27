@@ -3,8 +3,8 @@
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
-#imports:
-#    - { resource: ../src/User/config/services.yaml }
+imports:
+    - { resource: ../src/**/config.yaml }
 
 parameters:
     locale: 'en'
@@ -15,17 +15,12 @@ services:
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
-        bind:
-            $httpAdapterLocator: '@app.http_adapter_service_locator'
-    _instanceof:
-        App\Common\AppController:
-            tags: ['controller.service_arguments']
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
-    App\:
-        resource: '../src/*'
-        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+#    App\:
+#        resource: '../src/*'
+#        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
@@ -36,94 +31,13 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-    App\Common\InvalidAppRequestListener:
-        tags:
-            - { name: kernel.event_listener, event: kernel.exception }
-
-    # http serializer
-    app.http_serializer.normalizer.datetime:
-        class: Symfony\Component\Serializer\Normalizer\DateTimeNormalizer
-
-    app.http_serializer.normalizer.object:
-        class: Symfony\Component\Serializer\Normalizer\ObjectNormalizer
-
-    app.http_serializer.normalizer.array:
-        class: Symfony\Component\Serializer\Normalizer\ArrayDenormalizer
-
-    app.http_serializer.php_doc_extractor:
-        class: Symfony\Component\PropertyInfo\Extractor\PhpDocExtractor
-
-    app.http_serializer.property_normalizer:
-        class: Symfony\Component\Serializer\Normalizer\PropertyNormalizer
-        arguments:
-            - '@serializer.mapping.class_metadata_factory'
-            - '@serializer.name_converter.camel_case_to_snake_case'
-            - '@app.http_serializer.php_doc_extractor'
-
-    app.http_serializer:
-        class: Symfony\Component\Serializer\Serializer
-        arguments:
-            $normalizers:
-                - '@serializer.normalizer.datetime'
-                - '@app.http_serializer.normalizer.array'
-                - '@app.http_serializer.property_normalizer'
-            $encoders:
-                - '@serializer.encoder.json'
-
-    App\Common\AppRequestResolver:
-        arguments:
-            $serializer: '@app.http_serializer'
-        tags:
-            - { name: controller.argument_value_resolver, priority: 50 }
-
-    App\Order\Action\PlaceOrderRequestResolver:
-        arguments:
-            $serializer: '@app.http_serializer'
-        tags:
-            - { name: controller.argument_value_resolver, priority: 51 }
-
-
-    # locator for http adapters
-    app.http_adapter_service_locator:
-        class: Symfony\Component\DependencyInjection\ServiceLocator
-        arguments:
-            -   serializer: '@app.http_serializer'
-
-
-    # persistence serializer
-    dunglas_doctrine_json_odm.datetime_normalizer:
-        class: Symfony\Component\Serializer\Normalizer\DateTimeNormalizer
-
-    dunglas_doctrine_json_odm.without_constructor_property_normalizer:
-        class: App\Common\WithoutConstructorPropertyNormalizer
-        arguments:
-            - ~
-            - '@serializer.name_converter.camel_case_to_snake_case'
-
-    dunglas_doctrine_json_odm.array_denormalizer:
-        class: Symfony\Component\Serializer\Normalizer\ArrayDenormalizer
-
-    dunglas_doctrine_json_odm.serializer:
-        class: Dunglas\DoctrineJsonOdm\Serializer
-        arguments:
-            $normalizers:
-                - '@dunglas_doctrine_json_odm.datetime_normalizer'
-                - '@dunglas_doctrine_json_odm.array_denormalizer'
-                - '@dunglas_doctrine_json_odm.without_constructor_property_normalizer'
-            $encoders:
-                - '@serializer.encoder.json'
-        public: true
-
-    App\Infrastructure\Notifier\SendTicketToBuyerByEmailNotifier:
-        arguments:
-            $from: '%app.no_reply_email%'
-
     annotations.reader:
         class: Doctrine\Common\Annotations\AnnotationReader
         calls:
             -   method: addGlobalIgnoredName
                 arguments:
                     - 'required'
+                    - '@annotations.dummy_registry'
             -   method: addGlobalIgnoredName
                 arguments:
                     - 'readonly'

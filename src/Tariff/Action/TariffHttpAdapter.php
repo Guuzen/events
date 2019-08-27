@@ -2,16 +2,13 @@
 
 namespace App\Tariff\Action;
 
-use App\Common\AppController;
+use App\Infrastructure\Http\AppController;
 use App\Common\Error;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 final class TariffHttpAdapter extends AppController
 {
-    /**
-     * @var TariffHandler
-     */
     private $handler;
 
     public function __construct(TariffHandler $handler)

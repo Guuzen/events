@@ -2,7 +2,7 @@
 
 namespace App\Queries\Tariff;
 
-use App\Common\AppRequest;
+use App\Infrastructure\Http\AppRequest;
 
 final class FindEventTariffs implements AppRequest
 {

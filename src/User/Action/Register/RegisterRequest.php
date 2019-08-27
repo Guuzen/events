@@ -2,7 +2,7 @@
 
 namespace App\User\Action\Register;
 
-use App\Common\AppRequest;
+use App\Infrastructure\Http\AppRequest;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class RegisterRequest implements AppRequest

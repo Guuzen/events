@@ -2,7 +2,7 @@
 
 namespace App\Order\Action;
 
-use App\Common\AppRequest;
+use App\Infrastructure\Http\AppRequest;
 use Symfony\Component\Validator\Constraints as Assert;
 
 // TODO validation

@@ -2,7 +2,7 @@
 
 namespace App\Product\Action;
 
-use App\Common\AppRequest;
+use App\Infrastructure\Http\AppRequest;
 
 final class CreateTicket implements AppRequest
 {

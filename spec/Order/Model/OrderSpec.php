@@ -46,13 +46,13 @@ class OrderSpec extends ObjectBehavior
         $this->markPaid()->shouldReturnAnInstanceOf(OrderAlreadyPaid::class);
     }
 
-    public function it_should_not_be_possible_to_cancel_if_paid()
-    {
-    }
-
-    public function it_should_not_be_possible_to_apply_promocode_if_paid()
-    {
-    }
+//    public function it_should_not_be_possible_to_cancel_if_paid()
+//    {
+//    }
+//
+//    public function it_should_not_be_possible_to_apply_promocode_if_paid()
+//    {
+//    }
 
 //    function it_should_be_cancelled()
 //    {

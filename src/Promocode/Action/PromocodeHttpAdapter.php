@@ -2,7 +2,7 @@
 
 namespace App\Promocode\Action;
 
-use App\Common\AppController;
+use App\Infrastructure\Http\AppController;
 use App\Common\Error;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;

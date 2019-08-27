@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Common;
+namespace App\Infrastructure\Http;
 
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Throwable;

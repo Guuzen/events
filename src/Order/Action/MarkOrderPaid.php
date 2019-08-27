@@ -2,7 +2,7 @@
 
 namespace App\Order\Action;
 
-use App\Common\AppRequest;
+use App\Infrastructure\Http\AppRequest;
 
 final class MarkOrderPaid implements AppRequest
 {
