@@ -6,12 +6,19 @@ use App\Infrastructure\Http\AppRequest;
 
 final class CreateTariff implements AppRequest
 {
-    // TODO detect event id by host
+    /**
+     * @readonly
+     */
     public $eventId;
 
+    /**
+     * @readonly
+     */
     public $productType;
 
-    // TODO embedded object?
+    /**
+     * @readonly
+     */
     public $priceNet;
 
     public function __construct(string $eventId, string $productType, CreateTariffPriceNet $priceNet)
