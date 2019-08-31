@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Queries\Tariff;
+namespace App\Queries\Tariff\FindTariffById;
 
 use App\Infrastructure\Http\AppRequest;
 

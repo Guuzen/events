@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Queries\Ticket;
+namespace App\Queries\Order\FindOrdersInList;
 
 use App\Infrastructure\Http\AppRequest;
 
-final class FindEventTickets implements AppRequest
+final class FindOrdersInList implements AppRequest
 {
     /**
      * @readonly

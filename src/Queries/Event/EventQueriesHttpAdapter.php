@@ -3,6 +3,7 @@
 namespace App\Queries\Event;
 
 use App\Infrastructure\Http\AppController;
+use App\Queries\Event\FindEventById\FindEventById;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -21,9 +22,9 @@ final class EventQueriesHttpAdapter extends AppController
     /**
      * @Route("/list")
      */
-    public function findAll(): Response
+    public function findInList(): Response
     {
-        $events = $this->eventQueries->findAll();
+        $events = $this->eventQueries->findInList();
 
         return $this->successJson($events);
     }
@@ -33,7 +34,7 @@ final class EventQueriesHttpAdapter extends AppController
      */
     public function findById(FindEventById $findEventById): Response
     {
-        $event = $this->eventQueries->findEventById($findEventById->eventId);
+        $event = $this->eventQueries->findById($findEventById->eventId);
 
         return $this->successJson($event);
     }

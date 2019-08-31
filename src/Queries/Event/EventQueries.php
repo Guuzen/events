@@ -2,6 +2,8 @@
 
 namespace App\Queries\Event;
 
+use App\Queries\Event\FindEventById\EventById;
+use App\Queries\Event\FindEventsInList\EventInList;
 use Doctrine\DBAL\Connection;
 
 final class EventQueries
@@ -13,32 +15,56 @@ final class EventQueries
         $this->connection = $connection;
     }
 
-    public function findAll(): array
+    /**
+     * @return EventInList[]
+     */
+    public function findInList(): array
     {
         $stmt = $this->connection->query('
-            select
-                *
-            from
-                event_config
+            select row_to_json(event_config) as json
+            from (
+                select
+                    *
+                from
+                    event_config
+            ) as event_config
         ');
 
-        return $stmt->fetchAll();
+        $events = [];
+        /** @psalm-var array{json: string} $eventData */
+        foreach ($stmt->fetchAll() as $eventData) {
+            /** @var EventInList */
+            $event    = $this->connection->convertToPHPValue($eventData['json'], EventInList::class);
+            $events[] = $event;
+        }
+
+        return $events;
     }
 
-    public function findEventById(string $eventId): array
+    public function findById(string $eventId): EventById
     {
         $stmt = $this->connection->prepare('
-            select
-                *
-            from
-                event_config
-            where
-                event_config.id = :event_id
+            select row_to_json(event_config) as json
+            from (
+                select
+                    *
+                from
+                    event_config
+                where
+                    event_config.id = :event_id
+            ) as event_config
         ');
         $stmt->bindValue('event_id', $eventId);
         $stmt->execute();
 
-        /** @var array */
-        return $stmt->fetch();
+        // TODO check return null etc sice find method ?
+
+        /** @psalm-var array{json: string} */
+        $result = $stmt->fetch();
+
+        /** @var EventById */
+        $event = $this->connection->convertToPHPValue($result['json'], EventById::class);
+
+        return $event;
     }
 }

@@ -21,7 +21,8 @@ abstract class JsonDocumentType extends Type
     /** @var Serializer|null */
     private $serializer;
 
-    public function convertToPHPValue($value, AbstractPlatform $platform)
+    // TODO psalm generics ?
+    final public function convertToPHPValue($value, AbstractPlatform $platform)
     {
         if (null === $this->serializer) {
             $this->serializer = $this->createSerializer();
@@ -30,7 +31,7 @@ abstract class JsonDocumentType extends Type
         return $this->serializer->deserialize($value, $this->className(), 'json');
     }
 
-    public function convertToDatabaseValue($value, AbstractPlatform $platform)
+    final public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
         if (null === $this->serializer) {
             $this->serializer = $this->createSerializer();
@@ -39,12 +40,12 @@ abstract class JsonDocumentType extends Type
         return $this->serializer->serialize($value, 'json');
     }
 
-    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string
+    final public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string
     {
         return $platform->getJsonTypeDeclarationSQL($fieldDeclaration);
     }
 
-    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
+    final public function requiresSQLCommentHint(AbstractPlatform $platform): bool
     {
         return true;
     }

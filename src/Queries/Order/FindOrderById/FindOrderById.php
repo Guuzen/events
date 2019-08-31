@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Queries\Order;
+namespace App\Queries\Order\FindOrderById;
 
 use App\Infrastructure\Http\AppRequest;
 

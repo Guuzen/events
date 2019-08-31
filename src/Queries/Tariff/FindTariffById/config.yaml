@@ -1,0 +1,4 @@
+doctrine:
+    dbal:
+        types:
+            App\Queries\Tariff\FindTariffById\TariffById: App\Queries\Tariff\FindTariffById\TariffByIdType

@@ -3,6 +3,8 @@
 namespace App\Queries\Order;
 
 use App\Infrastructure\Http\AppController;
+use App\Queries\Order\FindOrderById\FindOrderById;
+use App\Queries\Order\FindOrdersInList\FindOrdersInList;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -21,9 +23,9 @@ final class OrderQueriesHttpAdapter extends AppController
     /**
      * @Route("/list")
      */
-    public function findEventOrders(FindEventOrders $findEventOrders): Response
+    public function findInList(FindOrdersInList $findOrderInList): Response
     {
-        $orders = $this->orderQueries->findEventOrders($findEventOrders->eventId);
+        $orders = $this->orderQueries->findInList($findOrderInList->eventId);
 
         return $this->successJson($orders);
     }
@@ -31,9 +33,9 @@ final class OrderQueriesHttpAdapter extends AppController
     /**
      * @Route("/show")
      */
-    public function findOrderById(FindOrderById $findOrderById): Response
+    public function findById(FindOrderById $findOrderById): Response
     {
-        $order   = $this->orderQueries->findOrderById($findOrderById->orderId);
+        $order   = $this->orderQueries->findById($findOrderById->orderId);
 
         return $this->successJson($order);
     }

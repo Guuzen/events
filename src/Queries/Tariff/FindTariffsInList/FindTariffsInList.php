@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Queries\Tariff;
+namespace App\Queries\Tariff\FindTariffsInList;
 
 use App\Infrastructure\Http\AppRequest;
 
-final class FindEventTariffs implements AppRequest
+final class FindTariffsInList implements AppRequest
 {
     /**
      * @readonly

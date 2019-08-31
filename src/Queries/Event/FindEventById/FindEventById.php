@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Queries\Order;
+namespace App\Queries\Event\FindEventById;
 
 use App\Infrastructure\Http\AppRequest;
 
-final class FindEventOrders implements AppRequest
+final class FindEventById implements AppRequest
 {
     /**
      * @readonly

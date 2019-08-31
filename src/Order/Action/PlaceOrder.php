@@ -6,7 +6,6 @@ use App\Infrastructure\Http\AppRequest;
 use Symfony\Component\Validator\Constraints as Assert;
 
 // TODO validation
-// TODO denormalizable groups or constructor requirements?
 final class PlaceOrder implements AppRequest
 {
     /**

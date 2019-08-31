@@ -1,0 +1,677 @@
+openapi: 3.0.0
+info:
+    title: Events API
+    description: API for site where you can buy tickets to events
+    version: dev
+paths:
+    /admin/event/create:
+        post:
+            tags:
+                - event
+            summary: Adds new event
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateEvent'
+            responses:
+                '200':
+                    $ref: '#/components/responses/ResourceCreated'
+    /admin/event/show:
+        get:
+            tags:
+                - event
+            summary: Shows event info
+            parameters:
+                -   $ref: '#/components/parameters/eventId'
+            responses:
+                '200':
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                required:
+                                    - data
+                                properties:
+                                    data:
+                                        $ref: '#/components/schemas/EventById'
+    /admin/event/list:
+        get:
+            tags:
+                - event
+            summary: Shows events list
+            responses:
+                '200':
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                required:
+                                    - data
+                                properties:
+                                    data:
+                                        type: array
+                                        items:
+                                            $ref: '#/components/schemas/EventsInList'
+    /order/place:
+        post:
+            tags:
+                - order
+            summary: Places new order
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/PlaceOrder'
+            responses:
+                '200':
+                    $ref: '#/components/responses/ResourceCreated'
+                '400':
+                    $ref: '#/components/responses/DomainError'
+    /admin/order/mark_paid:
+        post:
+            tags:
+                - order
+            summary: Marks specific order as paid
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/MarkOrderPaid'
+            responses:
+                '200':
+                    $ref: '#/components/responses/SuccessCommand'
+                '400':
+                    $ref: '#/components/responses/DomainError'
+    /admin/order/show:
+        get:
+            tags:
+                - order
+            summary: Shows order info
+            parameters:
+                -   name: orderId
+                    in: query
+                    required: true
+                    schema:
+                        $ref: '#/components/schemas/UUID'
+            responses:
+                '200':
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                required:
+                                    - data
+                                properties:
+                                    data:
+                                        $ref: '#/components/schemas/OrderById'
+    /admin/order/list:
+        get:
+            tags:
+                - order
+            summary: Shows orders list
+            parameters:
+                -   $ref: '#/components/parameters/eventId'
+            responses:
+                '200':
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                required:
+                                    - data
+                                properties:
+                                    data:
+                                        type: array
+                                        items:
+                                            $ref: '#/components/schemas/OrderInList'
+    /admin/tariff/create:
+        post:
+            tags:
+                - tariff
+            summary: Creates new tariff
+            requestBody:
+                required: true
+                content:
+                    application/javascript:
+                        schema:
+                            $ref: '#/components/schemas/CreateTariff'
+            responses:
+                '200':
+                    $ref: '#/components/responses/ResourceCreated'
+                '400':
+                    $ref: '#/components/responses/DomainError'
+    /admin/tariff/show:
+        get:
+            tags:
+                - tariff
+            summary: Shows specific tariff info
+            parameters:
+                -   name: tariffId
+                    in: query
+                    required: true
+                    schema:
+                        $ref: '#/components/schemas/UUID'
+            responses:
+                '200':
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                required:
+                                    - data
+                                properties:
+                                    data:
+                                        $ref: '#/components/schemas/TariffById'
+    /admin/tariff/list:
+        get:
+            tags:
+                - tariff
+            summary: Shows tariffs list
+            parameters:
+                -   $ref: '#/components/parameters/eventId'
+            responses:
+                '200':
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                required:
+                                    - data
+                                properties:
+                                    data:
+                                        type: array
+                                        items:
+                                            $ref: '#/components/schemas/TariffInList'
+    /admin/ticket/create:
+        post:
+            tags:
+                - ticket
+            summary: Creates new ticket
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateTicket'
+            responses:
+                '200':
+                    $ref: '#/components/responses/ResourceCreated'
+                '400':
+                    $ref: '#/components/responses/DomainError'
+    /admin/ticket/show:
+        get:
+            tags:
+                - ticket
+            summary: Shows info about specific ticket
+            parameters:
+                -   name: ticketId
+                    in: query
+                    required: true
+                    schema:
+                        $ref: '#/components/schemas/UUID'
+            responses:
+                '200':
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                required:
+                                    - data
+                                properties:
+                                    data:
+                                        $ref: '#/components/schemas/TicketById'
+    /admin/ticket/list:
+        get:
+            tags:
+                - ticket
+            summary: Shows tickets list
+            parameters:
+                -   $ref: '#/components/parameters/eventId'
+            responses:
+                '200':
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                required:
+                                    - data
+                                properties:
+                                    data:
+                                        type: array
+                                        items:
+                                            $ref: '#/components/schemas/TicketInList'
+components:
+    schemas:
+        DateTime:
+            type: string
+            example: '2000-01-01 12:00:00'
+        Email:
+            type: string
+            example: john@example.com
+        Phone:
+            type: string
+            example: +123456789
+        UUID:
+            type: string
+            example: 1c21a682-3ebd-414e-bc58-50fd27d87c4f
+        SuccessCommand:
+            type: object
+            required:
+                - data
+            properties:
+                data:
+                    type: array
+                    example:
+        ResourceCreated:
+            type: object
+            required:
+                - data
+            properties:
+                data:
+                    type: object
+                    required:
+                        - id
+                    properties:
+                        id:
+                            $ref: '#/components/schemas/UUID'
+        DomainError:
+            type: object
+            required:
+                - error
+            properties:
+                error:
+                    type: string
+                    example: event not found
+        CreateEvent:
+            type: object
+            required:
+                - name
+                - domain
+            properties:
+                name:
+                    type: string
+                    example: Foo Event 2019
+                domain:
+                    type: string
+                    example: foo2019.example.com
+        EventById:
+            type: object
+            required:
+                - id
+                - name
+                - domain
+            properties:
+                id:
+                    $ref: '#/components/schemas/UUID'
+                name:
+                    type: string
+                    example: Foo Event 2019
+                domain:
+                    type: string
+                    example: foo2019.example.com
+        EventsInList:
+            type: object
+            required:
+                - id
+                - name
+                - domain
+            properties:
+                id:
+                    $ref: '#/components/schemas/UUID'
+                name:
+                    type: string
+                    example: Foo Event 2019
+                domain:
+                    type: string
+                    example: foo2019.example.com
+        PlaceOrder:
+            type: object
+            required:
+                - firstName
+                - lastName
+                - email
+                - paymentMethod
+                - tariffId
+                - phone
+            properties:
+                firstName:
+                    type: string
+                    example: John
+                lastName:
+                    type: string
+                    example: Doe
+                email:
+                    type: string
+                    example: john@email.com
+                paymentMethod:
+                    type: string
+                    enum:
+                        - wire
+                    example: wire
+                tariffId:
+                    $ref: '#/components/schemas/UUID'
+                phone:
+                    $ref: '#/components/schemas/Phone'
+        MarkOrderPaid:
+            type: object
+            required:
+                - orderId
+            properties:
+                orderId:
+                    $ref: '#/components/schemas/UUID'
+        OrderById:
+            type: object
+            required:
+                - id
+                - eventId
+                - tariffId
+                - productId
+                - userId
+                - paid
+                - product
+                - phone
+                - firstName
+                - lastName
+                - email
+                - sum
+                - currency
+                - cancelled
+                - makedAt
+                - deliveredAt
+            properties:
+                id:
+                    $ref: '#/components/schemas/UUID'
+                eventId:
+                    $ref: '#/components/schemas/UUID'
+                tariffId:
+                    $ref: '#/components/schemas/UUID'
+                productId:
+                    $ref: '#/components/schemas/UUID'
+                userId:
+                    $ref: '#/components/schemas/UUID'
+                paid:
+                    type: boolean
+                product:
+                    type: string
+                    enum:
+                        - silver_pass
+                phone:
+                    $ref: '#/components/schemas/Phone'
+                firstName:
+                    type: string
+                    example: John
+                lastName:
+                    type: string
+                    example: Doe
+                email:
+                    $ref: '#/components/schemas/Email'
+                sum:
+                    type: string
+                    example: 100
+                currency:
+                    type: string
+                    example: RUB
+                cancelled:
+                    type: boolean
+                makedAt:
+                    $ref: '#/components/schemas/DateTime'
+                deliveredAt:
+                    nullable: true
+                    allOf:
+                        -   $ref: '#/components/schemas/DateTime'
+        OrderInList:
+            type: object
+            required:
+                - id
+                - eventId
+                - tariffId
+                - productId
+                - userId
+                - paid
+                - product
+                - phone
+                - firstName
+                - lastName
+                - email
+                - sum
+                - currency
+                - cancelled
+                - makedAt
+                - deliveredAt
+            properties:
+                id:
+                    $ref: '#/components/schemas/UUID'
+                eventId:
+                    $ref: '#/components/schemas/UUID'
+                tariffId:
+                    $ref: '#/components/schemas/UUID'
+                productId:
+                    $ref: '#/components/schemas/UUID'
+                userId:
+                    $ref: '#/components/schemas/UUID'
+                paid:
+                    type: boolean
+                product:
+                    type: string
+                    enum:
+                        - silver_pass
+                phone:
+                    $ref: '#/components/schemas/Phone'
+                firstName:
+                    type: string
+                    example: John
+                lastName:
+                    type: string
+                    example: Doe
+                email:
+                    $ref: '#/components/schemas/Email'
+                sum:
+                    type: string
+                    example: 100
+                currency:
+                    type: string
+                    example: RUB
+                cancelled:
+                    type: boolean
+                makedAt:
+                    $ref: '#/components/schemas/DateTime'
+                deliveredAt:
+                    nullable: true
+                    allOf:
+                        -   $ref: '#/components/schemas/DateTime'
+        CreateTariff:
+            type: object
+            required:
+                - eventId
+                - productType
+                - priceNet
+            properties:
+                eventId:
+                    $ref: '#/components/schemas/UUID'
+                productType:
+                    type: string
+                    enum:
+                        - silver_pass
+                priceNet:
+                    type: object
+                    required:
+                        - segments
+                    properties:
+                        segments:
+                            type: array
+                            items:
+                                type: object
+                                required:
+                                    - price
+                                    - term
+                                properties:
+                                    price:
+                                        type: object
+                                        required:
+                                            - amount
+                                            - currency
+                                        properties:
+                                            amount:
+                                                type: string
+                                                example: 100
+                                            currency:
+                                                type: string
+                                                example: RUB
+                                    term:
+                                        type: object
+                                        required:
+                                            - start
+                                            - end
+                                        properties:
+                                            start:
+                                                $ref: '#/components/schemas/DateTime'
+                                            end:
+                                                $ref: '#/components/schemas/DateTime'
+        TariffById:
+            type: object
+            required:
+                - id
+                - productType
+                - price
+                - termStart
+                - termEnd
+            properties:
+                id:
+                    $ref: '#/components/schemas/UUID'
+                productType:
+                    type: string
+                    example: silver_pass
+                price:
+                    type: string
+                    example: 100
+                termStart:
+                    $ref: '#/components/schemas/DateTime'
+                termEnd:
+                    $ref: '#/components/schemas/DateTime'
+        TariffInList:
+            type: object
+            required:
+                - id
+                - productType
+                - price
+                - termStart
+                - termEnd
+            properties:
+                id:
+                    $ref: '#/components/schemas/UUID'
+                productType:
+                    type: string
+                    example: silver_pass
+                price:
+                    type: string
+                    example: 100
+                termStart:
+                    $ref: '#/components/schemas/DateTime'
+                termEnd:
+                    $ref: '#/components/schemas/DateTime'
+        TicketById:
+            type: object
+            required:
+                - id
+                - eventId
+                - type
+                - number
+                - reserved
+                - createdAt
+                - deliveredAt
+            properties:
+                id:
+                    $ref: '#/components/schemas/UUID'
+                eventId:
+                    $ref: '#/components/schemas/UUID'
+                type:
+                    type: string
+                    example: silver_pass
+                number:
+                    type: string
+                    example: 10002000
+                reserved:
+                    type: boolean
+                createdAt:
+                    $ref: '#/components/schemas/DateTime'
+                deliveredAt:
+                    $ref: '#/components/schemas/DateTime'
+        TicketInList:
+            type: object
+            required:
+                - id
+                - eventId
+                - type
+                - number
+                - reserved
+                - createdAt
+                - deliveredAt
+            properties:
+                id:
+                    $ref: '#/components/schemas/UUID'
+                eventId:
+                    $ref: '#/components/schemas/UUID'
+                type:
+                    type: string
+                    example: silver_pass
+                number:
+                    type: string
+                    example: 10002000
+                reserved:
+                    type: boolean
+                createdAt:
+                    $ref: '#/components/schemas/DateTime'
+                deliveredAt:
+                    $ref: '#/components/schemas/DateTime'
+        CreateTicket:
+            type: object
+            required:
+                - eventId
+                - tariffId
+                - number
+            properties:
+                eventId:
+                    $ref: '#/components/schemas/UUID'
+                tariffId:
+                    $ref: '#/components/schemas/UUID'
+                number:
+                    type: string
+                    example: 10002000
+    parameters:
+        eventId:
+            name: eventId
+            in: query
+            required: true
+            schema:
+                $ref: '#/components/schemas/UUID'
+    responses:
+        DomainError:
+            description: Error
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/DomainError'
+        SuccessCommand:
+            description: Success
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/SuccessCommand'
+        ResourceCreated:
+            description: Resource was created
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/ResourceCreated'

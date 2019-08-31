@@ -1,0 +1,4 @@
+doctrine:
+    dbal:
+        types:
+            App\Queries\Order\FindOrderById\OrderById: App\Queries\Order\FindOrderById\OrderByIdType

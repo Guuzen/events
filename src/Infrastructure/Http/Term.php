@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Http;
 
+// TODO start and end - datetitmeim ?
 final class Term
 {
     /**

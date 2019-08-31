@@ -1,0 +1,4 @@
+doctrine:
+    dbal:
+        types:
+            App\Queries\Order\FindOrdersInList\OrderInList: App\Queries\Order\FindOrdersInList\OrderInListType
