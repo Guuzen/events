@@ -36,6 +36,7 @@ final class CreateRegularPromocode implements AppRequest
 
     /**
      * @readonly
+     *
      * @var string[]
      */
     public $allowedTariffs;
@@ -46,6 +47,7 @@ final class CreateRegularPromocode implements AppRequest
      *      amount: string,
      *      currency: string
      * } $discount
+     *
      * @param string[] $allowedTariffs
      */
     public function __construct(
