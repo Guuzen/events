@@ -8,9 +8,11 @@ namespace App\Tests\Helper;
 use Codeception\Module;
 use Codeception\Module\REST;
 use Coduo\PHPMatcher\PHPUnit\PHPMatcherAssertions;
+use DateTimeZone;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
 use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\Normalizer\PropertyNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
@@ -31,6 +33,7 @@ class Api extends Module
         $this->restModule = $this->getModule('REST');
         $this->serializer = new Serializer(
             [
+                new DateTimeNormalizer([DateTimeNormalizer::FORMAT_KEY => 'Y-m-d H:i:s'], new DateTimeZone('UTC')),
                 new ArrayDenormalizer(),
                 new PropertyNormalizer(
                     null,
