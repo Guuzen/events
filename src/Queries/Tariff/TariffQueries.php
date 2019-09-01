@@ -63,19 +63,31 @@ final class TariffQueries
                 row_to_json(tariff) as json
             from (
                 select
-                    id,
-                    product_type ->> \'type\' as "product_type",
-                    concat(
-                        json_array_elements(price_net -> \'segments\') -> \'price\' ->> \'amount\',
-                        \' \',
-                        json_array_elements(price_net -> \'segments\') -> \'price\' -> \'currency\' ->> \'code\'
-                    ) as price,
-                    (json_array_elements(price_net -> \'segments\') -> \'term\' ->> \'start\' ) as "term_start",
-                    (json_array_elements(price_net -> \'segments\') -> \'term\' ->> \'end\') as "term_end"
-                from
-                    tariff
-                where
-                    tariff.id = :tariff_id
+                    tariff.id,
+                    tariff.product_type -> \'type\' as product_type,
+                    segments
+                from (
+                    select
+                        id,
+                        array_agg(
+                            json_build_object(
+                                \'price\', json_build_object(
+                                    \'amount\', segments -> \'price\' -> \'amount\',
+                                    \'currency\', segments -> \'price\' -> \'currency\' -> \'code\'
+                                ),
+                                \'term\', segments -> \'term\'
+                            )
+                        ) as segments
+                    from (
+                        select
+                            id,
+                            json_array_elements(price_net -> \'segments\') as segments
+                        from tariff
+                        where tariff.id = :tariff_id
+                    ) as unwinded_tariff
+                    group by id
+                ) as formatted_tariff
+                left join tariff on tariff.id = formatted_tariff.id
             ) as tariff
         ');
         $stmt->bindValue('tariff_id', $tariffId);
