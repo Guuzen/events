@@ -15,7 +15,7 @@ use App\Tests\AppResponse\EventInList\EventInListBuilder;
 use App\Tests\AppResponse\OrderById;
 use App\Tests\AppResponse\OrderInList;
 use App\Tests\AppResponse\TariffById\TariffById;
-use App\Tests\AppResponse\TariffInList;
+use App\Tests\AppResponse\TariffInList\TariffInList;
 use App\Tests\AppResponse\TicketById;
 use App\Tests\AppResponse\TicketInList;
 use DateTimeImmutable;

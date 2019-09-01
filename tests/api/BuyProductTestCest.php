@@ -13,13 +13,15 @@ use App\Tests\AppResponse\EventInList;
 use App\Tests\AppResponse\OrderById;
 use App\Tests\AppResponse\OrderInList;
 use App\Tests\AppResponse\TariffById\TariffById;
-use App\Tests\AppResponse\TariffInList;
+use App\Tests\AppResponse\TariffInList\TariffInList;
 use App\Tests\AppResponse\TicketById;
 use App\Tests\AppResponse\TicketInList;
 use App\Tests\Step\Api\Manager;
 use App\Tests\Step\Api\Visitor;
 
 // TODO HATEOAS ?
+// TODO gherkin ?
+// TODO make contract folder group request/response by feature
 class BuyProductTestCest
 {
     public function silverTicketByWireWithoutPromocode(Manager $manager, Visitor $visitor): void
