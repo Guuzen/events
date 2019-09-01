@@ -18,13 +18,18 @@ final class CreateTariff implements AppRequest
 
     /**
      * @readonly
+     *
+     * @var CreateTariffSegment[]
      */
-    public $priceNet;
+    public $segments;
 
-    public function __construct(string $eventId, string $productType, CreateTariffPriceNet $priceNet)
+    /**
+     * @param CreateTariffSegment[] $segments
+     */
+    public function __construct(string $eventId, string $productType, array $segments)
     {
         $this->eventId     = $eventId;
         $this->productType = $productType;
-        $this->priceNet    = $priceNet;
+        $this->segments    = $segments;
     }
 }

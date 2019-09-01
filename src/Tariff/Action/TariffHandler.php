@@ -49,7 +49,7 @@ final class TariffHandler
         }
 
         $tariffSegments = [];
-        foreach ($createTariff->priceNet->segments as $segment) {
+        foreach ($createTariff->segments as $segment) {
             $tariffSegments[] = new TariffSegment(
                 new Money(
                     $segment->price->amount,
