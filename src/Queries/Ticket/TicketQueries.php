@@ -3,6 +3,7 @@
 namespace App\Queries\Ticket;
 
 use App\Queries\Ticket\FindTicketById\TicketById;
+use App\Queries\Ticket\FindTicketById\TicketByIdNotFound;
 use App\Queries\Ticket\FindTicketsInList\TicketInList;
 use Doctrine\DBAL\Connection;
 
@@ -54,8 +55,10 @@ final class TicketQueries
         return $tickets;
     }
 
-    // TODO return error type for all find methods
-    public function findById(string $ticketId): TicketById
+    /**
+     * @return TicketById|TicketByIdNotFound
+     */
+    public function findById(string $ticketId)
     {
         $stmt = $this->connection->prepare('
             select
@@ -80,8 +83,11 @@ final class TicketQueries
         $stmt->bindValue('ticket_id', $ticketId);
         $stmt->execute();
 
-        /** @psalm-var array{json: string} */
+        /** @psalm-var array{json: string}|false */
         $ticketData = $stmt->fetch();
+        if (false === $ticketData) {
+            return new TicketByIdNotFound();
+        }
 
         /** @var TicketById */
         $ticket = $this->connection->convertToPHPValue($ticketData['json'], TicketById::class);

@@ -2,6 +2,7 @@
 
 namespace App\Queries\Order;
 
+use App\Common\Error;
 use App\Infrastructure\Http\AppController;
 use App\Queries\Order\FindOrderById\FindOrderById;
 use App\Queries\Order\FindOrdersInList\FindOrdersInList;
@@ -35,7 +36,10 @@ final class OrderQueriesHttpAdapter extends AppController
      */
     public function findById(FindOrderById $findOrderById): Response
     {
-        $order   = $this->orderQueries->findById($findOrderById->orderId);
+        $order = $this->orderQueries->findById($findOrderById->orderId);
+        if ($order instanceof Error) {
+            return $this->errorJson($order);
+        }
 
         return $this->successJson($order);
     }

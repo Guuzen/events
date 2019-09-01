@@ -14,7 +14,10 @@ final class FindEventIdByDomain
         $this->connection = $connection;
     }
 
-    public function __invoke(string $domain): string
+    /**
+     * @return string|EventIdByDomainNotFound
+     */
+    public function __invoke(string $domain)
     {
         $stmt = $this->connection->prepare('
             select
@@ -26,8 +29,11 @@ final class FindEventIdByDomain
         ');
         $stmt->bindParam('domain', $domain);
         $stmt->execute();
-        /** @var array{id: string} */
+        /** @psalm-var array{id: string}|false */
         $result = $stmt->fetch();
+        if (false === $result) {
+            return new EventIdByDomainNotFound();
+        }
 
         return $result['id'];
     }

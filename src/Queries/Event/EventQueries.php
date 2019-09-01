@@ -3,6 +3,7 @@
 namespace App\Queries\Event;
 
 use App\Queries\Event\FindEventById\EventById;
+use App\Queries\Event\FindEventById\EventByIdNotFound;
 use App\Queries\Event\FindEventsInList\EventInList;
 use Doctrine\DBAL\Connection;
 
@@ -41,7 +42,10 @@ final class EventQueries
         return $events;
     }
 
-    public function findById(string $eventId): EventById
+    /**
+     * @return EventById|EventByIdNotFound
+     */
+    public function findById(string $eventId)
     {
         $stmt = $this->connection->prepare('
             select row_to_json(event_config) as json
@@ -59,8 +63,11 @@ final class EventQueries
 
         // TODO check return null etc sice find method ?
 
-        /** @psalm-var array{json: string} */
+        /** @psalm-var array{json: string}|false */
         $result = $stmt->fetch();
+        if (false === $result) {
+            return new EventByIdNotFound();
+        }
 
         /** @var EventById */
         $event = $this->connection->convertToPHPValue($result['json'], EventById::class);

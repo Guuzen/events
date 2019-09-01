@@ -5,7 +5,7 @@ namespace App\Queries;
 use Doctrine\DBAL\Connection;
 
 // TODO awful naming ?
-final class FindDataForSendTicketToByerByEmail
+final class FindDataForSendTicketByEmail
 {
     private $connection;
 
@@ -17,9 +17,9 @@ final class FindDataForSendTicketToByerByEmail
     // TODO delivery address in order ?
 
     /**
-     * @return array{email: string, number: string}
+     * @psalm-return array{email: string, number: string}|DataForSendTicketByEmailNotFound
      */
-    public function __invoke(string $orderId): array
+    public function __invoke(string $orderId)
     {
         $stmt = $this->connection->prepare('
             select
@@ -36,7 +36,13 @@ final class FindDataForSendTicketToByerByEmail
         $stmt->bindValue('order_id', $orderId);
         $stmt->execute();
 
-        /** @var array{email: string, number: string} */
-        return $stmt->fetch();
+        /** @var array{email: string, number: string}|false */
+        $result = $stmt->fetch();
+
+        if (false === $result) {
+            return new DataForSendTicketByEmailNotFound();
+        }
+
+        return $result;
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Queries\Tariff;
 
 use App\Queries\Tariff\FindTariffById\TariffById;
+use App\Queries\Tariff\FindTariffById\TariffByIdNotFound;
 use App\Queries\Tariff\FindTariffsInList\TariffInList;
 use Doctrine\DBAL\Connection;
 
@@ -68,7 +69,10 @@ final class TariffQueries
         return $tariffs;
     }
 
-    public function findById(string $tariffId): TariffById
+    /**
+     * @return TariffById|TariffByIdNotFound
+     */
+    public function findById(string $tariffId)
     {
         $stmt = $this->connection->prepare('
             select
@@ -105,8 +109,11 @@ final class TariffQueries
         $stmt->bindValue('tariff_id', $tariffId);
         $stmt->execute();
 
-        /** @psalm-var array{json: string} */
+        /** @psalm-var array{json: string}|false */
         $tariffData = $stmt->fetch();
+        if (false === $tariffData) {
+            return new TariffByIdNotFound();
+        }
 
         /** @var TariffById */
         $tariff = $this->connection->convertToPHPValue($tariffData['json'], TariffById::class);

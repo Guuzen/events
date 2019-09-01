@@ -3,6 +3,7 @@
 namespace App\Queries\Order;
 
 use App\Queries\Order\FindOrderById\OrderById;
+use App\Queries\Order\FindOrderById\OrderByIdNotFound;
 use App\Queries\Order\FindOrdersInList\OrderInList;
 use Doctrine\DBAL\Connection;
 
@@ -67,7 +68,10 @@ final class OrderQueries
         return $orders;
     }
 
-    public function findById(string $orderId): OrderById
+    /**
+     * @return OrderById|OrderByIdNotFound
+     */
+    public function findById(string $orderId)
     {
         $stmt = $this->connection->prepare('
             select
@@ -105,8 +109,11 @@ final class OrderQueries
         $stmt->bindValue('order_id', $orderId);
         $stmt->execute();
 
-        /** @psalm-var array{json: string} */
+        /** @psalm-var array{json: string}|false */
         $orderData = $stmt->fetch();
+        if (false === $orderData) {
+            return new OrderByIdNotFound();
+        }
 
         /** @var OrderById */
         $order = $this->connection->convertToPHPValue($orderData['json'], OrderById::class);

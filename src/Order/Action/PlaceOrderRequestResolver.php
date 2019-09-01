@@ -2,6 +2,7 @@
 
 namespace App\Order\Action;
 
+use App\Common\Error;
 use App\Infrastructure\Http\AppRequest;
 use App\Infrastructure\Http\AppRequestValidator;
 use App\Queries\FindEventIdByDomain;
@@ -40,12 +41,23 @@ final class PlaceOrderRequestResolver implements ArgumentValueResolverInterface
             throw new \Exception();
         }
 
+        $eventId = ($this->findEventIdByDomain)($request->getHost());
+        if ($eventId instanceof Error) {
+            throw new \Exception();
+        }
         /** @var array $appRequestData */
-        $appRequestData             = $this->serializer->decode((string) $request->getContent(), 'json');
-        $appRequestData['event_id'] = ($this->findEventIdByDomain)($request->getHost());
+        $appRequestData = $this->serializer->decode((string) $request->getContent(), 'json');
+        $appRequestData = $this->addEventId($appRequestData, $eventId);
         /** @var AppRequest $appRequest */
         $appRequest                 = $this->serializer->denormalize($appRequestData, $argumentType);
 
         yield from $this->validator->validate($appRequest);
+    }
+
+    private function addEventId(array $appRequestData, string $eventId): array
+    {
+        $appRequestData['event_id'] = $eventId;
+
+        return $appRequestData;
     }
 }

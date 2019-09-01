@@ -2,6 +2,7 @@
 
 namespace App\Queries\Ticket;
 
+use App\Common\Error;
 use App\Infrastructure\Http\AppController;
 use App\Queries\Ticket\FindTicketById\FindTicketById;
 use App\Queries\Ticket\FindTicketsInList\FindTicketsInList;
@@ -36,6 +37,9 @@ final class TicketQueriesHttpAdapter extends AppController
     public function findById(FindTicketById $findTicketById): Response
     {
         $ticket = $this->ticketQueries->findById($findTicketById->ticketId);
+        if ($ticket instanceof Error) {
+            return $this->errorJson($ticket);
+        }
 
         return $this->successJson($ticket);
     }
