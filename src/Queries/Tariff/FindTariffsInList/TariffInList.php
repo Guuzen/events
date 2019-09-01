@@ -17,24 +17,12 @@ final class TariffInList
     /**
      * @readonly
      */
-    public $price;
+    public $segments;
 
-    /**
-     * @readonly
-     */
-    public $termStart;
-
-    /**
-     * @readonly
-     */
-    public $termEnd;
-
-    private function __construct(string $id, string $productType, string $price, string $termStart, string $termEnd)
+    private function __construct(string $id, string $productType, array $segments)
     {
         $this->id          = $id;
         $this->productType = $productType;
-        $this->price       = $price;
-        $this->termStart   = $termStart;
-        $this->termEnd     = $termEnd;
+        $this->segments    = $segments;
     }
 }

@@ -544,43 +544,85 @@ components:
             required:
                 - id
                 - productType
-                - price
-                - termStart
-                - termEnd
+                - segments
             properties:
                 id:
                     $ref: '#/components/schemas/UUID'
                 productType:
                     type: string
                     example: silver_pass
-                price:
-                    type: string
-                    example: 100
-                termStart:
-                    $ref: '#/components/schemas/DateTime'
-                termEnd:
-                    $ref: '#/components/schemas/DateTime'
+                segments:
+                    type: array
+                    items:
+                        type: object
+                        required:
+                            - price
+                            - term
+                        properties:
+                            price:
+                                type: object
+                                required:
+                                    - amount
+                                    - currency
+                                properties:
+                                    amount:
+                                        type: string
+                                        example: 100
+                                    currency:
+                                        type: string
+                                        example: RUB
+                            term:
+                                type: object
+                                required:
+                                    - start
+                                    - end
+                                properties:
+                                    start:
+                                        $ref: '#/components/schemas/DateTime'
+                                    end:
+                                        $ref: '#/components/schemas/DateTime'
         TariffInList:
             type: object
             required:
                 - id
                 - productType
-                - price
-                - termStart
-                - termEnd
+                - segments
             properties:
                 id:
                     $ref: '#/components/schemas/UUID'
                 productType:
                     type: string
                     example: silver_pass
-                price:
-                    type: string
-                    example: 100
-                termStart:
-                    $ref: '#/components/schemas/DateTime'
-                termEnd:
-                    $ref: '#/components/schemas/DateTime'
+                segments:
+                    type: array
+                    items:
+                        type: object
+                        required:
+                            - price
+                            - term
+                        properties:
+                            price:
+                                type: object
+                                required:
+                                    - amount
+                                    - currency
+                                properties:
+                                    amount:
+                                        type: string
+                                        example: 100
+                                    currency:
+                                        type: string
+                                        example: RUB
+                            term:
+                                type: object
+                                required:
+                                    - start
+                                    - end
+                                properties:
+                                    start:
+                                        $ref: '#/components/schemas/DateTime'
+                                    end:
+                                        $ref: '#/components/schemas/DateTime'
         TicketById:
             type: object
             required:
