@@ -124,7 +124,6 @@ final class OrderHandler
             return $reservedError;
         }
 
-        // TODO explicit add ?
         $this->em->persist($user);
         $this->em->persist($order);
         $this->em->flush();

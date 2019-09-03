@@ -13,7 +13,6 @@ final class PromocodeQueries
         $this->connection = $connection;
     }
 
-    // TODO filter all queries by event id
     public function findAll(): array
     {
         $stmt = $this->connection->query('

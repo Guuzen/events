@@ -2,7 +2,6 @@
 
 namespace App\Queries\Tariff\FindTariffById;
 
-/** TODO wrong response - tariff have many prices and terms for them */
 final class TariffById
 {
     /**

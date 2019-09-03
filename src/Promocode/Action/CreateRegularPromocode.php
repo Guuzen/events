@@ -41,6 +41,7 @@ final class CreateRegularPromocode implements AppRequest
      */
     public $allowedTariffs;
 
+    // TODO psalm bug structure defined twice
     /**
      * @readonly
      * @psalm-param array{

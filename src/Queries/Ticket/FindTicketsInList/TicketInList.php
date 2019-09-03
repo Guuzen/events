@@ -2,6 +2,8 @@
 
 namespace App\Queries\Ticket\FindTicketsInList;
 
+use DateTimeImmutable;
+
 final class TicketInList
 {
     /**
@@ -45,8 +47,8 @@ final class TicketInList
         string $type,
         string $number,
         bool $reserved,
-        string $createdAt,
-        ?string $deliveredAt
+        DateTimeImmutable $createdAt,
+        ?DateTimeImmutable $deliveredAt
     ) {
         $this->id          = $id;
         $this->eventId     = $eventId;

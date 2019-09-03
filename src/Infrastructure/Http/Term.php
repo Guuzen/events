@@ -2,7 +2,8 @@
 
 namespace App\Infrastructure\Http;
 
-// TODO start and end - datetitmeim ?
+use DateTimeImmutable;
+
 final class Term
 {
     /**
@@ -15,7 +16,7 @@ final class Term
      */
     public $end;
 
-    public function __construct(string $start, string $end)
+    public function __construct(DateTimeImmutable $start, DateTimeImmutable $end)
     {
         $this->start = $start;
         $this->end   = $end;

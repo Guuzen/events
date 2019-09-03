@@ -56,8 +56,8 @@ final class TariffHandler
                     new Currency($segment->price->currency)
                 ),
                 new TariffTerm(
-                    new DateTimeImmutable($segment->term->start),
-                    new DateTimeImmutable($segment->term->end)
+                    $segment->term->start,
+                    $segment->term->end
                 )
             );
         }

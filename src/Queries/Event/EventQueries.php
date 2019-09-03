@@ -61,8 +61,6 @@ final class EventQueries
         $stmt->bindValue('event_id', $eventId);
         $stmt->execute();
 
-        // TODO check return null etc sice find method ?
-
         /** @psalm-var array{json: string}|false */
         $result = $stmt->fetch();
         if (false === $result) {

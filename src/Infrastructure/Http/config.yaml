@@ -5,7 +5,6 @@ services:
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         bind:
             $locator: '@Symfony\Component\DependencyInjection\ServiceLocator'
-            # todo locator local name ?
     _instanceof:
         App\Infrastructure\Http\AppController:
             tags: ['controller.service_arguments']

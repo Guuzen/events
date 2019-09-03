@@ -2,6 +2,8 @@
 
 namespace App\Queries\Order\FindOrdersInList;
 
+use DateTimeImmutable;
+
 final class OrderInList
 {
     /**
@@ -99,8 +101,8 @@ final class OrderInList
         string $sum,
         string $currency,
         bool $cancelled,
-        string $makedAt,
-        ?string $deliveredAt
+        DateTimeImmutable $makedAt,
+        ?DateTimeImmutable $deliveredAt
     ) {
         $this->id          = $id;
         $this->eventId     = $eventId;

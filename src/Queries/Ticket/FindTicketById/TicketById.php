@@ -2,6 +2,8 @@
 
 namespace App\Queries\Ticket\FindTicketById;
 
+use DateTimeImmutable;
+
 final class TicketById
 {
     /**
@@ -39,8 +41,15 @@ final class TicketById
      */
     public $deliveredAt;
 
-    public function __construct(string $id, string $eventId, string $type, string $number, bool $reserved, string $createdAt, ?string $deliveredAt)
-    {
+    public function __construct(
+        string $id,
+        string $eventId,
+        string $type,
+        string $number,
+        bool $reserved,
+        DateTimeImmutable $createdAt,
+        ?DateTimeImmutable $deliveredAt
+    ) {
         $this->id          = $id;
         $this->eventId     = $eventId;
         $this->type        = $type;

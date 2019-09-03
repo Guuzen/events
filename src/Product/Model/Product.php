@@ -74,7 +74,6 @@ final class Product
     }
 
     // TODO reserved at
-    // TODO ?Error
     public function reserve(): ?ProductCantBeReservedIfAlreadyReserved
     {
         if ($this->reserved) {

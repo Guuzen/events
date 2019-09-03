@@ -4,7 +4,6 @@ namespace App\Queries;
 
 use Doctrine\DBAL\Connection;
 
-// TODO maybe make gateway?
 final class FindEventIdByDomain
 {
     private $connection;
