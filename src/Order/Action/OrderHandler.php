@@ -70,7 +70,7 @@ final class OrderHandler
     {
         $orderDate = new DateTimeImmutable();
 
-        $eventId = EventId::fromString($placeOrder->eventId);
+        $eventId = new EventId($placeOrder->eventId);
         $event   = $this->events->findById($eventId);
         if ($event instanceof Error) {
             return $event;

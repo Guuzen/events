@@ -42,7 +42,7 @@ final class TariffHandler
     public function createTariff(CreateTariff $createTariff)
     {
         $tariffId = TariffId::new();
-        $eventId  = EventId::fromString($createTariff->eventId);
+        $eventId  = new EventId($createTariff->eventId);
         $event    = $this->events->findById($eventId);
         if ($event instanceof Error) {
             return $event;

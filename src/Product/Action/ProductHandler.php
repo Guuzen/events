@@ -47,7 +47,7 @@ final class ProductHandler
      */
     public function createTicket(CreateTicket $createTicket)
     {
-        $eventId   = EventId::fromString($createTicket->eventId);
+        $eventId   = new EventId($createTicket->eventId);
         $tariffId  = TariffId::fromString($createTicket->tariffId);
         $productId = ProductId::new();
 

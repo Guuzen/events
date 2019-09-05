@@ -41,4 +41,10 @@ services:
             -   method: addGlobalIgnoredName
                 arguments:
                     - 'readonly'
+            -   method: addGlobalIgnoredName
+                arguments:
+                    - 'extends'
+            -   method: addGlobalIgnoredName
+                arguments:
+                    - 'template'
 

@@ -47,7 +47,7 @@ final class PromocodeHandler
         }
         $promocodeId = PromocodeId::new();
 
-        $eventId = EventId::fromString($createRegularPromocode->eventId);
+        $eventId = new EventId($createRegularPromocode->eventId);
         $event   = $this->events->findById($eventId);
         if ($event instanceof Error) {
             return $event;

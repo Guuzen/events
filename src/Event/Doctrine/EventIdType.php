@@ -11,7 +11,7 @@ final class EventIdType extends StringType
     public function convertToPHPValue($value, AbstractPlatform $platform): EventId
     {
         // TODO create via reflection ?
-        return EventId::fromString((string) $value);
+        return new EventId((string) $value);
     }
 
     public function getName(): string
