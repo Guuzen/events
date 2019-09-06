@@ -43,7 +43,7 @@ final class PromocodeHandler
     {
         $allowedTariffIds = [];
         foreach ($createRegularPromocode->allowedTariffs as $allowedTariff) {
-            $allowedTariffIds[] = TariffId::fromString($allowedTariff);
+            $allowedTariffIds[] = new TariffId($allowedTariff);
         }
         $promocodeId = PromocodeId::new();
 

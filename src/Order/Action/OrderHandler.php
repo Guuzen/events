@@ -76,7 +76,7 @@ final class OrderHandler
             return $event;
         }
 
-        $tariffId = TariffId::fromString($placeOrder->tariffId);
+        $tariffId = new TariffId($placeOrder->tariffId);
         $tariff   = $this->tariffs->findById($tariffId);
         if ($tariff instanceof Error) {
             return $tariff;
@@ -136,7 +136,7 @@ final class OrderHandler
      */
     public function markOrderPaid(MarkOrderPaid $markOrderPaid)
     {
-        $orderId = OrderId::fromString($markOrderPaid->orderId);
+        $orderId = new OrderId($markOrderPaid->orderId);
 
         $order = $this->orders->findById($orderId);
         if ($order instanceof Error) {

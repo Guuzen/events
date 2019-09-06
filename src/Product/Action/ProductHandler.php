@@ -48,7 +48,7 @@ final class ProductHandler
     public function createTicket(CreateTicket $createTicket)
     {
         $eventId   = new EventId($createTicket->eventId);
-        $tariffId  = TariffId::fromString($createTicket->tariffId);
+        $tariffId  = new TariffId($createTicket->tariffId);
         $productId = ProductId::new();
 
         $tariff = $this->tariffs->findById($tariffId);
@@ -64,7 +64,7 @@ final class ProductHandler
             return $event;
         }
 
-        $ticket = $event->createTicket(TicketId::fromString((string) $productId), $createTicket->number);
+        $ticket = $event->createTicket(new TicketId((string) $productId), $createTicket->number);
         $this->tickets->add($ticket);
 
         $this->em->flush();

@@ -11,7 +11,7 @@ final class OrderIdType extends StringType
     public function convertToPHPValue($value, AbstractPlatform $platform): OrderId
     {
         // TODO create via reflection ?
-        return OrderId::fromString((string) $value);
+        return new OrderId((string) $value);
     }
 
     public function getName(): string

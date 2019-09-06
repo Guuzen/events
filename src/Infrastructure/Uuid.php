@@ -24,7 +24,7 @@ abstract class Uuid
     /**
      * @return static
      */
-    public static function new()
+    final public static function new()
     {
         return new static(\Ramsey\Uuid\Uuid::uuid4()->toString());
     }
@@ -32,7 +32,7 @@ abstract class Uuid
     /**
      * @psalm-param T $uuid
      */
-    public function equals($uuid): bool
+    final public function equals($uuid): bool
     {
         return $this->id === $uuid->id;
     }
