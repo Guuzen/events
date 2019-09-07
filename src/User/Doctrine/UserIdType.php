@@ -2,25 +2,21 @@
 
 namespace App\User\Doctrine;
 
+use App\Infrastructure\Persistence\UuidType;
 use App\User\Model\UserId;
-use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Types\StringType;
 
-final class UserIdType extends StringType
+/**
+ * @template-extends UuidType<UserId>
+ */
+final class UserIdType extends UuidType
 {
-    public function convertToPHPValue($value, AbstractPlatform $platform): UserId
-    {
-        // TODO create via reflection ?
-        return new UserId((string) $value);
-    }
-
     public function getName(): string
     {
         return 'app_user_id';
     }
 
-    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
+    protected function className(): string
     {
-        return true;
+        return UserId::class;
     }
 }

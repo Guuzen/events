@@ -2,25 +2,21 @@
 
 namespace App\Product\Doctrine;
 
+use App\Infrastructure\Persistence\UuidType;
 use App\Product\Model\ProductId;
-use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Types\StringType;
 
-final class ProductIdType extends StringType
+/**
+ * @template-extends UuidType<ProductId>
+ */
+final class ProductIdType extends UuidType
 {
-    public function convertToPHPValue($value, AbstractPlatform $platform): ProductId
-    {
-        // TODO create via reflection ?
-        return new ProductId((string) $value);
-    }
-
     public function getName(): string
     {
         return 'app_product_id';
     }
 
-    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
+    protected function className(): string
     {
-        return true;
+        return ProductId::class;
     }
 }

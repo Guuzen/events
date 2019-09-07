@@ -3,24 +3,20 @@
 namespace App\Event\Doctrine;
 
 use App\Event\Model\EventId;
-use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Types\StringType;
+use App\Infrastructure\Persistence\UuidType;
 
-final class EventIdType extends StringType
+/**
+ * @template-extends UuidType<EventId>
+ */
+final class EventIdType extends UuidType
 {
-    public function convertToPHPValue($value, AbstractPlatform $platform): EventId
+    protected function className(): string
     {
-        // TODO create via reflection ?
-        return new EventId((string) $value);
+        return EventId::class;
     }
 
     public function getName(): string
     {
         return 'app_event_id';
-    }
-
-    public function requiresSQLCommentHint(AbstractPlatform $platform)
-    {
-        return true;
     }
 }

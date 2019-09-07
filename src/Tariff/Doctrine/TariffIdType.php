@@ -2,25 +2,21 @@
 
 namespace App\Tariff\Doctrine;
 
+use App\Infrastructure\Persistence\UuidType;
 use App\Tariff\Model\TariffId;
-use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Types\StringType;
 
-final class TariffIdType extends StringType
+/**
+ * @template-extends UuidType<TariffId>
+ */
+final class TariffIdType extends UuidType
 {
-    public function convertToPHPValue($value, AbstractPlatform $platform): TariffId
-    {
-        // TODO create via reflection ?
-        return new TariffId((string) $value);
-    }
-
     public function getName(): string
     {
         return 'app_tariff_id';
     }
 
-    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
+    protected function className(): string
     {
-        return true;
+        return TariffId::class;
     }
 }

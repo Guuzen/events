@@ -84,7 +84,7 @@
         "test": [
             "phpspec run --ansi",
             "codecept run",
-            "psalm"
+            "psalm --no-cache"
         ]
     },
     "conflict": {

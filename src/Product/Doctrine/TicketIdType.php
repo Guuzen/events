@@ -2,25 +2,21 @@
 
 namespace App\Product\Doctrine;
 
-use App\Order\Model\OrderId;
-use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Types\StringType;
+use App\Infrastructure\Persistence\UuidType;
+use App\Product\Model\TicketId;
 
-final class TicketIdType extends StringType
+/**
+ * @template-extends UuidType<TicketId>
+ */
+final class TicketIdType extends UuidType
 {
-    public function convertToPHPValue($value, AbstractPlatform $platform): OrderId
-    {
-        // TODO create via reflection ?
-        return new OrderId((string) $value);
-    }
-
     public function getName(): string
     {
         return 'app_ticket_id';
     }
 
-    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
+    protected function className(): string
     {
-        return true;
+        return TicketId::class;
     }
 }
