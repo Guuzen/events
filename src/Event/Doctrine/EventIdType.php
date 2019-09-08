@@ -10,7 +10,7 @@ use App\Infrastructure\Persistence\UuidType;
  */
 final class EventIdType extends UuidType
 {
-    protected function className(): string
+    public function className(): string
     {
         return EventId::class;
     }

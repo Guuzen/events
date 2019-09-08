@@ -28,7 +28,7 @@ final class TicketQueries
                 select
                     ticket.id as id,
                     ticket.event_id as event_id,
-                    product.type ->> \'type\' as type,
+                    tariff_details.tariff_type as type,
                     product.created_at as "created_at",
                     ticket.number,
                     product.reserved,
@@ -37,6 +37,8 @@ final class TicketQueries
                     product
                 left join
                     ticket on ticket.id = product.id
+                left join
+                    tariff_details on tariff_details.id = product.tariff_id
                 where
                     ticket.event_id = :event_id                 
             ) as ticket
@@ -67,7 +69,7 @@ final class TicketQueries
                 select
                     ticket.id as id,
                     ticket.event_id as event_id,
-                    product.type ->> \'type\' as type,
+                    tariff_details.tariff_type as type,
                     product.created_at as "created_at",
                     ticket.number,
                     product.reserved,
@@ -76,6 +78,8 @@ final class TicketQueries
                     product
                 left join
                     ticket on ticket.id = product.id
+                left join
+                    tariff_details on tariff_details.id = product.tariff_id
                 where
                     ticket.id = :ticket_id
             ) as ticket

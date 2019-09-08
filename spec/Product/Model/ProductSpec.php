@@ -7,7 +7,7 @@ use App\Product\Model\Error\ProductCantBeDeliveredIfNotReserved;
 use App\Product\Model\Error\ProductCantBeReservedIfAlreadyReserved;
 use App\Product\Model\Exception\ProductReserveCantBeCancelledIfAlreadyDelivered;
 use App\Product\Model\ProductId;
-use App\Product\Model\ProductType;
+use App\Tariff\Model\TariffId;
 use DateTimeImmutable;
 use PhpSpec\ObjectBehavior;
 
@@ -18,7 +18,7 @@ class ProductSpec extends ObjectBehavior
         $this->beConstructedWith(
             ProductId::new(),
             EventId::new(),
-            ProductType::silverPass(),
+            TariffId::new(),
             new DateTimeImmutable(),
             $reserved = false
         );

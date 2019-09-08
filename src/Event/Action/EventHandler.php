@@ -32,10 +32,11 @@ final class EventHandler
         $event   = new Event($eventId);
         $this->events->add($event);
 
-        $eventConfig         = new EventConfig();
-        $eventConfig->id     = $eventId;
-        $eventConfig->name   = $createEvent->name;
-        $eventConfig->domain = $createEvent->domain;
+        $eventConfig = new EventConfig(
+            (string) $eventId,
+            $createEvent->name,
+            $createEvent->domain
+        );
         $this->em->persist($eventConfig);
 
         $this->em->flush();

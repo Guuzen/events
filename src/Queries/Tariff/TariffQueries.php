@@ -29,7 +29,7 @@ final class TariffQueries
             from (
                 select
                     tariff.id,
-                    tariff.product_type -> \'type\' as product_type,
+                    tariff_details.tariff_type as product_type,
                     segments
                 from (
                     select
@@ -52,7 +52,10 @@ final class TariffQueries
                     ) as unwinded_tariff
                     group by id
                 ) as formatted_tariff
-                left join tariff on tariff.id = formatted_tariff.id
+                left join
+                    tariff on tariff.id = formatted_tariff.id
+                left join
+                    tariff_details on tariff_details.id = tariff.id
             ) as tariff
         ');
         $stmt->bindValue('event_id', $eventId);
@@ -80,7 +83,7 @@ final class TariffQueries
             from (
                 select
                     tariff.id,
-                    tariff.product_type -> \'type\' as product_type,
+                    tariff_details.tariff_type as product_type,
                     segments
                 from (
                     select
@@ -103,7 +106,10 @@ final class TariffQueries
                     ) as unwinded_tariff
                     group by id
                 ) as formatted_tariff
-                left join tariff on tariff.id = formatted_tariff.id
+                left join
+                    tariff on tariff.id = formatted_tariff.id
+                left join
+                    tariff_details on tariff_details.id = tariff.id
             ) as tariff
         ');
         $stmt->bindValue('tariff_id', $tariffId);

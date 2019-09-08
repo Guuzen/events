@@ -10,6 +10,7 @@ use App\Product\Model\Error\ProductCantBeReservedIfAlreadyReserved;
 use App\Product\Model\Exception\OrderProductMustBeRelatedToEvent;
 use App\Product\Model\Exception\ProductReserveCantBeCancelledIfAlreadyDelivered;
 use App\Tariff\Model\Tariff;
+use App\Tariff\Model\TariffId;
 use App\User\Model\User;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
@@ -33,9 +34,9 @@ final class Product
     private $eventId;
 
     /**
-     * @ORM\Column(type="app_product_type")
+     * @ORM\Column(type="app_tariff_id")
      */
-    private $type;
+    private $tariffId;
 
     /**
      * @ORM\Column(type="boolean")
@@ -60,14 +61,14 @@ final class Product
     public function __construct(
         ProductId $id,
         EventId $eventId,
-        ProductType $type,
+        TariffId $tariffId,
         DateTimeImmutable $createdAt,
         bool $reserved = false,
         bool $delivered = false
     ) {
         $this->id        = $id;
         $this->eventId   = $eventId;
-        $this->type      = $type;
+        $this->tariffId  = $tariffId;
         $this->createdAt = $createdAt;
         $this->reserved  = $reserved;
         $this->delivered = $delivered;

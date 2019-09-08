@@ -6,13 +6,13 @@ use App\Common\Error;
 use App\Event\Model\Error\EventNotFound;
 use App\Event\Model\EventId;
 use App\Event\Model\Events;
-use App\Product\Model\ProductType;
+use App\Tariff\Model\TariffDetails;
+use App\Tariff\Model\TariffDetailsId;
 use App\Tariff\Model\TariffId;
 use App\Tariff\Model\TariffPriceNet;
 use App\Tariff\Model\Tariffs;
 use App\Tariff\Model\TariffSegment;
 use App\Tariff\Model\TariffTerm;
-use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Money\Currency;
 use Money\Money;
@@ -64,10 +64,13 @@ final class TariffHandler
 
         $tariff = $event->createTariff(
             $tariffId,
-            new TariffPriceNet($tariffSegments),
-            new ProductType($createTariff->productType)
+            new TariffPriceNet($tariffSegments)
         );
         $this->tariffs->add($tariff);
+
+        // TODO rename product type to tariff type
+        $tariffDetails = new TariffDetails(new TariffDetailsId((string) $tariffId), $createTariff->productType);
+        $this->em->persist($tariffDetails);
 
         $this->em->flush();
 

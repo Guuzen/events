@@ -3,6 +3,7 @@ doctrine:
         types:
             app_tariff_price_net: App\Tariff\Doctrine\TariffPriceNetType
             app_tariff_id: App\Tariff\Doctrine\TariffIdType
+            app_tariff_details_id: App\Tariff\Doctrine\TariffDetailsIdType
     orm:
         mappings:
             Tariff:

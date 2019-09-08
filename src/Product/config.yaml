@@ -2,7 +2,6 @@ doctrine:
     dbal:
         types:
             app_product_id: App\Product\Doctrine\ProductIdType
-            app_product_type: App\Product\Doctrine\ProductTypeType
 
             app_ticket_id: App\Product\Doctrine\TicketIdType
     orm:

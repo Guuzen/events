@@ -28,7 +28,7 @@ final class OrderQueries
                 select
                     "order".event_id as "event_id",
                     "order".id as id,
-                    product.type ->> \'type\' as product,
+                    tariff_details.tariff_type as product,
                     "order".product_id as "product_id",
                     "order".tariff_id as "tariff_id",
                     "user".id as "user_id",
@@ -50,9 +50,11 @@ final class OrderQueries
                     product on "order".product_id = product.id
                 left join
                     event on "order".event_id = event.id
+                left join
+                    tariff_details on tariff_details.id = "order".tariff_id
                 where
                     event.id = :event_id
-            ) as "order"                
+            ) as "order"
         ');
         $stmt->bindParam('event_id', $eventId);
         $stmt->execute();
@@ -80,7 +82,7 @@ final class OrderQueries
                 select
                     "order".event_id as "event_id",
                     "order".id as id,
-                    product.type ->> \'type\' as product,
+                    tariff_details.tariff_type as product,
                     "order".product_id as "product_id",
                     "order".tariff_id as "tariff_id",
                     "user".id as "user_id",
@@ -102,6 +104,8 @@ final class OrderQueries
                     product on "order".product_id = product.id
                 left join
                     event on "order".event_id = event.id
+                left join
+                    tariff_details on tariff_details.id = "order".tariff_id
                 where
                     "order".id = :order_id 
             ) as "order"                

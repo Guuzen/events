@@ -5,11 +5,8 @@ namespace App\Tariff\Model;
 use App\Event\Model\EventId;
 use App\Order\Model\Order;
 use App\Order\Model\OrderId;
-use App\Product\Model\Error\NotReservedProductNotFound;
 use App\Product\Model\Product;
 use App\Product\Model\ProductId;
-use App\Product\Model\Products;
-use App\Product\Model\ProductType;
 use App\Promocode\Model\AllowedTariffs\AllowedTariffs;
 use App\Promocode\Model\Discount\Discount;
 use App\Tariff\Model\Error\TariffSegmentNotFound;
@@ -41,17 +38,11 @@ class Tariff
      */
     private $priceNet;
 
-    /**
-     * @ORM\Column(type="app_product_type")
-     */
-    private $productType;
-
-    public function __construct(TariffId $id, EventId $eventId, TariffPriceNet $priceNet, ProductType $productType)
+    public function __construct(TariffId $id, EventId $eventId, TariffPriceNet $priceNet)
     {
         $this->id          = $id;
         $this->eventId     = $eventId;
         $this->priceNet    = $priceNet;
-        $this->productType = $productType;
     }
 
     /**
@@ -72,17 +63,9 @@ class Tariff
         return $allowedTariffs->contains(new TariffId((string) $this->id));
     }
 
-    /**
-     * @return Product|NotReservedProductNotFound
-     */
-    public function findNotReservedProduct(Products $products)
-    {
-        return $products->findNotReservedByType($this->productType);
-    }
-
     public function createProduct(ProductId $productId, DateTimeImmutable $createdAt): Product
     {
-        return new Product($productId, $this->eventId, $this->productType, $createdAt);
+        return new Product($productId, $this->eventId, $this->id, $createdAt);
     }
 
     public function makeOrder(

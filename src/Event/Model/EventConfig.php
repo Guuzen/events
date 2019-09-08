@@ -14,15 +14,22 @@ final class EventConfig
      * @ORM\GeneratedValue(strategy="NONE")
      * @ORM\Column(type="string")
      */
-    public $id;
+    private $id;
 
     /**
      * @ORM\Column(type="string")
      */
-    public $name;
+    private $name;
 
     /**
      * @ORM\Column(type="string")
      */
-    public $domain;
+    private $domain;
+
+    public function __construct(string $id, string $name, string $domain)
+    {
+        $this->id     = $id;
+        $this->name   = $name;
+        $this->domain = $domain;
+    }
 }

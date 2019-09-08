@@ -4,6 +4,7 @@ namespace App\Product\Model;
 
 use App\Product\Model\Error\NotReservedProductNotFound;
 use App\Product\Model\Error\ProductNotFound;
+use App\Tariff\Model\TariffId;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -17,7 +18,7 @@ final class Products extends ServiceEntityRepository
     /**
      * @return Product|NotReservedProductNotFound
      */
-    public function findNotReservedByType(ProductType $type)
+    public function findNotReservedByType(TariffId $tariffId)
     {
         $query = $this->_em->createQuery('
             select
@@ -25,11 +26,11 @@ final class Products extends ServiceEntityRepository
             from
                 App\Product\Model\Product as product
             where
-                JSON_GET_TEXT(product.type, \'type\') = :type
+                product.tariffId = :tariff_id
                 and
                 product.reserved = false
         ');
-        $query->setParameter('type', $type);
+        $query->setParameter('tariff_id', $tariffId);
 
         /** @var Product|null */
         $product = $query->getOneOrNullResult();
