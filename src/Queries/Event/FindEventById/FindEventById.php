@@ -4,11 +4,11 @@ namespace App\Queries\Event\FindEventById;
 
 use App\Infrastructure\Http\AppRequest;
 
+/**
+ * @psalm-immutable
+ */
 final class FindEventById implements AppRequest
 {
-    /**
-     * @readonly
-     */
     public $eventId;
 
     public function __construct(string $eventId)

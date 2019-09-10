@@ -6,42 +6,26 @@ use App\Infrastructure\Http\AppRequest;
 use Symfony\Component\Validator\Constraints as Assert;
 
 // TODO validation
+/**
+ * @psalm-immutable
+ */
 final class PlaceOrder implements AppRequest
 {
     /**
      * @Assert\NotBlank
-     * @readonly
      */
     public $firstName;
 
-    /**
-     * @readonly
-     */
     public $lastName;
 
-    /**
-     * @readonly
-     */
     public $email;
 
-    /**
-     * @readonly
-     */
     public $paymentMethod;
 
-    /**
-     * @readonly
-     */
     public $tariffId;
 
-    /**
-     * @readonly
-     */
     public $phone;
 
-    /**
-     * @readonly
-     */
     public $eventId;
 
     public function __construct(

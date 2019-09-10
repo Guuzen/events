@@ -2,21 +2,15 @@
 
 namespace App\Queries\Event\FindEventsInList;
 
+/**
+ * @psalm-immutable
+ */
 final class EventInList
 {
-    /**
-     * @readonly
-     */
     public $id;
 
-    /**
-     * @readonly
-     */
     public $name;
 
-    /**
-     * @readonly
-     */
     public $domain;
 
     private function __construct(string $id, string $name, string $domain)

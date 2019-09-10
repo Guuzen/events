@@ -4,22 +4,16 @@ namespace App\Tariff\Action;
 
 use App\Infrastructure\Http\AppRequest;
 
-// TODO replace readonly with immutable
+/**
+ * @psalm-immutable
+ */
 final class CreateTariff implements AppRequest
 {
-    /**
-     * @readonly
-     */
     public $eventId;
 
-    /**
-     * @readonly
-     */
     public $tariffType;
 
     /**
-     * @readonly
-     *
      * @var CreateTariffSegment[]
      */
     public $segments;

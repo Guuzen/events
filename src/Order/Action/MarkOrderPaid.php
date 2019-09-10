@@ -4,11 +4,11 @@ namespace App\Order\Action;
 
 use App\Infrastructure\Http\AppRequest;
 
+/**
+ * @psalm-immutable
+ */
 final class MarkOrderPaid implements AppRequest
 {
-    /**
-     * @readonly
-     */
     public $orderId;
 
     public function __construct(string $orderId)

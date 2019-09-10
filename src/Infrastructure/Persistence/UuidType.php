@@ -35,10 +35,6 @@ abstract class UuidType extends Type
         }
 
         try {
-            /**
-             * @see https://github.com/vimeo/psalm/issues/2106
-             * @psalm-var ReflectionClass<T>
-             */
             $reflectionClass    = new ReflectionClass($this->className());
             $baseUuidClass      = $reflectionClass->getParentClass();
             $reflectionProperty = $baseUuidClass->getProperty('id');

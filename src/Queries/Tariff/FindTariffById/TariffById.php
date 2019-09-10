@@ -2,21 +2,15 @@
 
 namespace App\Queries\Tariff\FindTariffById;
 
+/**
+ * @psalm-immutable
+ */
 final class TariffById
 {
-    /**
-     * @readonly
-     */
     public $id;
 
-    /**
-     * @readonly
-     */
     public $tariffType;
 
-    /**
-     * @readonly
-     */
     public $segments;
 
     public function __construct(string $id, string $tariffType, array $segments)

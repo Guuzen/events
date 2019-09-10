@@ -4,46 +4,24 @@ namespace App\Promocode\Action;
 
 use App\Infrastructure\Http\AppRequest;
 
+/**
+ * @psalm-immutable
+ */
 final class CreateRegularPromocode implements AppRequest
 {
-    /**
-     * @readonly
-     */
     public $eventId;
 
-    /**
-     * @psalm-var array{
-     *      amount: string,
-     *      currency: string,
-     * }
-     */
     public $discount;
 
-    /**
-     * @readonly
-     */
     public $useLimit;
 
-    /**
-     * @readonly
-     */
     public $expireAt;
 
-    /**
-     * @readonly
-     */
     public $usable;
 
-    /**
-     * @readonly
-     *
-     * @var string[]
-     */
     public $allowedTariffs;
 
-    // TODO psalm bug structure defined twice
     /**
-     * @readonly
      * @psalm-param array{
      *      amount: string,
      *      currency: string

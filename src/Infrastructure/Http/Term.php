@@ -4,16 +4,13 @@ namespace App\Infrastructure\Http;
 
 use DateTimeImmutable;
 
+/**
+ * @psalm-immutable
+ */
 final class Term
 {
-    /**
-     * @readonly
-     */
     public $start;
 
-    /**
-     * @readonly
-     */
     public $end;
 
     public function __construct(DateTimeImmutable $start, DateTimeImmutable $end)

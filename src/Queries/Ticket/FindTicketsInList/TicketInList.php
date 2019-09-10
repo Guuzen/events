@@ -4,41 +4,23 @@ namespace App\Queries\Ticket\FindTicketsInList;
 
 use DateTimeImmutable;
 
+/**
+ * @psalm-immutable
+ */
 final class TicketInList
 {
-    /**
-     * @readonly
-     */
     public $id;
 
-    /**
-     * @readonly
-     */
     public $eventId;
 
-    /**
-     * @readonly
-     */
     public $type;
 
-    /**
-     * @readonly
-     */
     public $number;
 
-    /**
-     * @readonly
-     */
     public $reserved;
 
-    /**
-     * @readonly
-     */
     public $createdAt;
 
-    /**
-     * @readonly
-     */
     public $deliveredAt;
 
     public function __construct(

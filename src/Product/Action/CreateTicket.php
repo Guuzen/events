@@ -4,21 +4,15 @@ namespace App\Product\Action;
 
 use App\Infrastructure\Http\AppRequest;
 
+/**
+ * @psalm-immutable
+ */
 final class CreateTicket implements AppRequest
 {
-    /**
-     * @readonly
-     */
     public $eventId;
 
-    /**
-     * @readonly
-     */
     public $tariffId;
 
-    /**
-     * @readonly
-     */
     public $number;
 
     public function __construct(string $eventId, string $tariffId, string $number)

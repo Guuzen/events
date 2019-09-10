@@ -4,16 +4,13 @@ namespace App\Queries\Tariff\FindTariffById;
 
 use DateTimeImmutable;
 
+/**
+ * @psalm-immutable
+ */
 final class TariffByIdTerm
 {
-    /**
-     * @readonly
-     */
     public $start;
 
-    /**
-     * @readonly
-     */
     public $end;
 
     public function __construct(DateTimeImmutable $start, DateTimeImmutable $end)

@@ -2,16 +2,13 @@
 
 namespace App\Infrastructure\Http;
 
+/**
+ * @psalm-immutable
+ */
 final class Money
 {
-    /**
-     * @readonly
-     */
     public $amount;
 
-    /**
-     * @readonly
-     */
     public $currency;
 
     public function __construct(string $amount, string $currency)

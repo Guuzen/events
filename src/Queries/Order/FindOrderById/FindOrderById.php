@@ -4,11 +4,11 @@ namespace App\Queries\Order\FindOrderById;
 
 use App\Infrastructure\Http\AppRequest;
 
+/**
+ * @psalm-immutable
+ */
 final class FindOrderById implements AppRequest
 {
-    /**
-     * @readonly
-     */
     public $orderId;
 
     public function __construct(string $orderId)

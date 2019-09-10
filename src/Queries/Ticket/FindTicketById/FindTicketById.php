@@ -4,11 +4,11 @@ namespace App\Queries\Ticket\FindTicketById;
 
 use App\Infrastructure\Http\AppRequest;
 
+/**
+ * @psalm-immutable
+ */
 final class FindTicketById implements AppRequest
 {
-    /**
-     * @readonly
-     */
     public $ticketId;
 
     public function __construct(string $ticketId)

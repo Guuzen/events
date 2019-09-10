@@ -4,86 +4,41 @@ namespace App\Queries\Order\FindOrdersInList;
 
 use DateTimeImmutable;
 
+/**
+ * @psalm-immutable
+ */
 final class OrderInList
 {
-    /**
-     * @readonly
-     */
     public $id;
 
-    /**
-     * @readonly
-     */
     public $eventId;
 
-    /**
-     * @readonly
-     */
     public $tariffId;
 
-    /**
-     * @readonly
-     */
     public $productId;
 
-    /**
-     * @readonly
-     */
     public $userId;
 
-    /**
-     * @readonly
-     */
     public $paid;
 
-    /**
-     * @readonly
-     */
     public $product;
 
-    /**
-     * @readonly
-     */
     public $phone;
 
-    /**
-     * @readonly
-     */
     public $firstName;
 
-    /**
-     * @readonly
-     */
     public $lastName;
 
-    /**
-     * @readonly
-     */
     public $email;
 
-    /**
-     * @readonly
-     */
     public $sum;
 
-    /**
-     * @readonly
-     */
     public $currency;
 
-    /**
-     * @readonly
-     */
     public $cancelled;
 
-    /**
-     * @readonly
-     */
     public $makedAt;
 
-    /**
-     * @readonly
-     */
     public $deliveredAt;
 
     private function __construct(

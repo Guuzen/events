@@ -5,16 +5,13 @@ namespace App\Event\Action;
 // TODO validation
 use App\Infrastructure\Http\AppRequest;
 
+/**
+ * @psalm-immutable
+ */
 final class CreateEvent implements AppRequest
 {
-    /**
-     * @readonly
-     */
     public $name;
 
-    /**
-     * @readonly
-     */
     public $domain;
 
     public function __construct(string $name, string $domain)
