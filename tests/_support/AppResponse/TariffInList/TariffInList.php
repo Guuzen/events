@@ -6,15 +6,15 @@ final class TariffInList
 {
     private $id;
 
-    private $productType;
+    private $tariffType;
 
     private $segments;
 
-    private function __construct(string $id, string $productType, array $segments)
+    private function __construct(string $id, string $tariffType, array $segments)
     {
-        $this->id          = $id;
-        $this->productType = $productType;
-        $this->segments    = $segments;
+        $this->id         = $id;
+        $this->tariffType = $tariffType;
+        $this->segments   = $segments;
     }
 
     public static function anySilverActiveNowWith(string $tariffId): self

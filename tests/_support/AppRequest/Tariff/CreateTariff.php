@@ -6,14 +6,14 @@ final class CreateTariff
 {
     private $eventId;
 
-    private $productType;
+    private $tariffType;
 
     private $segments;
 
-    private function __construct(string $eventId, string $productType, array $segments)
+    private function __construct(string $eventId, string $tariffType, array $segments)
     {
         $this->eventId     = $eventId;
-        $this->productType = $productType;
+        $this->tariffType  = $tariffType;
         $this->segments    = $segments;
     }
 
@@ -22,4 +22,3 @@ final class CreateTariff
         return new self($eventId, 'silver_pass', [TariffSegment::activeNow200Rub()]);
     }
 }
-
