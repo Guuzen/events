@@ -4,6 +4,7 @@ namespace App\Tariff\Action;
 
 use App\Infrastructure\Http\AppRequest;
 
+// TODO replace readonly with immutable
 final class CreateTariff implements AppRequest
 {
     /**
@@ -14,7 +15,7 @@ final class CreateTariff implements AppRequest
     /**
      * @readonly
      */
-    public $productType;
+    public $tariffType;
 
     /**
      * @readonly
@@ -26,10 +27,10 @@ final class CreateTariff implements AppRequest
     /**
      * @param CreateTariffSegment[] $segments
      */
-    public function __construct(string $eventId, string $productType, array $segments)
+    public function __construct(string $eventId, string $tariffType, array $segments)
     {
-        $this->eventId     = $eventId;
-        $this->productType = $productType;
-        $this->segments    = $segments;
+        $this->eventId    = $eventId;
+        $this->tariffType = $tariffType;
+        $this->segments   = $segments;
     }
 }

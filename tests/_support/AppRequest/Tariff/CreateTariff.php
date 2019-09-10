@@ -12,9 +12,9 @@ final class CreateTariff
 
     private function __construct(string $eventId, string $tariffType, array $segments)
     {
-        $this->eventId     = $eventId;
-        $this->tariffType  = $tariffType;
-        $this->segments    = $segments;
+        $this->eventId    = $eventId;
+        $this->tariffType = $tariffType;
+        $this->segments   = $segments;
     }
 
     public static function anySilverActiveNowWith(string $eventId): self
