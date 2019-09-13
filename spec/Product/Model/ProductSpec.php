@@ -123,28 +123,27 @@ class ProductSpec extends ObjectBehavior
         ;
     }
 
-//
-//    public function it_should_not_be_possible_to_make_order_with_product_which_is_not_related_to_order_tariff(User $user, Order $order)
-//    {
-//        $order->beADoubleOf(Order::class);
-//        $user->beADoubleOf(User::class);
-//        $user
-//            ->makeOrder(Argument::cetera())
-//            ->willReturn($order)
-//        ;
-//
-//        $eventId = EventId::new();
-//        $this->makeOrder(
-//            OrderId::new(),
-//            $eventId,
-//            TariffId::new(),
-//            new Money(100, new Currency('RUB')),
-//            $user,
-//            new DateTimeImmutable('now')
-//        )
-//            ->shouldReturnAnInstanceOf(OrderProductMustBeRelatedToOrderTariff::class)
-//        ;
-//    }
+    public function it_should_not_be_part_of_the_order_which_is_not_related_to_same_tariff(User $user, Order $order)
+    {
+        $order->beADoubleOf(Order::class);
+        $user->beADoubleOf(User::class);
+        $user
+            ->makeOrder(Argument::cetera())
+            ->willReturn($order)
+        ;
+
+        $eventId = EventId::new();
+        $this->makeOrder(
+            OrderId::new(),
+            $eventId,
+            TariffId::new(),
+            new Money(100, new Currency('RUB')),
+            $user,
+            new DateTimeImmutable('now')
+        )
+            ->shouldReturnAnInstanceOf(OrderAndProductMustBeRelatedToSameTariff::class)
+        ;
+    }
 
 //    public function it_should_be_possible_to_cancel_reserve()
 //    {
