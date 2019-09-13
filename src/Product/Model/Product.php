@@ -14,6 +14,7 @@ use App\Tariff\Model\TariffId;
 use App\User\Model\User;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use Money\Currency;
 use Money\Money;
 
 /**
@@ -110,7 +111,7 @@ final class Product
     public function makeOrder(
         OrderId $orderId,
         EventId $eventId,
-        Tariff $tariff,
+        TariffId $tariffId,
         Money $sum,
         User $user,
         DateTimeImmutable $asOf
@@ -120,6 +121,6 @@ final class Product
             throw new OrderProductMustBeRelatedToEvent();
         }
 
-        return $tariff->makeOrder($orderId, $eventId, $this->id, $sum, $user, $asOf);
+        return $user->makeOrder($orderId, $eventId, $this->id, $tariffId, $sum, $asOf);
     }
 }
