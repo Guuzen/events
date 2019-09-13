@@ -11,6 +11,8 @@ use App\Order\Model\Error\OrderNotFound;
 use App\Order\Model\OrderId;
 use App\Order\Model\Orders;
 use App\Product\Model\Error\NotReservedProductNotFound;
+use App\Product\Model\Error\OrderAndProductMustBeRelatedToSameEvent;
+use App\Product\Model\Error\OrderAndProductMustBeRelatedToSameTariff;
 use App\Product\Model\Error\ProductCantBeDeliveredIfNotReserved;
 use App\Product\Model\Error\ProductCantBeReservedIfAlreadyReserved;
 use App\Product\Model\Error\ProductNotFound;
@@ -18,6 +20,7 @@ use App\Product\Model\Products;
 use App\Promocode\Model\NullPromocode;
 use App\Queries\DataForSendTicketByEmailNotFound;
 use App\Queries\FindDataForSendTicketByEmail;
+use App\Tariff\Model\Error\TariffAndOrderMustBeRelatedToSameEvent;
 use App\Tariff\Model\Error\TariffNotFound;
 use App\Tariff\Model\Error\TariffSegmentNotFound;
 use App\Tariff\Model\TariffId;
@@ -64,7 +67,7 @@ final class OrderHandler
     }
 
     /**
-     * @return OrderId|EventNotFound|TariffNotFound|NotReservedProductNotFound|TariffSegmentNotFound|ProductNotFound|ProductCantBeReservedIfAlreadyReserved
+     * @return OrderId|EventNotFound|TariffNotFound|NotReservedProductNotFound|TariffSegmentNotFound|ProductNotFound|ProductCantBeReservedIfAlreadyReserved|TariffAndOrderMustBeRelatedToSameEvent|OrderAndProductMustBeRelatedToSameEvent|OrderAndProductMustBeRelatedToSameTariff
      */
     public function placeOrder(PlaceOrder $placeOrder)
     {
@@ -109,6 +112,9 @@ final class OrderHandler
             $user,
             $orderDate
         );
+        if ($order instanceof Error) {
+            return $order;
+        }
 
         // TODO нафиг нужно считать сумму с промокодом, если потом можно всё равно промокод применить ?
         $promocode->use($orderId, $tariff, $orderDate);

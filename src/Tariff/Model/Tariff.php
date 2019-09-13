@@ -5,13 +5,14 @@ namespace App\Tariff\Model;
 use App\Event\Model\EventId;
 use App\Order\Model\Order;
 use App\Order\Model\OrderId;
+use App\Product\Model\Error\OrderAndProductMustBeRelatedToSameEvent;
+use App\Product\Model\Error\OrderAndProductMustBeRelatedToSameTariff;
 use App\Product\Model\Product;
 use App\Product\Model\ProductId;
 use App\Promocode\Model\AllowedTariffs\AllowedTariffs;
 use App\Promocode\Model\Discount\Discount;
 use App\Tariff\Model\Error\TariffAndOrderMustBeRelatedToSameEvent;
 use App\Tariff\Model\Error\TariffSegmentNotFound;
-use App\Tariff\Model\Exception\OrderTariffMustBeRelatedToEvent;
 use App\User\Model\User;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
@@ -70,7 +71,7 @@ class Tariff
     }
 
     /**
-     * @return Order|TariffAndOrderMustBeRelatedToSameEvent
+     * @return Order|TariffAndOrderMustBeRelatedToSameEvent|OrderAndProductMustBeRelatedToSameEvent|OrderAndProductMustBeRelatedToSameTariff
      */
     public function makeOrder(
         OrderId $orderId,

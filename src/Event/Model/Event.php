@@ -4,6 +4,8 @@ namespace App\Event\Model;
 
 use App\Order\Model\Order;
 use App\Order\Model\OrderId;
+use App\Product\Model\Error\OrderAndProductMustBeRelatedToSameEvent;
+use App\Product\Model\Error\OrderAndProductMustBeRelatedToSameTariff;
 use App\Product\Model\Product;
 use App\Product\Model\ProductId;
 use App\Product\Model\Ticket;
@@ -13,6 +15,7 @@ use App\Promocode\Model\AllowedTariffs\EventAllowedTariffs;
 use App\Promocode\Model\Discount\Discount;
 use App\Promocode\Model\PromocodeId;
 use App\Promocode\Model\RegularPromocode;
+use App\Tariff\Model\Error\TariffAndOrderMustBeRelatedToSameEvent;
 use App\Tariff\Model\Tariff;
 use App\Tariff\Model\TariffPriceNet;
 use App\Tariff\Model\TariffId;
@@ -44,6 +47,9 @@ final class Event
         return new Ticket($ticketId, $this->id, $number);
     }
 
+    /**
+     * @return Order|TariffAndOrderMustBeRelatedToSameEvent|OrderAndProductMustBeRelatedToSameEvent|OrderAndProductMustBeRelatedToSameTariff
+     */
     public function makeOrder(
         OrderId $orderId,
         Product $product,
@@ -51,8 +57,8 @@ final class Event
         Money $sum,
         User $user,
         DateTimeImmutable $asOf
-    ): Order {
-        return $product->makeOrder($orderId, $this->id, $tariff, $sum, $user, $asOf);
+    ) {
+        return $tariff->makeOrder($orderId, $this->id, $product, $sum, $user, $asOf);
     }
 
     public function createTariff(TariffId $tariffId, TariffPriceNet $tariffPriceNet): Tariff
