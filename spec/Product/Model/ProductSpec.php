@@ -6,6 +6,7 @@ use App\Event\Model\EventId;
 use App\Order\Model\Order;
 use App\Order\Model\OrderId;
 use App\Product\Model\Error\OrderAndProductMustBeRelatedToSameEvent;
+use App\Product\Model\Error\OrderAndProductMustBeRelatedToSameTariff;
 use App\Product\Model\Error\ProductCantBeDeliveredIfNotReserved;
 use App\Product\Model\Error\ProductCantBeReservedIfAlreadyReserved;
 use App\Product\Model\Exception\ProductReserveCantBeCancelledIfAlreadyDelivered;
@@ -133,6 +134,13 @@ class ProductSpec extends ObjectBehavior
         ;
 
         $eventId = EventId::new();
+        $this->beConstructedWith(
+            ProductId::new(),
+            $eventId,
+            TariffId::new(),
+            new DateTimeImmutable('now')
+        );
+
         $this->makeOrder(
             OrderId::new(),
             $eventId,

@@ -6,6 +6,7 @@ use App\Event\Model\EventId;
 use App\Order\Model\Order;
 use App\Order\Model\OrderId;
 use App\Product\Model\Error\OrderAndProductMustBeRelatedToSameEvent;
+use App\Product\Model\Error\OrderAndProductMustBeRelatedToSameTariff;
 use App\Product\Model\Error\ProductCantBeDeliveredIfNotReserved;
 use App\Product\Model\Error\ProductCantBeReservedIfAlreadyReserved;
 use App\Product\Model\Exception\OrderProductMustBeRelatedToEvent;
@@ -110,7 +111,7 @@ final class Product
     }
 
     /**
-     * @return Order|OrderAndProductMustBeRelatedToSameEvent
+     * @return Order|OrderAndProductMustBeRelatedToSameEvent|OrderAndProductMustBeRelatedToSameTariff
      */
     public function makeOrder(
         OrderId $orderId,
@@ -122,6 +123,9 @@ final class Product
     ) {
         if (!$this->eventId->equals($eventId)) {
             return new OrderAndProductMustBeRelatedToSameEvent();
+        }
+        if (!$this->tariffId->equals($tariffId)) {
+            return new OrderAndProductMustBeRelatedToSameTariff();
         }
 
         return $user->makeOrder($orderId, $eventId, $this->id, $tariffId, $sum, $asOf);
