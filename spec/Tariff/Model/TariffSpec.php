@@ -7,6 +7,7 @@ use App\Order\Model\Order;
 use App\Order\Model\OrderId;
 use App\Product\Model\Product;
 use App\Product\Model\ProductId;
+use App\Tariff\Model\Error\TariffAndOrderMustBeRelatedToSameEvent;
 use App\Tariff\Model\TariffId;
 use App\Tariff\Model\TariffPriceNet;
 use App\Tariff\Model\TariffSegment;

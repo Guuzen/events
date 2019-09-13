@@ -9,6 +9,7 @@ use App\Product\Model\Product;
 use App\Product\Model\ProductId;
 use App\Promocode\Model\AllowedTariffs\AllowedTariffs;
 use App\Promocode\Model\Discount\Discount;
+use App\Tariff\Model\Error\TariffAndOrderMustBeRelatedToSameEvent;
 use App\Tariff\Model\Error\TariffSegmentNotFound;
 use App\Tariff\Model\Exception\OrderTariffMustBeRelatedToEvent;
 use App\User\Model\User;
@@ -75,9 +76,9 @@ class Tariff
         Money $sum,
         User $user,
         DateTimeImmutable $asOf
-    ): Order {
+    ) {
         if (!$this->eventId->equals($eventId)) {
-            throw new OrderTariffMustBeRelatedToEvent();
+            return new TariffAndOrderMustBeRelatedToSameEvent();
         }
 
         return $product->makeOrder($orderId, $eventId, $this->id, $sum, $user, $asOf);
