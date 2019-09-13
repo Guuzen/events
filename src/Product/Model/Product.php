@@ -22,7 +22,7 @@ use Money\Money;
 /**
  * @ORM\Entity
  */
-final class Product
+class Product
 {
     /**
      * @ORM\Id

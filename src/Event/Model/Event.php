@@ -5,6 +5,7 @@ namespace App\Event\Model;
 use App\Order\Model\Order;
 use App\Order\Model\OrderId;
 use App\Product\Model\Product;
+use App\Product\Model\ProductId;
 use App\Product\Model\Ticket;
 use App\Product\Model\TicketId;
 use App\Promocode\Model\AllowedTariffs\AllowedTariffs;
