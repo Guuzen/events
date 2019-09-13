@@ -9,14 +9,12 @@ use App\Product\Model\Error\OrderAndProductMustBeRelatedToSameEvent;
 use App\Product\Model\Error\OrderAndProductMustBeRelatedToSameTariff;
 use App\Product\Model\Error\ProductCantBeDeliveredIfNotReserved;
 use App\Product\Model\Error\ProductCantBeReservedIfAlreadyReserved;
-use App\Product\Model\Exception\OrderProductMustBeRelatedToEvent;
 use App\Product\Model\Exception\ProductReserveCantBeCancelledIfAlreadyDelivered;
 use App\Tariff\Model\Tariff;
 use App\Tariff\Model\TariffId;
 use App\User\Model\User;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
-use Money\Currency;
 use Money\Money;
 
 /**
