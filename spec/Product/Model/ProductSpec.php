@@ -5,7 +5,7 @@ namespace spec\App\Product\Model;
 use App\Event\Model\EventId;
 use App\Order\Model\Order;
 use App\Order\Model\OrderId;
-use App\Product\Model\Error\OrderProductMustBeRelatedToOrderEvent;
+use App\Product\Model\Error\OrderAndProductMustBeRelatedToSameEvent;
 use App\Product\Model\Error\ProductCantBeDeliveredIfNotReserved;
 use App\Product\Model\Error\ProductCantBeReservedIfAlreadyReserved;
 use App\Product\Model\Exception\ProductReserveCantBeCancelledIfAlreadyDelivered;
@@ -119,9 +119,10 @@ class ProductSpec extends ObjectBehavior
             $user,
             new DateTimeImmutable('now')
         )
-            ->shouldReturnAnInstanceOf(OrderProductMustBeRelatedToOrderEvent::class)
+            ->shouldReturnAnInstanceOf(OrderAndProductMustBeRelatedToSameEvent::class)
         ;
     }
+
 //
 //    public function it_should_not_be_possible_to_make_order_with_product_which_is_not_related_to_order_tariff(User $user, Order $order)
 //    {
