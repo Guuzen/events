@@ -57,4 +57,41 @@ class TariffSpec extends ObjectBehavior
             ->shouldReturnAnInstanceOf($order)
         ;
     }
+
+    public function it_should_not_be_part_of_the_order_which_is_not_related_to_same_event(Product $product, Order $order, User $user)
+    {
+        $user->beADoubleOf(User::class);
+        $order->beADoubleOf(Order::class);
+        $product->beADoubleOf(Product::class);
+        $product
+            ->makeOrder(Argument::cetera())
+            ->willReturn($order)
+        ;
+
+        $this->beConstructedWith(
+            TariffId::new(),
+            EventId::new(),
+            new TariffPriceNet([
+                new TariffSegment(
+                    new Money(100, new Currency('RUB')),
+                    new TariffTerm(
+                        new DateTimeImmutable('now'),
+                        new DateTimeImmutable('now')
+                    )
+                ),
+            ])
+        );
+
+        $this
+            ->makeOrder(
+                OrderId::new(),
+                EventId::new(),
+                $product,
+                new Money(100, new Currency('RUB')),
+                $user,
+                new DateTimeImmutable('now')
+            )
+            ->shouldReturnAnInstanceOf(TariffAndOrderMustBeRelatedToSameEvent::class)
+        ;
+    }
 }
