@@ -69,6 +69,9 @@ class Tariff
         return new Product($productId, $this->eventId, $this->id, $createdAt);
     }
 
+    /**
+     * @return Order|TariffAndOrderMustBeRelatedToSameEvent
+     */
     public function makeOrder(
         OrderId $orderId,
         EventId $eventId,
