@@ -5,6 +5,7 @@ namespace App\Product\Model;
 use App\Event\Model\EventId;
 use App\Order\Model\Order;
 use App\Order\Model\OrderId;
+use App\Product\Model\Error\OrderProductMustBeRelatedToOrderEvent;
 use App\Product\Model\Error\ProductCantBeDeliveredIfNotReserved;
 use App\Product\Model\Error\ProductCantBeReservedIfAlreadyReserved;
 use App\Product\Model\Exception\OrderProductMustBeRelatedToEvent;
@@ -108,6 +109,9 @@ final class Product
         return null;
     }
 
+    /**
+     * @return Order|OrderProductMustBeRelatedToOrderEvent
+     */
     public function makeOrder(
         OrderId $orderId,
         EventId $eventId,
@@ -115,10 +119,9 @@ final class Product
         Money $sum,
         User $user,
         DateTimeImmutable $asOf
-    ): Order {
-        // TODO replace with check product type ?
+    ) {
         if (!$this->eventId->equals($eventId)) {
-            throw new OrderProductMustBeRelatedToEvent();
+            return new OrderProductMustBeRelatedToOrderEvent();
         }
 
         return $user->makeOrder($orderId, $eventId, $this->id, $tariffId, $sum, $asOf);
