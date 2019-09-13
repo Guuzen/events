@@ -49,7 +49,7 @@ class TariffSpec extends ObjectBehavior
             ->makeOrder(
                 OrderId::new(),
                 $eventId,
-                ProductId::new(),
+                $product,
                 new Money(100, new Currency('RUB')),
                 $user,
                 new DateTimeImmutable('now')

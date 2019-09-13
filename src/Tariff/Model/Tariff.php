@@ -71,7 +71,7 @@ class Tariff
     public function makeOrder(
         OrderId $orderId,
         EventId $eventId,
-        ProductId $productId,
+        Product $product,
         Money $sum,
         User $user,
         DateTimeImmutable $asOf
@@ -80,6 +80,6 @@ class Tariff
             throw new OrderTariffMustBeRelatedToEvent();
         }
 
-        return $user->makeOrder($orderId, $eventId, $productId, $this->id, $sum, $asOf);
+        return $product->makeOrder($orderId, $eventId, $this->id, $sum, $user, $asOf);
     }
 }
