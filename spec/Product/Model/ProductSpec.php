@@ -5,12 +5,14 @@ namespace spec\App\Product\Model;
 use App\Event\Model\EventId;
 use App\Order\Model\Order;
 use App\Order\Model\OrderId;
+use App\Product\Service\ProductEmailDelivery;
 use App\Product\Model\Error\OrderAndProductMustBeRelatedToSameEvent;
 use App\Product\Model\Error\OrderAndProductMustBeRelatedToSameTariff;
 use App\Product\Model\Error\ProductCantBeDeliveredIfNotReserved;
 use App\Product\Model\Error\ProductCantBeReservedIfAlreadyReserved;
 use App\Product\Model\Exception\ProductReserveCantBeCancelledIfAlreadyDelivered;
 use App\Product\Model\ProductId;
+use App\Product\Model\ProductType;
 use App\Tariff\Model\TariffId;
 use App\User\Model\User;
 use DateTimeImmutable;
@@ -27,6 +29,7 @@ class ProductSpec extends ObjectBehavior
             ProductId::new(),
             EventId::new(),
             TariffId::new(),
+            ProductType::ticket(),
             new DateTimeImmutable(),
             $reserved = false
         );
@@ -43,24 +46,42 @@ class ProductSpec extends ObjectBehavior
         $this->reserve()->shouldReturnAnInstanceOf(ProductCantBeReservedIfAlreadyReserved::class);
     }
 
-    public function it_should_be_delivered_if_reserved()
+    public function it_should_be_delivered_if_reserved(ProductEmailDelivery $productEmailDelivery)
     {
+        $productEmailDelivery->beADoubleOf(ProductEmailDelivery::class);
+        $productEmailDelivery
+            ->deliver(Argument::any(), Argument::any())
+            ->willReturn(null)
+        ;
+
         $now = new DateTimeImmutable('now');
         $this->reserve();
-        $this->delivered($now)->shouldReturn(null);
+        $this->deliver($productEmailDelivery, $now)->shouldReturn(null);
     }
 
-    public function it_should_not_be_delivered_if_not_reserved()
+    public function it_should_not_be_delivered_if_not_reserved(ProductEmailDelivery $productEmailDelivery)
     {
+        $productEmailDelivery->beADoubleOf(ProductEmailDelivery::class);
+        $productEmailDelivery
+            ->deliver(Argument::any(), Argument::any())
+            ->willReturn(null)
+        ;
+
         $now = new DateTimeImmutable('now');
-        $this->delivered($now)->shouldReturnAnInstanceOf(ProductCantBeDeliveredIfNotReserved::class);
+        $this->deliver($productEmailDelivery, $now)->shouldReturnAnInstanceOf(ProductCantBeDeliveredIfNotReserved::class);
     }
 
-    public function its_reserve_cant_be_cancelled_if_already_delivered()
+    public function its_reserve_cant_be_cancelled_if_already_delivered(ProductEmailDelivery $productEmailDelivery)
     {
+        $productEmailDelivery->beADoubleOf(ProductEmailDelivery::class);
+        $productEmailDelivery
+            ->deliver(Argument::any(), Argument::any())
+            ->willReturn(null)
+        ;
+
         $now = new DateTimeImmutable('now');
         $this->reserve();
-        $this->delivered($now);
+        $this->deliver($productEmailDelivery, $now);
         $this
             ->shouldThrow(ProductReserveCantBeCancelledIfAlreadyDelivered::class)
             ->during('cancelReserve')
@@ -82,6 +103,7 @@ class ProductSpec extends ObjectBehavior
             ProductId::new(),
             $eventId,
             $tariffId,
+            ProductType::ticket(),
             new DateTimeImmutable('now')
         );
 
@@ -109,6 +131,7 @@ class ProductSpec extends ObjectBehavior
             ProductId::new(),
             EventId::new(),
             $tariffId,
+            ProductType::ticket(),
             new DateTimeImmutable('now')
         );
 
@@ -138,6 +161,7 @@ class ProductSpec extends ObjectBehavior
             ProductId::new(),
             $eventId,
             TariffId::new(),
+            ProductType::ticket(),
             new DateTimeImmutable('now')
         );
 

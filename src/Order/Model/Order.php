@@ -3,6 +3,7 @@
 namespace App\Order\Model;
 
 use App\Event\Model\EventId;
+use App\Infrastructure\DomainEvent\Entity;
 use App\Order\Model\Error\OrderAlreadyPaid;
 use App\Order\Model\Exception\OrderCancelled;
 use App\Product\Model\Error\ProductNotFound;
@@ -20,7 +21,7 @@ use Money\Money;
  * @ORM\Entity
  * @ORM\Table(name="`order`")
  */
-class Order
+class Order extends Entity
 {
     /**
      * @ORM\Id
@@ -117,8 +118,9 @@ class Order
         if ($this->paid) {
             return new OrderAlreadyPaid();
         }
-
         $this->paid = true;
+
+        $this->rememberThat(new OrderMarkedPaid($this->productId));
 
         return null;
     }

@@ -9,6 +9,7 @@ use App\Product\Model\Error\OrderAndProductMustBeRelatedToSameEvent;
 use App\Product\Model\Error\OrderAndProductMustBeRelatedToSameTariff;
 use App\Product\Model\Product;
 use App\Product\Model\ProductId;
+use App\Product\Model\ProductType;
 use App\Promocode\Model\AllowedTariffs\AllowedTariffs;
 use App\Promocode\Model\Discount\Discount;
 use App\Tariff\Model\Error\TariffAndOrderMustBeRelatedToSameEvent;
@@ -65,9 +66,9 @@ class Tariff
         return $allowedTariffs->contains(new TariffId((string) $this->id));
     }
 
-    public function createProduct(ProductId $productId, DateTimeImmutable $createdAt): Product
+    public function createProduct(ProductId $productId, DateTimeImmutable $createdAt, ProductType $productType): Product
     {
-        return new Product($productId, $this->eventId, $this->id, $createdAt);
+        return new Product($productId, $this->eventId, $this->id, $productType, $createdAt);
     }
 
     /**

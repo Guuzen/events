@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Queries;
+namespace App\Product\Service;
 
+use App\Product\Service\Error\TicketEmailNotFound;
 use Doctrine\DBAL\Connection;
 
-// TODO awful naming ?
-final class FindDataForSendTicketByEmail
+final class FindTicketEmail
 {
     private $connection;
 
@@ -17,32 +17,32 @@ final class FindDataForSendTicketByEmail
     // TODO delivery address in order ?
 
     /**
-     * @psalm-return array{email: string, number: string}|DataForSendTicketByEmailNotFound
+     * @return TicketEmail|TicketEmailNotFound
      */
-    public function __invoke(string $orderId)
+    public function find(string $ticketId)
     {
         $stmt = $this->connection->prepare('
             select
                 "user".contacts ->> \'email\' as email,
                 ticket.number
             from
-                "order"
+                "ticket"
+            left join
+                "order" on ticket.id = "order".product_id
             left join
                 "user" on "user".id = "order".user_id
-            left join
-                ticket on ticket.id = "order".product_id
-            where "order".id = :order_id
+            where ticket.id = :ticket_id
         ');
-        $stmt->bindValue('order_id', $orderId);
+        $stmt->bindValue('ticket_id', $ticketId);
         $stmt->execute();
 
         /** @var array{email: string, number: string}|false */
         $result = $stmt->fetch();
 
         if (false === $result) {
-            return new DataForSendTicketByEmailNotFound();
+            return new TicketEmailNotFound();
         }
 
-        return $result;
+        return new TicketEmail($result['email'], $result['number']);
     }
 }

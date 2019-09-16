@@ -2,7 +2,7 @@ doctrine:
     dbal:
         types:
             app_product_id: App\Product\Doctrine\ProductIdType
-
+            app_product_type: App\Product\Doctrine\ProductTypeType
             app_ticket_id: App\Product\Doctrine\TicketIdType
     orm:
         mappings:
@@ -20,3 +20,14 @@ services:
     App\Product\Action\ProductHandler: ~
     App\Product\Model\Products: ~
     App\Product\Model\Tickets: ~
+    App\Product\Service\FindTicketEmail: ~
+    App\Product\Service\ProductEmailDelivery: ~
+
+    App\Product\Service\TicketEmailFactory:
+        arguments:
+            $from: '%app.no_reply_email%'
+
+    App\Product\Service\ProductEmailFactoryDispatcher:
+        arguments:
+            $factoryMap:
+                !php/const App\Product\Model\ProductType::TICKET: '@App\Product\Service\TicketEmailFactory'

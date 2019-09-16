@@ -18,8 +18,6 @@ use App\Product\Model\Error\ProductCantBeReservedIfAlreadyReserved;
 use App\Product\Model\Error\ProductNotFound;
 use App\Product\Model\Products;
 use App\Promocode\Model\NullPromocode;
-use App\Queries\DataForSendTicketByEmailNotFound;
-use App\Queries\FindDataForSendTicketByEmail;
 use App\Tariff\Model\Error\TariffAndOrderMustBeRelatedToSameEvent;
 use App\Tariff\Model\Error\TariffNotFound;
 use App\Tariff\Model\Error\TariffSegmentNotFound;
@@ -44,26 +42,18 @@ final class OrderHandler
 
     private $orders;
 
-    private $sendTicketToBuyerByEmailNotifier;
-
-    private $findDataForSendTicketByEmail;
-
     public function __construct(
         EntityManagerInterface $em,
         Events $events,
         Tariffs $tariffs,
         Products $products,
-        Orders $orders,
-        SendTicketByEmail $sendTicketToBuyerByEmailNotifier,
-        FindDataForSendTicketByEmail $findDataForSendTicketByEmail
+        Orders $orders
     ) {
-        $this->em                                 = $em;
-        $this->events                             = $events;
-        $this->tariffs                            = $tariffs;
-        $this->products                           = $products;
-        $this->orders                             = $orders;
-        $this->sendTicketToBuyerByEmailNotifier   = $sendTicketToBuyerByEmailNotifier;
-        $this->findDataForSendTicketByEmail       = $findDataForSendTicketByEmail;
+        $this->em       = $em;
+        $this->events   = $events;
+        $this->tariffs  = $tariffs;
+        $this->products = $products;
+        $this->orders   = $orders;
     }
 
     /**
@@ -138,7 +128,7 @@ final class OrderHandler
     }
 
     /**
-     * @return OrderNotFound|OrderAlreadyPaid|ProductNotFound|ProductCantBeDeliveredIfNotReserved|DataForSendTicketByEmailNotFound|null
+     * @return OrderNotFound|OrderAlreadyPaid|ProductNotFound|ProductCantBeDeliveredIfNotReserved|null
      */
     public function markOrderPaid(MarkOrderPaid $markOrderPaid)
     {
@@ -152,25 +142,6 @@ final class OrderHandler
         $markPaidError = $order->markPaid();
         if ($markPaidError instanceof Error) {
             return $markPaidError;
-        }
-
-        $this->em->flush();
-
-        $orderPaid = ($this->findDataForSendTicketByEmail)((string) $orderId);
-        if ($orderPaid instanceof Error) {
-            return $orderPaid;
-        }
-        $this->sendTicketToBuyerByEmailNotifier->send($orderPaid);
-
-        $product = $order->findProductById($this->products);
-        if ($product instanceof Error) {
-            return $product;
-        }
-
-        // TODO move it to send ticket by email or extract to another action ?
-        $deliveredError = $product->delivered(new DateTimeImmutable('now'));
-        if ($deliveredError instanceof Error) {
-            return $deliveredError;
         }
 
         $this->em->flush();

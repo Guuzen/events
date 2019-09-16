@@ -2,15 +2,18 @@
 
 namespace App\Product\Model;
 
+use App\Common\Error;
 use App\Event\Model\EventId;
 use App\Order\Model\Order;
 use App\Order\Model\OrderId;
+use App\Product\Service\ProductEmailDelivery;
 use App\Product\Model\Error\OrderAndProductMustBeRelatedToSameEvent;
 use App\Product\Model\Error\OrderAndProductMustBeRelatedToSameTariff;
 use App\Product\Model\Error\ProductCantBeDeliveredIfNotReserved;
 use App\Product\Model\Error\ProductCantBeReservedIfAlreadyReserved;
 use App\Product\Model\Exception\ProductReserveCantBeCancelledIfAlreadyDelivered;
-use App\Tariff\Model\Tariff;
+use App\Product\Service\Error\ProductNotDelivered;
+use App\Product\Service\Error\ProductEmailNotFound;
 use App\Tariff\Model\TariffId;
 use App\User\Model\User;
 use DateTimeImmutable;
@@ -45,6 +48,11 @@ class Product
     private $reserved;
 
     /**
+     * @ORM\Column(type="app_product_type")
+     */
+    private $type;
+
+    /**
      * @ORM\Column(type="datetime_immutable")
      */
     private $createdAt;
@@ -63,6 +71,7 @@ class Product
         ProductId $id,
         EventId $eventId,
         TariffId $tariffId,
+        ProductType $type,
         DateTimeImmutable $createdAt,
         bool $reserved = false,
         bool $delivered = false
@@ -73,6 +82,7 @@ class Product
         $this->createdAt = $createdAt;
         $this->reserved  = $reserved;
         $this->delivered = $delivered;
+        $this->type      = $type;
     }
 
     // TODO reserved at
@@ -96,10 +106,18 @@ class Product
         $this->reserved = false;
     }
 
-    public function delivered(DateTimeImmutable $deliveredAt): ?ProductCantBeDeliveredIfNotReserved
+    /**
+     * @return ProductCantBeDeliveredIfNotReserved|ProductNotDelivered|ProductEmailNotFound|null
+     */
+    public function deliver(ProductEmailDelivery $productEmailDelivery, DateTimeImmutable $deliveredAt)
     {
         if (!$this->reserved) {
             return new ProductCantBeDeliveredIfNotReserved();
+        }
+
+        $deliveryError = $productEmailDelivery->deliver($this->id, $this->type);
+        if ($deliveryError instanceof Error) {
+            return $deliveryError;
         }
 
         $this->delivered   = true;

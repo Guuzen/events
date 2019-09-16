@@ -204,6 +204,9 @@ class Manager extends ApiTester
     {
         $I = $this;
 
+        $I->insulate();
+        $I->haveHttpHeader('Content-Type', 'application/json');
+
         $I->sendPOST('/admin/order/mark_paid', $markOrderPaid);
 
         $I->seeResponseCodeIsSuccessful();
@@ -213,6 +216,7 @@ class Manager extends ApiTester
     public function seeEmailWithTicketSent(EmailWithTicket $expectedEmail): void
     {
         $I = $this;
+        $I->insulate();
 
         $I->seeEmailIsSent(1);
         $email       = $I->grabEmailMessages()[0];

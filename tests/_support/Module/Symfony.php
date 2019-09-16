@@ -62,4 +62,9 @@ final class Symfony extends \Codeception\Module\Symfony
 
         return $mailCollector->getMessages();
     }
+
+    public function insulate()
+    {
+        $this->client->insulate();
+    }
 }

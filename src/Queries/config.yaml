@@ -4,7 +4,7 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
-    App\Queries\FindDataForSendTicketByEmail: ~
+    # TODO move to http infrastructure ?
     App\Queries\FindEventIdByDomain: ~
     App\Queries\:
         resource: '**/*Queries.php'
