@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\AppRequest\Order;
+namespace App\Tests\Contract\AppRequest\Order;
 
 final class PlaceOrder
 {

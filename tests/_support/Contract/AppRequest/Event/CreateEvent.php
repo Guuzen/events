@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\AppRequest\Event;
+namespace App\Tests\Contract\AppRequest\Event;
 
 final class CreateEvent
 {

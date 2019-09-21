@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\AppRequest\Tariff;
+namespace App\Tests\Contract\AppRequest\Tariff;
 
 final class CreateTariff
 {

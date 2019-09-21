@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\AppRequest\Ticket;
+namespace App\Tests\Contract\AppRequest\Ticket;
 
 final class CreateTicket
 {

@@ -2,7 +2,7 @@
 
 namespace App\Tests\Step\Api;
 
-use App\Tests\AppRequest\Order\PlaceOrder;
+use App\Tests\Contract\AppRequest\Order\PlaceOrder;
 
 class Visitor extends \App\Tests\ApiTester
 {

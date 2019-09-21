@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Tests\AppResponse;
+namespace App\Tests\Contract\AppResponse;
 
-final class OrderInList
+final class OrderById
 {
     private $id;
 

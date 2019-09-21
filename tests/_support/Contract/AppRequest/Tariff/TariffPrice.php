@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Tests\AppResponse;
+namespace App\Tests\Contract\AppRequest\Tariff;
 
-final class Money
+final class TariffPrice
 {
     private $amount;
 

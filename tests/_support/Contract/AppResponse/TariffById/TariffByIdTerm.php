@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\AppResponse\TariffById;
+namespace App\Tests\Contract\AppResponse\TariffById;
 
 use DateTimeImmutable;
 

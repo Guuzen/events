@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Tests\AppResponse;
+namespace App\Tests\Contract\AppResponse;
 
-final class TicketInList
+final class TicketById
 {
     private $id;
 
@@ -18,15 +18,8 @@ final class TicketInList
 
     private $deliveredAt;
 
-    private function __construct(
-        string $id,
-        string $eventId,
-        string $type,
-        string $number,
-        bool $reserved,
-        string $createdAt,
-        ?string $deliveredAt
-    ) {
+    private function __construct(string $id, string $eventId, string $type, string $number, bool $reserved, string $createdAt, ?string $deliveredAt)
+    {
         $this->id          = $id;
         $this->eventId     = $eventId;
         $this->type        = $type;

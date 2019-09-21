@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Tests\AppResponse\TariffInList;
+namespace App\Tests\Contract\AppResponse\TariffInList;
 
-use App\Tests\AppResponse\Money;
+use App\Tests\Contract\AppResponse\Money;
 
 final class TariffInListSegment
 {

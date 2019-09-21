@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\AppResponse\TariffInList;
+namespace App\Tests\Contract\AppResponse\TariffInList;
 
 final class TariffInList
 {

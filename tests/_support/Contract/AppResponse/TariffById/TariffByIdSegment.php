@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Tests\AppResponse\TariffById;
+namespace App\Tests\Contract\AppResponse\TariffById;
 
-use App\Tests\AppResponse\Money;
+use App\Tests\Contract\AppResponse\Money;
 
 final class TariffByIdSegment
 {
