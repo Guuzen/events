@@ -46,7 +46,7 @@ services:
         class: Symfony\Component\Serializer\Normalizer\PropertyNormalizer
         arguments:
             - '@serializer.mapping.class_metadata_factory'
-            - '@serializer.name_converter.camel_case_to_snake_case'
+            - ~
             - '@app.infrastructure.http.serializer.php_doc_extractor'
 
     app.infrastructure.http.serializer:

@@ -56,7 +56,7 @@ final class PlaceOrderRequestResolver implements ArgumentValueResolverInterface
 
     private function addEventId(array $appRequestData, string $eventId): array
     {
-        $appRequestData['event_id'] = $eventId;
+        $appRequestData['eventId'] = $eventId;
 
         return $appRequestData;
     }

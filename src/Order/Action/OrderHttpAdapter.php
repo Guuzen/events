@@ -31,9 +31,7 @@ final class OrderHttpAdapter extends AppController
     }
 
     /**
-     * TODO routes underscore or camel case?
-     *
-     * @Route("/admin/order/mark_paid", methods={"POST"})
+     * @Route("/admin/order/markPaid", methods={"POST"})
      */
     public function markOrderPaid(MarkOrderPaid $markOrderPaid): Response
     {
