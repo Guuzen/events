@@ -68,7 +68,6 @@ final class TariffHandler
         );
         $this->tariffs->add($tariff);
 
-        // TODO rename product type to tariff type
         $tariffDetails = new TariffDetails(new TariffDetailsId((string) $tariffId), $createTariff->tariffType);
         $this->em->persist($tariffDetails);
 

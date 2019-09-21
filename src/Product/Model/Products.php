@@ -18,7 +18,7 @@ final class Products extends ServiceEntityRepository
     /**
      * @return Product|NotReservedProductNotFound
      */
-    public function findNotReservedByType(TariffId $tariffId)
+    public function findNotReservedByTariffId(TariffId $tariffId)
     {
         $query = $this->_em->createQuery('
             select

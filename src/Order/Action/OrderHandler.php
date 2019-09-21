@@ -75,7 +75,7 @@ final class OrderHandler
             return $tariff;
         }
 
-        $product = $this->products->findNotReservedByType($tariffId);
+        $product = $this->products->findNotReservedByTariffId($tariffId);
         if ($product instanceof Error) {
             return $product;
         }
