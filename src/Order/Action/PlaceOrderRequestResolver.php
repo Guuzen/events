@@ -5,7 +5,7 @@ namespace App\Order\Action;
 use App\Common\Error;
 use App\Infrastructure\Http\AppRequest;
 use App\Infrastructure\Http\AppRequestValidator;
-use App\Queries\FindEventIdByDomain;
+use App\Infrastructure\Http\FindEventIdByDomain\FindEventIdByDomain;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;

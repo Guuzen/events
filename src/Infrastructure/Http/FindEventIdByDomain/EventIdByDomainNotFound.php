@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Queries;
+namespace App\Infrastructure\Http\FindEventIdByDomain;
 
 use App\Common\Error;
 

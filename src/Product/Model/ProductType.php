@@ -20,10 +20,12 @@ final class ProductType
     {
         if (self::BROADCAST_LINK === $type) {
             $this->type = $type;
+
             return;
         }
         if (self::TICKET === $type) {
             $this->type = $type;
+
             return;
         }
 
