@@ -40,7 +40,6 @@ final class Event
         $this->id = $id;
     }
 
-    // TODO number should be limited to 8 digits!
     public function createTicket(TicketId $ticketId, string $number): Ticket
     {
         return new Ticket($ticketId, $this->id, $number);

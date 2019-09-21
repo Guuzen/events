@@ -9,9 +9,7 @@ use App\Tests\AppRequest\Tariff\CreateTariff;
 use App\Tests\AppRequest\Ticket\CreateTicket;
 use App\Tests\AppResponse\EmailWithTicket;
 use App\Tests\AppResponse\EventById;
-use App\Tests\AppResponse\EventById\EventByIdBuilder;
 use App\Tests\AppResponse\EventInList;
-use App\Tests\AppResponse\EventInList\EventInListBuilder;
 use App\Tests\AppResponse\OrderById;
 use App\Tests\AppResponse\OrderInList;
 use App\Tests\AppResponse\TariffById\TariffById;
@@ -50,7 +48,7 @@ class Manager extends ApiTester
         $I = $this;
 
         $I->sendGET('/admin/event/show', [
-            'event_id' => $eventId,
+            'eventId' => $eventId,
         ]);
 
         $I->seeResponseCodeIsSuccessful();
@@ -73,7 +71,7 @@ class Manager extends ApiTester
         $I = $this;
 
         $I->sendGET('/admin/tariff/list', [
-            'event_id' => $eventId,
+            'eventId' => $eventId,
         ]);
 
         $I->seeResponseCodeIsSuccessful();
@@ -85,7 +83,7 @@ class Manager extends ApiTester
         $I = $this;
 
         $I->sendGET('/admin/tariff/show', [
-            'tariff_id' => $tariffId,
+            'tariffId' => $tariffId,
         ]);
 
         $I->seeResponseCodeIsSuccessful();
@@ -109,7 +107,7 @@ class Manager extends ApiTester
         $I = $this;
 
         $I->sendGET('/admin/ticket/list', [
-            'event_id' => $eventId,
+            'eventId' => $eventId,
         ]);
 
         $I->seeResponseCodeIsSuccessful();
@@ -121,7 +119,7 @@ class Manager extends ApiTester
         $I = $this;
 
         $I->sendGET('/admin/ticket/show', [
-            'ticket_id' => $ticketId,
+            'ticketId' => $ticketId,
         ]);
 
         $I->seeResponseCodeIsSuccessful();
@@ -133,7 +131,7 @@ class Manager extends ApiTester
         $I = $this;
 
         $I->sendGET('/admin/order/list', [
-            'event_id' => $eventId,
+            'eventId' => $eventId,
         ]);
 
         $I->seeResponseCodeIsSuccessful();
@@ -145,7 +143,7 @@ class Manager extends ApiTester
         $I = $this;
 
         $I->sendGET('/admin/order/show', [
-            'order_id' => $orderId,
+            'orderId' => $orderId,
         ]);
 
         $I->seeResponseCodeIsSuccessful();
@@ -157,15 +155,15 @@ class Manager extends ApiTester
         $I = $this;
 
         $I->sendPOST('/admin/promocode/create', [
-            'event_id'        => $eventId,
+            'eventId'         => $eventId,
             'discount'        => [
                 'amount'   => '100',
                 'currency' => 'RUB',
             ],
             'type'            => 'regular',
-            'use_limit'       => 1,
-            'expire_at'       => (new DateTimeImmutable('tomorrow'))->format('Y-m-d H:i:s'),
-            'allowed_tariffs' => [$tariffId],
+            'useLimit'        => 1,
+            'expireAt'        => (new DateTimeImmutable('tomorrow'))->format('Y-m-d H:i:s'),
+            'allowedTariffs'  => [$tariffId],
             'usable'          => true,
         ]);
 
@@ -186,15 +184,15 @@ class Manager extends ApiTester
         $I->seeResponseContainsJson([
             'data' => [
                 'id'              => $promocodeId,
-                'event_id'        => $eventId,
+                'eventId'         => $eventId,
                 'discount'        => [
                     'amount'   => '100',
                     'currency' => 'RUB',
                 ],
                 'type'            => 'regular',
-                'use_limit'       => 1,
-                'expire_at'       => (new DateTimeImmutable('tomorrow'))->format('Y-m-d H:i:s'),
-                'allowed_tariffs' => [$tariffId],
+                'useLimit'        => 1,
+                'expireAt'        => (new DateTimeImmutable('tomorrow'))->format('Y-m-d H:i:s'),
+                'allowedTariffs'  => [$tariffId],
                 'usable'          => true,
             ],
         ]);
@@ -207,7 +205,7 @@ class Manager extends ApiTester
         $I->insulate();
         $I->haveHttpHeader('Content-Type', 'application/json');
 
-        $I->sendPOST('/admin/order/mark_paid', $markOrderPaid);
+        $I->sendPOST('/admin/order/markPaid', $markOrderPaid);
 
         $I->seeResponseCodeIsSuccessful();
         $I->seeResponseContainsJson([]);

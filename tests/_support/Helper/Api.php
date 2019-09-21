@@ -36,8 +36,7 @@ class Api extends Module
                 new DateTimeNormalizer([DateTimeNormalizer::FORMAT_KEY => 'Y-m-d H:i:s'], new DateTimeZone('UTC')),
                 new ArrayDenormalizer(),
                 new PropertyNormalizer(
-                    null,
-                    new CamelCaseToSnakeCaseNameConverter()
+                    null
                 ),
             ],
             [new JsonEncoder()]
