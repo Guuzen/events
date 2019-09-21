@@ -18,7 +18,9 @@ services:
     App\Order\Action\OrderHandler: ~
     App\Order\Model\Orders: ~
     App\Order\Model\OrderMarkedPaid: ~
-    App\Order\OrderEventSubscriber: ~
+    App\Order\OrderNotificationSubscriber:
+        tags:
+            - { name: app.notification_subscriber }
 
     App\Order\Action\PlaceOrderRequestResolver:
         arguments:

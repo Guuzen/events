@@ -9,7 +9,7 @@ use App\Product\Action\ProductHandler;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-final class OrderEventSubscriber implements EventSubscriberInterface
+final class OrderNotificationSubscriber implements EventSubscriberInterface
 {
     private $productHandler;
 

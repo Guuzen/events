@@ -4,16 +4,11 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
-    App\Infrastructure\DomainEvent\NotificationSubscriber:
+    App\Infrastructure\DomainEvent\DoctrineNotificationSubscriber:
         arguments:
-            - '@app.infrastructure.domain_event.notification_event_dispatcher'
+            - '@app.infrastructure.domain_event.notification_dispatcher'
         tags:
             - { name: doctrine.event_subscriber, connection: default }
 
-    # TODO find a way to initialize in components
-    app.infrastructure.domain_event.notification_event_dispatcher:
+    app.infrastructure.domain_event.notification_dispatcher:
         class: Symfony\Component\EventDispatcher\EventDispatcher
-        calls:
-            -   method: addSubscriber
-                arguments:
-                    - '@App\Order\OrderEventSubscriber'

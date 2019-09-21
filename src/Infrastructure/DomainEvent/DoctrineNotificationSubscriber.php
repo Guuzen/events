@@ -7,7 +7,7 @@ use Doctrine\ORM\Event\PostFlushEventArgs;
 use Doctrine\ORM\Events;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-final class NotificationSubscriber implements EventSubscriber
+final class DoctrineNotificationSubscriber implements EventSubscriber
 {
     private $eventDispatcher;
 
