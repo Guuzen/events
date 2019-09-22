@@ -54,4 +54,26 @@ class BuyProductTestCest
 //        $promocodeId = $manager->createsPromocode($eventId, $tariffId);
 //        $manager->seePromocodeCreated($eventId, $tariffId, $promocodeId);
     }
+
+    public function silverTicketByCardWithoutPromocode(Manager $manager, Visitor $visitor): void
+    {
+        $eventId = $manager->createsEvent(CreateEvent::any());
+        $manager->seeEventInList(EventInList::anyWith($eventId));
+        $manager->seeEventById($eventId, EventById::anyWith($eventId));
+
+        $tariffId = $manager->createsTariff(CreateTariff::anySilverActiveNowWith($eventId));
+        $manager->seeTariffInList($eventId, TariffInList::anySilverActiveNowWith($tariffId));
+        $manager->seeTariffById($tariffId, TariffById::anySilverActiveNowWith($tariffId));
+
+        $ticketId = $manager->createsTicket(CreateTicket::anyWith($eventId, $tariffId));
+        $manager->seeTicketInList($eventId, TicketInList::anySilverNotReservedNotDeliveredWith($ticketId, $eventId));
+        $manager->seeTicketById($ticketId, TicketById::anySilverNotReservedNotDeliveredWith($ticketId, $eventId));
+
+        $orderId = $visitor->placeOrder(PlaceOrder::withPaymentMethodCardWith($tariffId));
+        $visitor->grabPaymentLink();
+        $manager->seeOrderInList($eventId, OrderInList::anySilverNotPaidNotDeliveredWith($orderId, $eventId, $tariffId, $ticketId));
+        $manager->seeOrderById($orderId, OrderById::anySilverNotPaidNotDeliveredWith($orderId, $eventId, $tariffId, $ticketId));
+        $manager->seeTicketInList($eventId, TicketInList::anySilverReservedNotDeliveredWith($ticketId, $eventId));
+        $manager->seeTicketById($ticketId, TicketById::anySilverReservedNotDeliveredWith($ticketId, $eventId));
+    }
 }

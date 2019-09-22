@@ -18,4 +18,11 @@ class Visitor extends \App\Tests\ApiTester
 
         return $I->grabIdFromResponse();
     }
+
+    public function grabPaymentLink(): string
+    {
+        $I = $this;
+
+        return $I->grabDataFromResponseByJsonPath('$.data.paymentLink')[0];
+    }
 }

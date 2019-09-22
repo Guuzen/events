@@ -18,6 +18,7 @@ use Money\Money;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
+// TODO try to create id of the object inside constructor. Use factories to create objects with same id ?
 class TariffSpec extends ObjectBehavior
 {
     public function it_should_be_part_of_the_order(Product $product, Order $order, User $user)

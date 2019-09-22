@@ -36,4 +36,9 @@ final class PlaceOrder
     {
         return new self($tariffId, 'john', 'Doe', 'john@email.com', 'wire', '+123456789');
     }
+
+    public static function withPaymentMethodCardWith(string $tariffId): self
+    {
+        return new self($tariffId, 'john', 'Doe', 'john@email.com', 'card', '+123456789');
+    }
 }
