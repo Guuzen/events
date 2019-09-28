@@ -23,6 +23,9 @@ class Visitor extends \App\Tests\ApiTester
     {
         $I = $this;
 
-        return $I->grabDataFromResponseByJsonPath('$.data.paymentLink')[0];
+        $paymentLink = $I->grabDataFromResponseByJsonPath('$.data.paymentLink');
+        $I->assertArrayHasKey(0, $paymentLink, 'payment link not found');
+
+        return $paymentLink[0];
     }
 }

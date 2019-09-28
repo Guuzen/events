@@ -29,7 +29,6 @@ final class OrderHttpAdapter extends AppController
 
         $response = [
             'id'          => (string) $orderId,
-            'paymentLink' => 'http://card-payments/some/link',
         ];
 
         return $this->successJson($response);
