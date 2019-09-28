@@ -83,9 +83,11 @@
         ],
         "test": [
             "phpspec run --ansi",
-            "codecept run",
-            "psalm --no-cache"
-        ]
+            "@pspec",
+            "@psalm"
+        ],
+        "pspec": "phpspec run --ansi",
+        "psalm": "psalm --no-cache"
     },
     "conflict": {
         "symfony/symfony": "*"

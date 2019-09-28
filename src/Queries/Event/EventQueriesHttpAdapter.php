@@ -2,7 +2,6 @@
 
 namespace App\Queries\Event;
 
-use App\Common\Error;
 use App\Infrastructure\Http\AppController;
 use App\Queries\Event\FindEventById\FindEventById;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,7 +26,7 @@ final class EventQueriesHttpAdapter extends AppController
     {
         $events = $this->eventQueries->findInList();
 
-        return $this->successJson($events);
+        return $this->response($events);
     }
 
     /**
@@ -36,10 +35,7 @@ final class EventQueriesHttpAdapter extends AppController
     public function findById(FindEventById $findEventById): Response
     {
         $event = $this->eventQueries->findById($findEventById->eventId);
-        if ($event instanceof Error) {
-            $this->errorJson($event);
-        }
 
-        return $this->successJson($event);
+        return $this->response($event);
     }
 }

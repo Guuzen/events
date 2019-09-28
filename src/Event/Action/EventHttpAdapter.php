@@ -16,6 +16,6 @@ final class EventHttpAdapter extends AppController
         $eventId = $handler->createEvent($createEvent);
 
         // TODO how about response objects ?
-        return $this->successJson($eventId);
+        return $this->response($eventId);
     }
 }

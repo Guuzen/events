@@ -2,6 +2,7 @@
 
 namespace App\Tests\Step\Api;
 
+use App\Tests\Contract\AppRequest\Order\PayOrderByCard;
 use App\Tests\Contract\AppRequest\Order\PlaceOrder;
 
 class Visitor extends \App\Tests\ApiTester
@@ -19,10 +20,13 @@ class Visitor extends \App\Tests\ApiTester
         return $I->grabIdFromResponse();
     }
 
-    public function grabPaymentLink(): string
+    public function payOrderByCard(PayOrderByCard $payOrderByCard): string
     {
         $I = $this;
 
+        $I->sendPOST('/order/payByCard', $payOrderByCard);
+
+        $I->seeResponseCodeIsSuccessful();
         $paymentLink = $I->grabDataFromResponseByJsonPath('$.data.paymentLink');
         $I->assertArrayHasKey(0, $paymentLink, 'payment link not found');
 

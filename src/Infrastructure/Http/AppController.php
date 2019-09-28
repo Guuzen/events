@@ -5,6 +5,7 @@ namespace App\Infrastructure\Http;
 use App\Common\Error;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\SerializerInterface;
 
 abstract class AppController
@@ -25,17 +26,25 @@ abstract class AppController
     /**
      * @param mixed $data
      */
-    protected function successJson($data = [], int $status = 200, array $headers = [], array $context = []): JsonResponse
+    protected function response($data): Response
+    {
+        return $data instanceof Error ? $this->errorJson($data) : $this->successJson($data);
+    }
+
+    /**
+     * @param mixed $data
+     */
+    private function successJson($data = [], int $status = 200, array $headers = [], array $context = []): JsonResponse
     {
         return $this->toJson([
-            'data' => $data,
+            'data' => $data ?? [],
         ], $status, $headers, $context);
     }
 
     /**
      * @param Error|string $message
      */
-    protected function errorJson($message, int $status = 400, array $headers = [], array $context = []): JsonResponse
+    private function errorJson($message, int $status = 400, array $headers = [], array $context = []): JsonResponse
     {
         if ($message instanceof Error) {
             $message = $this->stringifyError($message);

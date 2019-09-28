@@ -4,6 +4,7 @@ namespace App\Tests;
 
 use App\Tests\Contract\AppRequest\Event\CreateEvent;
 use App\Tests\Contract\AppRequest\Order\MarkOrderPaid;
+use App\Tests\Contract\AppRequest\Order\PayOrderByCard;
 use App\Tests\Contract\AppRequest\Order\PlaceOrder;
 use App\Tests\Contract\AppRequest\Tariff\CreateTariff;
 use App\Tests\Contract\AppRequest\Ticket\CreateTicket;
@@ -38,7 +39,7 @@ class BuyProductTestCest
         $manager->seeTicketInList($eventId, TicketInList::anySilverNotReservedNotDeliveredWith($ticketId, $eventId));
         $manager->seeTicketById($ticketId, TicketById::anySilverNotReservedNotDeliveredWith($ticketId, $eventId));
 
-        $orderId = $visitor->placeOrder(PlaceOrder::withPaymentMethodWireWith($tariffId));
+        $orderId = $visitor->placeOrder(PlaceOrder::anyWith($tariffId));
         $manager->seeOrderInList($eventId, OrderInList::anySilverNotPaidNotDeliveredWith($orderId, $eventId, $tariffId, $ticketId));
         $manager->seeOrderById($orderId, OrderById::anySilverNotPaidNotDeliveredWith($orderId, $eventId, $tariffId, $ticketId));
         $manager->seeTicketInList($eventId, TicketInList::anySilverReservedNotDeliveredWith($ticketId, $eventId));
@@ -69,11 +70,12 @@ class BuyProductTestCest
         $manager->seeTicketInList($eventId, TicketInList::anySilverNotReservedNotDeliveredWith($ticketId, $eventId));
         $manager->seeTicketById($ticketId, TicketById::anySilverNotReservedNotDeliveredWith($ticketId, $eventId));
 
-        $orderId = $visitor->placeOrder(PlaceOrder::withPaymentMethodCardWith($tariffId));
-        $visitor->grabPaymentLink();
+        $orderId = $visitor->placeOrder(PlaceOrder::anyWith($tariffId));
         $manager->seeOrderInList($eventId, OrderInList::anySilverNotPaidNotDeliveredWith($orderId, $eventId, $tariffId, $ticketId));
         $manager->seeOrderById($orderId, OrderById::anySilverNotPaidNotDeliveredWith($orderId, $eventId, $tariffId, $ticketId));
         $manager->seeTicketInList($eventId, TicketInList::anySilverReservedNotDeliveredWith($ticketId, $eventId));
         $manager->seeTicketById($ticketId, TicketById::anySilverReservedNotDeliveredWith($ticketId, $eventId));
+
+        $visitor->payOrderByCard(PayOrderByCard::with($orderId));
     }
 }

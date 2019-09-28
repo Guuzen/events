@@ -3,7 +3,6 @@
 namespace App\Tariff\Action;
 
 use App\Infrastructure\Http\AppController;
-use App\Common\Error;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -23,10 +22,6 @@ final class TariffHttpAdapter extends AppController
     {
         $tariffId = $this->handler->createTariff($createTariff);
 
-        if ($tariffId instanceof Error) {
-            return $this->errorJson($tariffId);
-        }
-
-        return $this->successJson($tariffId);
+        return $this->response($tariffId);
     }
 }

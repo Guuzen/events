@@ -30,7 +30,7 @@ use App\User\Model\UserId;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 
-final class OrderHandler
+class OrderHandler
 {
     private $em;
 

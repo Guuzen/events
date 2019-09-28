@@ -2,7 +2,6 @@
 
 namespace App\Queries\Tariff;
 
-use App\Common\Error;
 use App\Infrastructure\Http\AppController;
 use App\Queries\Tariff\FindTariffById\FindTariffById;
 use App\Queries\Tariff\FindTariffsInList\FindTariffsInList;
@@ -28,7 +27,7 @@ final class TariffQueriesHttpAdapter extends AppController
     {
         $tariffs = $this->tariffQueries->findInList($findTariffsInList->eventId);
 
-        return $this->successJson($tariffs);
+        return $this->response($tariffs);
     }
 
     /**
@@ -37,10 +36,7 @@ final class TariffQueriesHttpAdapter extends AppController
     public function findById(FindTariffById $findTariffById): Response
     {
         $tariff = $this->tariffQueries->findById($findTariffById->tariffId);
-        if ($tariff instanceof Error) {
-            return $this->errorJson($tariff);
-        }
 
-        return $this->successJson($tariff);
+        return $this->response($tariff);
     }
 }

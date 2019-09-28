@@ -20,8 +20,6 @@ final class PlaceOrder implements AppRequest
 
     public $email;
 
-    public $paymentMethod;
-
     public $tariffId;
 
     public $phone;
@@ -32,7 +30,6 @@ final class PlaceOrder implements AppRequest
         string $firstName,
         string $lastName,
         string $email,
-        string $paymentMethod,
         string $tariffId,
         string $phone,
         string $eventId
@@ -40,7 +37,6 @@ final class PlaceOrder implements AppRequest
         $this->firstName     = $firstName;
         $this->lastName      = $lastName;
         $this->email         = $email;
-        $this->paymentMethod = $paymentMethod;
         $this->tariffId      = $tariffId;
         $this->phone         = $phone;
         $this->eventId       = $eventId;

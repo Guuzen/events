@@ -25,6 +25,6 @@ final class FindPromocodesHttpAdapter extends AppController
     {
         $promocodes = $this->promocodeQueries->findAll();
 
-        return $this->successJson($promocodes);
+        return $this->response($promocodes);
     }
 }
