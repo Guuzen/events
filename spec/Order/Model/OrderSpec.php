@@ -3,6 +3,7 @@
 namespace spec\App\Order\Model;
 
 use App\Event\Model\EventId;
+use App\Fondy\CanNotGetPaymentUrl;
 use App\Fondy\FondyGateway;
 use App\Order\Model\Error\OrderAlreadyPaid;
 use App\Order\Model\OrderId;
