@@ -132,6 +132,8 @@ class Order extends Entity
      */
     public function payByFondy(FondyGateway $fondyGateway)
     {
+        $this->rememberThat(new OrderPaymentStartedByFondy($this->id));
+
         return $fondyGateway->checkoutUrl($this->sum, $this->id);
     }
 

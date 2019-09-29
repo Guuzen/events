@@ -7,6 +7,7 @@ use App\Fondy\CanNotGetPaymentUrl;
 use App\Fondy\FondyGateway;
 use App\Order\Model\Error\OrderAlreadyPaid;
 use App\Order\Model\OrderId;
+use App\Order\Model\OrderPaymentStartedByFondy;
 use App\Product\Model\ProductId;
 use App\Tariff\Model\TariffId;
 use App\User\Model\UserId;
@@ -74,7 +75,7 @@ class OrderSpec extends ObjectBehavior
         ;
 
         $this->payByFondy($fondyGateway)->shouldReturn($paymentUrl);
-        $this->releaseEvents()->shouldReturn([new OrderPaymentStartedByFondy($this->orderId)]); // TODO change names ?
+        $this->releaseEvents()->shouldBeLike([new OrderPaymentStartedByFondy($this->orderId)]); // TODO change names ?
     }
 
     public function it_can_not_be_paid_when_fondy_gateway_can_not_get_payment_url(FondyGateway $fondyGateway)
