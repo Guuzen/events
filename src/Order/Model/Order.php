@@ -128,7 +128,7 @@ class Order extends Entity
 
     public function payByFondy(FondyGateway $fondyGateway): string
     {
-
+        return $fondyGateway->checkoutUrl($this->sum, $this->id);
     }
 
     /**
