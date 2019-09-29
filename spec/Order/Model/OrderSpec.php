@@ -89,6 +89,7 @@ class OrderSpec extends ObjectBehavior
         ;
 
         $this->payByFondy($fondyGateway)->shouldReturn($error);
+        $this->releaseEvents()->shouldReturn([]);
     }
 
 //    public function it_should_not_be_possible_to_cancel_if_paid()
