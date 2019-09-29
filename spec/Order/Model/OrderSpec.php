@@ -75,6 +75,19 @@ class OrderSpec extends ObjectBehavior
         $this->payByFondy($fondyGateway)->shouldReturn($paymentUrl);
     }
 
+    public function it_can_not_be_paid_when_fondy_gateway_can_not_get_payment_url(FondyGateway $fondyGateway)
+    {
+        $error = new CanNotGetPaymentUrl();
+        $fondyGateway->beADoubleOf(FondyGateway::class);
+        $fondyGateway
+            ->checkoutUrl($this->hundredRubles, $this->orderId)
+            ->shouldBeCalledOnce()
+            ->willReturn($error)
+        ;
+
+        $this->payByFondy($fondyGateway)->shouldReturn($error);
+    }
+
 //    public function it_should_not_be_possible_to_cancel_if_paid()
 //    {
 //    }
