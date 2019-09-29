@@ -3,6 +3,7 @@
 namespace App\Order\Model;
 
 use App\Event\Model\EventId;
+use App\Fondy\FondyGateway;
 use App\Infrastructure\DomainEvent\Entity;
 use App\Order\Model\Error\OrderAlreadyPaid;
 use App\Order\Model\Exception\OrderCancelled;
@@ -123,6 +124,11 @@ class Order extends Entity
         $this->rememberThat(new OrderMarkedPaid($this->productId));
 
         return null;
+    }
+
+    public function payByFondy(FondyGateway $fondyGateway): string
+    {
+
     }
 
     /**

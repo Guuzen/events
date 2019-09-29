@@ -3,6 +3,7 @@
 namespace spec\App\Order\Model;
 
 use App\Event\Model\EventId;
+use App\Fondy\FondyGateway;
 use App\Order\Model\Error\OrderAlreadyPaid;
 use App\Order\Model\OrderId;
 use App\Product\Model\ProductId;
@@ -12,26 +13,41 @@ use DateTimeImmutable;
 use Money\Currency;
 use Money\Money;
 use PhpSpec\ObjectBehavior;
+use Prophecy\Argument;
 
 class OrderSpec extends ObjectBehavior
 {
+    private $orderId;
+
+    private $eventId;
+
+    private $productId;
+
+    private $tariffId;
+
+    private $userId;
+
+    private $hundredRubles;
+
+    private $now;
+
     public function let()
     {
-        $orderId       = OrderId::new();
-        $eventId       = EventId::new();
-        $productId     = ProductId::new();
-        $tariffId      = TariffId::new();
-        $userId        = UserId::new();
-        $hundredRubles = new Money('100', new Currency('RUB'));
-        $now           = new DateTimeImmutable('now');
+        $this->orderId       = OrderId::new();
+        $this->eventId       = EventId::new();
+        $this->productId     = ProductId::new();
+        $this->tariffId      = TariffId::new();
+        $this->userId        = UserId::new();
+        $this->hundredRubles = new Money('100', new Currency('RUB'));
+        $this->now           = new DateTimeImmutable('now');
         $this->beConstructedWith(
-            $orderId,
-            $eventId,
-            $productId,
-            $tariffId,
-            $userId,
-            $hundredRubles,
-            $now
+            $this->orderId,
+            $this->eventId,
+            $this->productId,
+            $this->tariffId,
+            $this->userId,
+            $this->hundredRubles,
+            $this->now
         );
     }
 
@@ -44,6 +60,19 @@ class OrderSpec extends ObjectBehavior
     {
         $this->markPaid();
         $this->markPaid()->shouldReturnAnInstanceOf(OrderAlreadyPaid::class);
+    }
+
+    public function it_can_be_paid_by_card(FondyGateway $fondyGateway)
+    {
+        $paymentUrl = 'http://some.payment.url/';
+        $fondyGateway->beADoubleOf(FondyGateway::class);
+        $fondyGateway
+            ->checkoutUrl($this->hundredRubles, $this->orderId)
+            ->shouldBeCalledOnce()
+            ->willReturn($paymentUrl)
+        ;
+
+        $this->payByFondy($fondyGateway)->shouldReturn($paymentUrl);
     }
 
 //    public function it_should_not_be_possible_to_cancel_if_paid()
