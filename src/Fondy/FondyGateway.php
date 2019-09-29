@@ -9,7 +9,7 @@ use Money\Money;
 class FondyGateway
 {
     /**
-     * @return string
+     * @return string|CanNotGetPaymentUrl
      */
     public function checkoutUrl(Money $sum, OrderId $orderId)
     {
