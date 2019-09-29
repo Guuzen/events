@@ -7,7 +7,7 @@ use App\Infrastructure\DomainEvent\Event;
 /**
  * @psalm-immutable
  */
-final class OrderPaymentStartedByFondy implements Event
+final class OrderPaymentByFondyStarted implements Event
 {
     public $orderId;
 

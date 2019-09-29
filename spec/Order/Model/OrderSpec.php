@@ -3,11 +3,11 @@
 namespace spec\App\Order\Model;
 
 use App\Event\Model\EventId;
-use App\Fondy\CanNotGetPaymentUrl;
+use App\Fondy\CantGetPaymentUrl;
 use App\Fondy\FondyGateway;
 use App\Order\Model\Error\OrderAlreadyPaid;
 use App\Order\Model\OrderId;
-use App\Order\Model\OrderPaymentStartedByFondy;
+use App\Order\Model\OrderPaymentByFondyStarted;
 use App\Product\Model\ProductId;
 use App\Tariff\Model\TariffId;
 use App\User\Model\UserId;
@@ -64,7 +64,7 @@ class OrderSpec extends ObjectBehavior
         $this->markPaid()->shouldReturnAnInstanceOf(OrderAlreadyPaid::class);
     }
 
-    public function it_can_be_paid_by_card(FondyGateway $fondyGateway)
+    public function it_can_be_paid_by_fondy(FondyGateway $fondyGateway)
     {
         $paymentUrl = 'http://some.payment.url/';
         $fondyGateway->beADoubleOf(FondyGateway::class);
@@ -74,13 +74,13 @@ class OrderSpec extends ObjectBehavior
             ->willReturn($paymentUrl)
         ;
 
-        $this->payByFondy($fondyGateway)->shouldReturn($paymentUrl);
-        $this->releaseEvents()->shouldBeLike([new OrderPaymentStartedByFondy($this->orderId)]); // TODO change names ?
+        $this->startPaymentByFondy($fondyGateway)->shouldReturn($paymentUrl);
+        $this->releaseEvents()->shouldBeLike([new OrderPaymentByFondyStarted($this->orderId)]);
     }
 
-    public function it_can_not_be_paid_when_fondy_gateway_can_not_get_payment_url(FondyGateway $fondyGateway)
+    public function it_cant_be_paid_by_fondy_when_gateway_cant_get_payment_url(FondyGateway $fondyGateway)
     {
-        $error = new CanNotGetPaymentUrl();
+        $error = new CantGetPaymentUrl();
         $fondyGateway->beADoubleOf(FondyGateway::class);
         $fondyGateway
             ->checkoutUrl($this->hundredRubles, $this->orderId)
@@ -88,7 +88,7 @@ class OrderSpec extends ObjectBehavior
             ->willReturn($error)
         ;
 
-        $this->payByFondy($fondyGateway)->shouldReturn($error);
+        $this->startPaymentByFondy($fondyGateway)->shouldReturn($error);
         $this->releaseEvents()->shouldReturn([]);
     }
 

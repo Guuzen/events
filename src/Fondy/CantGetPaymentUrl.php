@@ -4,6 +4,6 @@ namespace App\Fondy;
 
 use App\Common\Error;
 
-final class CanNotGetPaymentUrl extends Error
+final class CantGetPaymentUrl extends Error
 {
 }

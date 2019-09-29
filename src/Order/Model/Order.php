@@ -4,7 +4,7 @@ namespace App\Order\Model;
 
 use App\Common\Error;
 use App\Event\Model\EventId;
-use App\Fondy\CanNotGetPaymentUrl;
+use App\Fondy\CantGetPaymentUrl;
 use App\Fondy\FondyGateway;
 use App\Infrastructure\DomainEvent\Entity;
 use App\Order\Model\Error\OrderAlreadyPaid;
@@ -129,16 +129,16 @@ class Order extends Entity
     }
 
     /**
-     * @return CanNotGetPaymentUrl|null
+     * @return CantGetPaymentUrl|null
      */
-    public function payByFondy(FondyGateway $fondyGateway)
+    public function startPaymentByFondy(FondyGateway $fondyGateway)
     {
         $checkoutUrl = $fondyGateway->checkoutUrl($this->sum, $this->id);
         if ($checkoutUrl instanceof Error) {
             return $checkoutUrl;
         }
 
-        $this->rememberThat(new OrderPaymentStartedByFondy($this->id));
+        $this->rememberThat(new OrderPaymentByFondyStarted($this->id));
 
         return $checkoutUrl;
     }
