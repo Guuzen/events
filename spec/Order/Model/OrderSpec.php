@@ -74,6 +74,7 @@ class OrderSpec extends ObjectBehavior
         ;
 
         $this->payByFondy($fondyGateway)->shouldReturn($paymentUrl);
+        $this->releaseEvents()->shouldReturn([new OrderPaymentStartedByFondy($this->orderId)]); // TODO change names ?
     }
 
     public function it_can_not_be_paid_when_fondy_gateway_can_not_get_payment_url(FondyGateway $fondyGateway)
