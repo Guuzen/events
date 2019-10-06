@@ -82,12 +82,13 @@
             "@auto-scripts"
         ],
         "test": [
-            "phpspec run --ansi",
-            "@pspec",
-            "@psalm"
+            "@spec",
+            "@psalm",
+            "@codecept"
         ],
-        "pspec": "phpspec run --ansi",
-        "psalm": "psalm --no-cache"
+        "spec": "phpspec run --ansi",
+        "psalm": "psalm --no-cache",
+        "codecept": "codecept run"
     },
     "conflict": {
         "symfony/symfony": "*"

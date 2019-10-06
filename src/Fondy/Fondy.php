@@ -5,7 +5,7 @@ namespace App\Fondy;
 use App\Order\Model\OrderId;
 use Money\Money;
 
-class FondyGateway
+class Fondy
 {
     /**
      * @return string|CantGetPaymentUrl

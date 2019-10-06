@@ -4,10 +4,9 @@ namespace spec\App\Order\Model;
 
 use App\Event\Model\EventId;
 use App\Fondy\CantGetPaymentUrl;
-use App\Fondy\FondyGateway;
+use App\Fondy\Fondy;
 use App\Order\Model\Error\OrderAlreadyPaid;
 use App\Order\Model\OrderId;
-use App\Order\Model\OrderPaymentByFondyStarted;
 use App\Product\Model\ProductId;
 use App\Tariff\Model\TariffId;
 use App\User\Model\UserId;
@@ -64,32 +63,29 @@ class OrderSpec extends ObjectBehavior
         $this->markPaid()->shouldReturnAnInstanceOf(OrderAlreadyPaid::class);
     }
 
-    public function it_can_be_paid_by_fondy(FondyGateway $fondyGateway)
+    public function it_can_create_fondy_payment(Fondy $fondyGateway)
     {
-        $paymentUrl = 'http://some.payment.url/';
-        $fondyGateway->beADoubleOf(FondyGateway::class);
+        $paymentUrl = 'http://fondy.checkout.url';
+        $fondyGateway->beADoubleOf(Fondy::class);
         $fondyGateway
             ->checkoutUrl($this->hundredRubles, $this->orderId)
             ->shouldBeCalledOnce()
             ->willReturn($paymentUrl)
         ;
 
-        $this->startPaymentByFondy($fondyGateway)->shouldReturn($paymentUrl);
-        $this->releaseEvents()->shouldBeLike([new OrderPaymentByFondyStarted($this->orderId)]);
+        $this->createFondyPayment($fondyGateway)->shouldReturn($paymentUrl);
     }
 
-    public function it_cant_be_paid_by_fondy_when_gateway_cant_get_payment_url(FondyGateway $fondyGateway)
+    public function it_cant_create_fondy_payment_when_fondy_cant_get_payment_url(Fondy $fondy)
     {
         $error = new CantGetPaymentUrl();
-        $fondyGateway->beADoubleOf(FondyGateway::class);
-        $fondyGateway
-            ->checkoutUrl($this->hundredRubles, $this->orderId)
-            ->shouldBeCalledOnce()
+        $fondy->beADoubleOf(Fondy::class);
+        $fondy
+            ->checkoutUrl(Argument::cetera())
             ->willReturn($error)
         ;
 
-        $this->startPaymentByFondy($fondyGateway)->shouldReturn($error);
-        $this->releaseEvents()->shouldReturn([]);
+        $this->createFondyPayment($fondy)->shouldReturn($error);
     }
 
 //    public function it_should_not_be_possible_to_cancel_if_paid()
