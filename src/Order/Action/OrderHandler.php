@@ -6,6 +6,8 @@ use App\Common\Error;
 use App\Event\Model\Error\EventNotFound;
 use App\Event\Model\EventId;
 use App\Event\Model\Events;
+use App\Fondy\CantGetPaymentUrl;
+use App\Fondy\Fondy;
 use App\Order\Model\Error\OrderAlreadyPaid;
 use App\Order\Model\Error\OrderNotFound;
 use App\Order\Model\OrderId;
@@ -42,18 +44,22 @@ class OrderHandler
 
     private $orders;
 
+    private $fondy;
+
     public function __construct(
         EntityManagerInterface $em,
         Events $events,
         Tariffs $tariffs,
         Products $products,
-        Orders $orders
+        Orders $orders,
+        Fondy $fondy
     ) {
         $this->em       = $em;
         $this->events   = $events;
         $this->tariffs  = $tariffs;
         $this->products = $products;
         $this->orders   = $orders;
+        $this->fondy    = $fondy;
     }
 
     /**
@@ -147,5 +153,20 @@ class OrderHandler
         $this->em->flush();
 
         return null;
+    }
+
+    /**
+     * @return string|OrderNotFound|CantGetPaymentUrl
+     */
+    public function payByCard(PayByCard $payByCard)
+    {
+        $orderId = new OrderId($payByCard->orderId);
+
+        $order = $this->orders->findById($orderId);
+        if ($order instanceof Error) {
+            return $order;
+        }
+
+        return $order->createFondyPayment($this->fondy);
     }
 }

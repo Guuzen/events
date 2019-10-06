@@ -27,7 +27,7 @@ class Visitor extends \App\Tests\ApiTester
         $I->sendPOST('/order/payByCard', $payOrderByCard);
 
         $I->seeResponseCodeIsSuccessful();
-        $paymentLink = $I->grabDataFromResponseByJsonPath('$.data.paymentLink');
+        $paymentLink = $I->grabDataFromResponseByJsonPath('$.data');
         $I->assertArrayHasKey(0, $paymentLink, 'payment link not found');
 
         return $paymentLink[0];

@@ -128,7 +128,7 @@ class Order extends Entity
     }
 
     /**
-     * @return string|CantGetPaymentUrl|null
+     * @return string|CantGetPaymentUrl
      */
     public function createFondyPayment(Fondy $fondy)
     {

@@ -34,4 +34,14 @@ final class OrderHttpAdapter extends AppController
 
         return $this->response($result);
     }
+
+    /**
+     * @Route("/order/payByCard", methods={"POST"})
+     */
+    public function payByCard(PayByCard $payByCard): Response
+    {
+        $paymentUrl = $this->handler->payByCard($payByCard);
+
+        return $this->response($paymentUrl);
+    }
 }
