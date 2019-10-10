@@ -4,6 +4,7 @@ namespace App\Tests;
 
 use App\Tests\Contract\AppRequest\Event\CreateEvent;
 use App\Tests\Contract\AppRequest\Order\MarkOrderPaid;
+use App\Tests\Contract\AppRequest\Order\PaidByFondy;
 use App\Tests\Contract\AppRequest\Order\PayOrderByCard;
 use App\Tests\Contract\AppRequest\Order\PlaceOrder;
 use App\Tests\Contract\AppRequest\Tariff\CreateTariff;
@@ -17,6 +18,7 @@ use App\Tests\Contract\AppResponse\TariffById\TariffById;
 use App\Tests\Contract\AppResponse\TariffInList\TariffInList;
 use App\Tests\Contract\AppResponse\TicketById;
 use App\Tests\Contract\AppResponse\TicketInList;
+use App\Tests\Step\Api\Fondy;
 use App\Tests\Step\Api\Manager;
 use App\Tests\Step\Api\Visitor;
 
@@ -56,7 +58,7 @@ class BuyProductTestCest
 //        $manager->seePromocodeCreated($eventId, $tariffId, $promocodeId);
     }
 
-    public function silverTicketByCardWithoutPromocode(Manager $manager, Visitor $visitor): void
+    public function silverTicketByCardWithoutPromocode(Manager $manager, Visitor $visitor, Fondy $fondy): void
     {
         $eventId = $manager->createsEvent(CreateEvent::any());
         $manager->seeEventInList(EventInList::anyWith($eventId));
@@ -77,5 +79,12 @@ class BuyProductTestCest
         $manager->seeTicketById($ticketId, TicketById::anySilverReservedNotDeliveredWith($ticketId, $eventId));
 
         $visitor->payOrderByCard(PayOrderByCard::with($orderId));
+
+        $fondy->orderPaid(PaidByFondy::with($orderId));
+        $manager->seeEmailWithTicketSent(EmailWithTicket::any());
+        $manager->seeOrderInList($eventId, OrderInList::anySilverPaidDeliveredWith($orderId, $eventId, $tariffId, $tariffId));
+        $manager->seeOrderById($orderId, OrderById::anySilverPaidDeliveredWith($orderId, $eventId, $tariffId, $ticketId));
+        $manager->seeTicketInList($eventId, TicketInList::anySilverReservedDeliveredWith($ticketId, $eventId));
+        $manager->seeTicketById($eventId, TicketById::anySilverReservedDeliveredWith($ticketId, $eventId));
     }
 }
