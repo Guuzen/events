@@ -169,4 +169,26 @@ class OrderHandler
 
         return $order->createFondyPayment($this->fondy);
     }
+
+    /**
+     * @return OrderNotFound|OrderAlreadyPaid|ProductNotFound|ProductCantBeDeliveredIfNotReserved|null
+     */
+    public function markOrderPaidByFondy(MarkOrderPaidByFondy $markOrderPaidByFondy)
+    {
+        $orderId = new OrderId($markOrderPaidByFondy->orderId);
+
+        $order = $this->orders->findById($orderId);
+        if ($order instanceof Error) {
+            return $order;
+        }
+
+        $markPaidError = $order->markPaid();
+        if ($markPaidError instanceof Error) {
+            return $markPaidError;
+        }
+
+        $this->em->flush();
+
+        return null;
+    }
 }

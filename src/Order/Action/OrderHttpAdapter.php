@@ -44,4 +44,14 @@ final class OrderHttpAdapter extends AppController
 
         return $this->response($paymentUrl);
     }
+
+    /**
+     * @Route("/order/paidByFondy", methods={"POST"})
+     */
+    public function markOrdePaidByFondy(MarkOrderPaidByFondy $markOrderPaidByFondy): Response
+    {
+        $result = $this->handler->markOrderPaidByFondy($markOrderPaidByFondy);
+
+        return $this->response($result);
+    }
 }

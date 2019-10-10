@@ -82,9 +82,9 @@ class BuyProductTestCest
 
         $fondy->orderPaid(PaidByFondy::with($orderId));
         $manager->seeEmailWithTicketSent(EmailWithTicket::any());
-        $manager->seeOrderInList($eventId, OrderInList::anySilverPaidDeliveredWith($orderId, $eventId, $tariffId, $tariffId));
+        $manager->seeOrderInList($eventId, OrderInList::anySilverPaidDeliveredWith($orderId, $eventId, $tariffId, $ticketId));
         $manager->seeOrderById($orderId, OrderById::anySilverPaidDeliveredWith($orderId, $eventId, $tariffId, $ticketId));
         $manager->seeTicketInList($eventId, TicketInList::anySilverReservedDeliveredWith($ticketId, $eventId));
-        $manager->seeTicketById($eventId, TicketById::anySilverReservedDeliveredWith($ticketId, $eventId));
+        $manager->seeTicketById($ticketId, TicketById::anySilverReservedDeliveredWith($ticketId, $eventId));
     }
 }
