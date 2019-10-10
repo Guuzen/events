@@ -46,7 +46,7 @@ final class OrderHttpAdapter extends AppController
     }
 
     /**
-     * @Route("/order/paidByFondy", methods={"POST"})
+     * @Route("/order/markPaidByFondy", methods={"POST"})
      */
     public function markOrdePaidByFondy(MarkOrderPaidByFondy $markOrderPaidByFondy): Response
     {

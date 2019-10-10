@@ -2,7 +2,7 @@
 
 namespace App\Tests\Contract\AppRequest\Order;
 
-final class PaidByFondy
+final class MarkPaidByFondy
 {
     private $orderId;
 

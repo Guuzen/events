@@ -4,7 +4,7 @@ namespace App\Tests;
 
 use App\Tests\Contract\AppRequest\Event\CreateEvent;
 use App\Tests\Contract\AppRequest\Order\MarkOrderPaid;
-use App\Tests\Contract\AppRequest\Order\PaidByFondy;
+use App\Tests\Contract\AppRequest\Order\MarkPaidByFondy;
 use App\Tests\Contract\AppRequest\Order\PayOrderByCard;
 use App\Tests\Contract\AppRequest\Order\PlaceOrder;
 use App\Tests\Contract\AppRequest\Tariff\CreateTariff;
@@ -80,7 +80,7 @@ class BuyProductTestCest
 
         $visitor->payOrderByCard(PayOrderByCard::with($orderId));
 
-        $fondy->orderPaid(PaidByFondy::with($orderId));
+        $fondy->orderPaid(MarkPaidByFondy::with($orderId));
         $manager->seeEmailWithTicketSent(EmailWithTicket::any());
         $manager->seeOrderInList($eventId, OrderInList::anySilverPaidDeliveredWith($orderId, $eventId, $tariffId, $ticketId));
         $manager->seeOrderById($orderId, OrderById::anySilverPaidDeliveredWith($orderId, $eventId, $tariffId, $ticketId));
