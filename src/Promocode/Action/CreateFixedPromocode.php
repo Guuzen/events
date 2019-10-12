@@ -7,9 +7,11 @@ use App\Infrastructure\Http\AppRequest;
 /**
  * @psalm-immutable
  */
-final class CreateRegularPromocode implements AppRequest
+final class CreateFixedPromocode implements AppRequest
 {
     public $eventId;
+
+    public $code;
 
     public $discount;
 
@@ -31,6 +33,7 @@ final class CreateRegularPromocode implements AppRequest
      */
     public function __construct(
         string $eventId,
+        string $code,
         array $discount,
         int $useLimit,
         string $expireAt,
@@ -38,6 +41,7 @@ final class CreateRegularPromocode implements AppRequest
         array $allowedTariffs = []
     ) {
         $this->discount       = $discount;
+        $this->code           = $code;
         $this->useLimit       = $useLimit;
         $this->expireAt       = $expireAt;
         $this->usable         = $usable;

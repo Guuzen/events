@@ -35,6 +35,9 @@ services:
     # SERIALIZER
     app.infrastructure.http.serializer.normalizer.datetime:
         class: Symfony\Component\Serializer\Normalizer\DateTimeNormalizer
+        arguments:
+            $defaultContext:
+                !php/const Symfony\Component\Serializer\Normalizer\DateTimeNormalizer::FORMAT_KEY: 'Y-m-d H:i:s'
 
     app.infrastructure.http.serializer.normalizer.array:
         class: Symfony\Component\Serializer\Normalizer\ArrayDenormalizer
@@ -53,7 +56,7 @@ services:
         class: Symfony\Component\Serializer\Serializer
         arguments:
             $normalizers:
-                - '@serializer.normalizer.datetime'
+                - '@app.infrastructure.http.serializer.normalizer.datetime'
                 - '@app.infrastructure.http.serializer.normalizer.array'
                 - '@app.infrastructure.http.serializer.property_normalizer'
             $encoders:

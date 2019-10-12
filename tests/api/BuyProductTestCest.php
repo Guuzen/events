@@ -19,7 +19,7 @@ use App\Tests\Contract\AppResponse\TariffById\TariffById;
 use App\Tests\Contract\AppResponse\TariffInList\TariffInList;
 use App\Tests\Contract\AppResponse\TicketById;
 use App\Tests\Contract\AppResponse\TicketInList;
-use App\Tests\Contract\PromocodeInList\AppResponse\PromocodeInList;
+use App\Tests\Contract\AppResponse\PromocodeInList\PromocodeInList;
 use App\Tests\Step\Api\Fondy;
 use App\Tests\Step\Api\Manager;
 use App\Tests\Step\Api\Visitor;

@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Tests\Contract\PromocodeInList\AppResponse;
+namespace App\Tests\Contract\AppResponse\PromocodeInList;
+
+use DateTimeImmutable;
 
 final class PromocodeInList
 {
@@ -21,7 +23,7 @@ final class PromocodeInList
         string $code,
         Discount $discount,
         int $useLimit,
-        string $expireAt,
+        DateTimeImmutable $expireAt,
         bool $usable
     ) {
         $this->id         = $id;
@@ -34,6 +36,6 @@ final class PromocodeInList
 
     public static function anyFixed10RubWith(string $id, string $code): self
     {
-        return new self($id, $code, Discount::isFixed10Rub(), 1, '3000-12-12 00:00:00', true);
+        return new self($id, $code, Discount::isFixed10Rub(), 1, new DateTimeImmutable('3000-12-12 00:00:00'), true);
     }
 }

@@ -18,7 +18,6 @@ use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
 
-// TODO promocode code?!
 /**
  * @ORM\Entity
  */
@@ -37,6 +36,11 @@ class RegularPromocode implements Promocode
      * @var EventId
      */
     private $eventId;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $code;
 
     /**
      * @ORM\Column(type="app_promocode_discount")
@@ -61,15 +65,14 @@ class RegularPromocode implements Promocode
      * @var AllowedTariffs
      */
     private $allowedTariffs;
-
     // TODO нельзя применять промокод к отменённому заказу
+
     /**
      * @ORM\Column(type="app_promocode_used_in_orders")
      *
      * @var UsedInOrders
      */
     private $usedInOrders;
-
     // TODO State ?
     /**
      * @ORM\Column(type="boolean")
@@ -79,14 +82,16 @@ class RegularPromocode implements Promocode
     public function __construct(
         PromocodeId $id,
         EventId $eventId,
+        string $code,
         Discount $discount,
-        int $useLimit,
+        int $useLimit, // TODO primitive obsession ?
         DateTimeImmutable $expireAt,
         AllowedTariffs $allowedTariffs, // TODO tariffs MUST be for same event as promocode
-        bool $usable = false // TODO зачем нужен этот флаг ?
+        bool $usable = true // TODO зачем нужен этот флаг ?
     ) {
         $this->id             = $id;
         $this->eventId        = $eventId;
+        $this->code           = $code;
         $this->discount       = $discount;
         $this->useLimit       = $useLimit;
         $this->expireAt       = $expireAt;

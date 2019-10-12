@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Contract\PromocodeInList\AppResponse;
+namespace App\Tests\Contract\AppResponse\PromocodeInList;
 
 final class Discount
 {

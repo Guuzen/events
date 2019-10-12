@@ -66,6 +66,7 @@ final class Event
 
     public function createEventPromocode(
         PromocodeId $promocodeId,
+        string $code,
         Discount $discount,
         int $useLimit,
         DateTimeImmutable $expireAt
@@ -73,6 +74,7 @@ final class Event
         return new RegularPromocode(
             $promocodeId,
             $this->id,
+            $code,
             $discount,
             $useLimit,
             $expireAt,
@@ -80,8 +82,9 @@ final class Event
         );
     }
 
-    public function createRegularPromocode(
+    public function createFixedPromocode(
         PromocodeId $promocodeId,
+        string $code,
         Discount $discount,
         int $useLimit,
         DateTimeImmutable $expireAt,
@@ -90,6 +93,7 @@ final class Event
         return new RegularPromocode(
             $promocodeId,
             $this->id,
+            $code,
             $discount,
             $useLimit,
             $expireAt,

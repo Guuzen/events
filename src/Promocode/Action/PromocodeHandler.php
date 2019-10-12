@@ -9,7 +9,7 @@ use App\Event\Model\Events;
 use App\Promocode\Model\AllowedTariffs\SpecificAllowedTariffs;
 use App\Promocode\Model\Discount\FixedDiscount;
 use App\Promocode\Model\PromocodeId;
-use App\Promocode\Model\RegularPromocodes;
+use App\Promocode\Model\FixedPromocodes;
 use App\Tariff\Model\TariffId;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
@@ -28,7 +28,7 @@ final class PromocodeHandler
 
     public function __construct(
         EntityManagerInterface $em,
-        RegularPromocodes $regularPromocodes,
+        FixedPromocodes $regularPromocodes,
         Events $events
     ) {
         $this->em                = $em;
@@ -39,30 +39,31 @@ final class PromocodeHandler
     /**
      * @return PromocodeId|EventNotFound
      */
-    public function createRegularPromocode(CreateRegularPromocode $createRegularPromocode)
+    public function createRegularPromocode(CreateFixedPromocode $createFixedPromocode)
     {
         $allowedTariffIds = [];
-        foreach ($createRegularPromocode->allowedTariffs as $allowedTariff) {
+        foreach ($createFixedPromocode->allowedTariffs as $allowedTariff) {
             $allowedTariffIds[] = new TariffId($allowedTariff);
         }
         $promocodeId = PromocodeId::new();
 
-        $eventId = new EventId($createRegularPromocode->eventId);
+        $eventId = new EventId($createFixedPromocode->eventId);
         $event   = $this->events->findById($eventId);
         if ($event instanceof Error) {
             return $event;
         }
 
-        $promocode = $event->createRegularPromocode(
+        $promocode = $event->createFixedPromocode(
             $promocodeId,
+            $createFixedPromocode->code,
             new FixedDiscount(
                 new Money(
-                    $createRegularPromocode->discount['amount'],
-                    new Currency($createRegularPromocode->discount['currency'])
+                    $createFixedPromocode->discount['amount'],
+                    new Currency($createFixedPromocode->discount['currency'])
                 )
             ),
-            $createRegularPromocode->useLimit,
-            new DateTimeImmutable($createRegularPromocode->expireAt),
+            $createFixedPromocode->useLimit,
+            new DateTimeImmutable($createFixedPromocode->expireAt),
             new SpecificAllowedTariffs($allowedTariffIds)
         );
         $this->em->persist($promocode);

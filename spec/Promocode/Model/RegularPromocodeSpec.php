@@ -39,6 +39,7 @@ class RegularPromocodeSpec extends ObjectBehavior
     public function let()
     {
         $eventId                  = EventId::new();
+        $code                     = 'FOO';
         $limitedByOneUse          = 1;
         $expireTomorrow           = new DateTimeImmutable('tomorrow');
         $noSpecificAllowedTariffs = new SpecificAllowedTariffs([]);
@@ -48,6 +49,7 @@ class RegularPromocodeSpec extends ObjectBehavior
         $this->beConstructedWith(
             $promocodeId,
             $eventId,
+            $code,
             $zeroDiscount,
             $limitedByOneUse,
             $expireTomorrow,
@@ -272,13 +274,14 @@ class RegularPromocodeSpec extends ObjectBehavior
     {
         $eventId        = EventId::new();
         $discount       = new FixedDiscount(new Money(1, new Currency('RUB')));
+        $code           = 'FOO';
         $useLimit       = 1;
         $expireAt       = new DateTimeImmutable('tomorrow');
         $allowedTariffs = new SpecificAllowedTariffs([TariffId::new()]);
         $price          = new Money(3, new Currency('RUB'));
         $promocodeId    = PromocodeId::new();
         $usable         = true;
-        $this->beConstructedWith($promocodeId, $eventId, $discount, $useLimit, $expireAt, $allowedTariffs, $usable);
+        $this->beConstructedWith($promocodeId, $eventId, $code, $discount, $useLimit, $expireAt, $allowedTariffs, $usable);
 
         $this
             ->apply($price)

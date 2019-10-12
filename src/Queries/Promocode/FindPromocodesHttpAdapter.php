@@ -3,12 +3,10 @@
 namespace App\Queries\Promocode;
 
 use App\Infrastructure\Http\AppController;
+use App\Queries\Promocode\FindPromocodesInList\FindPromocodesInList;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/admin/promocode", methods={"GET"})
- */
 final class FindPromocodesHttpAdapter extends AppController
 {
     private $promocodeQueries;
@@ -19,11 +17,11 @@ final class FindPromocodesHttpAdapter extends AppController
     }
 
     /**
-     * @Route("/list")
+     * @Route("/admin/promocode/list", methods={"GET"})
      */
-    public function findAll(): Response
+    public function findInList(FindPromocodesInList $findPromocodesInList): Response
     {
-        $promocodes = $this->promocodeQueries->findAll();
+        $promocodes = $this->promocodeQueries->findInList($findPromocodesInList->eventId);
 
         return $this->response($promocodes);
     }

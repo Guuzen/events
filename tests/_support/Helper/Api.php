@@ -10,7 +10,6 @@ use Codeception\Module\REST;
 use Coduo\PHPMatcher\PHPUnit\PHPMatcherAssertions;
 use DateTimeZone;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
 use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\Normalizer\PropertyNormalizer;

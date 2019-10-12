@@ -2,6 +2,7 @@
 
 namespace App\Queries\Promocode;
 
+use App\Queries\Promocode\FindPromocodesInList\PromocodeInList;
 use Doctrine\DBAL\Connection;
 
 final class PromocodeQueries
@@ -13,15 +14,43 @@ final class PromocodeQueries
         $this->connection = $connection;
     }
 
-    public function findAll(): array
+    /**
+     * @return PromocodeInList[]
+     */
+    public function findInList(string $eventId): array
     {
-        $stmt = $this->connection->query('
+        $stmt = $this->connection->prepare('
             select
-                *
-            from
-                regular_promocode            
+                row_to_json(promocode) as json
+            from (
+                select
+                    id,
+                    code,
+                    json_build_object(
+                        \'amount\', discount -> \'amount\' -> \'amount\',
+                        \'currency\', discount -> \'amount\' -> \'currency\' -> \'code\',
+                        \'type\', discount -> \'type\'
+                    ) as discount,
+                    use_limit,
+                    expire_at,
+                    usable
+                from
+                    regular_promocode
+                where
+                    event_id = :event_id                 
+            ) as promocode
         ');
+        $stmt->bindValue('event_id', $eventId);
+        $stmt->execute();
 
-        return $stmt->fetchAll();
+        $promocodes = [];
+        /** @psalm-var array{json: string} $promocodeData */
+        foreach ($stmt->fetchAll() as $promocodeData) {
+            /** @var PromocodeInList */
+            $promocode    = $this->connection->convertToPHPValue($promocodeData['json'], PromocodeInList::class);
+            $promocodes[] = $promocode;
+        }
+
+        return $promocodes;
     }
 }

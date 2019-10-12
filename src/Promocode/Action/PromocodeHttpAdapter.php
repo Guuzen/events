@@ -16,9 +16,9 @@ final class PromocodeHttpAdapter extends AppController
     }
 
     /**
-     * @Route("/admin/promocode/create", methods={"POST"})
+     * @Route("/admin/promocode/createFixed", methods={"POST"})
      */
-    public function createRegularPromocode(CreateRegularPromocode $createRegularPromocode): Response
+    public function createRegularPromocode(CreateFixedPromocode $createRegularPromocode): Response
     {
         $promocodeId = $this->handler->createRegularPromocode($createRegularPromocode);
 
