@@ -5,6 +5,7 @@ namespace App\Tests\Step\Api;
 use App\Tests\ApiTester;
 use App\Tests\Contract\AppRequest\Event\CreateEvent;
 use App\Tests\Contract\AppRequest\Order\MarkOrderPaid;
+use App\Tests\Contract\AppRequest\CreateFixedPromocode\CreateFixedPromocode;
 use App\Tests\Contract\AppRequest\Tariff\CreateTariff;
 use App\Tests\Contract\AppRequest\Ticket\CreateTicket;
 use App\Tests\Contract\AppResponse\EmailWithTicket;
@@ -16,6 +17,7 @@ use App\Tests\Contract\AppResponse\TariffById\TariffById;
 use App\Tests\Contract\AppResponse\TariffInList\TariffInList;
 use App\Tests\Contract\AppResponse\TicketById;
 use App\Tests\Contract\AppResponse\TicketInList;
+use App\Tests\Contract\PromocodeInList\AppResponse\PromocodeInList;
 use DateTimeImmutable;
 
 class Manager extends ApiTester
@@ -150,22 +152,11 @@ class Manager extends ApiTester
         $I->seeResponseContainsJson($order);
     }
 
-    public function createsPromocode(string $eventId, string $tariffId): string
+    public function createsPromocode(CreateFixedPromocode $createPromocode): string
     {
         $I = $this;
 
-        $I->sendPOST('/admin/promocode/create', [
-            'eventId'         => $eventId,
-            'discount'        => [
-                'amount'   => '100',
-                'currency' => 'RUB',
-            ],
-            'type'            => 'regular',
-            'useLimit'        => 1,
-            'expireAt'        => (new DateTimeImmutable('tomorrow'))->format('Y-m-d H:i:s'),
-            'allowedTariffs'  => [$tariffId],
-            'usable'          => true,
-        ]);
+        $I->sendPOST('/admin/promocode/createFixed', $createPromocode);
 
         $I->seeResponseCodeIsSuccessful();
         $I->seeResponseContainsId();
@@ -173,29 +164,16 @@ class Manager extends ApiTester
         return $I->grabIdFromResponse();
     }
 
-    // TODO in list?
-    public function seePromocodeCreated(string $eventId, string $tariffId, string $promocodeId): void
+    public function seePromocodeCreatedInList(string $eventId, PromocodeInList $promocodeInList): void
     {
         $I = $this;
 
-        $I->sendGET('/admin/promocode/list');
+        $I->sendGET('/admin/promocode/list', [
+            'eventId' => $eventId,
+        ]);
 
         $I->seeResponseCodeIsSuccessful();
-        $I->seeResponseContainsJson([
-            'data' => [
-                'id'              => $promocodeId,
-                'eventId'         => $eventId,
-                'discount'        => [
-                    'amount'   => '100',
-                    'currency' => 'RUB',
-                ],
-                'type'            => 'regular',
-                'useLimit'        => 1,
-                'expireAt'        => (new DateTimeImmutable('tomorrow'))->format('Y-m-d H:i:s'),
-                'allowedTariffs'  => [$tariffId],
-                'usable'          => true,
-            ],
-        ]);
+        $I->seeResponseContainsJson([$promocodeInList]);
     }
 
     public function markOrderPaid(MarkOrderPaid $markOrderPaid): void

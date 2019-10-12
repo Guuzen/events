@@ -16,6 +16,7 @@ final class PlaceOrder
 
     private function __construct(
         string $tariffId,
+        ?string $promocode,
         string $firstName,
         string $lastName,
         string $email,
@@ -28,8 +29,8 @@ final class PlaceOrder
         $this->phone         = $phone;
     }
 
-    public static function anyWith(string $tariffId): self
+    public static function anyWith(string $tariffId, ?string $promocode): self
     {
-        return new self($tariffId, 'john', 'Doe', 'john@email.com', '+123456789');
+        return new self($tariffId, $promocode, 'john', 'Doe', 'john@email.com', '+123456789');
     }
 }
