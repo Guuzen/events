@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\Http;
+namespace App\Infrastructure\Http\RequestResolver;
 
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 

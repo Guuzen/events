@@ -9,8 +9,6 @@ services:
         App\Infrastructure\Http\AppController:
             tags: ['controller.service_arguments']
 
-    App\Infrastructure\Http\AppRequestValidator: ~
-
     # HTTP ADAPTERS
     App\:
         resource: '../../../src/**/*HttpAdapter.php'
@@ -19,45 +17,3 @@ services:
     Symfony\Component\DependencyInjection\ServiceLocator:
         arguments:
             -   serializer: '@app.infrastructure.http.serializer'
-
-    # LISTENER FOR VALIDATION ERRORS HANDLING
-    App\Infrastructure\Http\InvalidAppRequestListener:
-        tags:
-            - { name: kernel.event_listener, event: kernel.exception }
-
-    # RESOLVER FOR INJECTING APP REQUESTS AS HTTP ADAPTERS METHODS ARGUMENTS
-    App\Infrastructure\Http\AppRequestResolver:
-        arguments:
-            $serializer: '@app.infrastructure.http.serializer'
-        tags:
-            - { name: controller.argument_value_resolver, priority: 50 }
-
-    # SERIALIZER
-    app.infrastructure.http.serializer.normalizer.datetime:
-        class: Symfony\Component\Serializer\Normalizer\DateTimeNormalizer
-        arguments:
-            $defaultContext:
-                !php/const Symfony\Component\Serializer\Normalizer\DateTimeNormalizer::FORMAT_KEY: 'Y-m-d H:i:s'
-
-    app.infrastructure.http.serializer.normalizer.array:
-        class: Symfony\Component\Serializer\Normalizer\ArrayDenormalizer
-
-    app.infrastructure.http.serializer.php_doc_extractor:
-        class: Symfony\Component\PropertyInfo\Extractor\PhpDocExtractor
-
-    app.infrastructure.http.serializer.property_normalizer:
-        class: Symfony\Component\Serializer\Normalizer\PropertyNormalizer
-        arguments:
-            - '@serializer.mapping.class_metadata_factory'
-            - ~
-            - '@app.infrastructure.http.serializer.php_doc_extractor'
-
-    app.infrastructure.http.serializer:
-        class: Symfony\Component\Serializer\Serializer
-        arguments:
-            $normalizers:
-                - '@app.infrastructure.http.serializer.normalizer.datetime'
-                - '@app.infrastructure.http.serializer.normalizer.array'
-                - '@app.infrastructure.http.serializer.property_normalizer'
-            $encoders:
-                - '@serializer.encoder.json'

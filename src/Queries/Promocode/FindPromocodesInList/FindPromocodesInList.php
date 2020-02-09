@@ -2,7 +2,7 @@
 
 namespace App\Queries\Promocode\FindPromocodesInList;
 
-use App\Infrastructure\Http\AppRequest;
+use App\Infrastructure\Http\RequestResolver\AppRequest;
 
 /**
  * @psalm-immutable

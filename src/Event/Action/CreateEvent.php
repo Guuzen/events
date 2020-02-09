@@ -3,7 +3,7 @@
 namespace App\Event\Action;
 
 // TODO validation
-use App\Infrastructure\Http\AppRequest;
+use App\Infrastructure\Http\RequestResolver\AppRequest;
 
 /**
  * @psalm-immutable

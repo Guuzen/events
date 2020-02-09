@@ -2,7 +2,7 @@
 
 namespace App\Queries\Tariff\FindTariffsInList;
 
-use App\Infrastructure\Http\AppRequest;
+use App\Infrastructure\Http\RequestResolver\AppRequest;
 
 /**
  * @psalm-immutable
