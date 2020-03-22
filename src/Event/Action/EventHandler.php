@@ -33,7 +33,7 @@ final class EventHandler
         $this->events->add($event);
 
         $eventConfig = new EventConfig(
-            (string) $eventId,
+            (string)$eventId,
             $createEvent->name,
             $createEvent->domain
         );

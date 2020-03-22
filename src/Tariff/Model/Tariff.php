@@ -43,9 +43,9 @@ class Tariff
 
     public function __construct(TariffId $id, EventId $eventId, TariffPriceNet $priceNet)
     {
-        $this->id          = $id;
-        $this->eventId     = $eventId;
-        $this->priceNet    = $priceNet;
+        $this->id       = $id;
+        $this->eventId  = $eventId;
+        $this->priceNet = $priceNet;
     }
 
     /**
@@ -63,7 +63,7 @@ class Tariff
 
     public function allowedForUse(AllowedTariffs $allowedTariffs): bool
     {
-        return $allowedTariffs->contains(new TariffId((string) $this->id));
+        return $allowedTariffs->contains(new TariffId((string)$this->id));
     }
 
     public function createProduct(ProductId $productId, DateTimeImmutable $createdAt, ProductType $productType): Product
@@ -81,7 +81,8 @@ class Tariff
         Money $sum,
         User $user,
         DateTimeImmutable $asOf
-    ) {
+    )
+    {
         if (!$this->eventId->equals($eventId)) {
             return new TariffAndOrderMustBeRelatedToSameEvent();
         }

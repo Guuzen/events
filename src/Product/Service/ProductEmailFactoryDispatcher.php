@@ -18,10 +18,10 @@ final class ProductEmailFactoryDispatcher
 
     public function dispatch(ProductType $productType): ProductEmailFactory
     {
-        if (!isset($this->factoryMap[(string) $productType])) {
+        if (!isset($this->factoryMap[(string)$productType])) {
             throw new \Exception('unknown product type');
         }
 
-        return $this->factoryMap[(string) $productType];
+        return $this->factoryMap[(string)$productType];
     }
 }

@@ -88,7 +88,8 @@ class RegularPromocode implements Promocode
         DateTimeImmutable $expireAt,
         AllowedTariffs $allowedTariffs, // TODO tariffs MUST be for same event as promocode
         bool $usable = true // TODO зачем нужен этот флаг ?
-    ) {
+    )
+    {
         $this->id             = $id;
         $this->eventId        = $eventId;
         $this->code           = $code;

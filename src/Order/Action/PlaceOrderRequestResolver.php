@@ -23,7 +23,8 @@ final class PlaceOrderRequestResolver implements ArgumentValueResolverInterface
         Serializer $serializer,
         AppRequestValidator $validator,
         FindEventIdByDomain $findEventIdByDomain
-    ) {
+    )
+    {
         $this->serializer          = $serializer;
         $this->validator           = $validator;
         $this->findEventIdByDomain = $findEventIdByDomain;
@@ -46,10 +47,10 @@ final class PlaceOrderRequestResolver implements ArgumentValueResolverInterface
             throw new \Exception();
         }
         /** @var array $appRequestData */
-        $appRequestData = $this->serializer->decode((string) $request->getContent(), 'json');
+        $appRequestData = $this->serializer->decode((string)$request->getContent(), 'json');
         $appRequestData = $this->addEventId($appRequestData, $eventId);
         /** @var AppRequest $appRequest */
-        $appRequest                 = $this->serializer->denormalize($appRequestData, $argumentType);
+        $appRequest = $this->serializer->denormalize($appRequestData, $argumentType);
 
         yield from $this->validator->validate($appRequest);
     }

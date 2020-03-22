@@ -31,7 +31,8 @@ final class TicketById
         bool $reserved,
         DateTimeImmutable $createdAt,
         ?DateTimeImmutable $deliveredAt
-    ) {
+    )
+    {
         $this->id          = $id;
         $this->eventId     = $eventId;
         $this->type        = $type;

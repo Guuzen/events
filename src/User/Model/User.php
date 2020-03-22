@@ -48,7 +48,8 @@ class User
         TariffId $tariffId,
         Money $sum,
         DateTimeImmutable $makedAt
-    ): Order {
+    ): Order
+    {
         return new Order($orderId, $eventId, $productId, $tariffId, $this->id, $sum, $makedAt);
     }
 

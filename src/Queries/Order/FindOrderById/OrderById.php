@@ -58,7 +58,8 @@ final class OrderById
         bool $cancelled,
         DateTimeImmutable $makedAt,
         ?DateTimeImmutable $deliveredAt
-    ) {
+    )
+    {
         $this->id          = $id;
         $this->eventId     = $eventId;
         $this->tariffId    = $tariffId;

@@ -6,6 +6,7 @@ use App\Infrastructure\Http\RequestResolver\AppRequest;
 use Symfony\Component\Validator\Constraints as Assert;
 
 // TODO validation
+
 /**
  * @psalm-immutable
  */
@@ -33,12 +34,13 @@ final class PlaceOrder implements AppRequest
         string $tariffId,
         string $phone,
         string $eventId
-    ) {
-        $this->firstName     = $firstName;
-        $this->lastName      = $lastName;
-        $this->email         = $email;
-        $this->tariffId      = $tariffId;
-        $this->phone         = $phone;
-        $this->eventId       = $eventId;
+    )
+    {
+        $this->firstName = $firstName;
+        $this->lastName  = $lastName;
+        $this->email     = $email;
+        $this->tariffId  = $tariffId;
+        $this->phone     = $phone;
+        $this->eventId   = $eventId;
     }
 }

@@ -3,26 +3,13 @@
 namespace App\Order\Action;
 
 use App\Common\Error;
-use App\Event\Model\Error\EventNotFound;
 use App\Event\Model\EventId;
 use App\Event\Model\Events;
-use App\Fondy\CantGetPaymentUrl;
 use App\Fondy\Fondy;
-use App\Order\Model\Error\OrderAlreadyPaid;
-use App\Order\Model\Error\OrderNotFound;
 use App\Order\Model\OrderId;
 use App\Order\Model\Orders;
-use App\Product\Model\Error\NotReservedProductNotFound;
-use App\Product\Model\Error\OrderAndProductMustBeRelatedToSameEvent;
-use App\Product\Model\Error\OrderAndProductMustBeRelatedToSameTariff;
-use App\Product\Model\Error\ProductCantBeDeliveredIfNotReserved;
-use App\Product\Model\Error\ProductCantBeReservedIfAlreadyReserved;
-use App\Product\Model\Error\ProductNotFound;
 use App\Product\Model\Products;
 use App\Promocode\Model\NullPromocode;
-use App\Tariff\Model\Error\TariffAndOrderMustBeRelatedToSameEvent;
-use App\Tariff\Model\Error\TariffNotFound;
-use App\Tariff\Model\Error\TariffSegmentNotFound;
 use App\Tariff\Model\TariffId;
 use App\Tariff\Model\Tariffs;
 use App\User\Model\Contacts;
@@ -53,7 +40,8 @@ class OrderHandler
         Products $products,
         Orders $orders,
         Fondy $fondy
-    ) {
+    )
+    {
         $this->em       = $em;
         $this->events   = $events;
         $this->tariffs  = $tariffs;
@@ -63,7 +51,7 @@ class OrderHandler
     }
 
     /**
-     * @return OrderId|EventNotFound|TariffNotFound|NotReservedProductNotFound|TariffSegmentNotFound|ProductNotFound|ProductCantBeReservedIfAlreadyReserved|TariffAndOrderMustBeRelatedToSameEvent|OrderAndProductMustBeRelatedToSameEvent|OrderAndProductMustBeRelatedToSameTariff
+     * @return OrderId|Error
      */
     public function placeOrder(PlaceOrder $placeOrder)
     {
@@ -133,10 +121,7 @@ class OrderHandler
         return $orderId;
     }
 
-    /**
-     * @return OrderNotFound|OrderAlreadyPaid|ProductNotFound|ProductCantBeDeliveredIfNotReserved|null
-     */
-    public function markOrderPaid(MarkOrderPaid $markOrderPaid)
+    public function markOrderPaid(MarkOrderPaid $markOrderPaid): ?Error
     {
         $orderId = new OrderId($markOrderPaid->orderId);
 
@@ -156,7 +141,7 @@ class OrderHandler
     }
 
     /**
-     * @return string|OrderNotFound|CantGetPaymentUrl
+     * @return string|Error
      */
     public function payByCard(PayByCard $payByCard)
     {
@@ -170,10 +155,7 @@ class OrderHandler
         return $order->createFondyPayment($this->fondy);
     }
 
-    /**
-     * @return OrderNotFound|OrderAlreadyPaid|ProductNotFound|ProductCantBeDeliveredIfNotReserved|null
-     */
-    public function markOrderPaidByFondy(MarkOrderPaidByFondy $markOrderPaidByFondy)
+    public function markOrderPaidByFondy(MarkOrderPaidByFondy $markOrderPaidByFondy): ?Error
     {
         $orderId = new OrderId($markOrderPaidByFondy->orderId);
 

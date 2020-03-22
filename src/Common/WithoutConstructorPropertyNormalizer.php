@@ -22,7 +22,8 @@ final class WithoutConstructorPropertyNormalizer extends PropertyNormalizer
         \ReflectionClass $reflectionClass,
         $allowedAttributes,
         string $format = null
-    ): object {
+    ): object
+    {
         return $reflectionClass->newInstanceWithoutConstructor();
     }
 

@@ -30,7 +30,7 @@ final class OrderNotificationSubscriber implements EventSubscriberInterface
 
     public function onOrderMarkedPaid(OrderMarkedPaid $orderMarkedPaid): void
     {
-        $deliverProduct = new DeliverProduct((string) $orderMarkedPaid->productId);
+        $deliverProduct = new DeliverProduct((string)$orderMarkedPaid->productId);
         $error          = $this->productHandler->deliverProduct($deliverProduct);
         // TODO надо бы придумать как показывать ошибки пользователю в подобных ситуациях
         if ($error instanceof Error) {

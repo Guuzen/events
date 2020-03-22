@@ -88,15 +88,16 @@ class Order extends Entity
         Money $sum,
         DateTimeImmutable $asOf,
         bool $paid = false
-    ) {
-        $this->id          = $id;
-        $this->eventId     = $eventId;
-        $this->productId   = $productId;
-        $this->tariffId    = $tariffId;
-        $this->userId      = $userId;
-        $this->sum         = $sum;
-        $this->makedAt     = $asOf;
-        $this->paid        = $paid;
+    )
+    {
+        $this->id        = $id;
+        $this->eventId   = $eventId;
+        $this->productId = $productId;
+        $this->tariffId  = $tariffId;
+        $this->userId    = $userId;
+        $this->sum       = $sum;
+        $this->makedAt   = $asOf;
+        $this->paid      = $paid;
     }
 
     public function applyPromocode(Promocode $promocode): void

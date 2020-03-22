@@ -34,12 +34,13 @@ final class PromocodeInList
         int $useLimit,
         DateTimeImmutable $expireAt,
         bool $usable
-    ) {
-        $this->id         = $id;
-        $this->code       = $code;
-        $this->discount   = $discount;
-        $this->useLimit   = $useLimit;
-        $this->expireAt   = $expireAt;
-        $this->usable     = $usable;
+    )
+    {
+        $this->id       = $id;
+        $this->code     = $code;
+        $this->discount = $discount;
+        $this->useLimit = $useLimit;
+        $this->expireAt = $expireAt;
+        $this->usable   = $usable;
     }
 }

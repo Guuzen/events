@@ -36,8 +36,7 @@ final class TicketBoughtByCardForManager implements Factory
             ->setBody(
                 $letter,
                 'text/html'
-            )
-        ;
+            );
 
         return $message;
     }

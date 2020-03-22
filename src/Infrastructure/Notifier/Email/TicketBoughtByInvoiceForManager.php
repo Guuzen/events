@@ -37,8 +37,7 @@ final class TicketBoughtByInvoiceForManager implements Factory
                 $letter,
                 'text/html'
             )
-            ->attach(Swift_Attachment::fromPath(''))
-        ;
+            ->attach(Swift_Attachment::fromPath(''));
 
         return $message;
     }

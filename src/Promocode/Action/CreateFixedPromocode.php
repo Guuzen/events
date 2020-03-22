@@ -39,7 +39,8 @@ final class CreateFixedPromocode implements AppRequest
         string $expireAt,
         bool $usable,
         array $allowedTariffs = []
-    ) {
+    )
+    {
         $this->discount       = $discount;
         $this->code           = $code;
         $this->useLimit       = $useLimit;

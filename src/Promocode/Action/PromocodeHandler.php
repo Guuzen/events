@@ -3,13 +3,12 @@
 namespace App\Promocode\Action;
 
 use App\Common\Error;
-use App\Event\Model\Error\EventNotFound;
 use App\Event\Model\EventId;
 use App\Event\Model\Events;
 use App\Promocode\Model\AllowedTariffs\SpecificAllowedTariffs;
 use App\Promocode\Model\Discount\FixedDiscount;
-use App\Promocode\Model\PromocodeId;
 use App\Promocode\Model\FixedPromocodes;
+use App\Promocode\Model\PromocodeId;
 use App\Tariff\Model\TariffId;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
@@ -30,14 +29,15 @@ final class PromocodeHandler
         EntityManagerInterface $em,
         FixedPromocodes $regularPromocodes,
         Events $events
-    ) {
+    )
+    {
         $this->em                = $em;
         $this->regularPromocodes = $regularPromocodes;
         $this->events            = $events;
     }
 
     /**
-     * @return PromocodeId|EventNotFound
+     * @return PromocodeId|Error
      */
     public function createRegularPromocode(CreateFixedPromocode $createFixedPromocode)
     {

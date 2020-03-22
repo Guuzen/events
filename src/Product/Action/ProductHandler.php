@@ -3,20 +3,14 @@
 namespace App\Product\Action;
 
 use App\Common\Error;
-use App\Event\Model\Error\EventNotFound;
 use App\Event\Model\EventId;
 use App\Event\Model\Events;
-use App\Product\Model\Error\ProductCantBeDeliveredIfNotReserved;
-use App\Product\Model\Error\ProductNotFound;
 use App\Product\Model\ProductId;
 use App\Product\Model\Products;
 use App\Product\Model\ProductType;
 use App\Product\Model\TicketId;
 use App\Product\Model\Tickets;
-use App\Product\Service\Error\ProductEmailNotFound;
 use App\Product\Service\ProductEmailDelivery;
-use App\Product\Service\Error\ProductNotDelivered;
-use App\Tariff\Model\Error\TariffNotFound;
 use App\Tariff\Model\TariffId;
 use App\Tariff\Model\Tariffs;
 use DateTimeImmutable;
@@ -43,7 +37,8 @@ final class ProductHandler
         Tickets $tickets,
         Events $events,
         ProductEmailDelivery $productEmailDelivery
-    ) {
+    )
+    {
         $this->em                   = $em;
         $this->products             = $products;
         $this->tariffs              = $tariffs;
@@ -53,7 +48,7 @@ final class ProductHandler
     }
 
     /**
-     * @return ProductId|TariffNotFound|EventNotFound
+     * @return ProductId|Error
      */
     public function createTicket(CreateTicket $createTicket)
     {
@@ -74,7 +69,7 @@ final class ProductHandler
             return $event;
         }
 
-        $ticket = $event->createTicket(new TicketId((string) $productId), $createTicket->number);
+        $ticket = $event->createTicket(new TicketId((string)$productId), $createTicket->number);
         $this->tickets->add($ticket);
 
         $this->em->flush();
@@ -82,10 +77,7 @@ final class ProductHandler
         return $productId;
     }
 
-    /**
-     * @return ProductNotFound|ProductCantBeDeliveredIfNotReserved|ProductNotDelivered|ProductEmailNotFound|null
-     */
-    public function deliverProduct(DeliverProduct $deliverProduct)
+    public function deliverProduct(DeliverProduct $deliverProduct): ?Error
     {
         $productId = new ProductId($deliverProduct->productId);
 

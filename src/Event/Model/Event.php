@@ -16,8 +16,8 @@ use App\Promocode\Model\PromocodeId;
 use App\Promocode\Model\RegularPromocode;
 use App\Tariff\Model\Error\TariffAndOrderMustBeRelatedToSameEvent;
 use App\Tariff\Model\Tariff;
-use App\Tariff\Model\TariffPriceNet;
 use App\Tariff\Model\TariffId;
+use App\Tariff\Model\TariffPriceNet;
 use App\User\Model\User;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
@@ -55,7 +55,8 @@ final class Event
         Money $sum,
         User $user,
         DateTimeImmutable $asOf
-    ) {
+    )
+    {
         return $tariff->makeOrder($orderId, $this->id, $product, $sum, $user, $asOf);
     }
 
@@ -70,7 +71,8 @@ final class Event
         Discount $discount,
         int $useLimit,
         DateTimeImmutable $expireAt
-    ): RegularPromocode {
+    ): RegularPromocode
+    {
         return new RegularPromocode(
             $promocodeId,
             $this->id,
@@ -89,7 +91,8 @@ final class Event
         int $useLimit,
         DateTimeImmutable $expireAt,
         AllowedTariffs $allowedTariffs
-    ): RegularPromocode {
+    ): RegularPromocode
+    {
         return new RegularPromocode(
             $promocodeId,
             $this->id,

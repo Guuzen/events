@@ -21,7 +21,7 @@ final class TicketEmailFactory implements ProductEmailFactory
 
     public function create(ProductId $ticketId)
     {
-        $ticketEmail = $this->findTicketEmail->find((string) $ticketId);
+        $ticketEmail = $this->findTicketEmail->find((string)$ticketId);
         if ($ticketEmail instanceof Error) {
             return new ProductEmailNotFound();
         }
@@ -30,8 +30,7 @@ final class TicketEmailFactory implements ProductEmailFactory
             ->setSubject('Thanks for buy ticket')
             ->setFrom($this->from)
             ->setTo($ticketEmail->email)
-            ->setBody(sprintf('ticket number is %s', $ticketEmail->number))
-        ;
+            ->setBody(sprintf('ticket number is %s', $ticketEmail->number));
 
         return $message;
     }

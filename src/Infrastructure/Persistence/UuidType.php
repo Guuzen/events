@@ -52,14 +52,14 @@ abstract class UuidType extends Type
     final public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
     {
         if ($value instanceof Uuid) {
-            return (string) $value;
+            return (string)$value;
         }
 
         if (null === $value) {
             return null;
         }
 
-        throw ConversionException::conversionFailed((string) $value, $this->getName());
+        throw ConversionException::conversionFailed((string)$value, $this->getName());
     }
 
     final public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string

@@ -25,8 +25,8 @@ final class DoctrineNotificationSubscriber implements EventSubscriber
 
     public function postFlush(PostFlushEventArgs $postFlushEventArgs): void
     {
-        $em          = $postFlushEventArgs->getEntityManager();
-        $uow         = $em->getUnitOfWork();
+        $em  = $postFlushEventArgs->getEntityManager();
+        $uow = $em->getUnitOfWork();
         /** @var Entity[][] $identityMap */
         $identityMap = $uow->getIdentityMap();
 

@@ -6,14 +6,14 @@ use App\Common\Error;
 use App\Event\Model\EventId;
 use App\Order\Model\Order;
 use App\Order\Model\OrderId;
-use App\Product\Service\ProductEmailDelivery;
 use App\Product\Model\Error\OrderAndProductMustBeRelatedToSameEvent;
 use App\Product\Model\Error\OrderAndProductMustBeRelatedToSameTariff;
 use App\Product\Model\Error\ProductCantBeDeliveredIfNotReserved;
 use App\Product\Model\Error\ProductCantBeReservedIfAlreadyReserved;
 use App\Product\Model\Exception\ProductReserveCantBeCancelledIfAlreadyDelivered;
-use App\Product\Service\Error\ProductNotDelivered;
 use App\Product\Service\Error\ProductEmailNotFound;
+use App\Product\Service\Error\ProductNotDelivered;
+use App\Product\Service\ProductEmailDelivery;
 use App\Tariff\Model\TariffId;
 use App\User\Model\User;
 use DateTimeImmutable;
@@ -75,7 +75,8 @@ class Product
         DateTimeImmutable $createdAt,
         bool $reserved = false,
         bool $delivered = false
-    ) {
+    )
+    {
         $this->id        = $id;
         $this->eventId   = $eventId;
         $this->tariffId  = $tariffId;
@@ -136,7 +137,8 @@ class Product
         Money $sum,
         User $user,
         DateTimeImmutable $asOf
-    ) {
+    )
+    {
         if (!$this->eventId->equals($eventId)) {
             return new OrderAndProductMustBeRelatedToSameEvent();
         }

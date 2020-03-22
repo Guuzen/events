@@ -68,7 +68,7 @@ final class TariffHandler
         );
         $this->tariffs->add($tariff);
 
-        $tariffDetails = new TariffDetails(new TariffDetailsId((string) $tariffId), $createTariff->tariffType);
+        $tariffDetails = new TariffDetails(new TariffDetailsId((string)$tariffId), $createTariff->tariffType);
         $this->em->persist($tariffDetails);
 
         $this->em->flush();
