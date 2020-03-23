@@ -11,3 +11,12 @@ doctrine:
                 prefix: 'App\User\Model'
                 type: annotation
                 dir: '%kernel.project_dir%/src/User/Model'
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    App\User\Action\UserHandler: ~
+    App\User\Model\Users: ~

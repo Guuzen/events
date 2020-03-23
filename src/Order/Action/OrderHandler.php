@@ -12,10 +12,8 @@ use App\Product\Model\Products;
 use App\Promocode\Model\NullPromocode;
 use App\Tariff\Model\TariffId;
 use App\Tariff\Model\Tariffs;
-use App\User\Model\Contacts;
-use App\User\Model\FullName;
-use App\User\Model\User;
 use App\User\Model\UserId;
+use App\User\Model\Users;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -33,13 +31,16 @@ class OrderHandler
 
     private $fondy;
 
+    private $users;
+
     public function __construct(
         EntityManagerInterface $em,
         Events $events,
         Tariffs $tariffs,
         Products $products,
         Orders $orders,
-        Fondy $fondy
+        Fondy $fondy,
+        Users $users
     )
     {
         $this->em       = $em;
@@ -48,6 +49,7 @@ class OrderHandler
         $this->products = $products;
         $this->orders   = $orders;
         $this->fondy    = $fondy;
+        $this->users    = $users;
     }
 
     /**
@@ -74,11 +76,10 @@ class OrderHandler
             return $product;
         }
 
-        $user = new User(
-            UserId::new(),
-            new FullName($placeOrder->firstName, $placeOrder->lastName),
-            new Contacts($placeOrder->email, $placeOrder->phone)
-        );
+        $user = $this->users->findById(new UserId($placeOrder->userId));
+        if ($user instanceof Error) {
+            return $user;
+        }
 
         // TODO не очень понятно где создавать промокод
         $promocode = new NullPromocode();
@@ -114,7 +115,6 @@ class OrderHandler
             return $reservedError;
         }
 
-        $this->em->persist($user);
         $this->em->persist($order);
         $this->em->flush();
 

@@ -32,7 +32,7 @@ final class PlaceOrderRequestResolver implements ArgumentValueResolverInterface
 
     public function supports(Request $request, ArgumentMetadata $argument): bool
     {
-        return PlaceOrder::class === $argument->getType();
+        return PlaceOrderRequest::class === $argument->getType();
     }
 
     public function resolve(Request $request, ArgumentMetadata $argument): \Generator
