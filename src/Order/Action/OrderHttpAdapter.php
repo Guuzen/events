@@ -30,11 +30,12 @@ final class OrderHttpAdapter extends AppController
     public function placeOrder(PlaceOrderRequest $placeOrderRequest): Response
     {
         // TODO create user must be idempotent. Maybe this method should be named in other way
-        $userId = UserId::new();
-        $this->userHandler->createUser($placeOrderRequest->toCreateUser((string)$userId));
+        $userId  = UserId::new();
+        $orderId = $this->em->transactional(function () use ($placeOrderRequest, $userId) {
+            $this->userHandler->createUser($placeOrderRequest->toCreateUser((string)$userId));
 
-        $orderId = $this->orderHandler->placeOrder($placeOrderRequest->toPlaceOrder((string)$userId));
-        $this->em->flush();
+            return $this->orderHandler->placeOrder($placeOrderRequest->toPlaceOrder((string)$userId));
+        });
 
         return $this->response($orderId);
     }
