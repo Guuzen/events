@@ -3,6 +3,7 @@
 namespace App\Order\Action;
 
 use App\Infrastructure\Http\AppController;
+use App\Order\Model\OrderId;
 use App\User\Action\UserHandler;
 use App\User\Model\UserId;
 use Doctrine\ORM\EntityManagerInterface;
@@ -31,6 +32,8 @@ final class OrderHttpAdapter extends AppController
     {
         // TODO create user must be idempotent. Maybe this method should be named in other way
         $userId  = UserId::new();
+
+        /** @var OrderId $orderId */
         $orderId = $this->em->transactional(function () use ($placeOrderRequest, $userId) {
             $this->userHandler->createUser($placeOrderRequest->toCreateUser((string)$userId));
 
