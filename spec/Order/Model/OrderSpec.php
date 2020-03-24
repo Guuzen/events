@@ -70,8 +70,7 @@ class OrderSpec extends ObjectBehavior
         $fondyGateway
             ->checkoutUrl($this->hundredRubles, $this->orderId)
             ->shouldBeCalledOnce()
-            ->willReturn($paymentUrl)
-        ;
+            ->willReturn($paymentUrl);
 
         $this->createFondyPayment($fondyGateway)->shouldReturn($paymentUrl);
     }
@@ -82,8 +81,7 @@ class OrderSpec extends ObjectBehavior
         $fondy->beADoubleOf(Fondy::class);
         $fondy
             ->checkoutUrl(Argument::cetera())
-            ->willReturn($error)
-        ;
+            ->willReturn($error);
 
         $this->createFondyPayment($fondy)->shouldReturn($error);
     }

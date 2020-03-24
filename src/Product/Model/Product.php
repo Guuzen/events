@@ -15,7 +15,7 @@ use App\Product\Service\Error\ProductEmailNotFound;
 use App\Product\Service\Error\ProductNotDelivered;
 use App\Product\Service\ProductEmailDelivery;
 use App\Tariff\Model\TariffId;
-use App\User\Model\User;
+use App\User\Model\UserId;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
@@ -134,8 +134,8 @@ class Product
         OrderId $orderId,
         EventId $eventId,
         TariffId $tariffId,
+        UserId $userId,
         Money $sum,
-        User $user,
         DateTimeImmutable $asOf
     )
     {
@@ -146,6 +146,6 @@ class Product
             return new OrderAndProductMustBeRelatedToSameTariff();
         }
 
-        return $user->makeOrder($orderId, $eventId, $this->id, $tariffId, $sum, $asOf);
+        return new Order($orderId, $eventId, $this->id, $tariffId, $userId, $sum, $asOf);
     }
 }

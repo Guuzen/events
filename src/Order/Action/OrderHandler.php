@@ -3,16 +3,13 @@
 namespace App\Order\Action;
 
 use App\Common\Error;
-use App\Event\Model\EventId;
 use App\Event\Model\Events;
 use App\Fondy\Fondy;
 use App\Order\Model\OrderId;
 use App\Order\Model\Orders;
 use App\Product\Model\Products;
 use App\Promocode\Model\NullPromocode;
-use App\Tariff\Model\TariffId;
 use App\Tariff\Model\Tariffs;
-use App\User\Model\UserId;
 use App\User\Model\Users;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
@@ -59,13 +56,12 @@ class OrderHandler
     {
         $orderDate = new DateTimeImmutable();
 
-        $eventId = new EventId($placeOrder->eventId);
-        $event   = $this->events->findById($eventId);
+        $event = $this->events->findById($placeOrder->eventId());
         if ($event instanceof Error) {
             return $event;
         }
 
-        $tariffId = new TariffId($placeOrder->tariffId);
+        $tariffId = $placeOrder->tariffId();
         $tariff   = $this->tariffs->findById($tariffId);
         if ($tariff instanceof Error) {
             return $tariff;
@@ -74,11 +70,6 @@ class OrderHandler
         $product = $this->products->findNotReservedByTariffId($tariffId);
         if ($product instanceof Error) {
             return $product;
-        }
-
-        $user = $this->users->findById(new UserId($placeOrder->userId));
-        if ($user instanceof Error) {
-            return $user;
         }
 
         // TODO не очень понятно где создавать промокод
@@ -93,8 +84,8 @@ class OrderHandler
             $orderId,
             $product,
             $tariff,
+            $placeOrder->userId(),
             $sum,
-            $user,
             $orderDate
         );
         if ($order instanceof Error) {
@@ -116,7 +107,6 @@ class OrderHandler
         }
 
         $this->em->persist($order);
-        $this->em->flush();
 
         return $orderId;
     }

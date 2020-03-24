@@ -18,7 +18,7 @@ use App\Tariff\Model\Error\TariffAndOrderMustBeRelatedToSameEvent;
 use App\Tariff\Model\Tariff;
 use App\Tariff\Model\TariffId;
 use App\Tariff\Model\TariffPriceNet;
-use App\User\Model\User;
+use App\User\Model\UserId;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
@@ -52,12 +52,12 @@ final class Event
         OrderId $orderId,
         Product $product,
         Tariff $tariff,
+        UserId $userId,
         Money $sum,
-        User $user,
         DateTimeImmutable $asOf
     )
     {
-        return $tariff->makeOrder($orderId, $this->id, $product, $sum, $user, $asOf);
+        return $tariff->makeOrder($orderId, $this->id, $product, $userId, $sum, $asOf);
     }
 
     public function createTariff(TariffId $tariffId, TariffPriceNet $tariffPriceNet): Tariff

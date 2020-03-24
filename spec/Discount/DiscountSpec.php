@@ -4,7 +4,6 @@ namespace spec\App\Discount;
 
 use App\Discount\Discount;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class DiscountSpec extends ObjectBehavior
 {

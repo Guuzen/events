@@ -11,7 +11,7 @@ use App\Tariff\Model\TariffId;
 use App\Tariff\Model\TariffPriceNet;
 use App\Tariff\Model\TariffSegment;
 use App\Tariff\Model\TariffTerm;
-use App\User\Model\User;
+use App\User\Model\UserId;
 use DateTimeImmutable;
 use Money\Currency;
 use Money\Money;
@@ -21,15 +21,13 @@ use Prophecy\Argument;
 // TODO try to create id of the object inside constructor. Use factories to create objects with same id ?
 class TariffSpec extends ObjectBehavior
 {
-    public function it_should_be_part_of_the_order(Product $product, Order $order, User $user)
+    public function it_should_be_part_of_the_order(Product $product, Order $order)
     {
-        $user->beADoubleOf(User::class);
         $order->beADoubleOf(Order::class);
         $product->beADoubleOf(Product::class);
         $product
             ->makeOrder(Argument::cetera())
-            ->willReturn($order)
-        ;
+            ->willReturn($order);
 
         $eventId = EventId::new();
         $this->beConstructedWith(
@@ -51,23 +49,20 @@ class TariffSpec extends ObjectBehavior
                 OrderId::new(),
                 $eventId,
                 $product,
+                UserId::new(),
                 new Money(100, new Currency('RUB')),
-                $user,
                 new DateTimeImmutable('now')
             )
-            ->shouldReturnAnInstanceOf($order)
-        ;
+            ->shouldReturnAnInstanceOf($order);
     }
 
-    public function it_should_not_be_part_of_the_order_which_is_not_related_to_same_event(Product $product, Order $order, User $user)
+    public function it_should_not_be_part_of_the_order_which_is_not_related_to_same_event(Product $product, Order $order)
     {
-        $user->beADoubleOf(User::class);
         $order->beADoubleOf(Order::class);
         $product->beADoubleOf(Product::class);
         $product
             ->makeOrder(Argument::cetera())
-            ->willReturn($order)
-        ;
+            ->willReturn($order);
 
         $this->beConstructedWith(
             TariffId::new(),
@@ -88,11 +83,10 @@ class TariffSpec extends ObjectBehavior
                 OrderId::new(),
                 EventId::new(),
                 $product,
+                UserId::new(),
                 new Money(100, new Currency('RUB')),
-                $user,
                 new DateTimeImmutable('now')
             )
-            ->shouldReturnAnInstanceOf(TariffAndOrderMustBeRelatedToSameEvent::class)
-        ;
+            ->shouldReturnAnInstanceOf(TariffAndOrderMustBeRelatedToSameEvent::class);
     }
 }

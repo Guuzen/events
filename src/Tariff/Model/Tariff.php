@@ -14,7 +14,7 @@ use App\Promocode\Model\AllowedTariffs\AllowedTariffs;
 use App\Promocode\Model\Discount\Discount;
 use App\Tariff\Model\Error\TariffAndOrderMustBeRelatedToSameEvent;
 use App\Tariff\Model\Error\TariffSegmentNotFound;
-use App\User\Model\User;
+use App\User\Model\UserId;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
@@ -78,8 +78,8 @@ class Tariff
         OrderId $orderId,
         EventId $eventId,
         Product $product,
+        UserId $userId,
         Money $sum,
-        User $user,
         DateTimeImmutable $asOf
     )
     {
@@ -87,6 +87,6 @@ class Tariff
             return new TariffAndOrderMustBeRelatedToSameEvent();
         }
 
-        return $product->makeOrder($orderId, $eventId, $this->id, $sum, $user, $asOf);
+        return $product->makeOrder($orderId, $eventId, $this->id, $userId, $sum, $asOf);
     }
 }

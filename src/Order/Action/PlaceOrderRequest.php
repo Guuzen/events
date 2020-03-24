@@ -3,6 +3,7 @@
 namespace App\Order\Action;
 
 use App\Infrastructure\Http\RequestResolver\AppRequest;
+use App\User\Action\CreateUser;
 use Symfony\Component\Validator\Constraints as Assert;
 
 // TODO validation
@@ -15,17 +16,17 @@ final class PlaceOrderRequest implements AppRequest
     /**
      * @Assert\NotBlank
      */
-    public $firstName;
+    private $firstName;
 
-    public $lastName;
+    private $lastName;
 
-    public $email;
+    private $email;
 
-    public $tariffId;
+    private $tariffId;
 
-    public $phone;
+    private $phone;
 
-    public $eventId;
+    private $eventId;
 
     public function __construct(
         string $firstName,
@@ -42,5 +43,15 @@ final class PlaceOrderRequest implements AppRequest
         $this->tariffId  = $tariffId;
         $this->phone     = $phone;
         $this->eventId   = $eventId;
+    }
+
+    public function toCreateUser(string $userId): CreateUser
+    {
+        return new CreateUser($userId, $this->firstName, $this->lastName, $this->email, $this->phone);
+    }
+
+    public function toPlaceOrder(string $userId): PlaceOrder
+    {
+        return new PlaceOrder($this->tariffId, $this->eventId, $userId);
     }
 }

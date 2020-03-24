@@ -26,7 +26,6 @@ class FixedDiscountSpec extends ObjectBehavior
         $ninetyRoubles  = new Money('90', new Currency('RUB'));
         $this
             ->applyTo($hundredRoubles)
-            ->shouldBeLike($ninetyRoubles)
-        ;
+            ->shouldBeLike($ninetyRoubles);
     }
 }

@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\User\Action;
 
-use App\User\Model\User;
-use App\User\Model\UserId;
 use App\User\Model\Users;
 
 final class UserHandler
@@ -17,17 +15,9 @@ final class UserHandler
         $this->users = $users;
     }
 
-    public function createUser(CreateUser $createUser): UserId
+    public function createUser(CreateUser $createUser): void
     {
-        $userId = UserId::new();
-        $user   = new User(
-            $userId,
-            $createUser->fullName,
-            $createUser->contacts
-        );
-
+        $user = $createUser->user();
         $this->users->add($user);
-
-        return $userId;
     }
 }

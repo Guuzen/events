@@ -3,10 +3,8 @@
 namespace App\Order\Action;
 
 use App\Infrastructure\Http\AppController;
-use App\User\Action\CreateUser;
 use App\User\Action\UserHandler;
-use App\User\Model\Contacts;
-use App\User\Model\FullName;
+use App\User\Model\UserId;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -32,15 +30,10 @@ final class OrderHttpAdapter extends AppController
     public function placeOrder(PlaceOrderRequest $placeOrderRequest): Response
     {
         // TODO create user must be idempotent. Maybe this method should be named in other way
-        $createUser = new CreateUser(
-            new FullName($placeOrderRequest->firstName, $placeOrderRequest->lastName),
-            new Contacts($placeOrderRequest->email, $placeOrderRequest->phone)
-        );
-        $userId     = $this->userHandler->createUser($createUser);
-        $this->em->flush();
+        $userId = UserId::new();
+        $this->userHandler->createUser($placeOrderRequest->toCreateUser((string)$userId));
 
-        $placeOrder = new PlaceOrder($placeOrderRequest->tariffId, $placeOrderRequest->eventId, (string)$userId);
-        $orderId    = $this->orderHandler->placeOrder($placeOrder);
+        $orderId = $this->orderHandler->placeOrder($placeOrderRequest->toPlaceOrder((string)$userId));
         $this->em->flush();
 
         return $this->response($orderId);

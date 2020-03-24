@@ -3,9 +3,7 @@
 namespace spec\App\Product\Model;
 
 use App\Event\Model\EventId;
-use App\Order\Model\Order;
 use App\Order\Model\OrderId;
-use App\Product\Service\ProductEmailDelivery;
 use App\Product\Model\Error\OrderAndProductMustBeRelatedToSameEvent;
 use App\Product\Model\Error\OrderAndProductMustBeRelatedToSameTariff;
 use App\Product\Model\Error\ProductCantBeDeliveredIfNotReserved;
@@ -13,8 +11,9 @@ use App\Product\Model\Error\ProductCantBeReservedIfAlreadyReserved;
 use App\Product\Model\Exception\ProductReserveCantBeCancelledIfAlreadyDelivered;
 use App\Product\Model\ProductId;
 use App\Product\Model\ProductType;
+use App\Product\Service\ProductEmailDelivery;
 use App\Tariff\Model\TariffId;
-use App\User\Model\User;
+use App\User\Model\UserId;
 use DateTimeImmutable;
 use Money\Currency;
 use Money\Money;
@@ -51,8 +50,7 @@ class ProductSpec extends ObjectBehavior
         $productEmailDelivery->beADoubleOf(ProductEmailDelivery::class);
         $productEmailDelivery
             ->deliver(Argument::any(), Argument::any())
-            ->willReturn(null)
-        ;
+            ->willReturn(null);
 
         $now = new DateTimeImmutable('now');
         $this->reserve();
@@ -64,8 +62,7 @@ class ProductSpec extends ObjectBehavior
         $productEmailDelivery->beADoubleOf(ProductEmailDelivery::class);
         $productEmailDelivery
             ->deliver(Argument::any(), Argument::any())
-            ->willReturn(null)
-        ;
+            ->willReturn(null);
 
         $now = new DateTimeImmutable('now');
         $this->deliver($productEmailDelivery, $now)->shouldReturnAnInstanceOf(ProductCantBeDeliveredIfNotReserved::class);
@@ -76,56 +73,18 @@ class ProductSpec extends ObjectBehavior
         $productEmailDelivery->beADoubleOf(ProductEmailDelivery::class);
         $productEmailDelivery
             ->deliver(Argument::any(), Argument::any())
-            ->willReturn(null)
-        ;
+            ->willReturn(null);
 
         $now = new DateTimeImmutable('now');
         $this->reserve();
         $this->deliver($productEmailDelivery, $now);
         $this
             ->shouldThrow(ProductReserveCantBeCancelledIfAlreadyDelivered::class)
-            ->during('cancelReserve')
-        ;
+            ->during('cancelReserve');
     }
 
-    public function it_should_be_part_of_the_order(User $user, Order $order)
+    public function it_should_not_be_part_of_the_order_which_is_not_related_to_same_event()
     {
-        $order->beADoubleOf(Order::class);
-        $user->beADoubleOf(User::class);
-        $user
-            ->makeOrder(Argument::cetera())
-            ->willReturn($order)
-        ;
-
-        $eventId  = EventId::new();
-        $tariffId = TariffId::new();
-        $this->beConstructedWith(
-            ProductId::new(),
-            $eventId,
-            $tariffId,
-            ProductType::ticket(),
-            new DateTimeImmutable('now')
-        );
-
-        $this->makeOrder(
-            OrderId::new(),
-            $eventId,
-            $tariffId,
-            new Money(100, new Currency('RUB')),
-            $user,
-            new DateTimeImmutable('now')
-        );
-    }
-
-    public function it_should_not_be_part_of_the_order_which_is_not_related_to_same_event(User $user, Order $order)
-    {
-        $order->beADoubleOf(Order::class);
-        $user->beADoubleOf(User::class);
-        $user
-            ->makeOrder(Argument::cetera())
-            ->willReturn($order)
-        ;
-
         $tariffId = TariffId::new();
         $this->beConstructedWith(
             ProductId::new(),
@@ -139,23 +98,15 @@ class ProductSpec extends ObjectBehavior
             OrderId::new(),
             EventId::new(),
             $tariffId,
+            UserId::new(),
             new Money(100, new Currency('RUB')),
-            $user,
             new DateTimeImmutable('now')
         )
-            ->shouldReturnAnInstanceOf(OrderAndProductMustBeRelatedToSameEvent::class)
-        ;
+            ->shouldReturnAnInstanceOf(OrderAndProductMustBeRelatedToSameEvent::class);
     }
 
-    public function it_should_not_be_part_of_the_order_which_is_not_related_to_same_tariff(User $user, Order $order)
+    public function it_should_not_be_part_of_the_order_which_is_not_related_to_same_tariff()
     {
-        $order->beADoubleOf(Order::class);
-        $user->beADoubleOf(User::class);
-        $user
-            ->makeOrder(Argument::cetera())
-            ->willReturn($order)
-        ;
-
         $eventId = EventId::new();
         $this->beConstructedWith(
             ProductId::new(),
@@ -169,12 +120,11 @@ class ProductSpec extends ObjectBehavior
             OrderId::new(),
             $eventId,
             TariffId::new(),
+            UserId::new(),
             new Money(100, new Currency('RUB')),
-            $user,
             new DateTimeImmutable('now')
         )
-            ->shouldReturnAnInstanceOf(OrderAndProductMustBeRelatedToSameTariff::class)
-        ;
+            ->shouldReturnAnInstanceOf(OrderAndProductMustBeRelatedToSameTariff::class);
     }
 
 //    public function it_should_be_possible_to_cancel_reserve()
