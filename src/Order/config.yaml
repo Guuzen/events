@@ -21,9 +21,3 @@ services:
     App\Order\OrderNotificationSubscriber:
         tags:
             - { name: app.notification_subscriber }
-
-    App\Order\Action\PlaceOrderRequestResolver:
-        arguments:
-            $serializer: '@app.infrastructure.http.serializer'
-        tags:
-            - { name: controller.argument_value_resolver, priority: 51 }

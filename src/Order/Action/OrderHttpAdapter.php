@@ -2,6 +2,7 @@
 
 namespace App\Order\Action;
 
+use App\Event\Model\EventId;
 use App\Infrastructure\Http\AppController;
 use App\Order\Model\OrderId;
 use App\User\Action\UserHandler;
@@ -28,16 +29,16 @@ final class OrderHttpAdapter extends AppController
     /**
      * @Route("/order/place", methods={"POST"})
      */
-    public function placeOrder(PlaceOrderRequest $placeOrderRequest): Response
+    public function placeOrder(PlaceOrderRequest $placeOrderRequest, EventId $eventId): Response
     {
         // TODO create user must be idempotent. Maybe this method should be named in other way
         $userId  = UserId::new();
 
         /** @var OrderId $orderId */
-        $orderId = $this->em->transactional(function () use ($placeOrderRequest, $userId) {
+        $orderId = $this->em->transactional(function () use ($placeOrderRequest, $userId, $eventId) {
             $this->userHandler->createUser($placeOrderRequest->toCreateUser((string)$userId));
 
-            return $this->orderHandler->placeOrder($placeOrderRequest->toPlaceOrder((string)$userId));
+            return $this->orderHandler->placeOrder($placeOrderRequest->toPlaceOrder((string)$userId, (string)$eventId));
         });
 
         return $this->response($orderId);

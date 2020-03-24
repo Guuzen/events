@@ -15,8 +15,6 @@ services:
     App\Infrastructure\Http\RequestResolver\AppRequestResolver:
         arguments:
             $serializer: '@app.infrastructure.http.serializer'
-        tags:
-            - { name: controller.argument_value_resolver, priority: 50 }
 
     # SERIALIZER
     app.infrastructure.http.serializer.normalizer.datetime:

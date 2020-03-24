@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\Http\FindEventIdByDomain;
+namespace App\Infrastructure\Http\EventIdResolver;
 
 use Doctrine\DBAL\Connection;
 

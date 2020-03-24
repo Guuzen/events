@@ -26,15 +26,12 @@ final class PlaceOrderRequest implements AppRequest
 
     private $phone;
 
-    private $eventId;
-
     public function __construct(
         string $firstName,
         string $lastName,
         string $email,
         string $tariffId,
-        string $phone,
-        string $eventId
+        string $phone
     )
     {
         $this->firstName = $firstName;
@@ -42,7 +39,6 @@ final class PlaceOrderRequest implements AppRequest
         $this->email     = $email;
         $this->tariffId  = $tariffId;
         $this->phone     = $phone;
-        $this->eventId   = $eventId;
     }
 
     public function toCreateUser(string $userId): CreateUser
@@ -50,8 +46,8 @@ final class PlaceOrderRequest implements AppRequest
         return new CreateUser($userId, $this->firstName, $this->lastName, $this->email, $this->phone);
     }
 
-    public function toPlaceOrder(string $userId): PlaceOrder
+    public function toPlaceOrder(string $userId, string $eventId): PlaceOrder
     {
-        return new PlaceOrder($this->tariffId, $this->eventId, $userId);
+        return new PlaceOrder($this->tariffId, $eventId, $userId);
     }
 }
