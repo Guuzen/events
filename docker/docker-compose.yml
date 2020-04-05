@@ -39,6 +39,25 @@ services:
       POSTGRES_USER: user
       POSTGRES_DB: ${COMPOSE_PROJECT_NAME}
 
+  nodejs:
+    container_name: ${COMPOSE_PROJECT_NAME}-nodejs
+    image: node:12-stretch
+    command: ["tail", "-f", "/dev/null"]
+    working_dir: /usr/src/app
+    networks:
+      default:
+        ipv4_address: ${COMPOSE_NETWORK_BASE_ADDRESS}5
+    volumes:
+      - ./../:/usr/src/app
+
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - ${COMPOSE_MAILHOG_PORT}
+    networks:
+      default:
+        ipv4_address: ${COMPOSE_NETWORK_BASE_ADDRESS}6
+
 networks:
   default:
     driver: bridge

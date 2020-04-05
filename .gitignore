@@ -33,3 +33,7 @@
 /phpunit.xml
 .phpunit.result.cache
 ###< phpunit/phpunit ###
+
+###> nodejs api tests
+/node_modules
+###< nodejs api tests
