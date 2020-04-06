@@ -25,6 +25,7 @@ const responseSnapshotTemplate = require('./matchTemplates/responseSnapshotTempl
 
 beforeAll(async () => {
     await testDatabase.prepare();
+    await emailClient.receiveEmails();
 });
 
 afterAll(async () => {

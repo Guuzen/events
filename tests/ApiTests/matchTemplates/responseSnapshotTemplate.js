@@ -1,8 +1,18 @@
 function responseSnapshotTemplate(bodyData) {
+    if (bodyData === undefined) {
+        return axiosResponseTemplate();
+    }
+
+    const template = axiosResponseTemplate();
+    template.data = {
+        data: bodyData
+    };
+
+    return template;
+}
+
+function axiosResponseTemplate() {
     return {
-        data: {
-            data: bodyData
-        },
         statusText: expect.anything(),
         headers: expect.anything(),
         config: expect.anything(),

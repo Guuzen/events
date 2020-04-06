@@ -11,6 +11,10 @@ class Visitor {
     getReceivedEmails() {
         return this.emailClient.receiveEmails();
     }
+
+    payOrderByCard(data) {
+        return this.httpClient.post('/order/payByCard', data);
+    }
 }
 
 module.exports = Visitor;
