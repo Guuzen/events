@@ -1,7 +1,7 @@
 class Visitor {
-    constructor(httpClient, mailHttpClient) {
+    constructor(httpClient, emailClient) {
         this.httpClient = httpClient;
-        this.mailHttpClient = mailHttpClient;
+        this.emailClient = emailClient;
     }
 
     placeOrder(data) {
@@ -9,7 +9,7 @@ class Visitor {
     }
 
     getReceivedEmails() {
-        return this.mailHttpClient.get('/api/v2/messages');
+        return this.emailClient.receiveEmails();
     }
 }
 

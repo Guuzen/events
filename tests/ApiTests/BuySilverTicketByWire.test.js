@@ -1,32 +1,37 @@
 "use strict";
-const prepareDb = require('./infrastructure/prepareDb');
 const postgres = require('postgres');
+const axios = require('axios').default;
+
+const TestDatabase = require('./services/TestDatabase');
+const testDatabaseConnection = postgres(require('./config/testDatabaseConfig'));
+const testDatabase = new TestDatabase(testDatabaseConnection);
+
+const EmailClient = require('./services/EmailClient');
+const emailClient = new EmailClient(
+    axios.create(require('./config/emailClientConfig'))
+);
+
+const eventsHttpClient = axios.create(require('./config/eventsClientConfig'));
 
 const Manager = require('./actors/Manager');
+const manager = new Manager(eventsHttpClient);
+
 const Visitor = require('./actors/Visitor');
+const visitor = new Visitor(eventsHttpClient, emailClient);
 
 const emailTemplate = require('./matchTemplates/emailTemplate');
 const responseTemplate = require('./matchTemplates/responseTemplate');
 const responseSnapshotTemplate = require('./matchTemplates/responseSnapshotTemplate');
 
-const sql = postgres('postgres://user:password@guuzen-events-pgsql:5432/guuzen-events-test');
-
-const eventsHttpClient = require('./infrastructure/eventsHttpClient');
-const mailHttpClient = require('./infrastructure/mailHttpClient');
-
-const manager = new Manager(eventsHttpClient);
-const visitor = new Visitor(eventsHttpClient, mailHttpClient);
-
-jest.setTimeout(100 * 1000);
-
 beforeAll(async () => {
-    await prepareDb(sql);
-    await mailHttpClient.delete('/api/v1/messages');
+    await testDatabase.prepare();
 });
 
 afterAll(async () => {
-    await sql.end();
+    await testDatabaseConnection.end();
 });
+
+jest.setTimeout(100 * 1000);
 
 describe('Buy silver ticket by wire without promocode', function () {
     let eventId;
@@ -237,15 +242,9 @@ describe('Buy silver ticket by wire without promocode', function () {
     test('visitor receives email with ticket', async () => {
         const response = await visitor.getReceivedEmails();
         expect(response).toMatchSnapshot({
-            data: {
-                items: [
-                    emailTemplate(),
-                ]
-            },
-            statusText: expect.anything(),
-            headers: expect.anything(),
-            config: expect.anything(),
-            request: expect.anything(),
+            items: [
+                emailTemplate(),
+            ]
         });
     });
 

@@ -1,7 +1,6 @@
-const axios = require('axios');
 const axiosHttpAdapter = require('axios/lib/adapters/http');
 
-const mailHttpClient = axios.create({
+const emailClientConfig = {
     baseURL: 'http://mailhog:8025',
     headers: {
         'Content-Type': 'application/json'
@@ -16,6 +15,6 @@ const mailHttpClient = axios.create({
         return data;
     },
     validateStatus: status => true,
-});
+};
 
-module.exports = mailHttpClient;
+module.exports = emailClientConfig;

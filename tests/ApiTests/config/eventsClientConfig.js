@@ -1,7 +1,6 @@
-const axios = require('axios');
 const axiosHttpAdapter = require('axios/lib/adapters/http');
 
-const eventsHttpClient = axios.create({
+const eventsClientConfig = {
     baseURL: 'http://guuzen-events-nginx',
     headers: {
         'Content-Type': 'application/json'
@@ -11,6 +10,6 @@ const eventsHttpClient = axios.create({
     },
     adapter: axiosHttpAdapter,
     validateStatus: status => true,
-});
+};
 
-module.exports = eventsHttpClient;
+module.exports = eventsClientConfig;
