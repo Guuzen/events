@@ -1,10 +1,10 @@
-actor: ApiTester
+actor: Visitor
 modules:
     enabled:
         -   App\Tests\Module\REST:
                 depends: PhpBrowser
         -   PhpBrowser:
-                url: http://web
+                url: http://2019foo.event.com
                 headers:
                     Accept: application/json
                     Content-Type: application/json

@@ -29,7 +29,7 @@ class Api extends Module
 
     public function _initialize(): void
     {
-        $this->restModule = $this->getModule('REST');
+        $this->restModule = $this->getModule(\App\Tests\Module\REST::class);
         $this->serializer = new Serializer(
             [
                 new DateTimeNormalizer([DateTimeNormalizer::FORMAT_KEY => 'Y-m-d H:i:s'], new DateTimeZone('UTC')),
@@ -55,17 +55,21 @@ class Api extends Module
     public function seeResponseContainsJson($pattern = null): void
     {
         $pattern = [
-            'data' => $this->serializer->normalize($pattern),
+            'data' => $pattern,
         ];
-        $pattern = $this->serializer->encode($pattern, 'json');
 
-        $this->assertMatchesPattern($pattern, $this->restModule->grabResponse());
+        $this->restModule->seeResponseContainsJson($pattern);
     }
 
     public function sendPOST(string $url, $params = [], $files = []): void
     {
         $params = $this->serializer->normalize($params);
 
+        $this->restModule->sendPOST($url, $params, $files);
+    }
+
+    public function sendPostJson(string $url, array $params = [], array $files = []): void
+    {
         $this->restModule->sendPOST($url, $params, $files);
     }
 }

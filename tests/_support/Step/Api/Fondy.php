@@ -10,7 +10,7 @@ final class Fondy extends ApiTester
     public function orderPaid(MarkPaidByFondy $markPaidByFondy): void
     {
         $I = $this;
-        $I->insulate();
+//        $I->insulate();
 
         $I->sendPOST('/order/markPaidByFondy', $markPaidByFondy);
 

@@ -1,17 +1,33 @@
 <?php
-
-namespace App\Tests\Step\Api;
+namespace App\Tests;
 
 use App\Tests\Contract\AppRequest\Order\PayOrderByCard;
 use App\Tests\Contract\AppRequest\Order\PlaceOrder;
 
-class Visitor extends \App\Tests\ApiTester
+/**
+ * Inherited Methods
+ * @method void wantToTest($text)
+ * @method void wantTo($text)
+ * @method void execute($callable)
+ * @method void expectTo($prediction)
+ * @method void expect($prediction)
+ * @method void amGoingTo($argumentation)
+ * @method void am($role)
+ * @method void lookForwardTo($achieveValue)
+ * @method void comment($description)
+ * @method void pause()
+ *
+ * @SuppressWarnings(PHPMD)
+*/
+class Visitor extends \Codeception\Actor
 {
-    public function placeOrder(PlaceOrder $placeOrder): string
+    use _generated\VisitorActions;
+
+    public function placeOrder(array $placeOrder): string
     {
         $I = $this;
 
-        $I->haveHttpHeader('HOST', '2019foo.event.com');
+        $I->haveHttpHeader('HOST', '2019foo.event.com'); // TODO move to nginx ?
         $I->sendPOST('/order/place', $placeOrder);
 
         $I->seeResponseCodeIsSuccessful();
