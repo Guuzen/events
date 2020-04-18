@@ -51,4 +51,9 @@ final class WithoutConstructorPropertyNormalizer extends PropertyNormalizer
 
         return parent::getAttributeValue($object, $attribute, $format, $context);
     }
+
+    public function supportsDenormalization($data, $type, $format = null): bool
+    {
+        return class_exists($type) || (interface_exists($type, false) && $this->classDiscriminatorResolver && null !== $this->classDiscriminatorResolver->getMappingForClass($type));
+    }
 }
