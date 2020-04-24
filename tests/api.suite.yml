@@ -8,5 +8,4 @@ modules:
                 headers:
                     Accept: application/json
                     Content-Type: application/json
-        -   App\Tests\Helper\Api
         -   Asserts

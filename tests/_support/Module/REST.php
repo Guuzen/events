@@ -7,8 +7,10 @@ namespace App\Tests\Module;
 use Codeception\Util\JsonType;
 use Ramsey\Uuid\Uuid;
 
-final class REST extends \Codeception\Module\REST
+class REST extends \Codeception\Module\REST
 {
+    private const ID_PATH = '$.data.id';
+
     public function _initialize(): void
     {
         parent::_initialize();
@@ -42,5 +44,24 @@ final class REST extends \Codeception\Module\REST
             END
             $$;
         ');
+    }
+
+    public function seeResponseContainsId(): void
+    {
+        $this->seeResponseMatchesJsonType(['string:uuid'], self::ID_PATH);
+    }
+
+    public function grabIdFromResponse(): string
+    {
+        return $this->grabDataFromResponseByJsonPath(self::ID_PATH)[0];
+    }
+
+    public function seeResponseContainsJson($pattern = null): void
+    {
+        $pattern = [
+            'data' => $pattern,
+        ];
+
+        parent::seeResponseContainsJson($pattern);
     }
 }

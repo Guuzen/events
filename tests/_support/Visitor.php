@@ -3,6 +3,7 @@ namespace App\Tests;
 
 use App\Tests\Contract\AppRequest\Order\PayOrderByCard;
 use App\Tests\Contract\AppRequest\Order\PlaceOrder;
+use Codeception\Scenario;
 
 /**
  * Inherited Methods
@@ -19,7 +20,7 @@ use App\Tests\Contract\AppRequest\Order\PlaceOrder;
  *
  * @SuppressWarnings(PHPMD)
 */
-class Visitor extends \Codeception\Actor
+class Visitor extends ApiTester
 {
     use _generated\VisitorActions;
 
@@ -36,7 +37,7 @@ class Visitor extends \Codeception\Actor
         return $I->grabIdFromResponse();
     }
 
-    public function payOrderByCard(PayOrderByCard $payOrderByCard): string
+    public function payOrderByCard(array $payOrderByCard): string
     {
         $I = $this;
 

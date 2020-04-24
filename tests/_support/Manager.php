@@ -1,19 +1,37 @@
 <?php
 
-namespace App\Tests\Step\Api;
+namespace App\Tests;
 
-use App\Tests\ApiTester;
-use App\Tests\Contract\AppRequest\CreateFixedPromocode\CreateFixedPromocode;
 use App\Tests\Contract\AppResponse\EmailWithTicket;
-use App\Tests\Contract\AppResponse\PromocodeInList\PromocodeInList;
+use App\Tests\Module\REST;
+use Codeception\Lib\Di;
+use Codeception\Lib\ModuleContainer;
+use Codeception\Module\PhpBrowser;
+use Codeception\Scenario;
 
-class Manager extends ApiTester
+/**
+ * Inherited Methods
+ * @method void wantToTest($text)
+ * @method void wantTo($text)
+ * @method void execute($callable)
+ * @method void expectTo($prediction)
+ * @method void expect($prediction)
+ * @method void amGoingTo($argumentation)
+ * @method void am($role)
+ * @method void lookForwardTo($achieveValue)
+ * @method void comment($description)
+ * @method void pause()
+ *
+ * @SuppressWarnings(PHPMD)
+ */
+class Manager extends \Codeception\Actor
 {
+    use _generated\ManagerActions;
+
     public function createsEvent(array $createEvent): string
     {
         $I = $this;
-
-        $I->sendPostJson('/admin/event/create', $createEvent);
+        $I->sendPOST('/admin/event/create', $createEvent);
 
         $I->seeResponseCodeIsSuccessful();
         $I->seeResponseContainsId();
@@ -157,7 +175,7 @@ class Manager extends ApiTester
         ], '$.data');
     }
 
-    public function createsPromocode(CreateFixedPromocode $createPromocode): string
+    public function createsPromocode(array $createPromocode): string
     {
         $I = $this;
 
@@ -169,7 +187,7 @@ class Manager extends ApiTester
         return $I->grabIdFromResponse();
     }
 
-    public function seePromocodeCreatedInList(string $eventId, PromocodeInList $promocodeInList): void
+    public function seePromocodeCreatedInList(string $eventId, array $promocodesInList): void
     {
         $I = $this;
 
@@ -178,7 +196,7 @@ class Manager extends ApiTester
         ]);
 
         $I->seeResponseCodeIsSuccessful();
-        $I->seeResponseContainsJson([$promocodeInList]);
+        $I->seeResponseContainsJson($promocodesInList);
     }
 
     public function markOrderPaid(array $markOrderPaid): void
