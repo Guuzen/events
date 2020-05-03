@@ -5,50 +5,14 @@
     "amphp/byte-stream": {
         "version": "v1.6.1"
     },
-    "behat/gherkin": {
-        "version": "v4.6.0"
-    },
     "cardinity/cardinity-sdk-php": {
         "version": "v2.1.0"
     },
-    "codeception/codeception": {
-        "version": "2.3",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
-            "version": "2.3",
-            "ref": "d2a29c0abee586aff913fd45fae1f59b669f4cbe"
-        },
-        "files": [
-            "codeception.yml",
-            "tests/_data/.gitignore",
-            "tests/_output/.gitignore",
-            "tests/_support/AcceptanceTester.php",
-            "tests/_support/FunctionalTester.php",
-            "tests/_support/Helper/Acceptance.php",
-            "tests/_support/Helper/Functional.php",
-            "tests/_support/Helper/Unit.php",
-            "tests/_support/UnitTester.php",
-            "tests/_support/_generated/.gitignore",
-            "tests/acceptance/.gitignore",
-            "tests/functional/.gitignore",
-            "tests/unit/.gitignore",
-            "tests/acceptance.suite.yml",
-            "tests/functional.suite.yml",
-            "tests/unit.suite.yml"
-        ]
-    },
-    "codeception/phpunit-wrapper": {
-        "version": "8.0.4"
-    },
-    "codeception/stub": {
-        "version": "2.1.0"
-    },
     "coduo/php-matcher": {
-        "version": "3.2.2"
+        "version": "4.0.0"
     },
     "coduo/php-to-string": {
-        "version": "2.0.1"
+        "version": "3.0.0"
     },
     "composer/semver": {
         "version": "1.5.0"
@@ -134,9 +98,6 @@
     "egulias/email-validator": {
         "version": "2.1.7"
     },
-    "facebook/webdriver": {
-        "version": "1.7.1"
-    },
     "felixfbecker/advanced-json-rpc": {
         "version": "v3.0.3"
     },
@@ -148,9 +109,6 @@
     },
     "firebase/php-jwt": {
         "version": "v5.0.0"
-    },
-    "flow/jsonpath": {
-        "version": "0.4.0"
     },
     "friendsofphp/php-cs-fixer": {
         "version": "2.2",
@@ -179,6 +137,9 @@
     "google/auth": {
         "version": "v1.4.0"
     },
+    "guzzle/guzzle": {
+        "version": "v3.8.1"
+    },
     "guzzlehttp/guzzle": {
         "version": "6.3.3"
     },
@@ -191,38 +152,20 @@
     "guzzlehttp/psr7": {
         "version": "1.5.2"
     },
-    "hoa/consistency": {
-        "version": "1.17.05.02"
-    },
-    "hoa/console": {
-        "version": "3.17.05.02"
-    },
-    "hoa/event": {
-        "version": "1.17.01.13"
-    },
-    "hoa/exception": {
-        "version": "1.17.01.16"
-    },
-    "hoa/file": {
-        "version": "1.17.07.11"
-    },
-    "hoa/iterator": {
-        "version": "2.17.01.10"
-    },
-    "hoa/protocol": {
-        "version": "1.17.01.14"
-    },
-    "hoa/stream": {
-        "version": "1.17.02.21"
-    },
-    "hoa/ustring": {
-        "version": "4.17.01.16"
+    "internations/http-mock": {
+        "version": "0.13.0"
     },
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },
+    "jeremeamia/superclosure": {
+        "version": "2.4.0"
+    },
     "league/event": {
         "version": "2.2.0"
+    },
+    "lstrojny/hmmmath": {
+        "version": "0.7.1"
     },
     "moneyphp/money": {
         "version": "v3.2.0"
@@ -231,7 +174,7 @@
         "version": "1.24.0"
     },
     "myclabs/deep-copy": {
-        "version": "1.9.3"
+        "version": "1.9.5"
     },
     "netresearch/jsonmapper": {
         "version": "v1.6.0"
@@ -276,7 +219,7 @@
         "version": "1.8.0"
     },
     "phpunit/php-code-coverage": {
-        "version": "7.0.7"
+        "version": "7.0.10"
     },
     "phpunit/php-file-iterator": {
         "version": "2.0.2"
@@ -288,7 +231,7 @@
         "version": "2.1.2"
     },
     "phpunit/php-token-stream": {
-        "version": "3.1.0"
+        "version": "3.1.1"
     },
     "phpunit/phpunit": {
         "version": "4.7",
@@ -296,14 +239,16 @@
             "repo": "github.com/symfony/recipes",
             "branch": "master",
             "version": "4.7",
-            "ref": "33b1f53500a7b822985048baf55456aa5281405a"
+            "ref": "00fdb38c318774cd39f475a753028a5e8d25d47c"
         },
         "files": [
             ".env.test",
             "phpunit.xml.dist",
-            "config/bootstrap.php",
-            "tests/.gitignore"
+            "tests/bootstrap.php"
         ]
+    },
+    "pimple/pimple": {
+        "version": "v3.3.0"
     },
     "psr/cache": {
         "version": "1.0.1"
@@ -339,7 +284,7 @@
         "version": "3.0.1"
     },
     "sebastian/environment": {
-        "version": "4.2.2"
+        "version": "4.2.3"
     },
     "sebastian/exporter": {
         "version": "3.1.0"
@@ -373,6 +318,9 @@
             "version": "5.2",
             "ref": "fb7e19da7f013d0d422fa9bce16f5c510e27609b"
         }
+    },
+    "silex/silex": {
+        "version": "v2.3.0"
     },
     "swiftmailer/swiftmailer": {
         "version": "v6.1.3"

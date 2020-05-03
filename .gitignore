@@ -28,12 +28,11 @@
 /.php_cs
 /.php_cs.cache
 ###< friendsofphp/php-cs-fixer ###
+###> nodejs api tests
+/node_modules
+###< nodejs api tests
 
 ###> phpunit/phpunit ###
 /phpunit.xml
 .phpunit.result.cache
 ###< phpunit/phpunit ###
-
-###> nodejs api tests
-/node_modules
-###< nodejs api tests

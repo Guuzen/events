@@ -6,8 +6,10 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-json": "*",
+        "ext-pdo": "*",
         "cardinity/cardinity-sdk-php": "^2.1",
         "google/apiclient": "^2.2",
+        "guzzlehttp/guzzle": "^6.5",
         "league/event": "^2.2",
         "moneyphp/money": "^3.2",
         "ramsey/uuid": "^3.8",
@@ -33,11 +35,11 @@
         "symfony/yaml": "^4.0"
     },
     "require-dev": {
-        "codeception/codeception": "^3.0",
-        "coduo/php-matcher": "^3.2",
-        "flow/jsonpath": "^0.4.0",
+        "coduo/php-matcher": "^4.0",
         "friendsofphp/php-cs-fixer": "^2.15",
+        "internations/http-mock": "^0.13.0",
         "phpspec/phpspec": "^5.1",
+        "phpunit/phpunit": "^8.5",
         "symfony/debug-pack": "*",
         "symfony/maker-bundle": "^1.0",
         "symfony/profiler-pack": "*",
@@ -59,7 +61,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "App\\Tests\\": "tests/"
+            "Tests\\": "tests/"
         }
     },
     "replace": {

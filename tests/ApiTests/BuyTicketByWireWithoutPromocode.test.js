@@ -32,7 +32,7 @@ afterAll(async () => {
     await testDatabaseConnection.end();
 });
 
-jest.setTimeout(100 * 1000);
+jest.setTimeout(10 * 1000);
 
 describe('Buy silver ticket by wire without promocode', function () {
     let eventId;

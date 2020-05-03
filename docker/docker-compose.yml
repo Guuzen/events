@@ -1,68 +1,64 @@
-version: '3'
+version: '3.5'
 services:
   web:
-    container_name: ${COMPOSE_PROJECT_NAME}-nginx
+    container_name: guuzen-events-nginx
     image: nginx:1.12
     ports:
       - ${COMPOSE_WEB_PORT}
     networks:
-      default:
-        ipv4_address: ${COMPOSE_NETWORK_BASE_ADDRESS}2
+      guuzen-events:
         aliases:
           - 2019foo.event.com
     volumes:
       - ./nginx/config.conf:/etc/nginx/conf.d/default.conf
       - ./../:/var/www/html
   backend:
-    container_name: ${COMPOSE_PROJECT_NAME}-php
+    container_name: guuzen-events-php
     environment:
       PHP_IDE_CONFIG: serverName=local
       XDEBUG_CONFIG: ide
     build:
       context: ./php
       args:
-        - HOST_UID=${HOST_UID}
-    user: ${HOST_UID}
+        - HOST_UID=1000
+    user: '1000'
     networks:
-      default:
-        ipv4_address: ${COMPOSE_NETWORK_BASE_ADDRESS}3
+      - guuzen-events
     volumes:
       - ./../:/var/www/html
       - ./php/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
       - ./php/php.ini:/usr/local/etc/php/conf.d/php.ini
   db:
-    container_name: ${COMPOSE_PROJECT_NAME}-pgsql
+    container_name: guuzen-events-pgsql
     image: postgres:10.3
+    ports:
+      - "8130:5432"
     networks:
-      default:
-        ipv4_address: ${COMPOSE_NETWORK_BASE_ADDRESS}4
+      - guuzen-events
     environment:
       POSTGRES_PASSWORD: password
       POSTGRES_USER: user
-      POSTGRES_DB: ${COMPOSE_PROJECT_NAME}
+      POSTGRES_DB: guuzen-events
 
   nodejs:
-    container_name: ${COMPOSE_PROJECT_NAME}-nodejs
+    container_name: guuzen-events-nodejs
     image: node:12-stretch
     command: ["tail", "-f", "/dev/null"]
     working_dir: /usr/src/app
     networks:
-      default:
-        ipv4_address: ${COMPOSE_NETWORK_BASE_ADDRESS}5
+      - guuzen-events
     volumes:
       - ./../:/usr/src/app
 
   mailhog:
     image: mailhog/mailhog
+    container_name: guuzen-events-mailhog
     ports:
       - ${COMPOSE_MAILHOG_PORT}
     networks:
-      default:
-        ipv4_address: ${COMPOSE_NETWORK_BASE_ADDRESS}6
+      - guuzen-events
 
 networks:
-  default:
+  guuzen-events:
     driver: bridge
-    ipam:
-      config:
-        - subnet: ${COMPOSE_NETWORK_BASE_ADDRESS}0/16
+    name: guuzen-events

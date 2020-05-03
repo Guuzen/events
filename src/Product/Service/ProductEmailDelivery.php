@@ -9,7 +9,7 @@ use App\Product\Service\Error\ProductEmailNotFound;
 use App\Product\Service\Error\ProductNotDelivered;
 use Swift_Mailer;
 
-class ProductEmailDelivery
+final class ProductEmailDelivery
 {
     private $mailer;
 
