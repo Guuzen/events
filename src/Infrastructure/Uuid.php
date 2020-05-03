@@ -4,6 +4,7 @@ namespace App\Infrastructure;
 
 /**
  * @template T
+ * @psalm-immutable
  */
 abstract class Uuid
 {

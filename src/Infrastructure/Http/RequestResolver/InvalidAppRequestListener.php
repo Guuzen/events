@@ -10,16 +10,16 @@ class InvalidAppRequestListener
 {
     public function onKernelException(ExceptionEvent $event): void
     {
-        $exception = $event->getException();
+        $exception = $event->getThrowable();
 
         if ($exception instanceof InvalidAppRequest) {
             /** @var InvalidAppRequest $exception */
-            $errors = array_map(function (ConstraintViolationInterface $error) {
+            $errors = \array_map(function (ConstraintViolationInterface $error) {
                 return [
                     'field'   => $error->getPropertyPath(),
                     'message' => $error->getMessage(),
                 ];
-            }, iterator_to_array($exception->errors()));
+            }, \iterator_to_array($exception->errors()));
 
             $response = new JsonResponse([
                 'errors' => $errors,

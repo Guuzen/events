@@ -23,9 +23,9 @@ final class HttpEmailTransport implements \Swift_Transport
         $this->client = $client;
     }
 
-    public function isStarted()
+    public function isStarted(): bool
     {
-
+        return true;
     }
 
     public function start(): void
@@ -38,20 +38,22 @@ final class HttpEmailTransport implements \Swift_Transport
 
     }
 
-    public function ping()
+    public function ping(): bool
     {
-
+        return true;
     }
 
-    public function send(Swift_Mime_SimpleMessage $message, &$failedRecipients = null)
+    public function send(Swift_Mime_SimpleMessage $message, &$failedRecipients = null): int
     {
-        $this->client->post('/send_ticket_email', [
+        $this->client->request('POST', '/send_ticket_email', [
             'json' => [
                 'subject' => $message->getSubject(),
                 'from'    => $message->getFrom(),
                 'to'      => $message->getTo(),
             ],
         ]);
+
+        return 1;
     }
 
     public function registerPlugin(Swift_Events_EventListener $plugin): void
