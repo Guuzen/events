@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Product\Service;
+namespace App\Product\Action\SendTicket\FindTicketEmail;
 
-use App\Product\Service\Error\TicketEmailNotFound;
+use App\Product\Model\TicketId;
 use Doctrine\DBAL\Connection;
 
+// TODO rename GetTicketEmail ?
 final class FindTicketEmail
 {
     private $connection;
@@ -14,12 +15,10 @@ final class FindTicketEmail
         $this->connection = $connection;
     }
 
-    // TODO delivery address in order ?
-
     /**
      * @return TicketEmail|TicketEmailNotFound
      */
-    public function find(string $ticketId)
+    public function find(TicketId $ticketId)
     {
         $stmt = $this->connection->prepare('
             select
@@ -33,7 +32,7 @@ final class FindTicketEmail
                 "user" on "user".id = "order".user_id
             where ticket.id = :ticket_id
         ');
-        $stmt->bindValue('ticket_id', $ticketId);
+        $stmt->bindValue('ticket_id', (string)$ticketId);
         $stmt->execute();
 
         /** @var array{email: string, number: string}|false */

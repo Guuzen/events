@@ -29,7 +29,7 @@ final class ProductType
             return;
         }
 
-        throw new \Exception(sprintf('unknown product type %s', $type));
+        throw new \Exception(\sprintf('unknown product type %s', $type));
     }
 
     public static function broadcastLink(): self
@@ -40,6 +40,11 @@ final class ProductType
     public static function ticket(): self
     {
         return new self(self::TICKET);
+    }
+
+    public function equals(self $productType): bool
+    {
+        return $this->type === $productType->type;
     }
 
     public function __toString(): string

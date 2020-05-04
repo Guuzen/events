@@ -9,16 +9,15 @@ use App\Product\Model\Error\OrderAndProductMustBeRelatedToSameTariff;
 use App\Product\Model\Error\ProductCantBeDeliveredIfNotReserved;
 use App\Product\Model\Error\ProductCantBeReservedIfAlreadyReserved;
 use App\Product\Model\Exception\ProductReserveCantBeCancelledIfAlreadyDelivered;
+use App\Product\Model\ProductDelivered;
 use App\Product\Model\ProductId;
 use App\Product\Model\ProductType;
-use App\Product\Service\ProductEmailDelivery;
 use App\Tariff\Model\TariffId;
 use App\User\Model\UserId;
 use DateTimeImmutable;
 use Money\Currency;
 use Money\Money;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class ProductSpec extends ObjectBehavior
 {
@@ -45,39 +44,34 @@ class ProductSpec extends ObjectBehavior
         $this->reserve()->shouldReturnAnInstanceOf(ProductCantBeReservedIfAlreadyReserved::class);
     }
 
-    public function it_should_be_delivered_if_reserved(ProductEmailDelivery $productEmailDelivery)
+    public function it_should_be_deliverable_if_reserved()
     {
-        $productEmailDelivery->beADoubleOf(ProductEmailDelivery::class);
-        $productEmailDelivery
-            ->deliver(Argument::any(), Argument::any())
-            ->willReturn(null);
+        $this->beConstructedWith(
+            $productId = ProductId::new(),
+            EventId::new(),
+            TariffId::new(),
+            $productType = ProductType::ticket(),
+            new DateTimeImmutable(),
+            $reserved = false
+        );
 
         $now = new DateTimeImmutable('now');
         $this->reserve();
-        $this->deliver($productEmailDelivery, $now)->shouldReturn(null);
+        $this->deliver($now)->shouldReturn(null);
+        $this->releaseEvents()->shouldBeLike([new ProductDelivered($productId, $productType)]);
     }
 
-    public function it_should_not_be_delivered_if_not_reserved(ProductEmailDelivery $productEmailDelivery)
+    public function it_should_not_be_delivered_if_not_reserved()
     {
-        $productEmailDelivery->beADoubleOf(ProductEmailDelivery::class);
-        $productEmailDelivery
-            ->deliver(Argument::any(), Argument::any())
-            ->willReturn(null);
-
         $now = new DateTimeImmutable('now');
-        $this->deliver($productEmailDelivery, $now)->shouldReturnAnInstanceOf(ProductCantBeDeliveredIfNotReserved::class);
+        $this->deliver($now)->shouldReturnAnInstanceOf(ProductCantBeDeliveredIfNotReserved::class);
     }
 
-    public function its_reserve_cant_be_cancelled_if_already_delivered(ProductEmailDelivery $productEmailDelivery)
+    public function its_reserve_cant_be_cancelled_if_already_delivered()
     {
-        $productEmailDelivery->beADoubleOf(ProductEmailDelivery::class);
-        $productEmailDelivery
-            ->deliver(Argument::any(), Argument::any())
-            ->willReturn(null);
-
         $now = new DateTimeImmutable('now');
         $this->reserve();
-        $this->deliver($productEmailDelivery, $now);
+        $this->deliver($now);
         $this
             ->shouldThrow(ProductReserveCantBeCancelledIfAlreadyDelivered::class)
             ->during('cancelReserve');

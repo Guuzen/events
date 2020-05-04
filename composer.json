@@ -12,6 +12,7 @@
         "guzzlehttp/guzzle": "^6.5",
         "league/event": "^2.2",
         "moneyphp/money": "^3.2",
+        "phpspec/phpspec": "^6.0",
         "ramsey/uuid": "^3.8",
         "scienta/doctrine-json-functions": "^4.0",
         "sensio/framework-extra-bundle": "^5.1",
@@ -39,7 +40,6 @@
         "coduo/php-matcher": "^4.0",
         "friendsofphp/php-cs-fixer": "^2.15",
         "internations/http-mock": "^0.13.0",
-        "phpspec/phpspec": "^5.1",
         "phpunit/phpunit": "^8.5",
         "symfony/debug-pack": "*",
         "symfony/maker-bundle": "^1.0",
@@ -90,8 +90,7 @@
             "@codecept"
         ],
         "spec": "phpspec run --ansi",
-        "psalm": "psalm --no-cache",
-        "codecept": "codecept run --fail-fast --steps"
+        "psalm": "psalm --no-cache"
     },
     "conflict": {
         "symfony/symfony": "*"

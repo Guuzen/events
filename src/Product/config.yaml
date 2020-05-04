@@ -21,28 +21,6 @@ services:
     App\Product\Model\Products: ~
     App\Product\Model\Tickets: ~
 
-    App\Product\Service\ProductEmailDelivery:
-        arguments:
-            $mailer: !service
-                class: Swift_Mailer
-                arguments:
-                    $transport: !service
-                        class: App\Infrastructure\Email\HttpEmailTransport
-                        arguments:
-                            $client: !service
-                                class: GuzzleHttp\Client
-                                arguments:
-                                    $config:
-                                        base_uri: 'http://localhost:8001'
-            $productEmailFactoryDispatcher: !service
-                class: App\Product\Service\ProductEmailFactoryDispatcher
-                arguments:
-                    $factoryMap:
-                        !php/const App\Product\Model\ProductType::TICKET: !service
-                            class: App\Product\Service\TicketEmailFactory
-                            arguments:
-                                $findTicketEmail: !service
-                                    class: App\Product\Service\FindTicketEmail
-                                    arguments:
-                                        $connection: '@doctrine.dbal.default_connection'
-                                $from: '%app.no_reply_email%'
+    App\Product\ProductEventsSubscriber:
+        tags:
+            - { name: app.notification_subscriber } # todo not notification subscriber, rename ?

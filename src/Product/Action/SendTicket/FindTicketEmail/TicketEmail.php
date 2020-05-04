@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Product\Service;
+namespace App\Product\Action\SendTicket\FindTicketEmail;
 
 /**
  * @psalm-immutable

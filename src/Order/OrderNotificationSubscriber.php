@@ -6,6 +6,7 @@ use App\Common\Error;
 use App\Order\Model\OrderMarkedPaid;
 use App\Product\Action\DeliverProduct;
 use App\Product\Action\ProductHandler;
+use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -15,9 +16,12 @@ final class OrderNotificationSubscriber implements EventSubscriberInterface
 
     private $logger;
 
-    public function __construct(ProductHandler $productHandler, LoggerInterface $logger)
+    private $em;
+
+    public function __construct(ProductHandler $productHandler, EntityManagerInterface $em, LoggerInterface $logger)
     {
         $this->productHandler = $productHandler;
+        $this->em             = $em;
         $this->logger         = $logger;
     }
 
@@ -32,12 +36,13 @@ final class OrderNotificationSubscriber implements EventSubscriberInterface
     {
         $deliverProduct = new DeliverProduct((string)$orderMarkedPaid->productId);
         $error          = $this->productHandler->deliverProduct($deliverProduct);
-        // TODO надо бы придумать как показывать ошибки пользователю в подобных ситуациях
+        // TODO move to exceptions
         if ($error instanceof Error) {
             $this->logger->error('deliver product failed', [
                 'productId' => $orderMarkedPaid->productId,
-                'error'     => get_class($error),
+                'error'     => \get_class($error),
             ]);
         }
+        $this->em->flush();
     }
 }

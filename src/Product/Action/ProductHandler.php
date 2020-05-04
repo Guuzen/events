@@ -10,7 +10,6 @@ use App\Product\Model\Products;
 use App\Product\Model\ProductType;
 use App\Product\Model\TicketId;
 use App\Product\Model\Tickets;
-use App\Product\Service\ProductEmailDelivery;
 use App\Tariff\Model\TariffId;
 use App\Tariff\Model\Tariffs;
 use DateTimeImmutable;
@@ -28,23 +27,19 @@ final class ProductHandler
 
     private $events;
 
-    private $productEmailDelivery;
-
     public function __construct(
         EntityManagerInterface $em,
         Products $products,
         Tariffs $tariffs,
         Tickets $tickets,
-        Events $events,
-        ProductEmailDelivery $productEmailDelivery
+        Events $events
     )
     {
-        $this->em                   = $em;
-        $this->products             = $products;
-        $this->tariffs              = $tariffs;
-        $this->tickets              = $tickets;
-        $this->events               = $events;
-        $this->productEmailDelivery = $productEmailDelivery;
+        $this->em       = $em;
+        $this->products = $products;
+        $this->tariffs  = $tariffs;
+        $this->tickets  = $tickets;
+        $this->events   = $events;
     }
 
     /**
@@ -86,12 +81,10 @@ final class ProductHandler
             return $product;
         }
 
-        $error = $product->deliver($this->productEmailDelivery, new DateTimeImmutable('now'));
+        $error = $product->deliver(new DateTimeImmutable('now'));
         if ($error instanceof Error) {
             return $error;
         }
-
-        $this->em->flush();
 
         return null;
     }

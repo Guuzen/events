@@ -4,6 +4,7 @@ namespace App\Product\Model;
 
 use App\Common\Error;
 use App\Event\Model\EventId;
+use App\Infrastructure\DomainEvent\Entity;
 use App\Order\Model\Order;
 use App\Order\Model\OrderId;
 use App\Product\Model\Error\OrderAndProductMustBeRelatedToSameEvent;
@@ -11,9 +12,6 @@ use App\Product\Model\Error\OrderAndProductMustBeRelatedToSameTariff;
 use App\Product\Model\Error\ProductCantBeDeliveredIfNotReserved;
 use App\Product\Model\Error\ProductCantBeReservedIfAlreadyReserved;
 use App\Product\Model\Exception\ProductReserveCantBeCancelledIfAlreadyDelivered;
-use App\Product\Service\Error\ProductEmailNotFound;
-use App\Product\Service\Error\ProductNotDelivered;
-use App\Product\Service\ProductEmailDelivery;
 use App\Tariff\Model\TariffId;
 use App\User\Model\UserId;
 use DateTimeImmutable;
@@ -23,7 +21,7 @@ use Money\Money;
 /**
  * @ORM\Entity
  */
-class Product
+class Product extends Entity
 {
     /**
      * @ORM\Id
@@ -108,21 +106,18 @@ class Product
     }
 
     /**
-     * @return ProductCantBeDeliveredIfNotReserved|ProductNotDelivered|ProductEmailNotFound|null
+     * @return Error|null
      */
-    public function deliver(ProductEmailDelivery $productEmailDelivery, DateTimeImmutable $deliveredAt)
+    public function deliver(DateTimeImmutable $deliveredAt)
     {
         if (!$this->reserved) {
             return new ProductCantBeDeliveredIfNotReserved();
         }
 
-        $deliveryError = $productEmailDelivery->deliver($this->id, $this->type);
-        if ($deliveryError instanceof Error) {
-            return $deliveryError;
-        }
-
         $this->delivered   = true;
         $this->deliveredAt = $deliveredAt;
+
+        $this->rememberThat(new ProductDelivered($this->id, $this->type));
 
         return null;
     }

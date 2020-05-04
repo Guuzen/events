@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Product\Service\Error;
+namespace App\Product\Action\SendTicket\FindTicketEmail;
 
 use App\Common\Error;
 
