@@ -22,10 +22,8 @@ final class Visitor
     public function __construct(string $loggerName = 'Visitor')
     {
         $this->client = new Client('http://2019foo.event.com', $loggerName, [
-            'headers' => [
-                'Accept'       => 'application/json',
-                'Content-Type' => 'application/json',
-            ],
+            'Accept'       => 'application/json',
+            'Content-Type' => 'application/json',
         ]);
         static::setUpHttpMockBeforeClass(8001);
         $this->setUpHttpMock();
@@ -72,7 +70,7 @@ final class Visitor
 
     public function receivesEmailWithTicket(array $email): void
     {
-        $response = $this->http->requests->latest()->getBody();
+        $response    = $this->http->requests->latest()->getBody();
         $actualEmail = \json_decode((string)$response, true);
 
         Assert::assertEquals($email, $actualEmail);

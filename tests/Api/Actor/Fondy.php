@@ -19,10 +19,8 @@ final class Fondy
     public function __construct(string $loggerName = 'Fondy')
     {
         $this->client = new Client('http://2019foo.event.com', $loggerName, [
-            'headers' => [
-                'Accept'       => 'application/json',
-                'Content-Type' => 'application/json',
-            ],
+            'Accept'       => 'application/json',
+            'Content-Type' => 'application/json',
         ]);
     }
 

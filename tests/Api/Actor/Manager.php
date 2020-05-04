@@ -19,10 +19,8 @@ final class Manager
     public function __construct(string $loggerName = 'Manager')
     {
         $this->client = new Client('http://web', $loggerName, [
-            'headers' => [
-                'Accept'       => 'application/json',
-                'Content-Type' => 'application/json',
-            ],
+            'Accept'       => 'application/json',
+            'Content-Type' => 'application/json',
         ]);
     }
 

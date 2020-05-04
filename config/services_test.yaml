@@ -1,4 +1,1 @@
 services:
-    App\Common\TestErrorListener:
-        tags:
-            - { name: kernel.event_listener, event: kernel.exception }

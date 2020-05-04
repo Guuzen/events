@@ -18,7 +18,7 @@ final class Client
 {
     private $client;
 
-    public function __construct(string $uri, string $loggerName, array $defaults)
+    public function __construct(string $uri, string $loggerName, array $headers)
     {
         $isVerbose   = \in_array('--verbose', $_SERVER['argv'], true);
         $middlewares = HandlerStack::create();
@@ -51,7 +51,7 @@ final class Client
 
         $this->client = new \GuzzleHttp\Client([
             'base_uri' => $uri,
-            'defaults' => $defaults,
+            'headers'  => $headers,
             'handler'  => $middlewares,
         ]);
     }
