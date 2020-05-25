@@ -13,10 +13,13 @@ final class TariffById
 
     public $segments;
 
-    public function __construct(string $id, string $tariffType, array $segments)
+    public $productType;
+
+    public function __construct(string $id, string $tariffType, array $segments, string $productType)
     {
-        $this->id         = $id;
-        $this->tariffType = $tariffType;
-        $this->segments   = $segments;
+        $this->id          = $id;
+        $this->tariffType  = $tariffType;
+        $this->segments    = $segments;
+        $this->productType = $productType;
     }
 }

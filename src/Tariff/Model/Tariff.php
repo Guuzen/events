@@ -41,11 +41,17 @@ class Tariff
      */
     private $priceNet;
 
-    public function __construct(TariffId $id, EventId $eventId, TariffPriceNet $priceNet)
+    /**
+     * @ORM\Column(type="app_product_type")
+     */
+    private $productType;
+
+    public function __construct(TariffId $id, EventId $eventId, TariffPriceNet $priceNet, ProductType $productType)
     {
-        $this->id       = $id;
-        $this->eventId  = $eventId;
-        $this->priceNet = $priceNet;
+        $this->id          = $id;
+        $this->eventId     = $eventId;
+        $this->priceNet    = $priceNet;
+        $this->productType = $productType;
     }
 
     /**

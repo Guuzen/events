@@ -64,7 +64,8 @@ final class TariffHandler
 
         $tariff = $event->createTariff(
             $tariffId,
-            new TariffPriceNet($tariffSegments)
+            new TariffPriceNet($tariffSegments),
+            $createTariff->productType
         );
         $this->tariffs->add($tariff);
 

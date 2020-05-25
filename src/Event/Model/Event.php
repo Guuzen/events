@@ -7,6 +7,7 @@ use App\Order\Model\OrderId;
 use App\Product\Model\Error\OrderAndProductMustBeRelatedToSameEvent;
 use App\Product\Model\Error\OrderAndProductMustBeRelatedToSameTariff;
 use App\Product\Model\Product;
+use App\Product\Model\ProductType;
 use App\Product\Model\Ticket;
 use App\Product\Model\TicketId;
 use App\Promocode\Model\AllowedTariffs\AllowedTariffs;
@@ -60,9 +61,9 @@ final class Event
         return $tariff->makeOrder($orderId, $this->id, $product, $userId, $sum, $asOf);
     }
 
-    public function createTariff(TariffId $tariffId, TariffPriceNet $tariffPriceNet): Tariff
+    public function createTariff(TariffId $tariffId, TariffPriceNet $tariffPriceNet, ProductType $productType): Tariff
     {
-        return new Tariff($tariffId, $this->id, $tariffPriceNet);
+        return new Tariff($tariffId, $this->id, $tariffPriceNet, $productType);
     }
 
     public function createEventPromocode(

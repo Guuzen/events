@@ -6,6 +6,8 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
+ *
+ * TODO remove this ?
  */
 class TariffDetails
 {

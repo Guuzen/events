@@ -30,7 +30,8 @@ final class TariffQueries
                 select
                     tariff.id,
                     tariff_details.tariff_type as tariff_type,
-                    segments
+                    segments,
+                    tariff.product_type -> \'type\' as product_type
                 from (
                     select
                         id,
@@ -84,7 +85,8 @@ final class TariffQueries
                 select
                     tariff.id,
                     tariff_details.tariff_type as tariff_type,
-                    segments
+                    segments,
+                    tariff.product_type -> \'type\' as product_type
                 from (
                     select
                         id,

@@ -13,10 +13,14 @@ final class TariffInList
 
     public $segments;
 
-    private function __construct(string $id, string $tariffType, array $segments)
+    public $productType;
+
+    // TODO this objects do not use constructors now
+    private function __construct(string $id, string $tariffType, array $segments, string $productType)
     {
-        $this->id         = $id;
-        $this->tariffType = $tariffType;
-        $this->segments   = $segments;
+        $this->id          = $id;
+        $this->tariffType  = $tariffType;
+        $this->segments    = $segments;
+        $this->productType = $productType;
     }
 }

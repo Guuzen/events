@@ -6,6 +6,7 @@ use App\Event\Model\EventId;
 use App\Order\Model\Order;
 use App\Order\Model\OrderId;
 use App\Product\Model\Product;
+use App\Product\Model\ProductType;
 use App\Tariff\Model\Error\TariffAndOrderMustBeRelatedToSameEvent;
 use App\Tariff\Model\TariffId;
 use App\Tariff\Model\TariffPriceNet;
@@ -41,7 +42,8 @@ class TariffSpec extends ObjectBehavior
                         new DateTimeImmutable('now')
                     )
                 ),
-            ])
+            ]),
+            ProductType::ticket()
         );
 
         $this
@@ -75,7 +77,8 @@ class TariffSpec extends ObjectBehavior
                         new DateTimeImmutable('now')
                     )
                 ),
-            ])
+            ]),
+            ProductType::ticket()
         );
 
         $this

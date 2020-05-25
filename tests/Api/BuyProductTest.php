@@ -77,9 +77,9 @@ final class BuyProductTest extends TestCase
         ]);
 
         $tariffId = $this->manager->createsTariff([
-            'eventId'    => $eventId,
-            'tariffType' => 'silver_pass',
-            'segments'   => [
+            'eventId'     => $eventId,
+            'tariffType'  => 'silver_pass',
+            'segments'    => [
                 [
                     'price' => [
                         'amount'   => '200',
@@ -91,13 +91,14 @@ final class BuyProductTest extends TestCase
                     ],
                 ],
             ],
+            'productType' => ['type' => 'ticket'],
         ]);
         $this->manager->seeTariffInList($eventId, [
             'data' => [
                 [
-                    'id'         => $tariffId,
-                    'tariffType' => 'silver_pass',
-                    'segments'   => [
+                    'id'          => $tariffId,
+                    'tariffType'  => 'silver_pass',
+                    'segments'    => [
                         [
                             'price' => [
                                 'amount'   => '200',
@@ -109,14 +110,15 @@ final class BuyProductTest extends TestCase
                             ],
                         ],
                     ],
+                    'productType' => 'ticket',
                 ],
             ]
         ]);
         $this->manager->seeTariffById($tariffId, [
             'data' => [
-                'id'         => $tariffId,
-                'tariffType' => 'silver_pass',
-                'segments'   => [
+                'id'          => $tariffId,
+                'tariffType'  => 'silver_pass',
+                'segments'    => [
                     [
                         'price' => [
                             'amount'   => '200',
@@ -128,7 +130,8 @@ final class BuyProductTest extends TestCase
                         ],
                     ],
                 ],
-            ]
+                'productType' => 'ticket',
+            ],
         ]);
 
         $ticketId = $this->manager->createsTicket([
@@ -339,9 +342,9 @@ final class BuyProductTest extends TestCase
         ]);
 
         $tariffId = $this->manager->createsTariff([
-            'eventId'    => $eventId,
-            'tariffType' => 'silver_pass',
-            'segments'   => [
+            'eventId'     => $eventId,
+            'tariffType'  => 'silver_pass',
+            'segments'    => [
                 [
                     'price' => [
                         'amount'   => '200',
@@ -353,13 +356,14 @@ final class BuyProductTest extends TestCase
                     ],
                 ],
             ],
+            'productType' => ['type' => 'ticket'],
         ]);
         $this->manager->seeTariffInList($eventId, [
             'data' => [
                 [
-                    'id'         => $tariffId,
-                    'tariffType' => 'silver_pass',
-                    'segments'   => [
+                    'id'          => $tariffId,
+                    'tariffType'  => 'silver_pass',
+                    'segments'    => [
                         [
                             'price' => [
                                 'amount'   => '200',
@@ -371,14 +375,15 @@ final class BuyProductTest extends TestCase
                             ],
                         ],
                     ],
+                    'productType' => 'ticket',
                 ],
             ]
         ]);
         $this->manager->seeTariffById($tariffId, [
             'data' => [
-                'id'         => $tariffId,
-                'tariffType' => 'silver_pass',
-                'segments'   => [
+                'id'          => $tariffId,
+                'tariffType'  => 'silver_pass',
+                'segments'    => [
                     [
                         'price' => [
                             'amount'   => '200',
@@ -390,6 +395,7 @@ final class BuyProductTest extends TestCase
                         ],
                     ],
                 ],
+                'productType' => 'ticket',
             ]
         ]);
 
