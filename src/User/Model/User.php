@@ -3,6 +3,7 @@
 namespace App\User\Model;
 
 use App\Event\Model\EventId;
+use App\Infrastructure\DomainEvent\Entity;
 use App\Order\Model\Order;
 use App\Order\Model\OrderId;
 use App\Product\Model\ProductId;
@@ -15,7 +16,7 @@ use Money\Money;
  * @ORM\Entity
  * @ORM\Table(name="`user`")
  */
-class User
+class User extends Entity
 {
     /**
      * @ORM\Id
@@ -34,11 +35,17 @@ class User
      */
     private $contacts;
 
-    public function __construct(UserId $id, FullName $fullName, Contacts $contacts)
+    /**
+     * @ORM\Column(type="app_order_id")
+     */
+    private $orderId;
+
+    public function __construct(UserId $id, OrderId $orderId, FullName $fullName, Contacts $contacts)
     {
         $this->id       = $id;
         $this->fullName = $fullName;
         $this->contacts = $contacts;
+        $this->orderId  = $orderId;
     }
 
     public function makeOrder(

@@ -2,6 +2,7 @@
 
 namespace App\Order\Action;
 
+use App\Common\Error;
 use App\Event\Model\EventId;
 use App\Infrastructure\Http\AppController;
 use App\Order\Model\OrderId;
@@ -34,11 +35,17 @@ final class OrderHttpAdapter extends AppController
         // TODO create user must be idempotent. Maybe this method should be named in other way
         $userId = UserId::new();
 
-        /** @var OrderId $orderId */
+        /** @var OrderId|Error $orderId */
         $orderId = $this->em->transactional(function () use ($placeOrderRequest, $userId, $eventId) {
-            $this->userHandler->createUser($placeOrderRequest->toCreateUser((string)$userId));
+            $orderId = $this->orderHandler->placeOrder($placeOrderRequest->toPlaceOrder((string)$userId, (string)$eventId));
+            // TODO create user from frontend
+            if ($orderId instanceof Error) {
+                return $orderId;
+            }
 
-            return $this->orderHandler->placeOrder($placeOrderRequest->toPlaceOrder((string)$userId, (string)$eventId));
+            $this->userHandler->createUser($placeOrderRequest->toCreateUser((string)$userId, $orderId));
+
+            return $orderId;
         });
 
         return $this->response($orderId);
