@@ -67,11 +67,6 @@ class OrderHandler
             return $tariff;
         }
 
-        $product = $this->products->findNotReservedByTariffId($tariffId);
-        if ($product instanceof Error) {
-            return $product;
-        }
-
         // TODO не очень понятно где создавать промокод
         $promocode = new NullPromocode();
         $sum       = $tariff->calculateSum($promocode, $orderDate);
@@ -82,7 +77,6 @@ class OrderHandler
         $orderId = OrderId::new();
         $order   = $event->makeOrder(
             $orderId,
-            $product,
             $tariff,
             $placeOrder->userId(),
             $sum,
@@ -95,16 +89,6 @@ class OrderHandler
         // TODO нафиг нужно считать сумму с промокодом, если потом можно всё равно промокод применить ?
         $promocode->use($orderId, $tariff, $orderDate);
         $order->applyPromocode($promocode);
-
-        $product = $order->findProductById($this->products);
-        if ($product instanceof Error) {
-            return $product;
-        }
-
-        $reservedError = $product->reserve();
-        if ($reservedError instanceof Error) {
-            return $reservedError;
-        }
 
         $this->em->persist($order);
 

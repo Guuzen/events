@@ -8,6 +8,7 @@ use App\Fondy\Fondy;
 use App\Order\Model\Error\OrderAlreadyPaid;
 use App\Order\Model\OrderId;
 use App\Product\Model\ProductId;
+use App\Product\Model\ProductType;
 use App\Tariff\Model\TariffId;
 use App\User\Model\UserId;
 use DateTimeImmutable;
@@ -22,7 +23,7 @@ class OrderSpec extends ObjectBehavior
 
     private $eventId;
 
-    private $productId;
+    private $productType;
 
     private $tariffId;
 
@@ -36,7 +37,7 @@ class OrderSpec extends ObjectBehavior
     {
         $this->orderId       = OrderId::new();
         $this->eventId       = EventId::new();
-        $this->productId     = ProductId::new();
+        $this->productType   = ProductType::ticket();
         $this->tariffId      = TariffId::new();
         $this->userId        = UserId::new();
         $this->hundredRubles = new Money('100', new Currency('RUB'));
@@ -44,7 +45,7 @@ class OrderSpec extends ObjectBehavior
         $this->beConstructedWith(
             $this->orderId,
             $this->eventId,
-            $this->productId,
+            $this->productType,
             $this->tariffId,
             $this->userId,
             $this->hundredRubles,

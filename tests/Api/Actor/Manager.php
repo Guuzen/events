@@ -91,12 +91,14 @@ final class Manager
         return $response['data']['id'];
     }
 
-    public function seeTicketInList(string $eventId, array $tickets): void
+    public function seeTicketInList(string $eventId, array $tickets): string
     {
         $response = $this->client->get('/admin/ticket/list', [
             'eventId' => $eventId,
         ]);
         $this->assertResultMatchesPattern($response, $tickets);
+
+        return $response['data'][0]['id'];
     }
 
     public function seeTicketById(string $ticketId, array $ticket): void

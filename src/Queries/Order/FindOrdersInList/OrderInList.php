@@ -39,7 +39,7 @@ final class OrderInList
 
     public $makedAt;
 
-    public $deliveredAt;
+    public $createdAt;
 
     private function __construct(
         string $id,
@@ -60,21 +60,21 @@ final class OrderInList
         ?DateTimeImmutable $deliveredAt
     )
     {
-        $this->id          = $id;
-        $this->eventId     = $eventId;
-        $this->tariffId    = $tariffId;
-        $this->productId   = $productId;
-        $this->userId      = $userId;
-        $this->paid        = $paid;
-        $this->product     = $product;
-        $this->phone       = $phone;
-        $this->firstName   = $firstName;
-        $this->lastName    = $lastName;
-        $this->email       = $email;
-        $this->sum         = $sum;
-        $this->currency    = $currency;
-        $this->cancelled   = $cancelled;
-        $this->makedAt     = $makedAt;
-        $this->deliveredAt = $deliveredAt;
+        $this->id        = $id;
+        $this->eventId   = $eventId;
+        $this->tariffId  = $tariffId;
+        $this->productId = $productId;
+        $this->userId    = $userId;
+        $this->paid      = $paid;
+        $this->product   = $product;
+        $this->phone     = $phone;
+        $this->firstName = $firstName;
+        $this->lastName  = $lastName;
+        $this->email     = $email;
+        $this->sum       = $sum;
+        $this->currency  = $currency;
+        $this->cancelled = $cancelled;
+        $this->makedAt   = $makedAt;
+        $this->createdAt = $deliveredAt;
     }
 }

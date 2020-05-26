@@ -3,6 +3,7 @@
 namespace App\Product\Model;
 
 use App\Event\Model\EventId;
+use App\Order\Model\OrderId;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\UniqueConstraint;
 
@@ -27,15 +28,26 @@ final class Ticket
     private $eventId;
 
     /**
+     * @ORM\Column(type="app_order_id")
+     */
+    private $orderId;
+
+    /**
      * @ORM\Column(type="string")
      */
     private $number;
 
-    // TODO ticket type ?
-    public function __construct(TicketId $id, EventId $eventId, string $number)
+    /**
+     * @ORM\Column(type="datetime_immutable")
+     */
+    private $createdAt;
+
+    public function __construct(TicketId $id, EventId $eventId, OrderId $orderId, string $number, \DateTimeImmutable $createdAt)
     {
-        $this->id      = $id;
-        $this->eventId = $eventId;
-        $this->number  = $number;
+        $this->id        = $id;
+        $this->eventId   = $eventId;
+        $this->number    = $number;
+        $this->orderId   = $orderId;
+        $this->createdAt = $createdAt;
     }
 }

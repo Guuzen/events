@@ -128,6 +128,7 @@ class Product extends Entity
     public function makeOrder(
         OrderId $orderId,
         EventId $eventId,
+        ProductType $productType,
         TariffId $tariffId,
         UserId $userId,
         Money $sum,
@@ -141,6 +142,6 @@ class Product extends Entity
             return new OrderAndProductMustBeRelatedToSameTariff();
         }
 
-        return new Order($orderId, $eventId, $this->id, $tariffId, $userId, $sum, $asOf);
+        return new Order($orderId, $eventId, $this->id, $productType, $tariffId, $userId, $sum, $asOf);
     }
 }

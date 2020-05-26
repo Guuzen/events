@@ -134,37 +134,6 @@ final class BuyProductTest extends TestCase
             ],
         ]);
 
-        $ticketId = $this->manager->createsTicket([
-            'eventId'  => $eventId,
-            'tariffId' => $tariffId,
-            'number'   => '10002000',
-        ]);
-        $this->manager->seeTicketInList($eventId, [
-            'data' => [
-                [
-                    'id'          => $ticketId,
-                    'eventId'     => $eventId,
-                    'type'        => 'silver_pass',
-                    'number'      => '10002000',
-                    'reserved'    => false,
-                    'createdAt'   => '@string@.isDateTime()',
-                    'deliveredAt' => null,
-                ],
-            ]
-        ]);
-        $this->manager->seeTicketById($ticketId, [
-            'data' => [
-                'id'          => $ticketId,
-                'eventId'     => $eventId,
-                'type'        => 'silver_pass',
-                'number'      => '10002000',
-                'reserved'    => false,
-                'createdAt'   => '@string@.isDateTime()',
-                'deliveredAt' => null,
-            ]
-        ]);
-
-
         $orderId = $this->visitor->placeOrder([
             'tariffId'  => $tariffId,
             'firstName' => 'john',
@@ -176,66 +145,43 @@ final class BuyProductTest extends TestCase
         $this->manager->seeOrderInList($eventId, [
             'data' => [
                 [
-                    'id'          => $orderId,
-                    'eventId'     => $eventId,
-                    'tariffId'    => $tariffId,
-                    'paid'        => false,
-                    'product'     => 'silver_pass',
-                    'phone'       => '+123456789',
-                    'firstName'   => 'john',
-                    'lastName'    => 'Doe',
-                    'email'       => 'john@email.com',
-                    'sum'         => '200',
-                    'currency'    => 'RUB',
-                    'cancelled'   => false,
-                    'productId'   => '@uuid@',
-                    'userId'      => '@uuid@',
-                    'makedAt'     => '@string@.isDateTime()',
-                    'deliveredAt' => null,
+                    'id'        => $orderId,
+                    'eventId'   => $eventId,
+                    'tariffId'  => $tariffId,
+                    'paid'      => false,
+                    'product'   => 'silver_pass',
+                    'phone'     => '+123456789',
+                    'firstName' => 'john',
+                    'lastName'  => 'Doe',
+                    'email'     => 'john@email.com',
+                    'sum'       => '200',
+                    'currency'  => 'RUB',
+                    'cancelled' => false,
+                    'productId' => null,
+                    'userId'    => '@uuid@',
+                    'makedAt'   => '@string@.isDateTime()',
+                    'createdAt' => null,
                 ],
             ]
         ]);
         $this->manager->seeOrderById($orderId, [
             'data' => [
-                'id'          => $orderId,
-                'eventId'     => $eventId,
-                'tariffId'    => $tariffId,
-                'paid'        => false,
-                'product'     => 'silver_pass',
-                'phone'       => '+123456789',
-                'firstName'   => 'john',
-                'lastName'    => 'Doe',
-                'email'       => 'john@email.com',
-                'sum'         => '200',
-                'currency'    => 'RUB',
-                'cancelled'   => false,
-                'productId'   => '@uuid@',
-                'userId'      => '@uuid@',
-                'makedAt'     => '@string@.isDateTime()',
-                'deliveredAt' => null,
-            ]]);
-        $this->manager->seeTicketInList($eventId, [
-            'data' => [
-                [
-                    'id'          => $ticketId,
-                    'eventId'     => $eventId,
-                    'type'        => 'silver_pass',
-                    'number'      => '10002000',
-                    'reserved'    => true,
-                    'createdAt'   => '@string@.isDateTime()',
-                    'deliveredAt' => null,
-                ],
-            ]
-        ]);
-        $this->manager->seeTicketById($ticketId, [
-            'data' => [
-                'id'          => $ticketId,
-                'eventId'     => $eventId,
-                'type'        => 'silver_pass',
-                'number'      => '10002000',
-                'reserved'    => true,
-                'createdAt'   => '@string@.isDateTime()',
-                'deliveredAt' => null,
+                'id'        => $orderId,
+                'eventId'   => $eventId,
+                'tariffId'  => $tariffId,
+                'paid'      => false,
+                'product'   => 'silver_pass',
+                'phone'     => '+123456789',
+                'firstName' => 'john',
+                'lastName'  => 'Doe',
+                'email'     => 'john@email.com',
+                'sum'       => '200',
+                'currency'  => 'RUB',
+                'cancelled' => false,
+                'productId' => null,
+                'userId'    => '@uuid@',
+                'makedAt'   => '@string@.isDateTime()',
+                'createdAt' => null,
             ]
         ]);
 
@@ -250,67 +196,61 @@ final class BuyProductTest extends TestCase
         $this->manager->seeOrderInList($eventId, [
             'data' => [
                 [
-                    'id'          => $orderId,
-                    'eventId'     => $eventId,
-                    'tariffId'    => $tariffId,
-                    'paid'        => true,
-                    'product'     => 'silver_pass',
-                    'phone'       => '+123456789',
-                    'firstName'   => 'john',
-                    'lastName'    => 'Doe',
-                    'email'       => 'john@email.com',
-                    'sum'         => '200',
-                    'currency'    => 'RUB',
-                    'cancelled'   => false,
-                    'productId'   => '@uuid@',
-                    'userId'      => '@uuid@',
-                    'makedAt'     => '@string@.isDateTime()',
-                    'deliveredAt' => '@string@.isDateTime()',
+                    'id'        => $orderId,
+                    'eventId'   => $eventId,
+                    'tariffId'  => $tariffId,
+                    'paid'      => true,
+                    'product'   => 'silver_pass',
+                    'phone'     => '+123456789',
+                    'firstName' => 'john',
+                    'lastName'  => 'Doe',
+                    'email'     => 'john@email.com',
+                    'sum'       => '200',
+                    'currency'  => 'RUB',
+                    'cancelled' => false,
+                    'productId' => '@uuid@',
+                    'userId'    => '@uuid@',
+                    'makedAt'   => '@string@.isDateTime()',
+                    'createdAt' => '@string@.isDateTime()',
                 ],
             ]
         ]);
         $this->manager->seeOrderById($orderId, [
             'data' => [
-                'id'          => $orderId,
-                'eventId'     => $eventId,
-                'tariffId'    => $tariffId,
-                'paid'        => true,
-                'product'     => 'silver_pass',
-                'phone'       => '+123456789',
-                'firstName'   => 'john',
-                'lastName'    => 'Doe',
-                'email'       => 'john@email.com',
-                'sum'         => '200',
-                'currency'    => 'RUB',
-                'cancelled'   => false,
-                'productId'   => '@uuid@',
-                'userId'      => '@uuid@',
-                'makedAt'     => '@string@.isDateTime()',
-                'deliveredAt' => '@string@.isDateTime()',
+                'id'        => $orderId,
+                'eventId'   => $eventId,
+                'tariffId'  => $tariffId,
+                'paid'      => true,
+                'product'   => 'silver_pass',
+                'phone'     => '+123456789',
+                'firstName' => 'john',
+                'lastName'  => 'Doe',
+                'email'     => 'john@email.com',
+                'sum'       => '200',
+                'currency'  => 'RUB',
+                'cancelled' => false,
+                'productId' => '@uuid@',
+                'userId'    => '@uuid@',
+                'makedAt'   => '@string@.isDateTime()',
+                'createdAt' => '@string@.isDateTime()',
+            ]
+        ]);
+        $ticketId = $this->manager->seeTicketInList($eventId, [
+            'data' => [
+                [
+                    'id'        => '@uuid@',
+                    'eventId'   => $eventId,
+                    'number'    => '@string@',
+                    'createdAt' => '@string@.isDateTime()',
+                ]
             ]
         ]);
         $this->manager->seeTicketById($ticketId, [
             'data' => [
-                'id'          => $ticketId,
-                'eventId'     => $eventId,
-                'type'        => 'silver_pass',
-                'number'      => '10002000',
-                'reserved'    => true,
-                'createdAt'   => '@string@.isDateTime()',
-                'deliveredAt' => '@string@.isDateTime()',
-            ]
-        ]);
-        $this->manager->seeTicketInList($eventId, [
-            'data' => [
-                [
-                    'id'          => $ticketId,
-                    'eventId'     => $eventId,
-                    'type'        => 'silver_pass',
-                    'number'      => '10002000',
-                    'reserved'    => true,
-                    'createdAt'   => '@string@.isDateTime()',
-                    'deliveredAt' => '@string@.isDateTime()',
-                ]
+                'id'        => $ticketId,
+                'eventId'   => $eventId,
+                'number'    => '@string@',
+                'createdAt' => '@string@.isDateTime()',
             ]
         ]);
     }
@@ -399,37 +339,6 @@ final class BuyProductTest extends TestCase
             ]
         ]);
 
-        $ticketId = $this->manager->createsTicket([
-            'eventId'  => $eventId,
-            'tariffId' => $tariffId,
-            'number'   => '10002000',
-        ]);
-        $this->manager->seeTicketInList($eventId, [
-            'data' => [
-                [
-                    'id'          => $ticketId,
-                    'eventId'     => $eventId,
-                    'type'        => 'silver_pass',
-                    'number'      => '10002000',
-                    'reserved'    => false,
-                    'createdAt'   => '@string@.isDateTime()',
-                    'deliveredAt' => null,
-                ],
-            ]
-        ]);
-        $this->manager->seeTicketById($ticketId, [
-            'data' => [
-                'id'          => $ticketId,
-                'eventId'     => $eventId,
-                'type'        => 'silver_pass',
-                'number'      => '10002000',
-                'reserved'    => false,
-                'createdAt'   => '@string@.isDateTime()',
-                'deliveredAt' => null,
-            ]
-        ]);
-
-
         $orderId = $this->visitor->placeOrder([
             'tariffId'  => $tariffId,
             'firstName' => 'john',
@@ -441,67 +350,43 @@ final class BuyProductTest extends TestCase
         $this->manager->seeOrderInList($eventId, [
             'data' => [
                 [
-                    'id'          => $orderId,
-                    'eventId'     => $eventId,
-                    'tariffId'    => $tariffId,
-                    'paid'        => false,
-                    'product'     => 'silver_pass',
-                    'phone'       => '+123456789',
-                    'firstName'   => 'john',
-                    'lastName'    => 'Doe',
-                    'email'       => 'john@email.com',
-                    'sum'         => '200',
-                    'currency'    => 'RUB',
-                    'cancelled'   => false,
-                    'productId'   => '@uuid@',
-                    'userId'      => '@uuid@',
-                    'makedAt'     => '@string@.isDateTime()',
-                    'deliveredAt' => null,
+                    'id'        => $orderId,
+                    'eventId'   => $eventId,
+                    'tariffId'  => $tariffId,
+                    'paid'      => false,
+                    'product'   => 'silver_pass',
+                    'phone'     => '+123456789',
+                    'firstName' => 'john',
+                    'lastName'  => 'Doe',
+                    'email'     => 'john@email.com',
+                    'sum'       => '200',
+                    'currency'  => 'RUB',
+                    'cancelled' => false,
+                    'productId' => null,
+                    'userId'    => '@uuid@',
+                    'makedAt'   => '@string@.isDateTime()',
+                    'createdAt' => null,
                 ],
             ]
         ]);
         $this->manager->seeOrderById($orderId, [
             'data' => [
-                'id'          => $orderId,
-                'eventId'     => $eventId,
-                'tariffId'    => $tariffId,
-                'paid'        => false,
-                'product'     => 'silver_pass',
-                'phone'       => '+123456789',
-                'firstName'   => 'john',
-                'lastName'    => 'Doe',
-                'email'       => 'john@email.com',
-                'sum'         => '200',
-                'currency'    => 'RUB',
-                'cancelled'   => false,
-                'productId'   => '@uuid@',
-                'userId'      => '@uuid@',
-                'makedAt'     => '@string@.isDateTime()',
-                'deliveredAt' => null,
-            ]
-        ]);
-        $this->manager->seeTicketInList($eventId, [
-            'data' => [
-                [
-                    'id'          => $ticketId,
-                    'eventId'     => $eventId,
-                    'type'        => 'silver_pass',
-                    'number'      => '10002000',
-                    'reserved'    => true,
-                    'createdAt'   => '@string@.isDateTime()',
-                    'deliveredAt' => null,
-                ],
-            ]
-        ]);
-        $this->manager->seeTicketById($ticketId, [
-            'data' => [
-                'id'          => $ticketId,
-                'eventId'     => $eventId,
-                'type'        => 'silver_pass',
-                'number'      => '10002000',
-                'reserved'    => true,
-                'createdAt'   => '@string@.isDateTime()',
-                'deliveredAt' => null,
+                'id'        => $orderId,
+                'eventId'   => $eventId,
+                'tariffId'  => $tariffId,
+                'paid'      => false,
+                'product'   => 'silver_pass',
+                'phone'     => '+123456789',
+                'firstName' => 'john',
+                'lastName'  => 'Doe',
+                'email'     => 'john@email.com',
+                'sum'       => '200',
+                'currency'  => 'RUB',
+                'cancelled' => false,
+                'productId' => null,
+                'userId'    => '@uuid@',
+                'makedAt'   => '@string@.isDateTime()',
+                'createdAt' => null,
             ]
         ]);
 
@@ -521,67 +406,61 @@ final class BuyProductTest extends TestCase
         $this->manager->seeOrderInList($eventId, [
             'data' => [
                 [
-                    'id'          => $orderId,
-                    'eventId'     => $eventId,
-                    'tariffId'    => $tariffId,
-                    'paid'        => true,
-                    'product'     => 'silver_pass',
-                    'phone'       => '+123456789',
-                    'firstName'   => 'john',
-                    'lastName'    => 'Doe',
-                    'email'       => 'john@email.com',
-                    'sum'         => '200',
-                    'currency'    => 'RUB',
-                    'cancelled'   => false,
-                    'productId'   => '@uuid@',
-                    'userId'      => '@uuid@',
-                    'makedAt'     => '@string@.isDateTime()',
-                    'deliveredAt' => '@string@.isDateTime()',
+                    'id'        => $orderId,
+                    'eventId'   => $eventId,
+                    'tariffId'  => $tariffId,
+                    'paid'      => true,
+                    'product'   => 'silver_pass',
+                    'phone'     => '+123456789',
+                    'firstName' => 'john',
+                    'lastName'  => 'Doe',
+                    'email'     => 'john@email.com',
+                    'sum'       => '200',
+                    'currency'  => 'RUB',
+                    'cancelled' => false,
+                    'productId' => '@uuid@',
+                    'userId'    => '@uuid@',
+                    'makedAt'   => '@string@.isDateTime()',
+                    'createdAt' => '@string@.isDateTime()',
                 ],
             ]
         ]);
         $this->manager->seeOrderById($orderId, [
             'data' => [
-                'id'          => $orderId,
-                'eventId'     => $eventId,
-                'tariffId'    => $tariffId,
-                'paid'        => true,
-                'product'     => 'silver_pass',
-                'phone'       => '+123456789',
-                'firstName'   => 'john',
-                'lastName'    => 'Doe',
-                'email'       => 'john@email.com',
-                'sum'         => '200',
-                'currency'    => 'RUB',
-                'cancelled'   => false,
-                'productId'   => '@uuid@',
-                'userId'      => '@uuid@',
-                'makedAt'     => '@string@.isDateTime()',
-                'deliveredAt' => '@string@.isDateTime()',
+                'id'        => $orderId,
+                'eventId'   => $eventId,
+                'tariffId'  => $tariffId,
+                'paid'      => true,
+                'product'   => 'silver_pass',
+                'phone'     => '+123456789',
+                'firstName' => 'john',
+                'lastName'  => 'Doe',
+                'email'     => 'john@email.com',
+                'sum'       => '200',
+                'currency'  => 'RUB',
+                'cancelled' => false,
+                'productId' => '@uuid@',
+                'userId'    => '@uuid@',
+                'makedAt'   => '@string@.isDateTime()',
+                'createdAt' => '@string@.isDateTime()',
+            ]
+        ]);
+        $ticketId = $this->manager->seeTicketInList($eventId, [
+            'data' => [
+                [
+                    'id'        => '@uuid@',
+                    'eventId'   => $eventId,
+                    'number'    => '@string@',
+                    'createdAt' => '@string@.isDateTime()',
+                ]
             ]
         ]);
         $this->manager->seeTicketById($ticketId, [
             'data' => [
-                'id'          => $ticketId,
-                'eventId'     => $eventId,
-                'type'        => 'silver_pass',
-                'number'      => '10002000',
-                'reserved'    => true,
-                'createdAt'   => '@string@.isDateTime()',
-                'deliveredAt' => '@string@.isDateTime()',
-            ]
-        ]);
-        $this->manager->seeTicketInList($eventId, [
-            'data' => [
-                [
-                    'id'          => $ticketId,
-                    'eventId'     => $eventId,
-                    'type'        => 'silver_pass',
-                    'number'      => '10002000',
-                    'reserved'    => true,
-                    'createdAt'   => '@string@.isDateTime()',
-                    'deliveredAt' => '@string@.isDateTime()',
-                ]
+                'id'        => $ticketId,
+                'eventId'   => $eventId,
+                'number'    => '@string@',
+                'createdAt' => '@string@.isDateTime()',
             ]
         ]);
     }

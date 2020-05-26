@@ -4,12 +4,9 @@ declare(strict_types=1);
 
 namespace App\Product;
 
-use App\Common\Error;
-use App\Product\Action\SendTicket\SendTicket;
 use App\Product\Action\SendTicket\SendTicketHandler;
 use App\Product\Model\ProductDelivered;
 use App\Product\Model\ProductType;
-use App\Product\Model\TicketId;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -36,15 +33,6 @@ final class ProductEventsSubscriber implements EventSubscriberInterface
     {
         if ($productDelivered->productType->equals(ProductType::ticket()) === false) {
             return;
-        }
-
-        $ticketId = new TicketId((string)$productDelivered->productId);
-        $error    = $this->sendTicketHandler->handle(new SendTicket($ticketId));
-        if ($error instanceof Error) {
-            $this->logger->error('send ticket failed', [
-                'productId' => $productDelivered->productId,
-                'error'     => \get_class($error),
-            ]);
         }
     }
 }

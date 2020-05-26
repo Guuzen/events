@@ -6,7 +6,6 @@ use App\Order\Model\Order;
 use App\Order\Model\OrderId;
 use App\Product\Model\Error\OrderAndProductMustBeRelatedToSameEvent;
 use App\Product\Model\Error\OrderAndProductMustBeRelatedToSameTariff;
-use App\Product\Model\Product;
 use App\Product\Model\ProductType;
 use App\Product\Model\Ticket;
 use App\Product\Model\TicketId;
@@ -41,9 +40,9 @@ final class Event
         $this->id = $id;
     }
 
-    public function createTicket(TicketId $ticketId, string $number): Ticket
+    public function createTicket(TicketId $ticketId, OrderId $orderId, string $number, DateTimeImmutable $asOf): Ticket
     {
-        return new Ticket($ticketId, $this->id, $number);
+        return new Ticket($ticketId, $this->id, $orderId, $number, $asOf);
     }
 
     /**
@@ -51,14 +50,13 @@ final class Event
      */
     public function makeOrder(
         OrderId $orderId,
-        Product $product,
         Tariff $tariff,
         UserId $userId,
         Money $sum,
         DateTimeImmutable $asOf
     )
     {
-        return $tariff->makeOrder($orderId, $this->id, $product, $userId, $sum, $asOf);
+        return $tariff->makeOrder($orderId, $this->id, $userId, $sum, $asOf);
     }
 
     public function createTariff(TariffId $tariffId, TariffPriceNet $tariffPriceNet, ProductType $productType): Tariff

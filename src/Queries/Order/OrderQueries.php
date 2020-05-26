@@ -29,7 +29,7 @@ final class OrderQueries
                     "order".event_id as "event_id",
                     "order".id as id,
                     tariff_details.tariff_type as product,
-                    "order".product_id as "product_id",
+                    ticket.id as "product_id",
                     "order".tariff_id as "tariff_id",
                     "user".id as "user_id",
                     "order".paid as paid,
@@ -41,13 +41,13 @@ final class OrderQueries
                     "user".contacts ->> \'email\' as email,   
                     "user".full_name ->> \'first_name\' as "first_name",
                     "user".full_name ->> \'last_name\' as "last_name",
-                    product.delivered_at as delivered_at
+                    ticket.created_at as created_at
                 from
                     "order"
                 left join
                     "user" on "order".user_id = "user".id
                 left join
-                    product on "order".product_id = product.id
+                    ticket on "order".id = ticket.order_id
                 left join
                     event on "order".event_id = event.id
                 left join
@@ -83,7 +83,7 @@ final class OrderQueries
                     "order".event_id as "event_id",
                     "order".id as id,
                     tariff_details.tariff_type as product,
-                    "order".product_id as "product_id",
+                    ticket.id as "product_id",
                     "order".tariff_id as "tariff_id",
                     "user".id as "user_id",
                     "order".paid as paid,
@@ -95,13 +95,13 @@ final class OrderQueries
                     "user".contacts ->> \'email\' as email,   
                     "user".full_name ->> \'first_name\' as "first_name",
                     "user".full_name ->> \'last_name\' as "last_name",
-                    product.delivered_at as delivered_at
+                    ticket.created_at as created_at
                 from
                     "order"
                 left join
                     "user" on "order".user_id = "user".id
                 left join
-                    product on "order".product_id = product.id
+                    ticket on "order".id = ticket.order_id
                 left join
                     event on "order".event_id = event.id
                 left join

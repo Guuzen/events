@@ -25,11 +25,11 @@ final class FindTicketEmail
                 "user".contacts ->> \'email\' as email,
                 ticket.number
             from
-                "ticket"
+                ticket
             left join
-                "order" on ticket.id = "order".product_id
+                "order" on ticket.order_id = "order".id
             left join
-                "user" on "user".id = "order".user_id
+                "user" on "user".order_id = "order".id
             where ticket.id = :ticket_id
         ');
         $stmt->bindValue('ticket_id', (string)$ticketId);

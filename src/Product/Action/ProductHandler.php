@@ -8,7 +8,6 @@ use App\Event\Model\Events;
 use App\Product\Model\ProductId;
 use App\Product\Model\Products;
 use App\Product\Model\ProductType;
-use App\Product\Model\TicketId;
 use App\Product\Model\Tickets;
 use App\Tariff\Model\TariffId;
 use App\Tariff\Model\Tariffs;
@@ -63,9 +62,6 @@ final class ProductHandler
         if ($event instanceof Error) {
             return $event;
         }
-
-        $ticket = $event->createTicket(new TicketId((string)$productId), $createTicket->number);
-        $this->tickets->add($ticket);
 
         $this->em->flush();
 

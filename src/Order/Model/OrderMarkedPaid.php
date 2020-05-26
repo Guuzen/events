@@ -2,18 +2,25 @@
 
 namespace App\Order\Model;
 
+use App\Event\Model\EventId;
 use App\Infrastructure\DomainEvent\Event;
-use App\Product\Model\ProductId;
+use App\Product\Model\ProductType;
 
 /**
  * @psalm-immutable
  */
 final class OrderMarkedPaid implements Event
 {
-    public $productId;
+    public $eventId;
 
-    public function __construct(ProductId $productId)
+    public $productType;
+
+    public $orderId;
+
+    public function __construct(EventId $eventId, ProductType $productType, OrderId $orderId)
     {
-        $this->productId = $productId;
+        $this->eventId     = $eventId;
+        $this->productType = $productType;
+        $this->orderId     = $orderId;
     }
 }

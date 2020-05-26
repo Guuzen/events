@@ -22,13 +22,9 @@ use Prophecy\Argument;
 // TODO try to create id of the object inside constructor. Use factories to create objects with same id ?
 class TariffSpec extends ObjectBehavior
 {
-    public function it_should_be_part_of_the_order(Product $product, Order $order)
+    public function it_should_be_part_of_the_order(Order $order)
     {
         $order->beADoubleOf(Order::class);
-        $product->beADoubleOf(Product::class);
-        $product
-            ->makeOrder(Argument::cetera())
-            ->willReturn($order);
 
         $eventId = EventId::new();
         $this->beConstructedWith(
@@ -50,22 +46,16 @@ class TariffSpec extends ObjectBehavior
             ->makeOrder(
                 OrderId::new(),
                 $eventId,
-                $product,
                 UserId::new(),
                 new Money(100, new Currency('RUB')),
                 new DateTimeImmutable('now')
             )
-            ->shouldReturnAnInstanceOf($order);
+            ->shouldReturnAnInstanceOf(Order::class);
     }
 
-    public function it_should_not_be_part_of_the_order_which_is_not_related_to_same_event(Product $product, Order $order)
+    public function it_should_not_be_part_of_the_order_which_is_not_related_to_same_event(Order $order)
     {
         $order->beADoubleOf(Order::class);
-        $product->beADoubleOf(Product::class);
-        $product
-            ->makeOrder(Argument::cetera())
-            ->willReturn($order);
-
         $this->beConstructedWith(
             TariffId::new(),
             EventId::new(),
@@ -85,7 +75,6 @@ class TariffSpec extends ObjectBehavior
             ->makeOrder(
                 OrderId::new(),
                 EventId::new(),
-                $product,
                 UserId::new(),
                 new Money(100, new Currency('RUB')),
                 new DateTimeImmutable('now')

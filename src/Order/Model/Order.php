@@ -8,10 +8,7 @@ use App\Fondy\Fondy;
 use App\Infrastructure\DomainEvent\Entity;
 use App\Order\Model\Error\OrderAlreadyPaid;
 use App\Order\Model\Exception\OrderCancelled;
-use App\Product\Model\Error\ProductNotFound;
-use App\Product\Model\Product;
-use App\Product\Model\ProductId;
-use App\Product\Model\Products;
+use App\Product\Model\ProductType;
 use App\Promocode\Model\Promocode;
 use App\Tariff\Model\TariffId;
 use App\User\Model\UserId;
@@ -38,11 +35,6 @@ class Order extends Entity
     private $eventId;
 
     /**
-     * @ORM\Column(type="app_product_id")
-     */
-    private $productId;
-
-    /**
      * TODO remove ? What is it for?
      *
      * @ORM\Column(type="app_tariff_id")
@@ -53,6 +45,11 @@ class Order extends Entity
      * @ORM\Column(type="app_promocode_id", nullable=true)
      */
     private $promocodeId;
+
+    /**
+     * @ORM\Column(type="app_product_type")
+     */
+    private $productType;
 
     /**
      * @ORM\Column(type="app_user_id")
@@ -82,7 +79,7 @@ class Order extends Entity
     public function __construct(
         OrderId $id,
         EventId $eventId,
-        ProductId $productId,
+        ProductType $productType,
         TariffId $tariffId,
         UserId $userId,
         Money $sum,
@@ -90,14 +87,14 @@ class Order extends Entity
         bool $paid = false
     )
     {
-        $this->id        = $id;
-        $this->eventId   = $eventId;
-        $this->productId = $productId;
-        $this->tariffId  = $tariffId;
-        $this->userId    = $userId;
-        $this->sum       = $sum;
-        $this->makedAt   = $asOf;
-        $this->paid      = $paid;
+        $this->id          = $id;
+        $this->eventId     = $eventId;
+        $this->productType = $productType;
+        $this->tariffId    = $tariffId;
+        $this->userId      = $userId;
+        $this->sum         = $sum;
+        $this->makedAt     = $asOf;
+        $this->paid        = $paid;
     }
 
     public function applyPromocode(Promocode $promocode): void
@@ -123,7 +120,7 @@ class Order extends Entity
         }
         $this->paid = true;
 
-        $this->rememberThat(new OrderMarkedPaid($this->productId));
+        $this->rememberThat(new OrderMarkedPaid($this->eventId, $this->productType, $this->id));
 
         return null;
     }
@@ -134,13 +131,5 @@ class Order extends Entity
     public function createFondyPayment(Fondy $fondy)
     {
         return $fondy->checkoutUrl($this->sum, $this->id);
-    }
-
-    /**
-     * @return Product|ProductNotFound
-     */
-    public function findProductById(Products $products)
-    {
-        return $products->findById($this->productId);
     }
 }
