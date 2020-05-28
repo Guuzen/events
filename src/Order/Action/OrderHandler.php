@@ -7,10 +7,8 @@ use App\Event\Model\Events;
 use App\Fondy\Fondy;
 use App\Order\Model\OrderId;
 use App\Order\Model\Orders;
-use App\Product\Model\Products;
 use App\Promocode\Model\NullPromocode;
 use App\Tariff\Model\Tariffs;
-use App\User\Model\Users;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -22,31 +20,23 @@ class OrderHandler
 
     private $tariffs;
 
-    private $products;
-
     private $orders;
 
     private $fondy;
-
-    private $users;
 
     public function __construct(
         EntityManagerInterface $em,
         Events $events,
         Tariffs $tariffs,
-        Products $products,
         Orders $orders,
-        Fondy $fondy,
-        Users $users
+        Fondy $fondy
     )
     {
-        $this->em       = $em;
-        $this->events   = $events;
-        $this->tariffs  = $tariffs;
-        $this->products = $products;
-        $this->orders   = $orders;
-        $this->fondy    = $fondy;
-        $this->users    = $users;
+        $this->em      = $em;
+        $this->events  = $events;
+        $this->tariffs = $tariffs;
+        $this->orders  = $orders;
+        $this->fondy   = $fondy;
     }
 
     /**

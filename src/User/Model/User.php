@@ -2,15 +2,10 @@
 
 namespace App\User\Model;
 
-use App\Event\Model\EventId;
 use App\Infrastructure\DomainEvent\Entity;
-use App\Order\Model\Order;
 use App\Order\Model\OrderId;
 use App\Product\Model\ProductId;
-use App\Tariff\Model\TariffId;
-use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
-use Money\Money;
 
 /**
  * @ORM\Entity
@@ -47,26 +42,4 @@ class User extends Entity
         $this->contacts = $contacts;
         $this->orderId  = $orderId;
     }
-
-    public function makeOrder(
-        OrderId $orderId,
-        EventId $eventId,
-        ProductId $productId,
-        TariffId $tariffId,
-        Money $sum,
-        DateTimeImmutable $makedAt
-    ): Order
-    {
-        return new Order($orderId, $eventId, $productId, $tariffId, $this->id, $sum, $makedAt);
-    }
-
-//    public static function registered(RegisterRequest $request): self
-//    {
-//        $fullName = new FullName($request->firstName, $request->lastName);
-//        $contacts = new Contacts($request->email, $request->phone);
-//        $geo = new Geo($request->city, $request->country);
-//        $user = new self(Uuid::uuid4(), $fullName, $contacts, $geo);
-//
-//        return $user;
-//    }
 }

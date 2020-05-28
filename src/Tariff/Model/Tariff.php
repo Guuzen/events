@@ -72,11 +72,6 @@ class Tariff
         return $allowedTariffs->contains(new TariffId((string)$this->id));
     }
 
-    public function createProduct(ProductId $productId, DateTimeImmutable $createdAt, ProductType $productType): Product
-    {
-        return new Product($productId, $this->eventId, $this->id, $productType, $createdAt);
-    }
-
     /**
      * @return Order|TariffAndOrderMustBeRelatedToSameEvent|OrderAndProductMustBeRelatedToSameEvent|OrderAndProductMustBeRelatedToSameTariff
      */

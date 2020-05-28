@@ -42,11 +42,6 @@ class Order extends Entity
     private $tariffId;
 
     /**
-     * @ORM\Column(type="app_promocode_id", nullable=true)
-     */
-    private $promocodeId;
-
-    /**
      * @ORM\Column(type="app_product_type")
      */
     private $productType;

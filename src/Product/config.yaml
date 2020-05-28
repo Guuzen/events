@@ -1,7 +1,6 @@
 doctrine:
     dbal:
         types:
-            app_product_id: App\Product\Doctrine\ProductIdType
             app_product_type: App\Product\Doctrine\ProductTypeType
             app_ticket_id: App\Product\Doctrine\TicketIdType
     orm:
@@ -17,10 +16,4 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
-    App\Product\Action\ProductHandler: ~
-    App\Product\Model\Products: ~
     App\Product\Model\Tickets: ~
-
-    App\Product\ProductEventsSubscriber:
-        tags:
-            - { name: app.notification_subscriber } # todo not notification subscriber, rename ?
