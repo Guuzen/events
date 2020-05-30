@@ -13,9 +13,12 @@ final class UsedInOrders
         $this->orderIds = $orderIds;
     }
 
-    public function add(OrderId $orderId): void
+    public function add(OrderId $orderId): self
     {
-        $this->orderIds[] = $orderId;
+        $orderIds = $this->orderIds;
+        $orderIds[] = $orderId;
+
+        return new self($orderIds);
     }
 
     public function remove(OrderId $orderId): void

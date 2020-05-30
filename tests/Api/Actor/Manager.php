@@ -130,4 +130,22 @@ final class Manager
         $response = $this->client->post('/admin/order/markPaid', $markOrderPaid);
         $this->assertResultMatchesPattern($response, ['data' => []]);
     }
+
+    public function createFixedPromocode(array $promocode): void
+    {
+        $response = $this->client->post('/admin/promocode/createFixed', $promocode);
+        $this->assertResultMatchesPattern($response, [
+            'data' => [
+                'id' => '@uuid@',
+            ],
+        ]);
+    }
+
+    public function seeFixedPromocodeInList(string $eventId, array $promocodes): void
+    {
+        $response = $this->client->get('/admin/promocode/list', [
+            'eventId' => $eventId,
+        ]);
+        $this->assertResultMatchesPattern($response, $promocodes);
+    }
 }

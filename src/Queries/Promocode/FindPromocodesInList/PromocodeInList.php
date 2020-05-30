@@ -11,6 +11,8 @@ final class PromocodeInList
 {
     public $id;
 
+    public $eventId;
+
     public $code;
 
     /**
@@ -27,20 +29,30 @@ final class PromocodeInList
 
     public $usable;
 
+    public $usedInOrders;
+
+    public $allowedTariffs;
+
     public function __construct(
         string $id,
+        string $eventId,
         string $code,
         FixedDiscount $discount,
         int $useLimit,
         DateTimeImmutable $expireAt,
-        bool $usable
+        bool $usable,
+        array $usedInOrders,
+        array $allowedTariffs
     )
     {
-        $this->id       = $id;
-        $this->code     = $code;
-        $this->discount = $discount;
-        $this->useLimit = $useLimit;
-        $this->expireAt = $expireAt;
-        $this->usable   = $usable;
+        $this->id             = $id;
+        $this->eventId        = $eventId;
+        $this->code           = $code;
+        $this->discount       = $discount;
+        $this->useLimit       = $useLimit;
+        $this->expireAt       = $expireAt;
+        $this->usable         = $usable;
+        $this->usedInOrders   = $usedInOrders;
+        $this->allowedTariffs = $allowedTariffs;
     }
 }

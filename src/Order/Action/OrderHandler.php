@@ -7,10 +7,12 @@ use App\Event\Model\Events;
 use App\Fondy\Fondy;
 use App\Order\Model\OrderId;
 use App\Order\Model\Orders;
-use App\Promocode\Model\NullPromocode;
+use App\Promocode\Model\Discount\FixedDiscount;
 use App\Tariff\Model\Tariffs;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
+use Money\Currency;
+use Money\Money;
 
 class OrderHandler
 {
@@ -57,9 +59,8 @@ class OrderHandler
             return $tariff;
         }
 
-        // TODO не очень понятно где создавать промокод
-        $promocode = new NullPromocode();
-        $sum       = $tariff->calculateSum($promocode, $orderDate);
+        $discount = new FixedDiscount(new Money(0, new Currency('RUB')));
+        $sum      = $tariff->calculateSum($discount, $orderDate);
         if ($sum instanceof Error) {
             return $sum;
         }
@@ -75,10 +76,6 @@ class OrderHandler
         if ($order instanceof Error) {
             return $order;
         }
-
-        // TODO нафиг нужно считать сумму с промокодом, если потом можно всё равно промокод применить ?
-        $promocode->use($orderId, $tariff, $orderDate);
-        $order->applyPromocode($promocode);
 
         $this->em->persist($order);
 

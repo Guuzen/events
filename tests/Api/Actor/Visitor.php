@@ -46,6 +46,14 @@ final class Visitor
         return $response['data']['id'];
     }
 
+    public function usePromocode($promocode): void
+    {
+        $response = $this->client->post('/promocode/use', $promocode);
+        $this->assertResultMatchesPattern($response, [
+            'data' => [],
+        ]);
+    }
+
     public function payOrderByCard(array $payOrderByCard): string
     {
         $response = $this->client->post('/order/payByCard', $payOrderByCard);

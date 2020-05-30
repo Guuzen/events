@@ -2,6 +2,7 @@
 
 namespace App\Common;
 
+use Symfony\Component\Serializer\Exception\RuntimeException;
 use Symfony\Component\Serializer\Normalizer\PropertyNormalizer;
 
 final class WithoutConstructorPropertyNormalizer extends PropertyNormalizer
@@ -24,6 +25,22 @@ final class WithoutConstructorPropertyNormalizer extends PropertyNormalizer
         string $format = null
     ): object
     {
+        if ($this->classDiscriminatorResolver && $mapping = $this->classDiscriminatorResolver->getMappingForClass($class)) {
+            if (!isset($data[$mapping->getTypeProperty()])) {
+                throw new \RuntimeException(\sprintf('Type property "%s" not found for the abstract object "%s".', $mapping->getTypeProperty(), $class));
+            }
+
+            /** @var string $type */
+            $type = $data[$mapping->getTypeProperty()];
+            if (null === ($mappedClass = $mapping->getClassForType($type))) {
+                throw new \RuntimeException(\sprintf('The type "%s" has no mapped class for the abstract object "%s".', $type, $class));
+            }
+
+            /** @psalm-var class-string $class */
+            $class = $mappedClass;
+            $reflectionClass = new \ReflectionClass($class);
+        }
+
         return $reflectionClass->newInstanceWithoutConstructor();
     }
 

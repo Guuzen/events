@@ -52,6 +52,8 @@ class Order extends Entity
     private $userId;
 
     /**
+     * @var Money
+     *
      * @ORM\Column(type="app_money")
      */
     private $sum;

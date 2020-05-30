@@ -127,7 +127,7 @@ class RegularPromocode implements Promocode
             throw new PromocodeNotAllowedForTariff();
         }
 
-        $this->usedInOrders->add($orderId);
+        $this->usedInOrders = $this->usedInOrders->add($orderId);
     }
 
     public function cancel(OrderId $orderId): void

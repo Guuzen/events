@@ -25,6 +25,7 @@ final class PromocodeQueries
             from (
                 select
                     id,
+                    event_id,
                     code,
                     json_build_object(
                         \'amount\', discount -> \'amount\' -> \'amount\',
@@ -33,7 +34,9 @@ final class PromocodeQueries
                     ) as discount,
                     use_limit,
                     expire_at,
-                    usable
+                    usable,
+                    used_in_orders,
+                    allowed_tariffs
                 from
                     regular_promocode
                 where

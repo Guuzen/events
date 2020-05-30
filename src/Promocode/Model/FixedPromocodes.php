@@ -36,4 +36,28 @@ final class FixedPromocodes extends ServiceEntityRepository
 
         return $promocode;
     }
+
+    /**
+     * @return Promocode|PromocodeNotFound
+     */
+    public function findByCode(string $code)
+    {
+        $query = $this->_em->createQuery('
+            select
+                promocode
+            from
+                App\Promocode\Model\RegularPromocode as promocode
+            where
+                promocode.code = :code
+        ');
+        $query->setParameter('code', $code);
+
+        /** @var Promocode|null */
+        $promocode = $query->getOneOrNullResult();
+        if (null === $promocode) {
+            return new PromocodeNotFound();
+        }
+
+        return $promocode;
+    }
 }
