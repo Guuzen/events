@@ -7,6 +7,7 @@ use App\Promocode\Model\Discount\Discount;
 use App\Tariff\Model\Error\TariffSegmentNotFound;
 use App\Tariff\Model\Exception\TariffSegmentsCantIntersects;
 use DateTimeImmutable;
+use Exception;
 use Money\Money;
 
 // TODO цены должны не только не пересекаться, но ещё и идти всегда подряд?
@@ -75,7 +76,7 @@ final class TariffPriceNet
     private static function assertSegmentsNotEmpty(array $segments): void
     {
         if ([] === $segments) {
-            throw new \Exception('segments should not be empty');
+            throw new Exception('segments should not be empty');
         }
     }
 }

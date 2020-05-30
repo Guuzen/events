@@ -8,6 +8,7 @@ use App\Common\Error;
 use App\Order\Model\Orders;
 use App\Promocode\Model\FixedPromocodes;
 use App\Tariff\Model\Tariffs;
+use DateTimeImmutable;
 
 // TODO rename use fixed promocode ?
 final class UsePromocodeHandler
@@ -43,7 +44,7 @@ final class UsePromocodeHandler
             return $order;
         }
 
-        $promocode->use($command->orderId, $tariff, new \DateTimeImmutable());
+        $promocode->use($command->orderId, $tariff, new DateTimeImmutable());
         $order->applyPromocode($promocode);
 
         return null;

@@ -5,6 +5,7 @@ namespace App\Product\Action\CreateTicket;
 use App\Event\Model\EventId;
 use App\Infrastructure\Http\RequestResolver\AppRequest;
 use App\Order\Model\OrderId;
+use DateTimeImmutable;
 
 /**
  * @psalm-immutable
@@ -17,7 +18,7 @@ final class CreateTicket implements AppRequest
 
     public $asOf;
 
-    public function __construct(EventId $eventId, OrderId $orderId, \DateTimeImmutable $asOf)
+    public function __construct(EventId $eventId, OrderId $orderId, DateTimeImmutable $asOf)
     {
         $this->eventId = $eventId;
         $this->orderId = $orderId;

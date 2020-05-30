@@ -9,9 +9,11 @@ use App\Product\Action\CreateTicket\CreateTicketHandler;
 use App\Product\Action\SendTicket\SendTicket;
 use App\Product\Action\SendTicket\SendTicketHandler;
 use App\Product\Model\ProductType;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use function get_class;
 
 final class OrderNotificationSubscriber implements EventSubscriberInterface
 {
@@ -50,14 +52,14 @@ final class OrderNotificationSubscriber implements EventSubscriberInterface
         }
 
         $ticketId = $this->createTicketHandler->createTicket(
-            new CreateTicket($orderMarkedPaid->eventId, $orderMarkedPaid->orderId, new \DateTimeImmutable('now'))
+            new CreateTicket($orderMarkedPaid->eventId, $orderMarkedPaid->orderId, new DateTimeImmutable('now'))
         );
 
         // TODO move to exceptions
         if ($ticketId instanceof Error) {
             $this->logger->error('create ticket failed', [
                 'orderId' => $orderMarkedPaid->orderId,
-                'error'   => \get_class($ticketId),
+                'error'   => get_class($ticketId),
             ]);
 
             return;
@@ -71,7 +73,7 @@ final class OrderNotificationSubscriber implements EventSubscriberInterface
         if ($error instanceof Error) {
             $this->logger->error('send ticket failed', [
                 'orderId' => $orderMarkedPaid->orderId,
-                'error'   => \get_class($error),
+                'error'   => get_class($error),
             ]);
         }
 

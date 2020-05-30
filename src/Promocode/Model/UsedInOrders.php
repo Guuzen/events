@@ -15,7 +15,7 @@ final class UsedInOrders
 
     public function add(OrderId $orderId): self
     {
-        $orderIds = $this->orderIds;
+        $orderIds   = $this->orderIds;
         $orderIds[] = $orderId;
 
         return new self($orderIds);

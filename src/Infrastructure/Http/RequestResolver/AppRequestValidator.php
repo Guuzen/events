@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Http\RequestResolver;
 
+use Generator;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 final class AppRequestValidator
@@ -13,7 +14,7 @@ final class AppRequestValidator
         $this->validator = $validator;
     }
 
-    public function validate(AppRequest $appRequest): \Generator
+    public function validate(AppRequest $appRequest): Generator
     {
         $errors = $this->validator->validate($appRequest);
         if (count($errors) > 0) {

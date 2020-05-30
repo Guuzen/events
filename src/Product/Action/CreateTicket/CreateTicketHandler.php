@@ -8,6 +8,7 @@ use App\Common\Error;
 use App\Event\Model\Events;
 use App\Product\Model\TicketId;
 use App\Product\Model\Tickets;
+use function random_int;
 
 final class CreateTicketHandler
 {
@@ -35,7 +36,7 @@ final class CreateTicketHandler
         $ticket   = $event->createTicket(
             $ticketId,
             $createTicket->orderId,
-            (string)\random_int(10000000, 99999999),
+            (string)random_int(10000000, 99999999),
             $createTicket->asOf
         );
         $this->tickets->add($ticket);

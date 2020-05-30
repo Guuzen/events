@@ -8,6 +8,7 @@ use App\Fondy\Fondy;
 use App\Infrastructure\DomainEvent\Entity;
 use App\Order\Model\Error\OrderAlreadyPaid;
 use App\Order\Model\Exception\OrderCancelled;
+use App\Order\Model\Exception\PromocodeAlreadyUsedInOrder;
 use App\Product\Model\ProductType;
 use App\Promocode\Model\Promocode;
 use App\Tariff\Model\TariffId;
@@ -59,6 +60,13 @@ class Order extends Entity
     private $sum;
 
     /**
+     * @var Money|null
+     *
+     * @ORM\Column(type="app_money", nullable=true)
+     */
+    private $discountedSum;
+
+    /**
      * @ORM\Column(type="datetime_immutable")
      */
     private $makedAt;
@@ -96,7 +104,14 @@ class Order extends Entity
 
     public function applyPromocode(Promocode $promocode): void
     {
-        $this->sum = $promocode->apply($this->sum);
+        if ($this->discountedSum === null) {
+            $this->discountedSum = $promocode->apply($this->sum);
+            $this->sum           = $promocode->apply($this->sum); // TODO save sum and discount?
+
+            return;
+        }
+
+        throw new PromocodeAlreadyUsedInOrder();
     }
 
     public function cancel(): void

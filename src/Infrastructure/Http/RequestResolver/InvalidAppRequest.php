@@ -2,10 +2,11 @@
 
 namespace App\Infrastructure\Http\RequestResolver;
 
+use Exception;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Throwable;
 
-class InvalidAppRequest extends \Exception
+class InvalidAppRequest extends Exception
 {
     /**
      * @var ConstraintViolationListInterface

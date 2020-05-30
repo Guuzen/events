@@ -2,6 +2,9 @@
 
 namespace App\Product\Model;
 
+use Exception;
+use function sprintf;
+
 /**
  * @psalm-immutable
  */
@@ -29,7 +32,7 @@ final class ProductType
             return;
         }
 
-        throw new \Exception(\sprintf('unknown product type %s', $type));
+        throw new Exception(sprintf('unknown product type %s', $type));
     }
 
     public static function broadcastLink(): self

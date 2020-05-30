@@ -2,6 +2,8 @@
 
 namespace App\Promocode\Model\Exception;
 
-final class PromocodeAndTariffRelatedToDifferentEvents extends \Exception
+use Exception;
+
+final class PromocodeAndTariffRelatedToDifferentEvents extends Exception
 {
 }

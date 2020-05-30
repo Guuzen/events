@@ -4,6 +4,7 @@ namespace App\Product\Model;
 
 use App\Event\Model\EventId;
 use App\Order\Model\OrderId;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\UniqueConstraint;
 
@@ -42,7 +43,7 @@ final class Ticket
      */
     private $createdAt;
 
-    public function __construct(TicketId $id, EventId $eventId, OrderId $orderId, string $number, \DateTimeImmutable $createdAt)
+    public function __construct(TicketId $id, EventId $eventId, OrderId $orderId, string $number, DateTimeImmutable $createdAt)
     {
         $this->id        = $id;
         $this->eventId   = $eventId;

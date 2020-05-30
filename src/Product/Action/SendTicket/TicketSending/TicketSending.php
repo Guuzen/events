@@ -6,11 +6,14 @@ namespace App\Product\Action\SendTicket\TicketSending;
 
 use App\Common\Error;
 use App\Product\Action\SendTicket\FindTicketEmail\TicketEmail;
+use Swift_Mailer;
+use Swift_Message;
+use function sprintf;
 
 final class TicketSending
 {
     /**
-     * @var \Swift_Mailer
+     * @var Swift_Mailer
      */
     private $mailer;
 
@@ -19,7 +22,7 @@ final class TicketSending
      */
     private $from;
 
-    public function __construct(\Swift_Mailer $mailer, string $from)
+    public function __construct(Swift_Mailer $mailer, string $from)
     {
         $this->mailer = $mailer;
         $this->from   = $from;
@@ -27,11 +30,11 @@ final class TicketSending
 
     public function send(TicketEmail $ticketEmail): ?Error
     {
-        $email = (new \Swift_Message())
+        $email = (new Swift_Message())
             ->setSubject('Thanks for buy ticket')
             ->setFrom($this->from)
             ->setTo($ticketEmail->email)
-            ->setBody(\sprintf('ticket number is %s', $ticketEmail->number));
+            ->setBody(sprintf('ticket number is %s', $ticketEmail->number));
 
         $sent = $this->mailer->send($email);
         if (0 === $sent) {

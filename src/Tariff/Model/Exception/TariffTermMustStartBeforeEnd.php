@@ -2,6 +2,8 @@
 
 namespace App\Tariff\Model\Exception;
 
-final class TariffTermMustStartBeforeEnd extends \Exception
+use Exception;
+
+final class TariffTermMustStartBeforeEnd extends Exception
 {
 }

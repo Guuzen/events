@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Common;
 
+use DateTimeZone;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Symfony\Component\PropertyInfo\Extractor\PhpDocExtractor;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
@@ -53,7 +54,7 @@ final class Serializer
         $discriminator        = new ClassDiscriminatorFromClassMetadata($classMetadataFactory);
 
         return new \Symfony\Component\Serializer\Serializer([
-            new DateTimeNormalizer([DateTimeNormalizer::FORMAT_KEY => 'Y-m-d H:i:s'], new \DateTimeZone('UTC')),
+            new DateTimeNormalizer([DateTimeNormalizer::FORMAT_KEY => 'Y-m-d H:i:s'], new DateTimeZone('UTC')),
             new ArrayDenormalizer(),
             new WithoutConstructorPropertyNormalizer(
                 $classMetadataFactory,

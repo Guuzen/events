@@ -6,7 +6,6 @@ use App\Event\Model\EventId;
 use App\Order\Model\OrderId;
 use App\Promocode\Model\AllowedTariffs\SpecificAllowedTariffs;
 use App\Promocode\Model\Discount\FixedDiscount;
-use App\Promocode\Model\Exception\PromocodeAlreadyUsedInOrder;
 use App\Promocode\Model\Exception\PromocodeAndTariffRelatedToDifferentEvents;
 use App\Promocode\Model\Exception\PromocodeNotAllowedForTariff;
 use App\Promocode\Model\Exception\PromocodeNotUsable;
@@ -147,25 +146,6 @@ class RegularPromocodeSpec extends ObjectBehavior
         $this->makeNotUsable();
         $this
             ->shouldThrow(PromocodeNotUsable::class)
-            ->during('use', [$orderId, $tariff, $now]);
-    }
-
-    public function it_should_not_be_possible_to_use_twice_in_same_order(Tariff $tariff)
-    {
-        $orderId = OrderId::new();
-        $now     = new DateTimeImmutable('now');
-
-        $tariff->beADoubleOf(Tariff::class);
-        $tariff
-            ->relatedToEvent(Argument::any())
-            ->willReturn(true);
-        $tariff
-            ->allowedForUse(Argument::any())
-            ->willReturn(true);
-
-        $this->use($orderId, $tariff, $now);
-        $this
-            ->shouldThrow(PromocodeAlreadyUsedInOrder::class)
             ->during('use', [$orderId, $tariff, $now]);
     }
 

@@ -17,6 +17,10 @@ abstract class JsonDocumentType extends Type
             $this->serializer = new Serializer();
         }
 
+        if ($value === null) {
+            return null;
+        }
+
         return $this->serializer->deserialize($value, $this->className());
     }
 
@@ -24,6 +28,10 @@ abstract class JsonDocumentType extends Type
     {
         if (null === $this->serializer) {
             $this->serializer = new Serializer();
+        }
+
+        if ($value === null) {
+            return null;
         }
 
         return $this->serializer->serialize($value);

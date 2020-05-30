@@ -2,6 +2,8 @@
 
 namespace App\Infrastructure\Http\RequestResolver;
 
+use Exception;
+use Generator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
@@ -23,17 +25,17 @@ final class AppRequestResolver implements ArgumentValueResolverInterface
     {
         $argumentType = $argument->getType();
         if (null === $argumentType) {
-            throw new \Exception();
+            throw new Exception();
         }
 
         return is_subclass_of($argumentType, AppRequest::class);
     }
 
-    public function resolve(Request $request, ArgumentMetadata $argument): \Generator
+    public function resolve(Request $request, ArgumentMetadata $argument): Generator
     {
         $argumentType = $argument->getType();
         if (null === $argumentType) {
-            throw new \Exception();
+            throw new Exception();
         }
 
         if (Request::METHOD_GET === $request->getMethod()) {

@@ -2,6 +2,8 @@
 
 namespace App\Product\Model\Exception;
 
-final class ProductReserveCantBeCancelledIfAlreadyDelivered extends \Exception
+use Exception;
+
+final class ProductReserveCantBeCancelledIfAlreadyDelivered extends Exception
 {
 }

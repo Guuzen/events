@@ -7,11 +7,12 @@ namespace App\Infrastructure\Email;
 use GuzzleHttp\ClientInterface;
 use Swift_Events_EventListener;
 use Swift_Mime_SimpleMessage;
+use Swift_Transport;
 
 /**
  * Transport for send emails in test environment
  */
-final class HttpEmailTransport implements \Swift_Transport
+final class HttpEmailTransport implements Swift_Transport
 {
     /**
      * @var ClientInterface

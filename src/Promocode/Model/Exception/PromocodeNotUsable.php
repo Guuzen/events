@@ -2,6 +2,8 @@
 
 namespace App\Promocode\Model\Exception;
 
-final class PromocodeNotUsable extends \Exception
+use Exception;
+
+final class PromocodeNotUsable extends Exception
 {
 }

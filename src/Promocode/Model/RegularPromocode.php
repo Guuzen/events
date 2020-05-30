@@ -6,7 +6,6 @@ use App\Event\Model\EventId;
 use App\Order\Model\OrderId;
 use App\Promocode\Model\AllowedTariffs\AllowedTariffs;
 use App\Promocode\Model\Discount\Discount;
-use App\Promocode\Model\Exception\PromocodeAlreadyUsedInOrder;
 use App\Promocode\Model\Exception\PromocodeAndTariffRelatedToDifferentEvents;
 use App\Promocode\Model\Exception\PromocodeNotAllowedForTariff;
 use App\Promocode\Model\Exception\PromocodeNotUsable;
@@ -105,10 +104,6 @@ class RegularPromocode implements Promocode
     {
         if (!$this->usable) {
             throw new PromocodeNotUsable();
-        }
-
-        if ($this->usedInOrders($orderId)) {
-            throw new PromocodeAlreadyUsedInOrder();
         }
 
         if ($this->useLimitExceeded()) {

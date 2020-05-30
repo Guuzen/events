@@ -2,6 +2,8 @@
 
 namespace App\Tariff\Model\Exception;
 
-final class PromocodeExpired extends \Exception
+use Exception;
+
+final class PromocodeExpired extends Exception
 {
 }

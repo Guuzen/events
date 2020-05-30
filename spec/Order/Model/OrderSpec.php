@@ -6,9 +6,11 @@ use App\Event\Model\EventId;
 use App\Fondy\CantGetPaymentUrl;
 use App\Fondy\Fondy;
 use App\Order\Model\Error\OrderAlreadyPaid;
+use App\Order\Model\Exception\PromocodeAlreadyUsedInOrder;
 use App\Order\Model\OrderId;
 use App\Product\Model\ProductId;
 use App\Product\Model\ProductType;
+use App\Promocode\Model\Promocode;
 use App\Tariff\Model\TariffId;
 use App\User\Model\UserId;
 use DateTimeImmutable;
@@ -85,6 +87,19 @@ class OrderSpec extends ObjectBehavior
             ->willReturn($error);
 
         $this->createFondyPayment($fondy)->shouldReturn($error);
+    }
+
+    public function it_should_not_be_possible_to_use_promocode_twice_in_same_order(Promocode $promocode)
+    {
+        $promocode->beADoubleOf(Promocode::class);
+        $anyDiscountedSum = new Money('1', new Currency('RUB'));
+        $promocode
+            ->apply(Argument::cetera())
+            ->willReturn($anyDiscountedSum);
+        $this->shouldNotThrow()->during('applyPromocode', [$promocode]);
+
+        $this->shouldThrow(PromocodeAlreadyUsedInOrder::class)->during('applyPromocode', [$promocode]);
+
     }
 
 //    public function it_should_not_be_possible_to_cancel_if_paid()

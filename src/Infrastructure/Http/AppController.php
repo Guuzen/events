@@ -3,7 +3,9 @@
 namespace App\Infrastructure\Http;
 
 use App\Common\Error;
+use Exception;
 use Psr\Container\ContainerInterface;
+use ReflectionClass;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -71,10 +73,10 @@ abstract class AppController
 
     private function stringifyError(Error $errorObject): string
     {
-        $errorClassName = (new \ReflectionClass($errorObject))->getShortName();
+        $errorClassName = (new ReflectionClass($errorObject))->getShortName();
         $message        = preg_replace('/[A-Z]/', ' \\0', lcfirst($errorClassName));
         if (null === $message) {
-            throw new \Exception();
+            throw new Exception();
         }
 
         return strtolower($message);
