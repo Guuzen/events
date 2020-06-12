@@ -11,31 +11,16 @@ use App\User\Model\UserId;
  */
 final class PlaceOrder
 {
-    private $tariffId;
+    public $tariffId;
 
-    private $eventId;
+    public $eventId;
 
-    private $userId;
+    public $userId;
 
-    public function __construct(string $tariffId, string $eventId, string $userId)
+    public function __construct(TariffId $tariffId, EventId $eventId, UserId $userId)
     {
         $this->tariffId = $tariffId;
         $this->eventId  = $eventId;
         $this->userId   = $userId;
-    }
-
-    public function tariffId(): TariffId
-    {
-        return new TariffId($this->tariffId);
-    }
-
-    public function eventId(): EventId
-    {
-        return new EventId($this->eventId);
-    }
-
-    public function userId(): UserId
-    {
-        return new UserId($this->userId);
     }
 }

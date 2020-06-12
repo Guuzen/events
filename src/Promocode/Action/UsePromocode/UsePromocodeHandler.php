@@ -34,7 +34,7 @@ final class UsePromocodeHandler
             return $promocode;
         }
 
-        $tariff = $this->tariffs->findById($command->tariffId);
+        $tariff = $this->tariffs->findById($command->tariffId, $command->eventId);
         if ($tariff instanceof Error) {
             return $tariff;
         }

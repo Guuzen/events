@@ -2,9 +2,12 @@
 
 namespace App\Order\Action;
 
+use App\Event\Model\EventId;
 use App\Infrastructure\Http\RequestResolver\AppRequest;
 use App\Order\Model\OrderId;
+use App\Tariff\Model\TariffId;
 use App\User\Action\CreateUser;
+use App\User\Model\UserId;
 use Symfony\Component\Validator\Constraints as Assert;
 
 // TODO validation
@@ -42,13 +45,13 @@ final class PlaceOrderRequest implements AppRequest
         $this->phone     = $phone;
     }
 
-    public function toCreateUser(string $userId, OrderId $orderId): CreateUser
+    public function toCreateUser(UserId $userId, OrderId $orderId): CreateUser
     {
         return new CreateUser($userId, $orderId, $this->firstName, $this->lastName, $this->email, $this->phone);
     }
 
-    public function toPlaceOrder(string $userId, string $eventId): PlaceOrder
+    public function toPlaceOrder(UserId $userId, EventId $eventId): PlaceOrder
     {
-        return new PlaceOrder($this->tariffId, $eventId, $userId);
+        return new PlaceOrder(new TariffId($this->tariffId), $eventId, $userId);
     }
 }

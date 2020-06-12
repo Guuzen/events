@@ -37,13 +37,13 @@ final class OrderHttpAdapter extends AppController
 
         /** @var OrderId|Error $orderId */
         $orderId = $this->em->transactional(function () use ($placeOrderRequest, $userId, $eventId) {
-            $orderId = $this->orderHandler->placeOrder($placeOrderRequest->toPlaceOrder((string)$userId, (string)$eventId));
+            $orderId = $this->orderHandler->placeOrder($placeOrderRequest->toPlaceOrder($userId, $eventId));
             // TODO create user from frontend
             if ($orderId instanceof Error) {
                 return $orderId;
             }
 
-            $this->userHandler->createUser($placeOrderRequest->toCreateUser((string)$userId, $orderId));
+            $this->userHandler->createUser($placeOrderRequest->toCreateUser($userId, $orderId));
 
             return $orderId;
         });

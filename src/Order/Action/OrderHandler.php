@@ -49,13 +49,12 @@ class OrderHandler
     {
         $orderDate = new DateTimeImmutable();
 
-        $event = $this->events->findById($placeOrder->eventId());
+        $event = $this->events->findById($placeOrder->eventId);
         if ($event instanceof Error) {
             return $event;
         }
 
-        $tariffId = $placeOrder->tariffId();
-        $tariff   = $this->tariffs->findById($tariffId);
+        $tariff = $this->tariffs->findById($placeOrder->tariffId, $placeOrder->eventId);
         if ($tariff instanceof Error) {
             return $tariff;
         }
@@ -70,7 +69,7 @@ class OrderHandler
         $order   = $event->makeOrder(
             $orderId,
             $tariff,
-            $placeOrder->userId(),
+            $placeOrder->userId,
             $sum,
             $orderDate
         );

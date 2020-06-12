@@ -10,6 +10,9 @@ use App\User\Model\FullName;
 use App\User\Model\User;
 use App\User\Model\UserId;
 
+/**
+ * @psalm-immutable
+ */
 final class CreateUser
 {
     private $userId;
@@ -24,7 +27,7 @@ final class CreateUser
 
     private $phone;
 
-    public function __construct(string $userId, OrderId $orderId, string $firstName, string $lastName, string $email, string $phone)
+    public function __construct(UserId $userId, OrderId $orderId, string $firstName, string $lastName, string $email, string $phone)
     {
         $this->userId    = $userId;
         $this->orderId   = $orderId;
@@ -37,7 +40,7 @@ final class CreateUser
     public function user(): User
     {
         return new User(
-            new UserId($this->userId),
+            $this->userId,
             $this->orderId,
             new FullName($this->firstName, $this->lastName),
             new Contacts($this->email, $this->phone)
