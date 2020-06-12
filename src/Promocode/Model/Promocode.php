@@ -4,7 +4,6 @@ namespace App\Promocode\Model;
 
 use App\Order\Model\OrderId;
 use App\Promocode\Model\Discount\Discount;
-use App\Tariff\Model\Tariff;
 use App\Tariff\Model\TariffId;
 use DateTimeImmutable;
 
@@ -12,7 +11,7 @@ use DateTimeImmutable;
 interface Promocode extends Discount
 {
     // TODO order instead of orderId
-    public function use(OrderId $orderId, TariffId $tariffId, Tariff $tariff, DateTimeImmutable $asOf): void;
+    public function use(OrderId $orderId, TariffId $tariffId, DateTimeImmutable $asOf): void;
 
     public function cancel(OrderId $orderId): void;
 

@@ -6,7 +6,6 @@ use App\Event\Model\EventId;
 use App\Order\Model\OrderId;
 use App\Promocode\Model\AllowedTariffs\SpecificAllowedTariffs;
 use App\Promocode\Model\Discount\FixedDiscount;
-use App\Promocode\Model\Exception\PromocodeAndTariffRelatedToDifferentEvents;
 use App\Promocode\Model\Exception\PromocodeNotAllowedForTariff;
 use App\Promocode\Model\Exception\PromocodeNotUsable;
 use App\Promocode\Model\Exception\PromocodeNotUsedInOrder;
@@ -14,13 +13,11 @@ use App\Promocode\Model\Exception\PromocodeUseLimitExceeded;
 use App\Promocode\Model\PromocodeId;
 use App\Promocode\Model\RegularPromocode;
 use App\Tariff\Model\Exception\PromocodeExpired;
-use App\Tariff\Model\Tariff;
 use App\Tariff\Model\TariffId;
 use DateTimeImmutable;
 use Money\Currency;
 use Money\Money;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 /**
  * вопросы:
@@ -62,21 +59,13 @@ class RegularPromocodeSpec extends ObjectBehavior
         $this->shouldHaveType(RegularPromocode::class);
     }
 
-    public function it_should_be_possible_to_cancel_when_used(Tariff $tariff)
+    public function it_should_be_possible_to_cancel_when_used()
     {
-        $orderId = OrderId::new();
-        $now     = new DateTimeImmutable('now');
-
+        $orderId  = OrderId::new();
+        $now      = new DateTimeImmutable('now');
         $tariffId = new TariffId('d9d9db49-42c3-41ac-968a-70372f2b17a8');
-        $tariff->beADoubleOf(Tariff::class);
-        $tariff
-            ->relatedToEvent(Argument::any())
-            ->willReturn(true);
-        $tariff
-            ->allowedForUse(Argument::any())
-            ->willReturn(true);
 
-        $this->use($orderId, $tariffId, $tariff, $now);
+        $this->use($orderId, $tariffId, $now);
         $this
             ->shouldNotThrow()
             ->during('cancel', [$orderId]);
@@ -91,143 +80,77 @@ class RegularPromocodeSpec extends ObjectBehavior
             ->during('cancel', [$orderId]);
     }
 
-    public function it_should_be_possible_to_use_again_when_cancelled(Tariff $tariff)
+    public function it_should_be_possible_to_use_again_when_cancelled()
     {
         $orderId = OrderId::new();
         $now     = new DateTimeImmutable('now');
 
         $tariffId = new TariffId('d9d9db49-42c3-41ac-968a-70372f2b17a8');
-        $tariff->beADoubleOf(Tariff::class);
-        $tariff
-            ->relatedToEvent(Argument::any())
-            ->willReturn(true);
-        $tariff
-            ->allowedForUse(Argument::any())
-            ->willReturn(true);
 
-        $this->use($orderId, $tariffId, $tariff, $now);
+        $this->use($orderId, $tariffId, $now);
         $this->cancel($orderId);
         $this
             ->shouldNotThrow()
-            ->during('use', [$orderId, $tariffId, $tariff, $now]);
+            ->during('use', [$orderId, $tariffId, $now]);
     }
 
     // use promocode
 
-    public function it_should_be_possible_to_use(Tariff $tariff)
+    public function it_should_be_possible_to_use()
     {
-        $orderId = OrderId::new();
-        $now     = new DateTimeImmutable('now');
-
+        $orderId  = OrderId::new();
+        $now      = new DateTimeImmutable('now');
         $tariffId = new TariffId('d9d9db49-42c3-41ac-968a-70372f2b17a8');
-        $tariff->beADoubleOf(Tariff::class);
-        $tariff
-            ->relatedToEvent(Argument::any())
-            ->willReturn(true);
-        $tariff
-            ->allowedForUse(Argument::any())
-            ->willReturn(true);
 
         $this
             ->shouldNotThrow()
-            ->during('use', [$orderId, $tariffId, $tariff, $now]);
+            ->during('use', [$orderId, $tariffId, $now]);
     }
 
-    public function it_should_not_be_possible_to_use_when_not_usable(Tariff $tariff)
+    public function it_should_not_be_possible_to_use_when_not_usable()
     {
-        $orderId = OrderId::new();
-        $now     = new DateTimeImmutable('now');
-
+        $orderId  = OrderId::new();
+        $now      = new DateTimeImmutable('now');
         $tariffId = new TariffId('d9d9db49-42c3-41ac-968a-70372f2b17a8');
-        $tariff->beADoubleOf(Tariff::class);
-        $tariff
-            ->relatedToEvent(Argument::any())
-            ->willReturn(true);
-        $tariff
-            ->allowedForUse(Argument::any())
-            ->willReturn(true);
 
         $this->makeNotUsable();
         $this
             ->shouldThrow(PromocodeNotUsable::class)
-            ->during('use', [$orderId, $tariffId, $tariff, $now]);
+            ->during('use', [$orderId, $tariffId, $now]);
     }
 
-    public function it_should_not_be_possible_to_use_when_expired(Tariff $tariff)
+    public function it_should_not_be_possible_to_use_when_expired()
     {
         $orderId        = OrderId::new();
         $backOfTomorrow = new DateTimeImmutable('tomorrow + 15 minutes');
-
-        $tariffId = new TariffId('d9d9db49-42c3-41ac-968a-70372f2b17a8');
-        $tariff->beADoubleOf(Tariff::class);
-        $tariff
-            ->relatedToEvent(Argument::any())
-            ->willReturn(true);
-        $tariff
-            ->allowedForUse(Argument::any())
-            ->willReturn(true);
+        $tariffId       = new TariffId('d9d9db49-42c3-41ac-968a-70372f2b17a8');
 
         $this
             ->shouldThrow(PromocodeExpired::class)
-            ->during('use', [$orderId, $tariffId, $tariff, $backOfTomorrow]);
+            ->during('use', [$orderId, $tariffId, $backOfTomorrow]);
     }
 
-    public function it_should_not_be_possible_to_use_when_use_limit_exceeded(Tariff $tariff)
+    public function it_should_not_be_possible_to_use_when_use_limit_exceeded()
     {
-        $orderId = OrderId::new();
-        $now     = new DateTimeImmutable('now');
-
+        $orderId  = OrderId::new();
+        $now      = new DateTimeImmutable('now');
         $tariffId = new TariffId('d9d9db49-42c3-41ac-968a-70372f2b17a8');
-        $tariff->beADoubleOf(Tariff::class);
-        $tariff
-            ->relatedToEvent(Argument::any())
-            ->willReturn(true);
-        $tariff
-            ->allowedForUse(Argument::any())
-            ->willReturn(true);
 
-        $this->use(OrderId::new(), $tariffId, $tariff, new DateTimeImmutable('now'));
+        $this->use(OrderId::new(), $tariffId, new DateTimeImmutable('now'));
         $this
             ->shouldThrow(PromocodeUseLimitExceeded::class)
-            ->during('use', [$orderId, $tariffId, $tariff, $now]);
+            ->during('use', [$orderId, $tariffId, $now]);
     }
 
-    public function it_should_not_be_possible_to_use_when_tariff_is_related_to_different_event(Tariff $tariff)
+    public function it_should_not_be_possible_to_use_when_tariff_not_allowed()
     {
-        $orderId = OrderId::new();
-        $now     = new DateTimeImmutable('now');
-
-        $tariffId = new TariffId('d9d9db49-42c3-41ac-968a-70372f2b17a8');
-        $tariff->beADoubleOf(Tariff::class);
-        $tariff
-            ->relatedToEvent(Argument::any())
-            ->willReturn(false);
-        $tariff
-            ->allowedForUse(Argument::any())
-            ->willReturn(true);
-
-        $this
-            ->shouldThrow(PromocodeAndTariffRelatedToDifferentEvents::class)
-            ->during('use', [$orderId, $tariffId, $tariff, $now]);
-    }
-
-    public function it_should_not_be_possible_to_use_when_tariff_not_allowed(Tariff $tariff)
-    {
-        $orderId = OrderId::new();
-        $now     = new DateTimeImmutable('now');
-
+        $orderId            = OrderId::new();
+        $now                = new DateTimeImmutable('now');
         $notAllowedTariffId = new TariffId('fbc72e11-fb51-4f16-826e-1287c4a57523');
-        $tariff->beADoubleOf(Tariff::class);
-        $tariff
-            ->relatedToEvent(Argument::any())
-            ->willReturn(true);
-        $tariff
-            ->allowedForUse(Argument::any())
-            ->willReturn(false);
 
         $this
             ->shouldThrow(PromocodeNotAllowedForTariff::class)
-            ->during('use', [$orderId, $notAllowedTariffId, $tariff, $now]);
+            ->during('use', [$orderId, $notAllowedTariffId, $now]);
     }
 
     public function it_should_be_possible_to_apply_discount()

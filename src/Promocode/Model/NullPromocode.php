@@ -3,7 +3,6 @@
 namespace App\Promocode\Model;
 
 use App\Order\Model\OrderId;
-use App\Tariff\Model\Tariff;
 use App\Tariff\Model\TariffId;
 use DateTimeImmutable;
 use Exception;
@@ -11,7 +10,7 @@ use Money\Money;
 
 final class NullPromocode implements Promocode
 {
-    public function use(OrderId $orderId, TariffId $tariffId, Tariff $tariff, DateTimeImmutable $asOf): void
+    public function use(OrderId $orderId, TariffId $tariffId, DateTimeImmutable $asOf): void
     {
     }
 

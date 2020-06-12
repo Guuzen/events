@@ -6,13 +6,11 @@ use App\Event\Model\EventId;
 use App\Order\Model\OrderId;
 use App\Promocode\Model\AllowedTariffs\AllowedTariffs;
 use App\Promocode\Model\Discount\Discount;
-use App\Promocode\Model\Exception\PromocodeAndTariffRelatedToDifferentEvents;
 use App\Promocode\Model\Exception\PromocodeNotAllowedForTariff;
 use App\Promocode\Model\Exception\PromocodeNotUsable;
 use App\Promocode\Model\Exception\PromocodeNotUsedInOrder;
 use App\Promocode\Model\Exception\PromocodeUseLimitExceeded;
 use App\Tariff\Model\Exception\PromocodeExpired;
-use App\Tariff\Model\Tariff;
 use App\Tariff\Model\TariffId;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
@@ -101,7 +99,7 @@ class RegularPromocode implements Promocode
         $this->usedInOrders   = new UsedInOrders([]);
     }
 
-    public function use(OrderId $orderId, TariffId $tariffId, Tariff $tariff, DateTimeImmutable $asOf): void
+    public function use(OrderId $orderId, TariffId $tariffId, DateTimeImmutable $asOf): void
     {
         if (!$this->usable) {
             throw new PromocodeNotUsable();
@@ -113,10 +111,6 @@ class RegularPromocode implements Promocode
 
         if ($this->expired($asOf)) {
             throw new PromocodeExpired();
-        }
-
-        if (!$tariff->relatedToEvent($this->eventId)) {
-            throw new PromocodeAndTariffRelatedToDifferentEvents();
         }
 
         if (!$this->allowedTariffs->contains($tariffId)) {
