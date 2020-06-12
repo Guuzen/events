@@ -67,4 +67,9 @@ final class FixedPromocodes extends ServiceEntityRepository
 
         return $promocode;
     }
+
+    public function add(RegularPromocode $promocode): void
+    {
+        $this->_em->persist($promocode);
+    }
 }

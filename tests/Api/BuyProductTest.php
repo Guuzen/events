@@ -561,7 +561,7 @@ final class BuyProductTest extends TestCase
             'useLimit'       => 10,
             'expireAt'       => '3000-01-01 12:00:00',
             'usable'         => true,
-            'allowedTariffs' => [$tariffId]
+            'allowedTariffIds' => [$tariffId]
         ]);
         $this->manager->seeFixedPromocodeInList($eventId, [
             'data' => [

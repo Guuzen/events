@@ -4,6 +4,9 @@ namespace App\Promocode\Model\Discount;
 
 use Money\Money;
 
+/**
+ * @psalm-immutable
+ */
 final class FixedDiscount implements Discount
 {
     /**

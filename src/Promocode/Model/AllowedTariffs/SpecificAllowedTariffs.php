@@ -4,6 +4,9 @@ namespace App\Promocode\Model\AllowedTariffs;
 
 use App\Tariff\Model\TariffId;
 
+/**
+ * @psalm-immutable
+ */
 final class SpecificAllowedTariffs implements AllowedTariffs
 {
     /**
