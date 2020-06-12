@@ -187,6 +187,7 @@ final class BuyProductTest extends TestCase
 
         $this->manager->markOrderPaid([
             'orderId' => $orderId,
+            'eventId' => $eventId,
         ]);
         $this->visitor->receivesEmailWithTicket([
             'subject' => 'Thanks for buy ticket',
@@ -675,6 +676,7 @@ final class BuyProductTest extends TestCase
 
         $this->manager->markOrderPaid([
             'orderId' => $orderId,
+            'eventId' => $eventId,
         ]);
         $this->visitor->receivesEmailWithTicket([
             'subject' => 'Thanks for buy ticket',

@@ -3,6 +3,7 @@
 namespace App\Order\Action;
 
 use App\Common\Error;
+use App\Event\Model\EventId;
 use App\Event\Model\Events;
 use App\Fondy\Fondy;
 use App\Order\Model\OrderId;
@@ -85,42 +86,9 @@ class OrderHandler
     public function markOrderPaid(MarkOrderPaid $markOrderPaid): ?Error
     {
         $orderId = new OrderId($markOrderPaid->orderId);
+        $eventId = new EventId($markOrderPaid->eventId);
 
-        $order = $this->orders->findById($orderId);
-        if ($order instanceof Error) {
-            return $order;
-        }
-
-        $markPaidError = $order->markPaid();
-        if ($markPaidError instanceof Error) {
-            return $markPaidError;
-        }
-
-        $this->em->flush();
-
-        return null;
-    }
-
-    /**
-     * @return string|Error
-     */
-    public function payByCard(PayByCard $payByCard)
-    {
-        $orderId = new OrderId($payByCard->orderId);
-
-        $order = $this->orders->findById($orderId);
-        if ($order instanceof Error) {
-            return $order;
-        }
-
-        return $order->createFondyPayment($this->fondy);
-    }
-
-    public function markOrderPaidByFondy(MarkOrderPaidByFondy $markOrderPaidByFondy): ?Error
-    {
-        $orderId = new OrderId($markOrderPaidByFondy->orderId);
-
-        $order = $this->orders->findById($orderId);
+        $order = $this->orders->findById($orderId, $eventId);
         if ($order instanceof Error) {
             return $order;
         }

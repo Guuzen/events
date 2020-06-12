@@ -11,8 +11,11 @@ final class MarkOrderPaid implements AppRequest
 {
     public $orderId;
 
-    public function __construct(string $orderId)
+    public $eventId;
+
+    public function __construct(string $orderId, string $eventId)
     {
         $this->orderId = $orderId;
+        $this->eventId = $eventId;
     }
 }

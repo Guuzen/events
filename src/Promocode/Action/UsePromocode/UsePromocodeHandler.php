@@ -39,7 +39,7 @@ final class UsePromocodeHandler
             return $tariff;
         }
 
-        $order = $this->orders->findById($command->orderId);
+        $order = $this->orders->findById($command->orderId, $command->eventId);
         if ($order instanceof Error) {
             return $order;
         }

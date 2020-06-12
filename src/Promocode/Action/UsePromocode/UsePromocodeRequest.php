@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Promocode\Action\UsePromocode;
 
+use App\Event\Model\EventId;
 use App\Infrastructure\Http\RequestResolver\AppRequest;
 use App\Order\Model\OrderId;
 use App\Tariff\Model\TariffId;
@@ -23,11 +24,12 @@ final class UsePromocodeRequest implements AppRequest
         $this->tariffId = $tariffId;
     }
 
-    public function toUsePromocode(): UsePromocode
+    public function toUsePromocode(EventId $eventId): UsePromocode
     {
         return new UsePromocode(
             new OrderId($this->orderId),
             new TariffId($this->tariffId),
+            $eventId,
             $this->code
         );
     }

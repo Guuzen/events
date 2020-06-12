@@ -2,6 +2,7 @@
 
 namespace App\Order\Model;
 
+use App\Event\Model\EventId;
 use App\Order\Model\Error\OrderNotFound;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -16,17 +17,20 @@ final class Orders extends ServiceEntityRepository
     /**
      * @return Order|OrderNotFound
      */
-    public function findById(OrderId $orderId)
+    public function findById(OrderId $orderId, EventId $eventId)
     {
         $query = $this->_em->createQuery('
             select
-                i
+                ord
             from
-                App\Order\Model\Order as i
+                App\Order\Model\Order as ord
             where
-                i.id = :order_id
+                ord.id = :order_id
+                and
+                ord.eventId = :event_id
         ');
         $query->setParameter('order_id', $orderId);
+        $query->setParameter('event_id', $eventId);
 
         /** @var Order|null */
         $order = $query->getOneOrNullResult();
