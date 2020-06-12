@@ -2,10 +2,9 @@
 
 namespace App\Event\Model;
 
+use App\Common\Error;
 use App\Order\Model\Order;
 use App\Order\Model\OrderId;
-use App\Product\Model\Error\OrderAndProductMustBeRelatedToSameEvent;
-use App\Product\Model\Error\OrderAndProductMustBeRelatedToSameTariff;
 use App\Product\Model\ProductType;
 use App\Product\Model\Ticket;
 use App\Product\Model\TicketId;
@@ -14,7 +13,6 @@ use App\Promocode\Model\AllowedTariffs\EventAllowedTariffs;
 use App\Promocode\Model\Discount\Discount;
 use App\Promocode\Model\PromocodeId;
 use App\Promocode\Model\RegularPromocode;
-use App\Tariff\Model\Error\TariffAndOrderMustBeRelatedToSameEvent;
 use App\Tariff\Model\Tariff;
 use App\Tariff\Model\TariffId;
 use App\Tariff\Model\TariffPriceNet;
@@ -46,7 +44,7 @@ final class Event
     }
 
     /**
-     * @return Order|TariffAndOrderMustBeRelatedToSameEvent|OrderAndProductMustBeRelatedToSameEvent|OrderAndProductMustBeRelatedToSameTariff
+     * @return Order|Error
      */
     public function makeOrder(
         OrderId $orderId,

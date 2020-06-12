@@ -8,7 +8,6 @@ use App\Fondy\Fondy;
 use App\Order\Model\Error\OrderAlreadyPaid;
 use App\Order\Model\Exception\PromocodeAlreadyUsedInOrder;
 use App\Order\Model\OrderId;
-use App\Product\Model\ProductId;
 use App\Product\Model\ProductType;
 use App\Promocode\Model\Promocode;
 use App\Tariff\Model\TariffId;

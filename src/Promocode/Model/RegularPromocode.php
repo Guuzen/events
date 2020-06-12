@@ -120,6 +120,16 @@ class RegularPromocode implements Promocode
         $this->usedInOrders = $this->usedInOrders->add($orderId);
     }
 
+    private function useLimitExceeded(): bool
+    {
+        return $this->usedInOrders->count() === $this->useLimit;
+    }
+
+    private function expired(DateTimeImmutable $at): bool
+    {
+        return $this->expireAt < $at;
+    }
+
     public function cancel(OrderId $orderId): void
     {
         if (!$this->usedInOrders($orderId)) {
@@ -127,6 +137,11 @@ class RegularPromocode implements Promocode
         }
 
         $this->usedInOrders->remove($orderId);
+    }
+
+    private function usedInOrders(OrderId $orderId): bool
+    {
+        return $this->usedInOrders->has($orderId);
     }
 
     public function makeUsable(): void
@@ -142,30 +157,5 @@ class RegularPromocode implements Promocode
     public function apply(Money $price): Money
     {
         return $this->discount->apply($price);
-    }
-
-//    private function relatedToEvent(TariffInterface $tariff): bool
-//    {
-//        return $tariff->relatedToEvent($this->eventId);
-//    }
-//
-//    private function allowedForUse(TariffInterface $tariff): bool
-//    {
-//        return $tariff->allowedForUse($this->allowedTariffs);
-//    }
-
-    private function expired(DateTimeImmutable $at): bool
-    {
-        return $this->expireAt < $at;
-    }
-
-    private function useLimitExceeded(): bool
-    {
-        return $this->usedInOrders->count() === $this->useLimit;
-    }
-
-    private function usedInOrders(OrderId $orderId): bool
-    {
-        return $this->usedInOrders->has($orderId);
     }
 }
