@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Order\Action;
+namespace App\Order\Action\PlaceOrder;
 
 use App\Event\Model\EventId;
 use App\Infrastructure\Http\RequestResolver\AppRequest;

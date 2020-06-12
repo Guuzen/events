@@ -15,9 +15,7 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
-    App\Order\Action\OrderHandler: ~
     App\Order\Model\Orders: ~
-    App\Order\Model\OrderMarkedPaid: ~
     App\Order\OrderNotificationSubscriber:
         tags:
             - { name: app.notification_subscriber }

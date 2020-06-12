@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Order\Action;
+declare(strict_types=1);
+
+namespace App\Order\Action\PlaceOrder;
 
 use App\Common\Error;
 use App\Event\Model\EventId;
@@ -12,32 +14,33 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-final class OrderHttpAdapter extends AppController
+final class PlaceOrderHttpAdapter extends AppController
 {
-    private $orderHandler;
+    private $em;
+
+    private $handler;
 
     private $userHandler;
 
-    private $em;
-
-    public function __construct(OrderHandler $orderHandler, UserHandler $userHandler, EntityManagerInterface $em)
+    // TODO move coupling between create user and placing order to frontend ?
+    public function __construct(EntityManagerInterface $em, PlaceOrderHandler $handler, UserHandler $userHandler)
     {
-        $this->orderHandler = $orderHandler;
-        $this->userHandler  = $userHandler;
-        $this->em           = $em;
+        $this->em          = $em;
+        $this->handler     = $handler;
+        $this->userHandler = $userHandler;
     }
 
     /**
      * @Route("/order/place", methods={"POST"})
      */
-    public function placeOrder(PlaceOrderRequest $placeOrderRequest, EventId $eventId): Response
+    public function __invoke(PlaceOrderRequest $placeOrderRequest, EventId $eventId): Response
     {
         // TODO create user must be idempotent. Maybe this method should be named in other way
         $userId = UserId::new();
 
         /** @var OrderId|Error $orderId */
         $orderId = $this->em->transactional(function () use ($placeOrderRequest, $userId, $eventId) {
-            $orderId = $this->orderHandler->placeOrder($placeOrderRequest->toPlaceOrder($userId, $eventId));
+            $orderId = $this->handler->handle($placeOrderRequest->toPlaceOrder($userId, $eventId));
             // TODO create user from frontend
             if ($orderId instanceof Error) {
                 return $orderId;
@@ -49,15 +52,5 @@ final class OrderHttpAdapter extends AppController
         });
 
         return $this->response($orderId);
-    }
-
-    /**
-     * @Route("/admin/order/markPaid", methods={"POST"})
-     */
-    public function markOrderPaid(MarkOrderPaid $markOrderPaid): Response
-    {
-        $result = $this->orderHandler->markOrderPaid($markOrderPaid);
-
-        return $this->response($result);
     }
 }

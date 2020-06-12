@@ -40,4 +40,9 @@ final class Orders extends ServiceEntityRepository
 
         return $order;
     }
+
+    public function add(Order $order): void
+    {
+        $this->_em->persist($order);
+    }
 }
