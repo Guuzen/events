@@ -28,7 +28,7 @@ final class UsePromocodeHandler
 
     public function handle(UsePromocode $command): ?Error
     {
-        $promocode = $this->fixedPromocodes->findByCode($command->code);
+        $promocode = $this->fixedPromocodes->findByCode($command->code, $command->eventId);
 
         if ($promocode instanceof Error) {
             return $promocode;

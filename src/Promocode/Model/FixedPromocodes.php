@@ -2,6 +2,7 @@
 
 namespace App\Promocode\Model;
 
+use App\Event\Model\EventId;
 use App\Promocode\Model\Error\PromocodeNotFound;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -16,7 +17,7 @@ final class FixedPromocodes extends ServiceEntityRepository
     /**
      * @return Promocode|PromocodeNotFound
      */
-    public function findById(PromocodeId $promocodeId)
+    public function findById(PromocodeId $promocodeId, EventId $eventId)
     {
         $query = $this->_em->createQuery('
             select
@@ -25,8 +26,11 @@ final class FixedPromocodes extends ServiceEntityRepository
                 App\Promocode\Model\RegularPromocode as promocode
             where
                 promocode.id = :promocode_id
+                and
+                promocode.eventId = :event_id
         ');
         $query->setParameter('promocode_id', $promocodeId);
+        $query->setParameter('event_id', $eventId);
 
         /** @var Promocode|null */
         $promocode = $query->getOneOrNullResult();
@@ -40,7 +44,7 @@ final class FixedPromocodes extends ServiceEntityRepository
     /**
      * @return Promocode|PromocodeNotFound
      */
-    public function findByCode(string $code)
+    public function findByCode(string $code, EventId $eventId)
     {
         $query = $this->_em->createQuery('
             select
@@ -49,8 +53,11 @@ final class FixedPromocodes extends ServiceEntityRepository
                 App\Promocode\Model\RegularPromocode as promocode
             where
                 promocode.code = :code
+                and
+                promocode.eventId = :event_id
         ');
         $query->setParameter('code', $code);
+        $query->setParameter('event_id', $eventId);
 
         /** @var Promocode|null */
         $promocode = $query->getOneOrNullResult();
