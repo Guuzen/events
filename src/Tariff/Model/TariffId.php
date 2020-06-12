@@ -10,4 +10,5 @@ use App\Infrastructure\Uuid;
  */
 final class TariffId extends Uuid
 {
+    // TODO separate classes for every id ? Need ids transitions
 }

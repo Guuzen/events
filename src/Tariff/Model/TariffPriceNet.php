@@ -11,6 +11,9 @@ use Exception;
 use Money\Money;
 
 // TODO цены должны не только не пересекаться, но ещё и идти всегда подряд?
+/**
+ * @psalm-immutable
+ */
 final class TariffPriceNet
 {
     /**

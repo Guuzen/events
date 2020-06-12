@@ -6,6 +6,9 @@ use App\Promocode\Model\Discount\Discount;
 use DateTimeImmutable;
 use Money\Money;
 
+/**
+ * @psalm-immutable
+ */
 final class TariffSegment
 {
     /**
@@ -37,6 +40,7 @@ final class TariffSegment
 
     public function calculateSum(Discount $discount): Money
     {
+        /** @psalm-suppress ImpureMethodCall TODO fix promocode-discount ierarchy */
         return $discount->apply($this->price);
     }
 }

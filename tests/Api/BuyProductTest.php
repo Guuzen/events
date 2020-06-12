@@ -91,7 +91,7 @@ final class BuyProductTest extends TestCase
                     ],
                 ],
             ],
-            'productType' => ['type' => 'ticket'],
+            'productType' => 'ticket',
         ]);
         $this->manager->seeTariffInList($eventId, [
             'data' => [
@@ -297,7 +297,7 @@ final class BuyProductTest extends TestCase
                     ],
                 ],
             ],
-            'productType' => ['type' => 'ticket'],
+            'productType' => 'ticket',
         ]);
         $this->manager->seeTariffInList($eventId, [
             'data' => [
@@ -507,7 +507,7 @@ final class BuyProductTest extends TestCase
                     ],
                 ],
             ],
-            'productType' => ['type' => 'ticket'],
+            'productType' => 'ticket',
         ]);
         $this->manager->seeTariffInList($eventId, [
             'data' => [

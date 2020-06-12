@@ -5,6 +5,9 @@ namespace App\Tariff\Model;
 use App\Tariff\Model\Exception\TariffTermMustStartBeforeEnd;
 use DateTimeImmutable;
 
+/**
+ * @psalm-immutable
+ */
 final class TariffTerm
 {
     /**

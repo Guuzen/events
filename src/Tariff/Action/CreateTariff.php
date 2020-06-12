@@ -1,40 +1,31 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tariff\Action;
 
-use App\Infrastructure\Http\RequestResolver\AppRequest;
+use App\Event\Model\EventId;
 use App\Product\Model\ProductType;
-use Symfony\Component\Validator\Constraints as Assert;
+use App\Tariff\Model\TariffPriceNet;
 
 /**
  * @psalm-immutable
  */
-final class CreateTariff implements AppRequest
+final class CreateTariff
 {
     public $eventId;
 
     public $tariffType;
 
-    /**
-     * @var CreateTariffSegment[]
-     */
-    public $segments;
+    public $tariffPriceNet;
 
-    /**
-     * @Assert\NotBlank()
-     *
-     * @var ProductType $productType
-     */
     public $productType;
 
-    /**
-     * @param CreateTariffSegment[] $segments
-     */
-    public function __construct(string $eventId, string $tariffType, array $segments, ProductType $productType)
+    public function __construct(EventId $eventId, string $tariffType, TariffPriceNet $tariffPriceNet, ProductType $productType)
     {
-        $this->eventId     = $eventId;
-        $this->tariffType  = $tariffType;
-        $this->segments    = $segments;
-        $this->productType = $productType;
+        $this->eventId        = $eventId;
+        $this->tariffType     = $tariffType;
+        $this->tariffPriceNet = $tariffPriceNet;
+        $this->productType    = $productType;
     }
 }

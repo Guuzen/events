@@ -6,6 +6,8 @@ use Exception;
 use function sprintf;
 
 /**
+ * TODO move to tariff ?
+ *
  * @psalm-immutable
  */
 final class ProductType
