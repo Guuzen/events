@@ -4,6 +4,7 @@ namespace App\Infrastructure\Http\EventIdResolver;
 
 use Doctrine\DBAL\Connection;
 
+// TODO move to Event ?
 final class FindEventIdByDomain
 {
     private $connection;
