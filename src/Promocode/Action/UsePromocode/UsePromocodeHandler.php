@@ -44,7 +44,7 @@ final class UsePromocodeHandler
             return $order;
         }
 
-        $promocode->use($command->orderId, $tariff, new DateTimeImmutable());
+        $promocode->use($command->orderId, $command->tariffId, $tariff, new DateTimeImmutable());
         $order->applyPromocode($promocode);
 
         return null;

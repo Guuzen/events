@@ -37,14 +37,14 @@ class RegularPromocodeSpec extends ObjectBehavior
 {
     public function let()
     {
-        $eventId                  = EventId::new();
-        $code                     = 'FOO';
-        $limitedByOneUse          = 1;
-        $expireTomorrow           = new DateTimeImmutable('tomorrow');
-        $noSpecificAllowedTariffs = new SpecificAllowedTariffs([]);
-        $zeroDiscount             = new FixedDiscount(new Money(0, new Currency('RUB')));
-        $usable                   = true;
-        $promocodeId              = PromocodeId::new();
+        $eventId                = EventId::new();
+        $code                   = 'FOO';
+        $limitedByOneUse        = 1;
+        $expireTomorrow         = new DateTimeImmutable('tomorrow');
+        $specificAllowedTariffs = new SpecificAllowedTariffs([new TariffId('d9d9db49-42c3-41ac-968a-70372f2b17a8')]);
+        $zeroDiscount           = new FixedDiscount(new Money(0, new Currency('RUB')));
+        $usable                 = true;
+        $promocodeId            = PromocodeId::new();
         $this->beConstructedWith(
             $promocodeId,
             $eventId,
@@ -52,7 +52,7 @@ class RegularPromocodeSpec extends ObjectBehavior
             $zeroDiscount,
             $limitedByOneUse,
             $expireTomorrow,
-            $noSpecificAllowedTariffs,
+            $specificAllowedTariffs,
             $usable
         );
     }
@@ -67,6 +67,7 @@ class RegularPromocodeSpec extends ObjectBehavior
         $orderId = OrderId::new();
         $now     = new DateTimeImmutable('now');
 
+        $tariffId = new TariffId('d9d9db49-42c3-41ac-968a-70372f2b17a8');
         $tariff->beADoubleOf(Tariff::class);
         $tariff
             ->relatedToEvent(Argument::any())
@@ -75,7 +76,7 @@ class RegularPromocodeSpec extends ObjectBehavior
             ->allowedForUse(Argument::any())
             ->willReturn(true);
 
-        $this->use($orderId, $tariff, $now);
+        $this->use($orderId, $tariffId, $tariff, $now);
         $this
             ->shouldNotThrow()
             ->during('cancel', [$orderId]);
@@ -95,6 +96,7 @@ class RegularPromocodeSpec extends ObjectBehavior
         $orderId = OrderId::new();
         $now     = new DateTimeImmutable('now');
 
+        $tariffId = new TariffId('d9d9db49-42c3-41ac-968a-70372f2b17a8');
         $tariff->beADoubleOf(Tariff::class);
         $tariff
             ->relatedToEvent(Argument::any())
@@ -103,11 +105,11 @@ class RegularPromocodeSpec extends ObjectBehavior
             ->allowedForUse(Argument::any())
             ->willReturn(true);
 
-        $this->use($orderId, $tariff, $now);
+        $this->use($orderId, $tariffId, $tariff, $now);
         $this->cancel($orderId);
         $this
             ->shouldNotThrow()
-            ->during('use', [$orderId, $tariff, $now]);
+            ->during('use', [$orderId, $tariffId, $tariff, $now]);
     }
 
     // use promocode
@@ -117,6 +119,7 @@ class RegularPromocodeSpec extends ObjectBehavior
         $orderId = OrderId::new();
         $now     = new DateTimeImmutable('now');
 
+        $tariffId = new TariffId('d9d9db49-42c3-41ac-968a-70372f2b17a8');
         $tariff->beADoubleOf(Tariff::class);
         $tariff
             ->relatedToEvent(Argument::any())
@@ -127,7 +130,7 @@ class RegularPromocodeSpec extends ObjectBehavior
 
         $this
             ->shouldNotThrow()
-            ->during('use', [$orderId, $tariff, $now]);
+            ->during('use', [$orderId, $tariffId, $tariff, $now]);
     }
 
     public function it_should_not_be_possible_to_use_when_not_usable(Tariff $tariff)
@@ -135,6 +138,7 @@ class RegularPromocodeSpec extends ObjectBehavior
         $orderId = OrderId::new();
         $now     = new DateTimeImmutable('now');
 
+        $tariffId = new TariffId('d9d9db49-42c3-41ac-968a-70372f2b17a8');
         $tariff->beADoubleOf(Tariff::class);
         $tariff
             ->relatedToEvent(Argument::any())
@@ -146,7 +150,7 @@ class RegularPromocodeSpec extends ObjectBehavior
         $this->makeNotUsable();
         $this
             ->shouldThrow(PromocodeNotUsable::class)
-            ->during('use', [$orderId, $tariff, $now]);
+            ->during('use', [$orderId, $tariffId, $tariff, $now]);
     }
 
     public function it_should_not_be_possible_to_use_when_expired(Tariff $tariff)
@@ -154,6 +158,7 @@ class RegularPromocodeSpec extends ObjectBehavior
         $orderId        = OrderId::new();
         $backOfTomorrow = new DateTimeImmutable('tomorrow + 15 minutes');
 
+        $tariffId = new TariffId('d9d9db49-42c3-41ac-968a-70372f2b17a8');
         $tariff->beADoubleOf(Tariff::class);
         $tariff
             ->relatedToEvent(Argument::any())
@@ -164,7 +169,7 @@ class RegularPromocodeSpec extends ObjectBehavior
 
         $this
             ->shouldThrow(PromocodeExpired::class)
-            ->during('use', [$orderId, $tariff, $backOfTomorrow]);
+            ->during('use', [$orderId, $tariffId, $tariff, $backOfTomorrow]);
     }
 
     public function it_should_not_be_possible_to_use_when_use_limit_exceeded(Tariff $tariff)
@@ -172,6 +177,7 @@ class RegularPromocodeSpec extends ObjectBehavior
         $orderId = OrderId::new();
         $now     = new DateTimeImmutable('now');
 
+        $tariffId = new TariffId('d9d9db49-42c3-41ac-968a-70372f2b17a8');
         $tariff->beADoubleOf(Tariff::class);
         $tariff
             ->relatedToEvent(Argument::any())
@@ -180,10 +186,10 @@ class RegularPromocodeSpec extends ObjectBehavior
             ->allowedForUse(Argument::any())
             ->willReturn(true);
 
-        $this->use(OrderId::new(), $tariff, new DateTimeImmutable('now'));
+        $this->use(OrderId::new(), $tariffId, $tariff, new DateTimeImmutable('now'));
         $this
             ->shouldThrow(PromocodeUseLimitExceeded::class)
-            ->during('use', [$orderId, $tariff, $now]);
+            ->during('use', [$orderId, $tariffId, $tariff, $now]);
     }
 
     public function it_should_not_be_possible_to_use_when_tariff_is_related_to_different_event(Tariff $tariff)
@@ -191,6 +197,7 @@ class RegularPromocodeSpec extends ObjectBehavior
         $orderId = OrderId::new();
         $now     = new DateTimeImmutable('now');
 
+        $tariffId = new TariffId('d9d9db49-42c3-41ac-968a-70372f2b17a8');
         $tariff->beADoubleOf(Tariff::class);
         $tariff
             ->relatedToEvent(Argument::any())
@@ -201,7 +208,7 @@ class RegularPromocodeSpec extends ObjectBehavior
 
         $this
             ->shouldThrow(PromocodeAndTariffRelatedToDifferentEvents::class)
-            ->during('use', [$orderId, $tariff, $now]);
+            ->during('use', [$orderId, $tariffId, $tariff, $now]);
     }
 
     public function it_should_not_be_possible_to_use_when_tariff_not_allowed(Tariff $tariff)
@@ -209,6 +216,7 @@ class RegularPromocodeSpec extends ObjectBehavior
         $orderId = OrderId::new();
         $now     = new DateTimeImmutable('now');
 
+        $notAllowedTariffId = new TariffId('fbc72e11-fb51-4f16-826e-1287c4a57523');
         $tariff->beADoubleOf(Tariff::class);
         $tariff
             ->relatedToEvent(Argument::any())
@@ -219,7 +227,7 @@ class RegularPromocodeSpec extends ObjectBehavior
 
         $this
             ->shouldThrow(PromocodeNotAllowedForTariff::class)
-            ->during('use', [$orderId, $tariff, $now]);
+            ->during('use', [$orderId, $notAllowedTariffId, $tariff, $now]);
     }
 
     public function it_should_be_possible_to_apply_discount()

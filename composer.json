@@ -86,8 +86,7 @@
         ],
         "test": [
             "@spec",
-            "@psalm",
-            "@codecept"
+            "@psalm"
         ],
         "spec": "phpspec run --ansi",
         "psalm": "psalm --no-cache"
