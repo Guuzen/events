@@ -107,6 +107,11 @@ class OrderSpec extends ObjectBehavior
         $this->shouldThrow(NotPossibleToApplyDiscountTwiceOnOrder::class)->during('applyDiscount', [$anyDiscount]);
     }
 
+    public function it_should_calculate_total_without_discount(): void
+    {
+        $this->calculateTotal()->shouldBeLike(new Money('100', new Currency('RUB')));
+    }
+
 //    public function it_should_not_be_possible_to_cancel_if_paid()
 //    {
 //    }

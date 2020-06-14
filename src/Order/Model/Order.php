@@ -144,6 +144,10 @@ class Order extends Entity
 
     public function calculateTotal(): Money
     {
+        if ($this->discount === null) {
+            return $this->sum;
+        }
+
         return $this->discount->apply($this->sum);
     }
 }
