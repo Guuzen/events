@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Promocode\Action\CreateFixedPromocode;
+namespace App\Promocode\Action\CreateTariffPromocode;
 
 use App\Event\Model\EventId;
 use App\Promocode\Model\AllowedTariffs\SpecificAllowedTariffs;
@@ -11,7 +11,7 @@ use App\Promocode\Model\Discount\FixedDiscount;
 /**
  * @psalm-immutable
  */
-final class CreateFixedPromocode
+final class CreateTariffPromocode
 {
     public $eventId;
 

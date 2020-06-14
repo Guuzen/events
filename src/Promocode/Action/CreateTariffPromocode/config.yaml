@@ -4,5 +4,5 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
-    App\Promocode\Action\CreateFixedPromocode\CreateFixedPromocodeHandler: ~
+    App\Promocode\Action\CreateTariffPromocode\CreateTariffPromocodeHandler: ~
 

@@ -9,22 +9,21 @@ use App\Order\Model\Orders;
 use App\Promocode\Model\Promocodes;
 use DateTimeImmutable;
 
-// TODO rename use fixed promocode ?
 final class UsePromocodeHandler
 {
-    private $fixedPromocodes;
+    private $promocodes;
 
     private $orders;
 
-    public function __construct(Promocodes $fixedPromocodes, Orders $orders)
+    public function __construct(Promocodes $promocodes, Orders $orders)
     {
-        $this->fixedPromocodes = $fixedPromocodes;
-        $this->orders          = $orders;
+        $this->promocodes = $promocodes;
+        $this->orders     = $orders;
     }
 
     public function handle(UsePromocode $command): ?Error
     {
-        $promocode = $this->fixedPromocodes->findByCode($command->code, $command->eventId);
+        $promocode = $this->promocodes->findByCode($command->code, $command->eventId);
 
         if ($promocode instanceof Error) {
             return $promocode;

@@ -133,7 +133,7 @@ final class Manager
 
     public function createFixedPromocode(array $promocode): void
     {
-        $response = $this->client->post('/admin/promocode/createFixed', $promocode);
+        $response = $this->client->post('/admin/promocode/createTariff', $promocode);
         $this->assertResultMatchesPattern($response, [
             'data' => [
                 'id' => '@uuid@',

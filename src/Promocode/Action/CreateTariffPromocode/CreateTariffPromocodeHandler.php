@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Promocode\Action\CreateFixedPromocode;
+namespace App\Promocode\Action\CreateTariffPromocode;
 
 use App\Common\Error;
 use App\Event\Model\Events;
-use App\Promocode\Model\Promocodes;
 use App\Promocode\Model\PromocodeId;
+use App\Promocode\Model\Promocodes;
 
-final class CreateFixedPromocodeHandler
+final class CreateTariffPromocodeHandler
 {
     private $regularPromocodes;
 
@@ -22,7 +22,7 @@ final class CreateFixedPromocodeHandler
     /**
      * @return PromocodeId|Error
      */
-    public function handle(CreateFixedPromocode $command)
+    public function handle(CreateTariffPromocode $command)
     {
         $promocodeId = PromocodeId::new();
 
@@ -31,7 +31,7 @@ final class CreateFixedPromocodeHandler
             return $event;
         }
 
-        $promocode = $event->createFixedPromocode(
+        $promocode = $event->createTariffPromocode(
             $promocodeId,
             $command->code,
             $command->discount,

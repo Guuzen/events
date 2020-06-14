@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Promocode\Action\CreateFixedPromocode;
+namespace App\Promocode\Action\CreateTariffPromocode;
 
 use App\Event\Model\EventId;
 use App\Infrastructure\Http\RequestResolver\AppRequest;
@@ -13,7 +13,7 @@ use Money\Money;
 /**
  * @psalm-immutable
  */
-final class CreateFixedPromocodeRequest implements AppRequest
+final class CreateTariffPromocodeRequest implements AppRequest
 {
     private $eventId;
 
@@ -56,14 +56,14 @@ final class CreateFixedPromocodeRequest implements AppRequest
         $this->eventId          = $eventId;
     }
 
-    public function toCreateFixedPromocode(): CreateFixedPromocode
+    public function toCreateTariffPromocode(): CreateTariffPromocode
     {
         $allowedTariffIds = [];
         foreach ($this->allowedTariffIds as $allowedTariffId) {
             $allowedTariffIds[] = new TariffId($allowedTariffId);
         }
 
-        return new CreateFixedPromocode(
+        return new CreateTariffPromocode(
             new EventId($this->eventId),
             $this->code,
             new FixedDiscount(

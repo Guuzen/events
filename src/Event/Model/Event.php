@@ -81,7 +81,7 @@ final class Event
         );
     }
 
-    public function createFixedPromocode(
+    public function createTariffPromocode(
         PromocodeId $promocodeId,
         string $code,
         Discount $discount,
