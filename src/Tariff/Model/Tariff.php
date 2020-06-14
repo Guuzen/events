@@ -52,7 +52,7 @@ class Tariff
     /**
      * @return Money|TariffSegmentNotFound
      */
-    public function calculateSum(Discount $discount, DateTimeImmutable $asOf)
+    public function calculateSum(Discount $discount, DateTimeImmutable $asOf) // TODO remove discount ?
     {
         return $this->priceNet->calculateSum($discount, $asOf);
     }

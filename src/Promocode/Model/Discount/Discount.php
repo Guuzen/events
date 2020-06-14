@@ -13,6 +13,8 @@ use Symfony\Component\Serializer\Annotation\DiscriminatorMap;
  *         "foo": "App\Promocode\Model\NullPromocode"
  *     }
  * )
+ *
+ * @psalm-immutable
  */
 interface Discount
 {

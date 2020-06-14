@@ -40,7 +40,6 @@ final class TariffSegment
 
     public function calculateSum(Discount $discount): Money
     {
-        /** @psalm-suppress ImpureMethodCall TODO fix promocode-discount ierarchy */
         return $discount->apply($this->price);
     }
 }
