@@ -35,6 +35,8 @@ final class OrderById
 
     public $currency;
 
+    public $discount;
+
     public $cancelled;
 
     public $makedAt;
@@ -55,6 +57,7 @@ final class OrderById
         string $email,
         string $sum,
         string $currency,
+        ?string $discount,
         bool $cancelled,
         DateTimeImmutable $makedAt,
         ?DateTimeImmutable $deliveredAt
@@ -76,5 +79,6 @@ final class OrderById
         $this->cancelled = $cancelled;
         $this->makedAt   = $makedAt;
         $this->createdAt = $deliveredAt;
+        $this->discount  = $discount;
     }
 }

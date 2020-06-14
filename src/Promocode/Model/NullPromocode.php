@@ -2,11 +2,11 @@
 
 namespace App\Promocode\Model;
 
+use App\Order\Model\Order;
 use App\Order\Model\OrderId;
 use App\Tariff\Model\TariffId;
 use DateTimeImmutable;
 use Exception;
-use Money\Money;
 
 final class NullPromocode implements Promocode
 {
@@ -29,8 +29,7 @@ final class NullPromocode implements Promocode
         throw new Exception('Null promocode leaking abstraction');
     }
 
-    public function apply(Money $price): Money
+    public function applyDiscountToOrder(Order $order): void
     {
-        return $price;
     }
 }

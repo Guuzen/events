@@ -6,9 +6,11 @@ use App\Event\Model\EventId;
 use App\Fondy\CantGetPaymentUrl;
 use App\Fondy\Fondy;
 use App\Order\Model\Error\OrderAlreadyPaid;
+use App\Order\Model\Exception\NotPossibleToApplyDiscountTwiceOnOrder;
 use App\Order\Model\Exception\PromocodeAlreadyUsedInOrder;
 use App\Order\Model\OrderId;
 use App\Product\Model\ProductType;
+use App\Promocode\Model\Discount\FixedDiscount;
 use App\Promocode\Model\Promocode;
 use App\Tariff\Model\TariffId;
 use App\User\Model\UserId;
@@ -88,17 +90,21 @@ class OrderSpec extends ObjectBehavior
         $this->createFondyPayment($fondy)->shouldReturn($error);
     }
 
-    public function it_should_not_be_possible_to_use_promocode_twice_in_same_order(Promocode $promocode)
+    public function it_should_calculate_total_price_with_discount_if_discount_applied(): void
     {
-        $promocode->beADoubleOf(Promocode::class);
-        $anyDiscountedSum = new Money('1', new Currency('RUB'));
-        $promocode
-            ->apply(Argument::cetera())
-            ->willReturn($anyDiscountedSum);
-        $this->shouldNotThrow()->during('applyPromocode', [$promocode]);
+        $anyDiscount = new FixedDiscount(new Money('1', new Currency('RUB')));
 
-        $this->shouldThrow(PromocodeAlreadyUsedInOrder::class)->during('applyPromocode', [$promocode]);
+        $this->applyDiscount($anyDiscount);
 
+        $this->calculateTotal()->shouldBeLike(new Money('99', new Currency('RUB')));
+    }
+
+    public function it_should_not_be_possible_to_apply_discount_twice_on_order(): void
+    {
+        $anyDiscount = new FixedDiscount(new Money('1', new Currency('RUB')));
+
+        $this->shouldNotThrow()->during('applyDiscount', [$anyDiscount]);
+        $this->shouldThrow(NotPossibleToApplyDiscountTwiceOnOrder::class)->during('applyDiscount', [$anyDiscount]);
     }
 
 //    public function it_should_not_be_possible_to_cancel_if_paid()

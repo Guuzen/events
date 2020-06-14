@@ -36,7 +36,7 @@ final class UsePromocodeHandler
         }
 
         $promocode->use($command->orderId, $command->tariffId, new DateTimeImmutable());
-        $order->applyPromocode($promocode);
+        $promocode->applyDiscountToOrder($order);
 
         return null;
     }

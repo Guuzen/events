@@ -2,11 +2,10 @@
 
 namespace App\Promocode\Model;
 
+use App\Order\Model\Order;
 use App\Order\Model\OrderId;
-use App\Promocode\Model\Discount\Discount;
 use App\Tariff\Model\TariffId;
 use DateTimeImmutable;
-use Money\Money;
 
 // TODO скидка и промокод - может быть это 2 разных контекста ?
 interface Promocode
@@ -21,5 +20,5 @@ interface Promocode
 
     public function makeNotUsable(): void;
 
-    public function apply(Money $price): Money;
+    public function applyDiscountToOrder(Order $order): void;
 }

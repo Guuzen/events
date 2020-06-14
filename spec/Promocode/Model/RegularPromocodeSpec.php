@@ -152,22 +152,4 @@ class RegularPromocodeSpec extends ObjectBehavior
             ->shouldThrow(PromocodeNotAllowedForTariff::class)
             ->during('use', [$orderId, $notAllowedTariffId, $now]);
     }
-
-    public function it_should_be_possible_to_apply_discount()
-    {
-        $eventId        = EventId::new();
-        $discount       = new FixedDiscount(new Money(1, new Currency('RUB')));
-        $code           = 'FOO';
-        $useLimit       = 1;
-        $expireAt       = new DateTimeImmutable('tomorrow');
-        $allowedTariffs = new SpecificAllowedTariffs([TariffId::new()]);
-        $price          = new Money(3, new Currency('RUB'));
-        $promocodeId    = PromocodeId::new();
-        $usable         = true;
-        $this->beConstructedWith($promocodeId, $eventId, $code, $discount, $useLimit, $expireAt, $allowedTariffs, $usable);
-
-        $this
-            ->apply($price)
-            ->shouldBeLike(new Money(2, new Currency('RUB')));
-    }
 }

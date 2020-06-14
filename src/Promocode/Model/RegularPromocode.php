@@ -3,6 +3,7 @@
 namespace App\Promocode\Model;
 
 use App\Event\Model\EventId;
+use App\Order\Model\Order;
 use App\Order\Model\OrderId;
 use App\Promocode\Model\AllowedTariffs\AllowedTariffs;
 use App\Promocode\Model\Discount\Discount;
@@ -154,8 +155,9 @@ class RegularPromocode implements Promocode
         $this->usable = false;
     }
 
-    public function apply(Money $price): Money
+    // TODO double dispatch must be replaced with PromocodeUsed event and ApplyDiscount command on order
+    public function applyDiscountToOrder(Order $order): void
     {
-        return $this->discount->apply($price);
+        $order->applyDiscount($this->discount);
     }
 }

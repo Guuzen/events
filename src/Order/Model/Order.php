@@ -7,10 +7,10 @@ use App\Fondy\CantGetPaymentUrl;
 use App\Fondy\Fondy;
 use App\Infrastructure\DomainEvent\Entity;
 use App\Order\Model\Error\OrderAlreadyPaid;
+use App\Order\Model\Exception\NotPossibleToApplyDiscountTwiceOnOrder;
 use App\Order\Model\Exception\OrderCancelled;
-use App\Order\Model\Exception\PromocodeAlreadyUsedInOrder;
 use App\Product\Model\ProductType;
-use App\Promocode\Model\Promocode;
+use App\Promocode\Model\Discount\Discount;
 use App\Tariff\Model\TariffId;
 use App\User\Model\UserId;
 use DateTimeImmutable;
@@ -60,11 +60,11 @@ class Order extends Entity
     private $sum;
 
     /**
-     * @var Money|null
+     * @var Discount|null
      *
-     * @ORM\Column(type="app_money", nullable=true)
+     * @ORM\Column(type="app_promocode_discount", nullable=true)
      */
-    private $discountedSum;
+    private $discount;
 
     /**
      * @ORM\Column(type="datetime_immutable")
@@ -74,7 +74,7 @@ class Order extends Entity
     /**
      * @ORM\Column(type="boolean")
      */
-    private $paid;
+    private $paid; // TODO primitive obsession
 
     /**
      * @ORM\Column(type="boolean")
@@ -100,18 +100,6 @@ class Order extends Entity
         $this->sum         = $sum;
         $this->makedAt     = $asOf;
         $this->paid        = $paid;
-    }
-
-    public function applyPromocode(Promocode $promocode): void
-    {
-        if ($this->discountedSum === null) {
-            $this->discountedSum = $promocode->apply($this->sum);
-            $this->sum           = $promocode->apply($this->sum); // TODO save sum and discount?
-
-            return;
-        }
-
-        throw new PromocodeAlreadyUsedInOrder();
     }
 
     public function cancel(): void
@@ -143,5 +131,19 @@ class Order extends Entity
     public function createFondyPayment(Fondy $fondy)
     {
         return $fondy->checkoutUrl($this->sum, $this->id);
+    }
+
+    public function applyDiscount(Discount $discount): void
+    {
+        if ($this->discount !== null) {
+            throw new NotPossibleToApplyDiscountTwiceOnOrder();
+        }
+
+        $this->discount = $discount;
+    }
+
+    public function calculateTotal(): Money
+    {
+        return $this->discount->apply($this->sum);
     }
 }
