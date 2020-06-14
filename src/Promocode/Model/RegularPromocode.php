@@ -3,7 +3,7 @@
 namespace App\Promocode\Model;
 
 use App\Event\Model\EventId;
-use App\Order\Model\Order;
+use App\Infrastructure\DomainEvent\Entity;
 use App\Order\Model\OrderId;
 use App\Promocode\Model\AllowedTariffs\AllowedTariffs;
 use App\Promocode\Model\Discount\Discount;
@@ -15,12 +15,11 @@ use App\Tariff\Model\Exception\PromocodeExpired;
 use App\Tariff\Model\TariffId;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
-use Money\Money;
 
 /**
  * @ORM\Entity
  */
-class RegularPromocode implements Promocode
+class RegularPromocode extends Entity implements Promocode
 {
     /**
      * @ORM\Id
@@ -119,6 +118,14 @@ class RegularPromocode implements Promocode
         }
 
         $this->usedInOrders = $this->usedInOrders->add($orderId);
+
+        $this->rememberThat(
+            new PromocodeUsed(
+                $this->eventId,
+                $orderId,
+                $this->discount
+            )
+        );
     }
 
     private function useLimitExceeded(): bool
@@ -153,11 +160,5 @@ class RegularPromocode implements Promocode
     public function makeNotUsable(): void
     {
         $this->usable = false;
-    }
-
-    // TODO double dispatch must be replaced with PromocodeUsed event and ApplyDiscount command on order
-    public function applyDiscountToOrder(Order $order): void
-    {
-        $order->applyDiscount($this->discount);
     }
 }

@@ -2,7 +2,6 @@
 
 namespace App\Promocode\Model;
 
-use App\Order\Model\Order;
 use App\Order\Model\OrderId;
 use App\Tariff\Model\TariffId;
 use DateTimeImmutable;
@@ -19,6 +18,4 @@ interface Promocode
     public function makeUsable(): void;
 
     public function makeNotUsable(): void;
-
-    public function applyDiscountToOrder(Order $order): void;
 }

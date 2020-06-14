@@ -16,6 +16,6 @@ services:
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
     App\Order\Model\Orders: ~
-    App\Order\OrderNotificationSubscriber:
+    App\Order\OrderSubscriber:
         tags:
             - { name: app.notification_subscriber }

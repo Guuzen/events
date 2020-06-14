@@ -2,7 +2,6 @@
 
 namespace App\Promocode\Model;
 
-use App\Order\Model\Order;
 use App\Order\Model\OrderId;
 use App\Tariff\Model\TariffId;
 use DateTimeImmutable;
@@ -27,9 +26,5 @@ final class NullPromocode implements Promocode
     public function makeNotUsable(): void
     {
         throw new Exception('Null promocode leaking abstraction');
-    }
-
-    public function applyDiscountToOrder(Order $order): void
-    {
     }
 }
