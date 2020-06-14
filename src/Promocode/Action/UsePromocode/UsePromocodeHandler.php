@@ -6,7 +6,7 @@ namespace App\Promocode\Action\UsePromocode;
 
 use App\Common\Error;
 use App\Order\Model\Orders;
-use App\Promocode\Model\FixedPromocodes;
+use App\Promocode\Model\Promocodes;
 use DateTimeImmutable;
 
 // TODO rename use fixed promocode ?
@@ -16,7 +16,7 @@ final class UsePromocodeHandler
 
     private $orders;
 
-    public function __construct(FixedPromocodes $fixedPromocodes, Orders $orders)
+    public function __construct(Promocodes $fixedPromocodes, Orders $orders)
     {
         $this->fixedPromocodes = $fixedPromocodes;
         $this->orders          = $orders;

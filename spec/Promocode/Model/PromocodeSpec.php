@@ -11,7 +11,7 @@ use App\Promocode\Model\Exception\PromocodeNotUsable;
 use App\Promocode\Model\Exception\PromocodeNotUsedInOrder;
 use App\Promocode\Model\Exception\PromocodeUseLimitExceeded;
 use App\Promocode\Model\PromocodeId;
-use App\Promocode\Model\RegularPromocode;
+use App\Promocode\Model\Promocode;
 use App\Tariff\Model\Exception\PromocodeExpired;
 use App\Tariff\Model\TariffId;
 use DateTimeImmutable;
@@ -30,7 +30,7 @@ use PhpSpec\ObjectBehavior;
  * TODO сделать что-нибудь с _toString методами (коллекции?)
  * TODO дать переменным более говорящие имена ex. $expireTomorrow = new DateTime('tomorrow')
  */
-class RegularPromocodeSpec extends ObjectBehavior
+class PromocodeSpec extends ObjectBehavior
 {
     public function let()
     {
@@ -56,7 +56,7 @@ class RegularPromocodeSpec extends ObjectBehavior
 
     public function it_should_be_initializable()
     {
-        $this->shouldHaveType(RegularPromocode::class);
+        $this->shouldHaveType(Promocode::class);
     }
 
     public function it_should_be_possible_to_cancel_when_used()

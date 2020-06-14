@@ -7,11 +7,11 @@ use App\Promocode\Model\Error\PromocodeNotFound;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
-final class FixedPromocodes extends ServiceEntityRepository
+final class Promocodes extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, RegularPromocode::class);
+        parent::__construct($registry, Promocode::class);
     }
 
     /**
@@ -23,7 +23,7 @@ final class FixedPromocodes extends ServiceEntityRepository
             select
                 promocode
             from
-                App\Promocode\Model\RegularPromocode as promocode
+                App\Promocode\Model\Promocode as promocode
             where
                 promocode.id = :promocode_id
                 and
@@ -50,7 +50,7 @@ final class FixedPromocodes extends ServiceEntityRepository
             select
                 promocode
             from
-                App\Promocode\Model\RegularPromocode as promocode
+                App\Promocode\Model\Promocode as promocode
             where
                 promocode.code = :code
                 and
@@ -68,7 +68,7 @@ final class FixedPromocodes extends ServiceEntityRepository
         return $promocode;
     }
 
-    public function add(RegularPromocode $promocode): void
+    public function add(Promocode $promocode): void
     {
         $this->_em->persist($promocode);
     }

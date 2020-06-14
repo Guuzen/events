@@ -38,7 +38,7 @@ final class PromocodeQueries
                     used_in_orders,
                     allowed_tariffs
                 from
-                    regular_promocode
+                    promocode
                 where
                     event_id = :event_id                 
             ) as promocode

@@ -4,7 +4,7 @@ namespace App\Promocode\Action\CreateFixedPromocode;
 
 use App\Common\Error;
 use App\Event\Model\Events;
-use App\Promocode\Model\FixedPromocodes;
+use App\Promocode\Model\Promocodes;
 use App\Promocode\Model\PromocodeId;
 
 final class CreateFixedPromocodeHandler
@@ -13,7 +13,7 @@ final class CreateFixedPromocodeHandler
 
     private $events;
 
-    public function __construct(FixedPromocodes $regularPromocodes, Events $events)
+    public function __construct(Promocodes $regularPromocodes, Events $events)
     {
         $this->regularPromocodes = $regularPromocodes;
         $this->events            = $events;
