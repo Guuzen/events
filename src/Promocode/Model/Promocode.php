@@ -41,7 +41,7 @@ class Promocode extends Entity
     private $code;
 
     /**
-     * @ORM\Column(type="app_promocode_discount")
+     * @ORM\Column(type=Discount::class)
      *
      * @var Discount
      */
@@ -58,7 +58,7 @@ class Promocode extends Entity
     private $expireAt;
 
     /**
-     * @ORM\Column(type="app_promocode_allowed_tariffs")
+     * @ORM\Column(type=AllowedTariffs::class)
      *
      * @var AllowedTariffs
      */
@@ -66,7 +66,7 @@ class Promocode extends Entity
     // TODO нельзя применять промокод к отменённому заказу
 
     /**
-     * @ORM\Column(type="app_promocode_used_in_orders")
+     * @ORM\Column(type=UsedInOrders::class)
      *
      * @var UsedInOrders
      */

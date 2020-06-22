@@ -2,8 +2,6 @@ doctrine:
     dbal:
         types:
             app_user_id: App\User\Doctrine\UserIdType
-            app_user_fullname: App\User\Doctrine\UserFullNameType
-            app_user_contacts: App\User\Doctrine\UserContactsType
     orm:
         mappings:
             User:
@@ -20,3 +18,6 @@ services:
 
     App\User\Action\UserHandler: ~
     App\User\Model\Users: ~
+    App\User\JsonDocumentTypes:
+        arguments:
+            - '@serializer'

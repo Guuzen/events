@@ -43,7 +43,7 @@ class Order extends Entity
     private $tariffId;
 
     /**
-     * @ORM\Column(type="app_product_type")
+     * @ORM\Column(type=ProductType::class)
      */
     private $productType;
 
@@ -62,7 +62,7 @@ class Order extends Entity
     /**
      * @var Discount|null
      *
-     * @ORM\Column(type="app_promocode_discount", nullable=true)
+     * @ORM\Column(type=Discount::class, nullable=true)
      */
     private $discount;
 

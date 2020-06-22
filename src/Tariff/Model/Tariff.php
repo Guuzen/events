@@ -32,12 +32,12 @@ class Tariff
     private $eventId;
 
     /**
-     * @ORM\Column(type="app_tariff_price_net")
+     * @ORM\Column(type=TariffPriceNet::class)
      */
     private $priceNet;
 
     /**
-     * @ORM\Column(type="app_product_type")
+     * @ORM\Column(type=ProductType::class)
      */
     private $productType;
 

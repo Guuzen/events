@@ -2,7 +2,9 @@
 
 namespace App;
 
+use App\Infrastructure\AddJsonDocumentTypesPass;
 use App\Infrastructure\DomainEvent\NotificationSubscriberPass;
+use App\User\JsonDocumentTypes;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Resource\FileResource;
@@ -13,6 +15,10 @@ use Symfony\Component\Routing\RouteCollectionBuilder;
 class Kernel extends BaseKernel
 {
     use MicroKernelTrait;
+
+    private $reader;
+
+    private $metadataDriver;
 
     const CONFIG_EXTS = '.{php,xml,yaml,yml}';
 
@@ -60,5 +66,15 @@ class Kernel extends BaseKernel
     protected function build(ContainerBuilder $container): void
     {
         $container->addCompilerPass(new NotificationSubscriberPass());
+        $container->addCompilerPass(new AddJsonDocumentTypesPass());
+    }
+
+    public function boot(): void
+    {
+        parent::boot();
+
+        /** @var JsonDocumentTypes $doctrineTypes */
+        $doctrineTypes = $this->container->get(JsonDocumentTypes::class);
+        $doctrineTypes->initialize();
     }
 }

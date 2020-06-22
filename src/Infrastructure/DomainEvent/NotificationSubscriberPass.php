@@ -6,6 +6,7 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
+// TODO it is not notification subscriber
 final class NotificationSubscriberPass implements CompilerPassInterface
 {
     private const SERVICE_ID = 'app.infrastructure.domain_event.notification_dispatcher';

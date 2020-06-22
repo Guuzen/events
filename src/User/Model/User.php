@@ -21,12 +21,12 @@ class User extends Entity
     private $id;
 
     /**
-     * @ORM\Column(type="app_user_contacts")
+     * @ORM\Column(type=FullName::class)
      */
     private $fullName;
 
     /**
-     * @ORM\Column(type="app_user_fullname")
+     * @ORM\Column(type=Contacts::class)
      */
     private $contacts;
 
