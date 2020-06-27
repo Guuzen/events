@@ -2,9 +2,10 @@
 
 namespace App\Promocode\Model;
 
-use App\Common\JsonDocumentType;
 use App\Event\Model\EventId;
 use App\Infrastructure\DomainEvent\Entity;
+use App\Infrastructure\Persistence\DoctrineTypesInitializer\JsonDocumentType;
+use App\Infrastructure\Persistence\UuidType;
 use App\Order\Model\OrderId;
 use App\Promocode\Model\AllowedTariffs\AllowedTariffs;
 use App\Promocode\Model\Discount\Discount;
@@ -16,7 +17,6 @@ use App\Tariff\Model\Exception\PromocodeExpired;
 use App\Tariff\Model\TariffId;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
-use App\Infrastructure\Persistence\UuidType;
 
 /**
  * @ORM\Entity

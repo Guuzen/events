@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Common;
+namespace App\Infrastructure\Persistence\DoctrineTypesInitializer;
 
+use App\Common\Serializer;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
 
-class JsonDocumentType extends Type
+class JsonDocumentType extends Type implements CustomDoctrineType
 {
     /** @var Serializer|null */
     private $serializer;
@@ -16,7 +17,6 @@ class JsonDocumentType extends Type
     /** @psalm-var string|null */
     protected $className;
 
-    // TODO psalm generics ?
     final public function convertToPHPValue($value, AbstractPlatform $platform)
     {
         if (null === $this->serializer) {
@@ -49,9 +49,9 @@ class JsonDocumentType extends Type
         return $this->serializer->serialize($value);
     }
 
-    final public function setName(string $name): void
+    final public function setMappedClass(string $mappedClass): void
     {
-        $this->name = $name;
+        $this->className   = $mappedClass;
     }
 
     public function getName(): string

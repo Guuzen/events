@@ -2,7 +2,7 @@
 
 namespace App\Queries\Promocode\FindPromocodesInList;
 
-use App\Common\JsonDocumentType;
+use App\Infrastructure\Persistence\DoctrineTypesInitializer\JsonDocumentType;
 
 final class PromocodeInListType extends JsonDocumentType
 {

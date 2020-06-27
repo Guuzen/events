@@ -6,6 +6,8 @@ use App\Event\Model\EventId;
 use App\Fondy\CantGetPaymentUrl;
 use App\Fondy\Fondy;
 use App\Infrastructure\DomainEvent\Entity;
+use App\Infrastructure\Persistence\DoctrineTypesInitializer\JsonDocumentType;
+use App\Infrastructure\Persistence\UuidType;
 use App\Order\Model\Error\OrderAlreadyPaid;
 use App\Order\Model\Exception\NotPossibleToApplyDiscountTwiceOnOrder;
 use App\Order\Model\Exception\OrderCancelled;
@@ -16,8 +18,6 @@ use App\User\Model\UserId;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
-use App\Infrastructure\Persistence\UuidType;
-use App\Common\JsonDocumentType;
 
 /**
  * @ORM\Entity

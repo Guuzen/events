@@ -4,7 +4,4 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
-    App\Infrastructure\Persistence\DoctrineTypesInitializer\JsonDocumentTypes:
-        arguments:
-            - '@serializer'
-    App\Infrastructure\Persistence\DoctrineTypesInitializer\UuidTypes: ~
+    App\Infrastructure\Persistence\DoctrineTypesInitializer\DoctrineTypes: ~

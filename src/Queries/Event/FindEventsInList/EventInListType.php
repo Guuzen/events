@@ -2,7 +2,7 @@
 
 namespace App\Queries\Event\FindEventsInList;
 
-use App\Common\JsonDocumentType;
+use App\Infrastructure\Persistence\DoctrineTypesInitializer\JsonDocumentType;
 
 final class EventInListType extends JsonDocumentType
 {

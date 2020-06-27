@@ -2,6 +2,7 @@
 
 namespace App\Common;
 
+use App\Infrastructure\Persistence\DoctrineTypesInitializer\JsonDocumentType;
 use Money\Money;
 
 final class MoneyType extends JsonDocumentType

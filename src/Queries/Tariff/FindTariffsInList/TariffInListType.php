@@ -2,7 +2,7 @@
 
 namespace App\Queries\Tariff\FindTariffsInList;
 
-use App\Common\JsonDocumentType;
+use App\Infrastructure\Persistence\DoctrineTypesInitializer\JsonDocumentType;
 
 final class TariffInListType extends JsonDocumentType
 {

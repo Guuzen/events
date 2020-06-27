@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Persistence;
 
+use App\Infrastructure\Persistence\DoctrineTypesInitializer\CustomDoctrineType;
 use App\Infrastructure\Uuid;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
@@ -10,22 +11,19 @@ use ReflectionClass;
 use Throwable;
 
 // TODO make final
-class UuidType extends Type
+class UuidType extends Type implements CustomDoctrineType
 {
     /** @var class-string */
-    private $name;
+    private $mappedClass;
 
     public function getName(): string
     {
-        return $this->name;
+        return $this->mappedClass;
     }
 
-    /**
-     * @psalm-param class-string $name
-     */
-    public function setName(string $name): void
+    public function setMappedClass(string $mappedClass): void
     {
-        $this->name = $name;
+        $this->mappedClass = $mappedClass;
     }
 
     final public function convertToPHPValue($value, AbstractPlatform $platform)
@@ -35,11 +33,11 @@ class UuidType extends Type
         }
 
         if (!is_string($value)) {
-            throw ConversionException::conversionFailedInvalidType($value, $this->name, ['string']);
+            throw ConversionException::conversionFailedInvalidType($value, $this->mappedClass, ['string']);
         }
 
         try {
-            $reflectionClass    = new ReflectionClass($this->name);
+            $reflectionClass    = new ReflectionClass($this->mappedClass);
             $baseUuidClass      = $reflectionClass->getParentClass();
             $reflectionProperty = $baseUuidClass->getProperty('id');
             $reflectionProperty->setAccessible(true);
@@ -47,7 +45,7 @@ class UuidType extends Type
             $uuid = $reflectionClass->newInstanceWithoutConstructor();
             $reflectionProperty->setValue($uuid, $value);
         } catch (Throwable $throwable) {
-            throw ConversionException::conversionFailed($value, $this->name);
+            throw ConversionException::conversionFailed($value, $this->mappedClass);
         }
 
         return $uuid;
@@ -63,7 +61,7 @@ class UuidType extends Type
             return null;
         }
 
-        throw ConversionException::conversionFailed((string)$value, $this->name);
+        throw ConversionException::conversionFailed((string)$value, $this->mappedClass);
     }
 
     final public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string

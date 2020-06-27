@@ -2,8 +2,9 @@
 
 namespace App;
 
-use App\Infrastructure\AddJsonDocumentTypesPass;
+use App\Infrastructure\CollectDoctrineTypesPass;
 use App\Infrastructure\DomainEvent\NotificationSubscriberPass;
+use App\Infrastructure\Persistence\DoctrineTypesInitializer\DoctrineTypes;
 use App\Infrastructure\Persistence\DoctrineTypesInitializer\JsonDocumentTypes;
 use App\Infrastructure\Persistence\DoctrineTypesInitializer\UuidTypes;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
@@ -67,19 +68,15 @@ class Kernel extends BaseKernel
     protected function build(ContainerBuilder $container): void
     {
         $container->addCompilerPass(new NotificationSubscriberPass());
-        $container->addCompilerPass(new AddJsonDocumentTypesPass());
+        $container->addCompilerPass(new CollectDoctrineTypesPass());
     }
 
     public function boot(): void
     {
         parent::boot();
 
-        /** @var JsonDocumentTypes $jsonDocumentTypes */
-        $jsonDocumentTypes = $this->container->get(JsonDocumentTypes::class);
-        $jsonDocumentTypes->initialize();
-
-        /** @var UuidTypes $uuidTypes */
-        $uuidTypes = $this->container->get(UuidTypes::class);
-        $uuidTypes->initialize();
+        /** @var DoctrineTypes $doctrineTypes */
+        $doctrineTypes = $this->container->get(DoctrineTypes::class);
+        $doctrineTypes->initialize();
     }
 }

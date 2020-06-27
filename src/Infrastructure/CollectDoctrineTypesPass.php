@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace App\Infrastructure;
 
-use App\Common\JsonDocumentType;
-use App\Infrastructure\Persistence\DoctrineTypesInitializer\JsonDocumentTypes;
-use App\Infrastructure\Persistence\DoctrineTypesInitializer\UuidTypes;
-use App\Infrastructure\Persistence\UuidType;
+use App\Infrastructure\Persistence\DoctrineTypesInitializer\DoctrineTypes;
 use Doctrine\Common\Annotations\Reader;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\Persistence\Mapping\Driver\MappingDriver;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-final class AddJsonDocumentTypesPass implements CompilerPassInterface
+/**
+ * Collect all custom DBAL types
+ */
+final class CollectDoctrineTypesPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container): void
     {
@@ -24,11 +24,8 @@ final class AddJsonDocumentTypesPass implements CompilerPassInterface
         /** @var MappingDriver $mappingDriver */
         $mappingDriver   = $container->get('doctrine.orm.default_metadata_driver');
 
-        $jsonDocumentTypes = $container->getDefinition(JsonDocumentTypes::class);
-        $jsonDocumentTypes->setPublic(true);
-
-        $uuidTypes = $container->getDefinition(UuidTypes::class);
-        $uuidTypes->setPublic(true);
+        $doctrineTypes = $container->getDefinition(DoctrineTypes::class);
+        $doctrineTypes->setPublic(true);
 
         /** @psalm-var class-string[] $entityClasses */
         $entityClasses = $mappingDriver->getAllClassNames();
@@ -43,19 +40,10 @@ final class AddJsonDocumentTypesPass implements CompilerPassInterface
                 $columnType = $column->type;
                 if (!\class_exists($columnType) && !\interface_exists($columnType)) {
                     continue;
-//                    throw new \RuntimeException(
-//                        \sprintf('Class or interface "%s" does not exist', $column->type)
-//                    );
                 }
                 /** @psalm-var class-string */
-                $typeClass = $column->options['typeClass'];
-                if ($typeClass === UuidType::class) {
-                    $uuidTypes->addMethodCall('addType', [$columnType]);
-                } elseif ($typeClass === JsonDocumentType::class) {
-                    $jsonDocumentTypes->addMethodCall('addType', [$columnType]);
-                } else {
-                    throw new \RuntimeException('Unknown type class ' . $typeClass . 'for type ' . $columnType);
-                }
+                $doctrineTypeClass = $column->options['typeClass'];
+                $doctrineTypes->addMethodCall('addType', [$columnType, $doctrineTypeClass]);
             }
         }
     }

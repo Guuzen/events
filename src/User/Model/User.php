@@ -3,11 +3,11 @@
 namespace App\User\Model;
 
 use App\Infrastructure\DomainEvent\Entity;
+use App\Infrastructure\Persistence\DoctrineTypesInitializer\JsonDocumentType;
+use App\Infrastructure\Persistence\UuidType;
 use App\Order\Model\OrderId;
 use App\Product\Model\ProductId;
 use Doctrine\ORM\Mapping as ORM;
-use App\Infrastructure\Persistence\UuidType;
-use App\Common\JsonDocumentType;
 
 /**
  * @ORM\Entity

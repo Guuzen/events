@@ -2,7 +2,7 @@
 
 namespace App\Queries\Ticket\FindTicketById;
 
-use App\Common\JsonDocumentType;
+use App\Infrastructure\Persistence\DoctrineTypesInitializer\JsonDocumentType;
 
 final class TicketByIdType extends JsonDocumentType
 {
