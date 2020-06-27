@@ -7,7 +7,6 @@ use App\Order\Model\OrderId;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\UniqueConstraint;
-use App\Infrastructure\Persistence\UuidType;
 
 /**
  * @ORM\Entity
@@ -20,17 +19,17 @@ final class Ticket
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\Column(type=TicketId::class, options={"typeClass": UuidType::class})
+     * @ORM\Column(type=TicketId::class)
      */
     private $id;
 
     /**
-     * @ORM\Column(type=EventId::class, options={"typeClass": UuidType::class})
+     * @ORM\Column(type=EventId::class)
      */
     private $eventId;
 
     /**
-     * @ORM\Column(type=OrderId::class, options={"typeClass": UuidType::class})
+     * @ORM\Column(type=OrderId::class)
      */
     private $orderId;
 

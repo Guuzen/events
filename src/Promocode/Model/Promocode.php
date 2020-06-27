@@ -4,8 +4,6 @@ namespace App\Promocode\Model;
 
 use App\Event\Model\EventId;
 use App\Infrastructure\DomainEvent\Entity;
-use App\Infrastructure\Persistence\DoctrineTypesInitializer\JsonDocumentType;
-use App\Infrastructure\Persistence\UuidType;
 use App\Order\Model\OrderId;
 use App\Promocode\Model\AllowedTariffs\AllowedTariffs;
 use App\Promocode\Model\Discount\Discount;
@@ -26,12 +24,12 @@ class Promocode extends Entity
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\Column(type=PromocodeId::class, options={"typeClass": UuidType::class})
+     * @ORM\Column(type=PromocodeId::class)
      */
     private $id;
 
     /**
-     * @ORM\Column(type=EventId::class, options={"typeClass": UuidType::class})
+     * @ORM\Column(type=EventId::class)
      *
      * @var EventId
      */
@@ -43,7 +41,7 @@ class Promocode extends Entity
     private $code;
 
     /**
-     * @ORM\Column(type=Discount::class, options={"typeClass": JsonDocumentType::class})
+     * @ORM\Column(type=Discount::class)
      *
      * @var Discount
      */
@@ -60,7 +58,7 @@ class Promocode extends Entity
     private $expireAt;
 
     /**
-     * @ORM\Column(type=AllowedTariffs::class, options={"typeClass": JsonDocumentType::class})
+     * @ORM\Column(type=AllowedTariffs::class)
      *
      * @var AllowedTariffs
      */
@@ -68,7 +66,7 @@ class Promocode extends Entity
     // TODO нельзя применять промокод к отменённому заказу
 
     /**
-     * @ORM\Column(type=UsedInOrders::class, options={"typeClass": JsonDocumentType::class})
+     * @ORM\Column(type=UsedInOrders::class)
      *
      * @var UsedInOrders
      */

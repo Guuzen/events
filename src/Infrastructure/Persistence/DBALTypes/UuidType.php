@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Infrastructure\Persistence;
+namespace App\Infrastructure\Persistence\DBALTypes;
 
-use App\Infrastructure\Persistence\DoctrineTypesInitializer\CustomDoctrineType;
+use App\Infrastructure\Persistence\DBALTypesInitializer\CustomType;
 use App\Infrastructure\Uuid;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
@@ -11,7 +11,7 @@ use ReflectionClass;
 use Throwable;
 
 // TODO make final
-class UuidType extends Type implements CustomDoctrineType
+class UuidType extends Type implements CustomType
 {
     /** @var class-string */
     private $mappedClass;

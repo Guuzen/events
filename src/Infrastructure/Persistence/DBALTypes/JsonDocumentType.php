@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Infrastructure\Persistence\DoctrineTypesInitializer;
+namespace App\Infrastructure\Persistence\DBALTypes;
 
 use App\Common\Serializer;
+use App\Infrastructure\Persistence\DBALTypesInitializer\CustomType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
 
-class JsonDocumentType extends Type implements CustomDoctrineType
+class JsonDocumentType extends Type implements CustomType
 {
     /** @var Serializer|null */
     private $serializer;
@@ -14,7 +15,7 @@ class JsonDocumentType extends Type implements CustomDoctrineType
     /** @var string */
     protected $name;
 
-    /** @psalm-var string|null */
+    /** @psalm-var string */
     protected $className;
 
     final public function convertToPHPValue($value, AbstractPlatform $platform)
@@ -32,6 +33,7 @@ class JsonDocumentType extends Type implements CustomDoctrineType
          *
          * @psalm-suppress MixedArgument
          * @psalm-suppress UndefinedMethod
+         * @psalm-suppress DocblockTypeContradiction TODO remove when remove ??
          */
         return $this->serializer->deserialize($value, $this->className ?? $this->className());
     }
@@ -51,17 +53,12 @@ class JsonDocumentType extends Type implements CustomDoctrineType
 
     final public function setMappedClass(string $mappedClass): void
     {
-        $this->className   = $mappedClass;
+        $this->className = $mappedClass;
     }
 
     public function getName(): string
     {
-        return $this->name;
-    }
-
-    final public function setClassName(string $className): void
-    {
-        $this->className = $className;
+        return $this->className;
     }
 
     final public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string

@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure;
+namespace App\Infrastructure\Persistence\DBALTypesInitializer;
 
-use App\Infrastructure\Persistence\DoctrineTypesInitializer\DoctrineTypes;
 use Doctrine\Common\Annotations\Reader;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\Persistence\Mapping\Driver\MappingDriver;
@@ -14,7 +13,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 /**
  * Collect all custom DBAL types
  */
-final class CollectDoctrineTypesPass implements CompilerPassInterface
+final class CollectTypesPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container): void
     {
@@ -22,9 +21,9 @@ final class CollectDoctrineTypesPass implements CompilerPassInterface
         $annotationReader = $container->get('annotation_reader');
 
         /** @var MappingDriver $mappingDriver */
-        $mappingDriver   = $container->get('doctrine.orm.default_metadata_driver');
+        $mappingDriver = $container->get('doctrine.orm.default_metadata_driver');
 
-        $doctrineTypes = $container->getDefinition(DoctrineTypes::class);
+        $doctrineTypes = $container->getDefinition(DBALTypes::class);
         $doctrineTypes->setPublic(true);
 
         /** @psalm-var class-string[] $entityClasses */
@@ -36,14 +35,21 @@ final class CollectDoctrineTypesPass implements CompilerPassInterface
                 /** @var Column $column */
                 $column = $annotationReader->getPropertyAnnotation($property, Column::class);
 
-                /** @var string $columnType */
-                $columnType = $column->type;
-                if (!\class_exists($columnType) && !\interface_exists($columnType)) {
+                /** @var string $mappedClass */
+                $mappedClass = $column->type;
+                if (!\class_exists($mappedClass) && !\interface_exists($mappedClass)) {
                     continue;
                 }
-                /** @psalm-var class-string */
-                $doctrineTypeClass = $column->options['typeClass'];
-                $doctrineTypes->addMethodCall('addType', [$columnType, $doctrineTypeClass]);
+
+                $reflectionMappedClass = new \ReflectionClass($mappedClass);
+
+                /** @var CustomTypeAnnotation $customDoctrineTypeClassAnnotation */
+                $customDoctrineTypeClassAnnotation = $annotationReader->getClassAnnotation(
+                    $reflectionMappedClass,
+                    CustomTypeAnnotation::class
+                );
+
+                $doctrineTypes->addMethodCall('addType', [$mappedClass, $customDoctrineTypeClassAnnotation->typeClass]);
             }
         }
     }

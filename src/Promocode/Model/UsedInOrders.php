@@ -2,8 +2,13 @@
 
 namespace App\Promocode\Model;
 
+use App\Infrastructure\Persistence\DBALTypes\JsonDocumentType;
+use App\Infrastructure\Persistence\DBALTypesInitializer\CustomTypeAnnotation as DoctrineType;
 use App\Order\Model\OrderId;
 
+/**
+ * @DoctrineType(typeClass=JsonDocumentType::class)
+ */
 final class UsedInOrders
 {
     private $orderIds;

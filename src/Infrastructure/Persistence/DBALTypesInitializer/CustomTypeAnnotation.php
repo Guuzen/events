@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Persistence\DoctrineTypesInitializer;
+namespace App\Infrastructure\Persistence\DBALTypesInitializer;
 
 /**
  * @Annotation
  *
  * @Target({"CLASS"})
  */
-final class InitializerAnnotation
+final class CustomTypeAnnotation
 {
     /**
      * @Required
      *
      * @var string
      */
-    public $doctrineType;
+    public $typeClass;
 }

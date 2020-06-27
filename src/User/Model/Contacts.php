@@ -2,6 +2,12 @@
 
 namespace App\User\Model;
 
+use App\Infrastructure\Persistence\DBALTypes\JsonDocumentType;
+use App\Infrastructure\Persistence\DBALTypesInitializer\CustomTypeAnnotation as DoctrineType;
+
+/**
+ * @DoctrineType(typeClass=JsonDocumentType::class)
+ */
 final class Contacts
 {
     private $email;

@@ -2,7 +2,7 @@
 
 namespace App\Common;
 
-use App\Infrastructure\Persistence\DoctrineTypesInitializer\JsonDocumentType;
+use App\Infrastructure\Persistence\DBALTypes\JsonDocumentType;
 use DateTimeImmutable;
 
 final class DateTimeType extends JsonDocumentType

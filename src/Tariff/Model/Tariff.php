@@ -4,8 +4,6 @@ namespace App\Tariff\Model;
 
 use App\Common\Error;
 use App\Event\Model\EventId;
-use App\Infrastructure\Persistence\DoctrineTypesInitializer\JsonDocumentType;
-use App\Infrastructure\Persistence\UuidType;
 use App\Order\Model\Order;
 use App\Order\Model\OrderId;
 use App\Product\Model\ProductType;
@@ -24,22 +22,22 @@ class Tariff
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\Column(type=TariffId::class, options={"typeClass": UuidType::class})
+     * @ORM\Column(type=TariffId::class)
      */
     private $id;
 
     /**
-     * @ORM\Column(type=EventId::class, options={"typeClass": UuidType::class})
+     * @ORM\Column(type=EventId::class)
      */
     private $eventId;
 
     /**
-     * @ORM\Column(type=TariffPriceNet::class, options={"typeClass": JsonDocumentType::class})
+     * @ORM\Column(type=TariffPriceNet::class)
      */
     private $priceNet;
 
     /**
-     * @ORM\Column(type=ProductType::class, options={"typeClass": JsonDocumentType::class})
+     * @ORM\Column(type=ProductType::class)
      */
     private $productType;
 

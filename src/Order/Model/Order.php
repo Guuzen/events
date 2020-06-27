@@ -6,8 +6,6 @@ use App\Event\Model\EventId;
 use App\Fondy\CantGetPaymentUrl;
 use App\Fondy\Fondy;
 use App\Infrastructure\DomainEvent\Entity;
-use App\Infrastructure\Persistence\DoctrineTypesInitializer\JsonDocumentType;
-use App\Infrastructure\Persistence\UuidType;
 use App\Order\Model\Error\OrderAlreadyPaid;
 use App\Order\Model\Exception\NotPossibleToApplyDiscountTwiceOnOrder;
 use App\Order\Model\Exception\OrderCancelled;
@@ -28,29 +26,29 @@ class Order extends Entity
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\Column(type=OrderId::class, options={"typeClass": UuidType::class})
+     * @ORM\Column(type=OrderId::class)
      */
     private $id;
 
     /**
-     * @ORM\Column(type=EventId::class, options={"typeClass": UuidType::class})
+     * @ORM\Column(type=EventId::class)
      */
     private $eventId;
 
     /**
      * TODO remove ? What is it for?
      *
-     * @ORM\Column(type=TariffId::class, options={"typeClass": UuidType::class})
+     * @ORM\Column(type=TariffId::class)
      */
     private $tariffId;
 
     /**
-     * @ORM\Column(type=ProductType::class, options={"typeClass": JsonDocumentType::class})
+     * @ORM\Column(type=ProductType::class)
      */
     private $productType;
 
     /**
-     * @ORM\Column(type=UserId::class, options={"typeClass": UuidType::class})
+     * @ORM\Column(type=UserId::class)
      */
     private $userId;
 
@@ -64,7 +62,7 @@ class Order extends Entity
     /**
      * @var Discount|null
      *
-     * @ORM\Column(type=Discount::class, nullable=true, options={"typeClass": JsonDocumentType::class})
+     * @ORM\Column(type=Discount::class, nullable=true)
      */
     private $discount;
 

@@ -2,7 +2,7 @@
 
 namespace App\Queries\Ticket\FindTicketsInList;
 
-use App\Infrastructure\Persistence\DoctrineTypesInitializer\JsonDocumentType;
+use App\Infrastructure\Persistence\DBALTypes\JsonDocumentType;
 
 final class TicketInListType extends JsonDocumentType
 {

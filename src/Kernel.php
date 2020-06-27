@@ -2,11 +2,9 @@
 
 namespace App;
 
-use App\Infrastructure\CollectDoctrineTypesPass;
 use App\Infrastructure\DomainEvent\NotificationSubscriberPass;
-use App\Infrastructure\Persistence\DoctrineTypesInitializer\DoctrineTypes;
-use App\Infrastructure\Persistence\DoctrineTypesInitializer\JsonDocumentTypes;
-use App\Infrastructure\Persistence\DoctrineTypesInitializer\UuidTypes;
+use App\Infrastructure\Persistence\DBALTypesInitializer\CollectTypesPass;
+use App\Infrastructure\Persistence\DBALTypesInitializer\DBALTypes;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Resource\FileResource;
@@ -68,15 +66,15 @@ class Kernel extends BaseKernel
     protected function build(ContainerBuilder $container): void
     {
         $container->addCompilerPass(new NotificationSubscriberPass());
-        $container->addCompilerPass(new CollectDoctrineTypesPass());
+        $container->addCompilerPass(new CollectTypesPass());
     }
 
     public function boot(): void
     {
         parent::boot();
 
-        /** @var DoctrineTypes $doctrineTypes */
-        $doctrineTypes = $this->container->get(DoctrineTypes::class);
+        /** @var DBALTypes $doctrineTypes */
+        $doctrineTypes = $this->container->get(DBALTypes::class);
         $doctrineTypes->initialize();
     }
 }

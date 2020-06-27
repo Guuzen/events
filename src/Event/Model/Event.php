@@ -11,8 +11,8 @@ use App\Product\Model\TicketId;
 use App\Promocode\Model\AllowedTariffs\AllowedTariffs;
 use App\Promocode\Model\AllowedTariffs\EventAllowedTariffs;
 use App\Promocode\Model\Discount\Discount;
-use App\Promocode\Model\PromocodeId;
 use App\Promocode\Model\Promocode;
+use App\Promocode\Model\PromocodeId;
 use App\Tariff\Model\Tariff;
 use App\Tariff\Model\TariffId;
 use App\Tariff\Model\TariffPriceNet;
@@ -20,7 +20,6 @@ use App\User\Model\UserId;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
-use App\Infrastructure\Persistence\UuidType;
 
 /**
  * @ORM\Entity
@@ -30,7 +29,7 @@ final class Event
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\Column(type=EventId::class, options={"typeClass": UuidType::class})
+     * @ORM\Column(type=EventId::class)
      */
     private $id;
 

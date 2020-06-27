@@ -2,7 +2,7 @@
 
 namespace App\Queries\Order\FindOrdersInList;
 
-use App\Infrastructure\Persistence\DoctrineTypesInitializer\JsonDocumentType;
+use App\Infrastructure\Persistence\DBALTypes\JsonDocumentType;
 
 final class OrderInListType extends JsonDocumentType
 {

@@ -2,11 +2,12 @@
 
 namespace App\Event\Model;
 
+use App\Infrastructure\Persistence\DBALTypes\UuidType;
+use App\Infrastructure\Persistence\DBALTypesInitializer\CustomTypeAnnotation as DoctrineType;
 use App\Infrastructure\Uuid;
-use App\Infrastructure\Persistence\DoctrineTypesInitializer\InitializerAnnotation as Initializer;
 
 /**
- * @Initializer(doctrineType="App\Infrastructure\Persistence\UuidType::class")
+ * @DoctrineType(typeClass=UuidType::class)
  *
  * @template-extends Uuid<EventId>
  * @psalm-immutable

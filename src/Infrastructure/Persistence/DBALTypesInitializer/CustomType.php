@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Infrastructure\Persistence\DoctrineTypesInitializer;
+namespace App\Infrastructure\Persistence\DBALTypesInitializer;
 
-interface CustomDoctrineType
+interface CustomType
 {
     /**
      * @psalm-param class-string $mappedClass

@@ -2,22 +2,22 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Persistence\DoctrineTypesInitializer;
+namespace App\Infrastructure\Persistence\DBALTypesInitializer;
 
 use Doctrine\DBAL\Types\Type;
 
-final class DoctrineTypes
+final class DBALTypes
 {
     /** @psalm-var array<class-string, class-string> */
     private $types;
 
     /**
      * @psalm-param class-string $mappedClass
-     * @psalm-param class-string $doctrineTypeClass
+     * @psalm-param class-string $dbalTypeClass
      */
-    public function addType(string $mappedClass, string $doctrineTypeClass): void
+    public function addType(string $mappedClass, string $dbalTypeClass): void
     {
-        $this->types[$mappedClass] = $doctrineTypeClass;
+        $this->types[$mappedClass] = $dbalTypeClass;
     }
 
     public function initialize(): void
@@ -26,9 +26,9 @@ final class DoctrineTypes
             if (!Type::hasType($mappedClass)) {
                 Type::addType($mappedClass, $doctrineTypeClass);
 
-                /** @var CustomDoctrineType $doctrineType */
-                $doctrineType = Type::getType($mappedClass);
-                $doctrineType->setMappedClass($mappedClass);
+                /** @var CustomType $dbalType */
+                $dbalType = Type::getType($mappedClass);
+                $dbalType->setMappedClass($mappedClass);
             }
         }
     }

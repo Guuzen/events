@@ -2,7 +2,7 @@
 
 namespace App\Queries\Tariff\FindTariffById;
 
-use App\Infrastructure\Persistence\DoctrineTypesInitializer\JsonDocumentType;
+use App\Infrastructure\Persistence\DBALTypes\JsonDocumentType;
 
 final class TariffByIdType extends JsonDocumentType
 {

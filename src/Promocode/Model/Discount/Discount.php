@@ -2,10 +2,14 @@
 
 namespace App\Promocode\Model\Discount;
 
+use App\Infrastructure\Persistence\DBALTypes\JsonDocumentType;
+use App\Infrastructure\Persistence\DBALTypesInitializer\CustomTypeAnnotation as DoctrineType;
 use Money\Money;
 use Symfony\Component\Serializer\Annotation\DiscriminatorMap;
 
 /**
+ * @DoctrineType(typeClass=JsonDocumentType::class)
+ *
  * @DiscriminatorMap(
  *     typeProperty="type",
  *     mapping={
