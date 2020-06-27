@@ -13,6 +13,8 @@ use App\User\Model\UserId;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
+use App\Infrastructure\Persistence\UuidType;
+use App\Common\JsonDocumentType;
 
 /**
  * @ORM\Entity
@@ -22,22 +24,22 @@ class Tariff
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\Column(type="app_tariff_id")
+     * @ORM\Column(type=TariffId::class, options={"typeClass": UuidType::class})
      */
     private $id;
 
     /**
-     * @ORM\Column(type="app_event_id")
+     * @ORM\Column(type=EventId::class, options={"typeClass": UuidType::class})
      */
     private $eventId;
 
     /**
-     * @ORM\Column(type=TariffPriceNet::class)
+     * @ORM\Column(type=TariffPriceNet::class, options={"typeClass": JsonDocumentType::class})
      */
     private $priceNet;
 
     /**
-     * @ORM\Column(type=ProductType::class)
+     * @ORM\Column(type=ProductType::class, options={"typeClass": JsonDocumentType::class})
      */
     private $productType;
 

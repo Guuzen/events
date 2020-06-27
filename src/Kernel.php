@@ -4,7 +4,8 @@ namespace App;
 
 use App\Infrastructure\AddJsonDocumentTypesPass;
 use App\Infrastructure\DomainEvent\NotificationSubscriberPass;
-use App\User\JsonDocumentTypes;
+use App\Infrastructure\Persistence\DoctrineTypesInitializer\JsonDocumentTypes;
+use App\Infrastructure\Persistence\DoctrineTypesInitializer\UuidTypes;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Resource\FileResource;
@@ -73,8 +74,12 @@ class Kernel extends BaseKernel
     {
         parent::boot();
 
-        /** @var JsonDocumentTypes $doctrineTypes */
-        $doctrineTypes = $this->container->get(JsonDocumentTypes::class);
-        $doctrineTypes->initialize();
+        /** @var JsonDocumentTypes $jsonDocumentTypes */
+        $jsonDocumentTypes = $this->container->get(JsonDocumentTypes::class);
+        $jsonDocumentTypes->initialize();
+
+        /** @var UuidTypes $uuidTypes */
+        $uuidTypes = $this->container->get(UuidTypes::class);
+        $uuidTypes->initialize();
     }
 }

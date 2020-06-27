@@ -2,6 +2,7 @@
 
 namespace App\Promocode\Model;
 
+use App\Common\JsonDocumentType;
 use App\Event\Model\EventId;
 use App\Infrastructure\DomainEvent\Entity;
 use App\Order\Model\OrderId;
@@ -15,6 +16,7 @@ use App\Tariff\Model\Exception\PromocodeExpired;
 use App\Tariff\Model\TariffId;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use App\Infrastructure\Persistence\UuidType;
 
 /**
  * @ORM\Entity
@@ -24,12 +26,12 @@ class Promocode extends Entity
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\Column(type="app_promocode_id")
+     * @ORM\Column(type=PromocodeId::class, options={"typeClass": UuidType::class})
      */
     private $id;
 
     /**
-     * @ORM\Column(type="app_event_id")
+     * @ORM\Column(type=EventId::class, options={"typeClass": UuidType::class})
      *
      * @var EventId
      */
@@ -41,7 +43,7 @@ class Promocode extends Entity
     private $code;
 
     /**
-     * @ORM\Column(type=Discount::class)
+     * @ORM\Column(type=Discount::class, options={"typeClass": JsonDocumentType::class})
      *
      * @var Discount
      */
@@ -58,7 +60,7 @@ class Promocode extends Entity
     private $expireAt;
 
     /**
-     * @ORM\Column(type=AllowedTariffs::class)
+     * @ORM\Column(type=AllowedTariffs::class, options={"typeClass": JsonDocumentType::class})
      *
      * @var AllowedTariffs
      */
@@ -66,7 +68,7 @@ class Promocode extends Entity
     // TODO нельзя применять промокод к отменённому заказу
 
     /**
-     * @ORM\Column(type=UsedInOrders::class)
+     * @ORM\Column(type=UsedInOrders::class, options={"typeClass": JsonDocumentType::class})
      *
      * @var UsedInOrders
      */

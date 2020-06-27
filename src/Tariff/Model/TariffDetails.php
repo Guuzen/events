@@ -3,6 +3,7 @@
 namespace App\Tariff\Model;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Infrastructure\Persistence\UuidType;
 
 /**
  * @ORM\Entity
@@ -14,7 +15,7 @@ class TariffDetails
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\Column(type="app_tariff_details_id")
+     * @ORM\Column(type=TariffDetailsId::class, options={"typeClass": UuidType::class})
      */
     private $id;
 

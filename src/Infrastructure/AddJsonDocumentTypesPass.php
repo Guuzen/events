@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Infrastructure;
 
-use App\User\JsonDocumentTypes;
+use App\Common\JsonDocumentType;
+use App\Infrastructure\Persistence\DoctrineTypesInitializer\JsonDocumentTypes;
+use App\Infrastructure\Persistence\DoctrineTypesInitializer\UuidTypes;
+use App\Infrastructure\Persistence\UuidType;
 use Doctrine\Common\Annotations\Reader;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\Persistence\Mapping\Driver\MappingDriver;
@@ -24,6 +27,9 @@ final class AddJsonDocumentTypesPass implements CompilerPassInterface
         $jsonDocumentTypes = $container->getDefinition(JsonDocumentTypes::class);
         $jsonDocumentTypes->setPublic(true);
 
+        $uuidTypes = $container->getDefinition(UuidTypes::class);
+        $uuidTypes->setPublic(true);
+
         /** @psalm-var class-string[] $entityClasses */
         $entityClasses = $mappingDriver->getAllClassNames();
         foreach ($entityClasses as $entityClass) {
@@ -32,13 +38,24 @@ final class AddJsonDocumentTypesPass implements CompilerPassInterface
             foreach ($properties as $property) {
                 /** @var Column $column */
                 $column = $annotationReader->getPropertyAnnotation($property, Column::class);
-                if (\is_string($column->type) && !\class_exists($column->type) && !\interface_exists($column->type)) {
+
+                /** @var string $columnType */
+                $columnType = $column->type;
+                if (!\class_exists($columnType) && !\interface_exists($columnType)) {
                     continue;
 //                    throw new \RuntimeException(
 //                        \sprintf('Class or interface "%s" does not exist', $column->type)
 //                    );
                 }
-                $jsonDocumentTypes->addMethodCall('addType', [$column->type]);
+                /** @psalm-var class-string */
+                $typeClass = $column->options['typeClass'];
+                if ($typeClass === UuidType::class) {
+                    $uuidTypes->addMethodCall('addType', [$columnType]);
+                } elseif ($typeClass === JsonDocumentType::class) {
+                    $jsonDocumentTypes->addMethodCall('addType', [$columnType]);
+                } else {
+                    throw new \RuntimeException('Unknown type class ' . $typeClass . 'for type ' . $columnType);
+                }
             }
         }
     }

@@ -20,6 +20,7 @@ use App\User\Model\UserId;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
+use App\Infrastructure\Persistence\UuidType;
 
 /**
  * @ORM\Entity
@@ -29,7 +30,7 @@ final class Event
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\Column(type="app_event_id")
+     * @ORM\Column(type=EventId::class, options={"typeClass": UuidType::class})
      */
     private $id;
 

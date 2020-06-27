@@ -9,21 +9,25 @@ use Doctrine\DBAL\Types\Type;
 use ReflectionClass;
 use Throwable;
 
-/**
- * @template T of object
- */
-abstract class UuidType extends Type
+// TODO make final
+class UuidType extends Type
 {
-    abstract public function getName(): string;
+    /** @var class-string */
+    private $name;
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
 
     /**
-     * @psalm-return class-string<T>
+     * @psalm-param class-string $name
      */
-    abstract protected function className(): string;
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
 
-    /**
-     * @psalm-return T|null
-     */
     final public function convertToPHPValue($value, AbstractPlatform $platform)
     {
         if (null === $value) {
@@ -31,11 +35,11 @@ abstract class UuidType extends Type
         }
 
         if (!is_string($value)) {
-            throw ConversionException::conversionFailedInvalidType($value, $this->getName(), ['string']);
+            throw ConversionException::conversionFailedInvalidType($value, $this->name, ['string']);
         }
 
         try {
-            $reflectionClass    = new ReflectionClass($this->className());
+            $reflectionClass    = new ReflectionClass($this->name);
             $baseUuidClass      = $reflectionClass->getParentClass();
             $reflectionProperty = $baseUuidClass->getProperty('id');
             $reflectionProperty->setAccessible(true);
@@ -43,7 +47,7 @@ abstract class UuidType extends Type
             $uuid = $reflectionClass->newInstanceWithoutConstructor();
             $reflectionProperty->setValue($uuid, $value);
         } catch (Throwable $throwable) {
-            throw ConversionException::conversionFailed($value, $this->getName());
+            throw ConversionException::conversionFailed($value, $this->name);
         }
 
         return $uuid;
@@ -59,16 +63,11 @@ abstract class UuidType extends Type
             return null;
         }
 
-        throw ConversionException::conversionFailed((string)$value, $this->getName());
+        throw ConversionException::conversionFailed((string)$value, $this->name);
     }
 
     final public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string
     {
         return $platform->getGuidTypeDeclarationSQL($fieldDeclaration);
-    }
-
-    final public function requiresSQLCommentHint(AbstractPlatform $platform): bool
-    {
-        return true;
     }
 }

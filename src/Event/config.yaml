@@ -1,7 +1,4 @@
 doctrine:
-    dbal:
-        types:
-            app_event_id: App\Event\Doctrine\EventIdType
     orm:
         mappings:
             Event:

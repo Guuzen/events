@@ -1,7 +1,4 @@
 doctrine:
-    dbal:
-        types:
-            app_order_id: App\Order\Doctrine\OrderIdType
     orm:
         mappings:
             Order:

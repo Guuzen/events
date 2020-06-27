@@ -1,7 +1,4 @@
 doctrine:
-    dbal:
-        types:
-            app_ticket_id: App\Product\Doctrine\TicketIdType
     orm:
         mappings:
             Product:

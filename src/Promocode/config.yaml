@@ -1,7 +1,4 @@
 doctrine:
-    dbal:
-        types:
-            app_promocode_id: App\Promocode\Doctrine\PromocodeIdType
     orm:
         mappings:
             Promocode:

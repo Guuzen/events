@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\User;
+namespace App\Infrastructure\Persistence\DoctrineTypesInitializer;
 
 use App\Common\JsonDocumentType;
 use Doctrine\DBAL\Types\Type;

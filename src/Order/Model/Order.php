@@ -16,6 +16,8 @@ use App\User\Model\UserId;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
+use App\Infrastructure\Persistence\UuidType;
+use App\Common\JsonDocumentType;
 
 /**
  * @ORM\Entity
@@ -26,29 +28,29 @@ class Order extends Entity
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\Column(type="app_order_id")
+     * @ORM\Column(type=OrderId::class, options={"typeClass": UuidType::class})
      */
     private $id;
 
     /**
-     * @ORM\Column(type="app_event_id")
+     * @ORM\Column(type=EventId::class, options={"typeClass": UuidType::class})
      */
     private $eventId;
 
     /**
      * TODO remove ? What is it for?
      *
-     * @ORM\Column(type="app_tariff_id")
+     * @ORM\Column(type=TariffId::class, options={"typeClass": UuidType::class})
      */
     private $tariffId;
 
     /**
-     * @ORM\Column(type=ProductType::class)
+     * @ORM\Column(type=ProductType::class, options={"typeClass": JsonDocumentType::class})
      */
     private $productType;
 
     /**
-     * @ORM\Column(type="app_user_id")
+     * @ORM\Column(type=UserId::class, options={"typeClass": UuidType::class})
      */
     private $userId;
 
@@ -62,7 +64,7 @@ class Order extends Entity
     /**
      * @var Discount|null
      *
-     * @ORM\Column(type=Discount::class, nullable=true)
+     * @ORM\Column(type=Discount::class, nullable=true, options={"typeClass": JsonDocumentType::class})
      */
     private $discount;
 
