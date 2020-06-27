@@ -10,8 +10,7 @@ use Doctrine\DBAL\Types\Type;
 use ReflectionClass;
 use Throwable;
 
-// TODO make final
-class UuidType extends Type implements CustomType
+final class UuidType extends Type implements CustomType
 {
     /** @var class-string */
     private $mappedClass;
@@ -26,13 +25,13 @@ class UuidType extends Type implements CustomType
         $this->mappedClass = $mappedClass;
     }
 
-    final public function convertToPHPValue($value, AbstractPlatform $platform)
+    public function convertToPHPValue($value, AbstractPlatform $platform)
     {
         if (null === $value) {
             return null;
         }
 
-        if (!is_string($value)) {
+        if (!\is_string($value)) {
             throw ConversionException::conversionFailedInvalidType($value, $this->mappedClass, ['string']);
         }
 
@@ -51,7 +50,7 @@ class UuidType extends Type implements CustomType
         return $uuid;
     }
 
-    final public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
+    public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
     {
         if ($value instanceof Uuid) {
             return (string)$value;
@@ -64,7 +63,7 @@ class UuidType extends Type implements CustomType
         throw ConversionException::conversionFailed((string)$value, $this->mappedClass);
     }
 
-    final public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string
+    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string
     {
         return $platform->getGuidTypeDeclarationSQL($fieldDeclaration);
     }

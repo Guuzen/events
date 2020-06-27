@@ -4,7 +4,7 @@ namespace App\Tariff\Model;
 
 use App\Common\Error;
 use App\Infrastructure\Persistence\DBALTypes\JsonDocumentType;
-use App\Infrastructure\Persistence\DBALTypesInitializer\CustomTypeAnnotation as DoctrineType;
+use App\Infrastructure\Persistence\DBALTypesInitializer\CustomTypeAnnotation as DBALType;
 use App\Promocode\Model\Discount\Discount;
 use App\Tariff\Model\Error\TariffSegmentNotFound;
 use App\Tariff\Model\Exception\TariffSegmentsCantIntersects;
@@ -15,7 +15,7 @@ use Money\Money;
 // TODO цены должны не только не пересекаться, но ещё и идти всегда подряд?
 
 /**
- * @DoctrineType(typeClass=JsonDocumentType::class)
+ * @DBALType(typeClass=JsonDocumentType::class)
  * @psalm-immutable
  */
 final class TariffPriceNet

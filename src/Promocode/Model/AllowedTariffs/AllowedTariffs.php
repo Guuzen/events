@@ -3,12 +3,12 @@
 namespace App\Promocode\Model\AllowedTariffs;
 
 use App\Infrastructure\Persistence\DBALTypes\JsonDocumentType;
-use App\Infrastructure\Persistence\DBALTypesInitializer\CustomTypeAnnotation as DoctrineType;
+use App\Infrastructure\Persistence\DBALTypesInitializer\CustomTypeAnnotation as DBALType;
 use App\Tariff\Model\TariffId;
 use Symfony\Component\Serializer\Annotation\DiscriminatorMap;
 
 /**
- * @DoctrineType(typeClass=JsonDocumentType::class)
+ * @DBALType(typeClass=JsonDocumentType::class)
  *
  * @DiscriminatorMap(
  *     typeProperty="type",

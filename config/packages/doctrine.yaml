@@ -18,7 +18,6 @@ doctrine:
         url: '%env(resolve:DATABASE_URL)%'
         types:
             app_money: App\Common\MoneyType
-            app_datetime: App\Common\DateTimeType
     orm:
         auto_generate_proxy_classes: true
         naming_strategy: doctrine.orm.naming_strategy.underscore

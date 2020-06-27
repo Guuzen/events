@@ -7,6 +7,7 @@ use App\Infrastructure\Persistence\DBALTypesInitializer\CustomType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
 
+// TODO make final
 class JsonDocumentType extends Type implements CustomType
 {
     /** @var Serializer|null */

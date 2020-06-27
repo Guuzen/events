@@ -3,13 +3,13 @@
 namespace App\Product\Model;
 
 use App\Infrastructure\Persistence\DBALTypes\JsonDocumentType;
-use App\Infrastructure\Persistence\DBALTypesInitializer\CustomTypeAnnotation as DoctrineType;
+use App\Infrastructure\Persistence\DBALTypesInitializer\CustomTypeAnnotation as DBALType;
 use Exception;
 use function sprintf;
 
 /**
  * TODO move to tariff ?
- * @DoctrineType(typeClass=JsonDocumentType::class)
+ * @DBALType(typeClass=JsonDocumentType::class)
  *
  * @psalm-immutable
  */
