@@ -43,11 +43,16 @@ final class CollectTypesPass implements CompilerPassInterface
 
                 $reflectionMappedClass = new \ReflectionClass($mappedClass);
 
-                /** @var CustomTypeAnnotation $customDoctrineTypeClassAnnotation */
+                /** @var CustomTypeAnnotation|null $customDoctrineTypeClassAnnotation */
                 $customDoctrineTypeClassAnnotation = $annotationReader->getClassAnnotation(
                     $reflectionMappedClass,
                     CustomTypeAnnotation::class
                 );
+
+                // An option to manually add types that has no annotations
+                if ($customDoctrineTypeClassAnnotation === null) {
+                    continue;
+                }
 
                 $doctrineTypes->addMethodCall('addType', [$mappedClass, $customDoctrineTypeClassAnnotation->typeClass]);
             }

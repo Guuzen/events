@@ -55,7 +55,7 @@ class Order extends Entity
     /**
      * @var Money
      *
-     * @ORM\Column(type="app_money")
+     * @ORM\Column(type=Money::class)
      */
     private $sum;
 

@@ -3,8 +3,11 @@
 namespace App;
 
 use App\Infrastructure\DomainEvent\NotificationSubscriberPass;
+use App\Infrastructure\Persistence\DBALTypes\JsonDocumentType;
 use App\Infrastructure\Persistence\DBALTypesInitializer\CollectTypesPass;
 use App\Infrastructure\Persistence\DBALTypesInitializer\DBALTypes;
+use Doctrine\DBAL\Types\Type;
+use Money\Money;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Resource\FileResource;
@@ -73,8 +76,9 @@ class Kernel extends BaseKernel
     {
         parent::boot();
 
-        /** @var DBALTypes $doctrineTypes */
-        $doctrineTypes = $this->container->get(DBALTypes::class);
-        $doctrineTypes->initialize();
+        /** @var DBALTypes $dbalTypes */
+        $dbalTypes = $this->container->get(DBALTypes::class);
+        $dbalTypes->addType(Money::class, JsonDocumentType::class);
+        $dbalTypes->initialize();
     }
 }
