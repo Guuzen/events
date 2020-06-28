@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Queries\Order\FindOrderById;
+namespace App\Order\Query\FindOrderById;
 
 use App\Infrastructure\Http\RequestResolver\AppRequest;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @psalm-immutable
  */
-final class FindOrderById implements AppRequest
+final class FindOrderByIdRequest implements AppRequest
 {
     /**
      * @Assert\Uuid()

@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Queries\Order\FindOrdersInList;
+namespace App\Order\Query\GetOrderList;
 
 use App\Infrastructure\Http\RequestResolver\AppRequest;
 
 /**
  * @psalm-immutable
  */
-final class FindOrdersInList implements AppRequest
+final class GetOrderListRequest implements AppRequest
 {
     public $eventId;
 
