@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\Http\EventIdResolver;
+namespace App\EventDomain\Queries\FindEventIdByDomain;
 
 use App\Common\Error;
 

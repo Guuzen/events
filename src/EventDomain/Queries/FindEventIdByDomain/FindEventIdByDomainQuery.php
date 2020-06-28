@@ -1,11 +1,10 @@
 <?php
 
-namespace App\EventDomain;
+namespace App\EventDomain\Queries\FindEventIdByDomain;
 
-use App\Infrastructure\Http\EventIdResolver\EventIdByDomainNotFound;
 use Doctrine\DBAL\Connection;
 
-final class FindEventIdByDomain
+final class FindEventIdByDomainQuery
 {
     private $connection;
 

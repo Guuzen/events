@@ -6,7 +6,7 @@ namespace App\Infrastructure\Http\EventIdResolver;
 
 use App\Common\Error;
 use App\Event\Model\EventId;
-use App\EventDomain\FindEventIdByDomain;
+use App\EventDomain\Queries\FindEventIdByDomain\FindEventIdByDomainQuery;
 use Generator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
@@ -16,7 +16,7 @@ final class EventIdResolver implements ArgumentValueResolverInterface
 {
     private $findEventIdByDomain;
 
-    public function __construct(FindEventIdByDomain $findEventIdByDomain)
+    public function __construct(FindEventIdByDomainQuery $findEventIdByDomain)
     {
         $this->findEventIdByDomain = $findEventIdByDomain;
     }

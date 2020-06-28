@@ -1,4 +1,0 @@
-doctrine:
-    dbal:
-        types:
-            App\Queries\Event\FindEventsInList\EventInList: App\Queries\Event\FindEventsInList\EventInListType

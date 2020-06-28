@@ -46,13 +46,13 @@ final class Manager
 
     public function seeEventInList(array $events): void
     {
-        $response = $this->client->get('/admin/event/list', []);
+        $response = $this->client->get('/admin/eventDomain/list', []);
         $this->assertResultMatchesPattern($response, $events);
     }
 
     public function seeEventById(string $eventId, array $event): void
     {
-        $response = $this->client->get('/admin/event/show', [
+        $response = $this->client->get('/admin/eventDomain/show', [
             'eventId' => $eventId,
         ]);
         $this->assertResultMatchesPattern($response, $event);
