@@ -24,9 +24,9 @@ final class Manager
         ]);
     }
 
-    public function createsEvent(array $createEvent): string
+    public function createsEvent(): string
     {
-        $response = $this->client->post('/admin/event/create', $createEvent);
+        $response = $this->client->post('/admin/event/create', []);
         $this->assertResultMatchesPattern($response, [
             'data' => [
                 'id' => '@uuid@',
@@ -34,6 +34,14 @@ final class Manager
         ]);
 
         return $response['data']['id'];
+    }
+
+    public function createsEventDomain(array $createEvent): void
+    {
+        $response = $this->client->post('/admin/eventDomain/create', $createEvent);
+        $this->assertResultMatchesPattern($response, [
+            'data' => [],
+        ]);
     }
 
     public function seeEventInList(array $events): void

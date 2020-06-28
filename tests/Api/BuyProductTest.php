@@ -55,7 +55,9 @@ final class BuyProductTest extends TestCase
      */
     public function byWireWithoutPromocode(): void
     {
-        $eventId = $this->manager->createsEvent([
+        $eventId = $this->manager->createsEvent();
+        $this->manager->createsEventDomain([
+            'id'     => $eventId,
             'name'   => '2019 foo event',
             'domain' => '2019foo.event.com',
         ]);
@@ -265,7 +267,9 @@ final class BuyProductTest extends TestCase
      */
     public function byCardWithoutPromocode(): void
     {
-        $eventId = $this->manager->createsEvent([
+        $eventId = $this->manager->createsEvent();
+        $this->manager->createsEventDomain([
+            'id'     => $eventId,
             'name'   => '2019 foo event',
             'domain' => '2019foo.event.com',
         ]);
@@ -479,7 +483,9 @@ final class BuyProductTest extends TestCase
      */
     public function byWireWithPromocode(): void
     {
-        $eventId = $this->manager->createsEvent([
+        $eventId = $this->manager->createsEvent();
+        $this->manager->createsEventDomain([
+            'id'     => $eventId,
             'name'   => '2019 foo event',
             'domain' => '2019foo.event.com',
         ]);
@@ -560,15 +566,15 @@ final class BuyProductTest extends TestCase
 
         $promocode = 'FOO';
         $this->manager->createFixedPromocode([
-            'eventId'        => $eventId,
-            'code'           => $promocode,
-            'discount'       => [
+            'eventId'          => $eventId,
+            'code'             => $promocode,
+            'discount'         => [
                 'amount'   => '100',
                 'currency' => 'RUB',
             ],
-            'useLimit'       => 10,
-            'expireAt'       => '3000-01-01 12:00:00',
-            'usable'         => true,
+            'useLimit'         => 10,
+            'expireAt'         => '3000-01-01 12:00:00',
+            'usable'           => true,
             'allowedTariffIds' => [$tariffId]
         ]);
         $this->manager->seeFixedPromocodeInList($eventId, [

@@ -6,7 +6,6 @@ use App\Infrastructure\DomainEvent\NotificationSubscriberPass;
 use App\Infrastructure\Persistence\DBALTypes\JsonDocumentType;
 use App\Infrastructure\Persistence\DBALTypesInitializer\CollectTypesPass;
 use App\Infrastructure\Persistence\DBALTypesInitializer\DBALTypes;
-use Doctrine\DBAL\Types\Type;
 use Money\Money;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;

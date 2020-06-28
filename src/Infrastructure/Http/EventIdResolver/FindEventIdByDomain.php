@@ -23,9 +23,9 @@ final class FindEventIdByDomain
             select
                 id
             from
-                event_config
+                event_domain
             where
-                event_config.domain = :domain
+                event_domain.domain = :domain
         ');
         $stmt->bindParam('domain', $domain);
         $stmt->execute();

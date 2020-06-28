@@ -2,7 +2,6 @@
 
 namespace App\Event\Action\CreateEvent;
 
-use App\Event\Model\EventId;
 use App\Infrastructure\Http\AppController;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,15 +22,12 @@ final class CreateEventHttpAdapter extends AppController
     /**
      * @Route("/admin/event/create", methods={"POST"})
      */
-    public function __invoke(CreateEventRequest $createEventRequest): Response
+    public function __invoke(): Response
     {
         // TODO wrap transactions on kernel events ?
-        /** @var EventId $eventId */
-        $eventId = $this->em->transactional(
-            function () use ($createEventRequest): EventId {
-                return $this->handler->createEvent($createEventRequest->toCreateEvent());
-            }
-        );
+        $eventId = $this->handler->createEvent();
+
+        $this->em->flush();
 
         // TODO how about response objects ?
         return $this->response($eventId);

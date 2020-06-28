@@ -1,18 +1,19 @@
 <?php
 
-namespace App\Event\Model;
+namespace App\EventDomain;
 
+use App\Infrastructure\Http\RequestResolver\AppRequest;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
  */
-final class EventConfig
+class EventDomain implements AppRequest
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="guid")
      */
     private $id;
 

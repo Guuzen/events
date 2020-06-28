@@ -22,13 +22,13 @@ final class EventQueries
     public function findInList(): array
     {
         $stmt = $this->connection->query('
-            select row_to_json(event_config) as json
+            select row_to_json(event_domain) as json
             from (
                 select
                     *
                 from
-                    event_config
-            ) as event_config
+                    event_domain
+            ) as event_domain
         ');
 
         $events = [];
@@ -48,15 +48,15 @@ final class EventQueries
     public function findById(string $eventId)
     {
         $stmt = $this->connection->prepare('
-            select row_to_json(event_config) as json
+            select row_to_json(event_domain) as json
             from (
                 select
                     *
                 from
-                    event_config
+                    event_domain
                 where
-                    event_config.id = :event_id
-            ) as event_config
+                    event_domain.id = :event_id
+            ) as event_domain
         ');
         $stmt->bindValue('event_id', $eventId);
         $stmt->execute();
