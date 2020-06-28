@@ -5,4 +5,3 @@ services:
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
     App\Infrastructure\Http\EventIdResolver\EventIdResolver: ~
-    App\Infrastructure\Http\EventIdResolver\FindEventIdByDomain: ~

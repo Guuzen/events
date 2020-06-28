@@ -6,7 +6,7 @@ namespace App\Infrastructure\Http\EventIdResolver;
 
 use App\Common\Error;
 use App\Event\Model\EventId;
-use Exception;
+use App\EventDomain\FindEventIdByDomain;
 use Generator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
@@ -25,8 +25,8 @@ final class EventIdResolver implements ArgumentValueResolverInterface
     {
         $argumentType = $argument->getType();
         if (null === $argumentType) {
-            throw new Exception(
-                sprintf('There is no type for argument %s', $argument->getName())
+            throw new \RuntimeException(
+                \sprintf('There is no type for argument %s', $argument->getName())
             );
         }
 
@@ -37,7 +37,7 @@ final class EventIdResolver implements ArgumentValueResolverInterface
     {
         $eventId = ($this->findEventIdByDomain)($request->getHost());
         if ($eventId instanceof Error) {
-            throw new Exception(); // TODO remove errors and make exceptions great again ?
+            throw new \RuntimeException(); // TODO remove errors and make exceptions great again ?
         }
 
         /** @psalm-suppress MixedArgument */

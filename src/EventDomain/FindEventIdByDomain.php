@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Infrastructure\Http\EventIdResolver;
+namespace App\EventDomain;
 
+use App\Infrastructure\Http\EventIdResolver\EventIdByDomainNotFound;
 use Doctrine\DBAL\Connection;
 
-// TODO move to Event ?
 final class FindEventIdByDomain
 {
     private $connection;
