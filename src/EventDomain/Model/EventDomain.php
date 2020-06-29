@@ -1,6 +1,6 @@
 <?php
 
-namespace App\EventDomain;
+namespace App\EventDomain\Model;
 
 use App\Infrastructure\Http\RequestResolver\AppRequest;
 use Doctrine\ORM\Mapping as ORM;

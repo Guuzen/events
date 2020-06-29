@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\EventDomain\Queries\FindEventById;
 
-use App\Common\Error;
+use App\Infrastructure\Http\AppController;
 use Doctrine\DBAL\Connection;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
-final class FindEventByIdQuery
+final class FindEventByIdHttpAdapter extends AppController
 {
     private $connection;
 
@@ -17,9 +19,9 @@ final class FindEventByIdQuery
     }
 
     /**
-     * @return array|Error
+     * @Route("/admin/eventDomain/show")
      */
-    public function __invoke(string $eventId)
+    public function __invoke(FindEventByIdRequest $request): Response
     {
         $stmt = $this->connection->prepare('
             select
@@ -29,15 +31,15 @@ final class FindEventByIdQuery
             where
                 event_domain.id = :event_id
         ');
-        $stmt->bindValue('event_id', $eventId);
+        $stmt->bindValue('event_id', $request->eventId);
         $stmt->execute();
 
         /** @var array|false */
-        $result = $stmt->fetch();
-        if (false === $result) {
-            return new EventNotFound();
+        $event = $stmt->fetch();
+        if (false === $event) {
+            return $this->response(new EventNotFound());
         }
 
-        return $result;
+        return $this->response($event);
     }
 }

@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace App\Order\Query\FindOrderById;
 
+use App\Infrastructure\Http\AppController;
 use Doctrine\DBAL\Connection;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
-final class FindOrderByIdQuery
+final class FindOrderByIdHttpAdapter extends AppController
 {
     private $connection;
 
@@ -16,9 +19,9 @@ final class FindOrderByIdQuery
     }
 
     /**
-     * @return array|OrderNotFound
+     * @Route("/admin/order/show")
      */
-    public function __invoke(string $orderId)
+    public function __invoke(FindOrderByIdRequest $request): Response
     {
         $stmt = $this->connection->prepare('
             select
@@ -52,15 +55,15 @@ final class FindOrderByIdQuery
             where
                 "order".id = :order_id                
         ');
-        $stmt->bindValue('order_id', $orderId);
+        $stmt->bindValue('order_id', $request->orderId);
         $stmt->execute();
 
         /** @var array|false $order */
         $order = $stmt->fetch();
         if (false === $order) {
-            return new OrderNotFound();
+            return $this->response(new OrderNotFound());
         }
 
-        return $order;
+        return $this->response($order);
     }
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\EventDomain\Queries\GetEventInList;
+namespace App\EventDomain\Queries\GetEventList;
 
 use Doctrine\DBAL\Connection;
 

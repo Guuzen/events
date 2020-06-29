@@ -4,10 +4,16 @@ declare(strict_types=1);
 
 namespace App\Order\Query\GetOrderList;
 
+use App\Infrastructure\Http\AppController;
 use Doctrine\DBAL\Connection;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
-final class GetOrderListQuery
+final class GetOrderListHttpAdapter extends AppController
 {
+    /**
+     * @var Connection
+     */
     private $connection;
 
     public function __construct(Connection $connection)
@@ -15,7 +21,10 @@ final class GetOrderListQuery
         $this->connection = $connection;
     }
 
-    public function __invoke(string $eventId): array
+    /**
+     * @Route("/admin/order/list")
+     */
+    public function __invoke(GetOrderListRequest $request): Response
     {
         $stmt = $this->connection->prepare('
             select
@@ -49,9 +58,10 @@ final class GetOrderListQuery
             where
                 event.id = :event_id
         ');
-        $stmt->bindParam('event_id', $eventId);
+        $stmt->bindParam('event_id', $request->eventId);
         $stmt->execute();
 
-        return $stmt->fetchAll();
+        return $this->response($stmt->fetchAll());
     }
+
 }
