@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Queries\Ticket\FindTicketById;
+namespace App\Product\Query\FindTicketById;
 
 use App\Common\Error;
 

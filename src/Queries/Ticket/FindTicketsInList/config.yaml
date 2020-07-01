@@ -1,4 +1,0 @@
-doctrine:
-    dbal:
-        types:
-            App\Queries\Ticket\FindTicketsInList\TicketInList: App\Queries\Ticket\FindTicketsInList\TicketInListType

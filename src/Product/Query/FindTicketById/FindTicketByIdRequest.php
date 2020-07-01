@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Queries\Ticket\FindTicketById;
+namespace App\Product\Query\FindTicketById;
 
 use App\Infrastructure\Http\RequestResolver\AppRequest;
 
 /**
  * @psalm-immutable
  */
-final class FindTicketById implements AppRequest
+final class FindTicketByIdRequest implements AppRequest
 {
     public $ticketId;
 

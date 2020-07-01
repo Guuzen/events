@@ -69,7 +69,7 @@ final class FindTariffByIdHttpAdapter extends AppController
         }
 
         /** @var array $json */
-        $json = \json_decode($tariffData['json'], true);
+        $json   = \json_decode($tariffData['json'], true);
         $tariff = $json;
 
         return $this->response($tariff);

@@ -1,4 +1,0 @@
-doctrine:
-    dbal:
-        types:
-            App\Queries\Ticket\FindTicketById\TicketById: App\Queries\Ticket\FindTicketById\TicketByIdType

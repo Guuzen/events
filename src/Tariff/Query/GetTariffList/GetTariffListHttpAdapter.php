@@ -66,9 +66,9 @@ final class GetTariffListHttpAdapter extends AppController
         /** @psalm-var array{json: string} $tariffData */
         foreach ($stmt->fetchAll() as $tariffData) {
             /** @var array $json */
-            $json = \json_decode($tariffData['json'], true);
-            $tariff      = $json;
-            $tariffs[]   = $tariff;
+            $json      = \json_decode($tariffData['json'], true);
+            $tariff    = $json;
+            $tariffs[] = $tariff;
         }
 
         return $this->response($tariffs);
