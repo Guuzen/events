@@ -1,13 +1,15 @@
 <?php
 
-namespace App\Queries\Tariff\FindTariffsInList;
+declare(strict_types=1);
+
+namespace App\Tariff\Query\GetTariffList;
 
 use App\Infrastructure\Http\RequestResolver\AppRequest;
 
 /**
  * @psalm-immutable
  */
-final class FindTariffsInList implements AppRequest
+final class GetTariffListRequest implements AppRequest
 {
     public $eventId;
 

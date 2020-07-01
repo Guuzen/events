@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Queries\Tariff\FindTariffById;
+namespace App\Tariff\Query\FindTariffById;
 
 use App\Infrastructure\Http\RequestResolver\AppRequest;
 
 /**
  * @psalm-immutable
  */
-final class FindTariffById implements AppRequest
+final class FindTariffByIdRequest implements AppRequest
 {
     public $tariffId;
 

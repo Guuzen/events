@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Queries\Tariff\FindTariffById;
+namespace App\Tariff\Query\FindTariffById;
 
 use App\Common\Error;
 

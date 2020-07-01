@@ -1,4 +1,0 @@
-doctrine:
-    dbal:
-        types:
-            App\Queries\Tariff\FindTariffsInList\TariffInList: App\Queries\Tariff\FindTariffsInList\TariffInListType
