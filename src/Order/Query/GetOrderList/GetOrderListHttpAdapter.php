@@ -58,7 +58,7 @@ final class GetOrderListHttpAdapter extends AppController
             where
                 event.id = :event_id
         ');
-        $stmt->bindParam('event_id', $request->eventId);
+        $stmt->bindValue('event_id', $request->eventId);
         $stmt->execute();
 
         return $this->response($stmt->fetchAll());

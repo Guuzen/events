@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Queries\Promocode\FindPromocodesInList;
+namespace App\Promocode\Query\GetPromocodeList;
 
 use App\Infrastructure\Http\RequestResolver\AppRequest;
 
 /**
  * @psalm-immutable
  */
-final class FindPromocodesInList implements AppRequest
+final class GetPromocodeListRequest implements AppRequest
 {
     public $eventId;
 

@@ -1,4 +1,0 @@
-doctrine:
-    dbal:
-        types:
-            App\Queries\Promocode\FindPromocodesInList\PromocodeInList: App\Queries\Promocode\FindPromocodesInList\PromocodeInListType
