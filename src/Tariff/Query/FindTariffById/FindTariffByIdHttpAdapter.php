@@ -29,7 +29,6 @@ final class FindTariffByIdHttpAdapter extends AppController
             from (
                 select
                     tariff.id,
-                    tariff_details.tariff_type as "tariffType",
                     segments,
                     tariff.product_type -> \'type\' as "productType"
                 from (
@@ -55,8 +54,6 @@ final class FindTariffByIdHttpAdapter extends AppController
                 ) as formatted_tariff
                 left join
                     tariff on tariff.id = formatted_tariff.id
-                left join
-                    tariff_details on tariff_details.id = tariff.id
             ) as tariff
         ');
         $stmt->bindValue('tariff_id', $request->tariffId);

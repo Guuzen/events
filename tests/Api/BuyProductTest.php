@@ -125,7 +125,6 @@ final class BuyProductTest extends TestCase
         $this->manager->seeTariffById($tariffId, [
             'data' => [
                 'id'          => $tariffId,
-                'tariffType'  => 'silver_pass',
                 'segments'    => [
                     [
                         'price' => [
@@ -314,7 +313,6 @@ final class BuyProductTest extends TestCase
         $this->manager->seeTariffById($tariffId, [
             'data' => [
                 'id'          => $tariffId,
-                'tariffType'  => 'silver_pass',
                 'segments'    => [
                     [
                         'price' => [
@@ -508,7 +506,6 @@ final class BuyProductTest extends TestCase
         $this->manager->seeTariffById($tariffId, [
             'data' => [
                 'id'          => $tariffId,
-                'tariffType'  => 'silver_pass',
                 'segments'    => [
                     [
                         'price' => [
