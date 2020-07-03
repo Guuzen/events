@@ -79,6 +79,14 @@ final class Manager
         $this->assertResultMatchesPattern($response, $tariffs);
     }
 
+    public function seeTariffDetailsById(string $tariffId, array $tariffDetails): void
+    {
+        $response = $this->client->get('/admin/tariffDetails/show', [
+            'tariffId' => $tariffId,
+        ]);
+        $this->assertResultMatchesPattern($response, $tariffDetails);
+    }
+
     public function seeTariffById(string $tariffId, array $tariff): void
     {
         $response = $this->client->get('/admin/tariff/show', [

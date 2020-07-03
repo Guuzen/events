@@ -5,10 +5,10 @@ namespace App\Tariff\Action;
 use App\Common\Error;
 use App\Event\Model\Error\EventNotFound;
 use App\Event\Model\Events;
-use App\Tariff\Model\TariffDetails;
-use App\Tariff\Model\TariffDetailsId;
 use App\Tariff\Model\TariffId;
 use App\Tariff\Model\Tariffs;
+use App\TariffDetails\Model\TariffDetails;
+use App\TariffDetails\Model\TariffDetailsId;
 use Doctrine\ORM\EntityManagerInterface;
 
 final class CreateTariffHandler

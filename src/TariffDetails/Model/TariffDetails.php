@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tariff\Model;
+namespace App\TariffDetails\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 

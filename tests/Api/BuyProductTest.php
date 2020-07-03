@@ -95,6 +95,12 @@ final class BuyProductTest extends TestCase
             ],
             'productType' => 'ticket',
         ]);
+        $this->manager->seeTariffDetailsById($tariffId, [
+            'data' => [
+                'id'         => $tariffId,
+                'tariffType' => 'silver_pass',
+            ],
+        ]);
         $this->manager->seeTariffInList($eventId, [
             'data' => [
                 [
@@ -151,19 +157,12 @@ final class BuyProductTest extends TestCase
                     'eventId'   => $eventId,
                     'tariffId'  => $tariffId,
                     'paid'      => false,
-                    'product'   => 'silver_pass',
-                    'phone'     => '+123456789',
-                    'firstName' => 'john',
-                    'lastName'  => 'Doe',
-                    'email'     => 'john@email.com',
                     'sum'       => '200',
                     'currency'  => 'RUB',
                     'discount'  => null,
                     'cancelled' => false,
-                    'productId' => null,
                     'userId'    => '@uuid@',
                     'makedAt'   => '@string@.isDateTime()',
-                    'createdAt' => null,
                 ],
             ]
         ]);
@@ -173,22 +172,14 @@ final class BuyProductTest extends TestCase
                 'eventId'   => $eventId,
                 'tariffId'  => $tariffId,
                 'paid'      => false,
-                'product'   => 'silver_pass',
-                'phone'     => '+123456789',
-                'firstName' => 'john',
-                'lastName'  => 'Doe',
-                'email'     => 'john@email.com',
                 'sum'       => '200',
                 'currency'  => 'RUB',
                 'discount'  => null,
                 'cancelled' => false,
-                'productId' => null,
                 'userId'    => '@uuid@',
                 'makedAt'   => '@string@.isDateTime()',
-                'createdAt' => null,
             ]
         ]);
-
         $this->manager->markOrderPaid([
             'orderId' => $orderId,
             'eventId' => $eventId,
@@ -205,19 +196,12 @@ final class BuyProductTest extends TestCase
                     'eventId'   => $eventId,
                     'tariffId'  => $tariffId,
                     'paid'      => true,
-                    'product'   => 'silver_pass',
-                    'phone'     => '+123456789',
-                    'firstName' => 'john',
-                    'lastName'  => 'Doe',
-                    'email'     => 'john@email.com',
                     'sum'       => '200',
                     'currency'  => 'RUB',
                     'discount'  => null,
                     'cancelled' => false,
-                    'productId' => '@uuid@',
                     'userId'    => '@uuid@',
                     'makedAt'   => '@string@.isDateTime()',
-                    'createdAt' => '@string@.isDateTime()',
                 ],
             ]
         ]);
@@ -227,19 +211,12 @@ final class BuyProductTest extends TestCase
                 'eventId'   => $eventId,
                 'tariffId'  => $tariffId,
                 'paid'      => true,
-                'product'   => 'silver_pass',
-                'phone'     => '+123456789',
-                'firstName' => 'john',
-                'lastName'  => 'Doe',
-                'email'     => 'john@email.com',
                 'sum'       => '200',
                 'currency'  => 'RUB',
                 'discount'  => null,
                 'cancelled' => false,
-                'productId' => '@uuid@',
                 'userId'    => '@uuid@',
                 'makedAt'   => '@string@.isDateTime()',
-                'createdAt' => '@string@.isDateTime()',
             ]
         ]);
         $ticketId = $this->manager->seeTicketInList($eventId, [
@@ -307,6 +284,12 @@ final class BuyProductTest extends TestCase
             ],
             'productType' => 'ticket',
         ]);
+        $this->manager->seeTariffDetailsById($tariffId, [
+            'data' => [
+                'id'         => $tariffId,
+                'tariffType' => 'silver_pass',
+            ],
+        ]);
         $this->manager->seeTariffInList($eventId, [
             'data' => [
                 [
@@ -363,19 +346,12 @@ final class BuyProductTest extends TestCase
                     'eventId'   => $eventId,
                     'tariffId'  => $tariffId,
                     'paid'      => false,
-                    'product'   => 'silver_pass',
-                    'phone'     => '+123456789',
-                    'firstName' => 'john',
-                    'lastName'  => 'Doe',
-                    'email'     => 'john@email.com',
                     'sum'       => '200',
                     'currency'  => 'RUB',
                     'discount'  => null,
                     'cancelled' => false,
-                    'productId' => null,
                     'userId'    => '@uuid@',
                     'makedAt'   => '@string@.isDateTime()',
-                    'createdAt' => null,
                 ],
             ]
         ]);
@@ -385,19 +361,12 @@ final class BuyProductTest extends TestCase
                 'eventId'   => $eventId,
                 'tariffId'  => $tariffId,
                 'paid'      => false,
-                'product'   => 'silver_pass',
-                'phone'     => '+123456789',
-                'firstName' => 'john',
-                'lastName'  => 'Doe',
-                'email'     => 'john@email.com',
                 'sum'       => '200',
                 'currency'  => 'RUB',
                 'discount'  => null,
                 'cancelled' => false,
-                'productId' => null,
                 'userId'    => '@uuid@',
                 'makedAt'   => '@string@.isDateTime()',
-                'createdAt' => null,
             ]
         ]);
 
@@ -421,19 +390,12 @@ final class BuyProductTest extends TestCase
                     'eventId'   => $eventId,
                     'tariffId'  => $tariffId,
                     'paid'      => true,
-                    'product'   => 'silver_pass',
-                    'phone'     => '+123456789',
-                    'firstName' => 'john',
-                    'lastName'  => 'Doe',
-                    'email'     => 'john@email.com',
                     'sum'       => '200',
                     'currency'  => 'RUB',
                     'discount'  => null,
                     'cancelled' => false,
-                    'productId' => '@uuid@',
                     'userId'    => '@uuid@',
                     'makedAt'   => '@string@.isDateTime()',
-                    'createdAt' => '@string@.isDateTime()',
                 ],
             ]
         ]);
@@ -443,19 +405,12 @@ final class BuyProductTest extends TestCase
                 'eventId'   => $eventId,
                 'tariffId'  => $tariffId,
                 'paid'      => true,
-                'product'   => 'silver_pass',
-                'phone'     => '+123456789',
-                'firstName' => 'john',
-                'lastName'  => 'Doe',
-                'email'     => 'john@email.com',
                 'sum'       => '200',
                 'currency'  => 'RUB',
                 'discount'  => null,
                 'cancelled' => false,
-                'productId' => '@uuid@',
                 'userId'    => '@uuid@',
                 'makedAt'   => '@string@.isDateTime()',
-                'createdAt' => '@string@.isDateTime()',
             ]
         ]);
         $ticketId = $this->manager->seeTicketInList($eventId, [
@@ -522,6 +477,12 @@ final class BuyProductTest extends TestCase
                 ],
             ],
             'productType' => 'ticket',
+        ]);
+        $this->manager->seeTariffDetailsById($tariffId, [
+            'data' => [
+                'id'         => $tariffId,
+                'tariffType' => 'silver_pass',
+            ],
         ]);
         $this->manager->seeTariffInList($eventId, [
             'data' => [
@@ -624,19 +585,12 @@ final class BuyProductTest extends TestCase
                     'eventId'   => $eventId,
                     'tariffId'  => $tariffId,
                     'paid'      => false,
-                    'product'   => 'silver_pass',
-                    'phone'     => '+123456789',
-                    'firstName' => 'john',
-                    'lastName'  => 'Doe',
-                    'email'     => 'john@email.com',
                     'sum'       => '200',
                     'discount'  => '100',
                     'currency'  => 'RUB',
                     'cancelled' => false,
-                    'productId' => null,
                     'userId'    => '@uuid@',
                     'makedAt'   => '@string@.isDateTime()',
-                    'createdAt' => null,
                 ],
             ]
         ]);
@@ -646,19 +600,12 @@ final class BuyProductTest extends TestCase
                 'eventId'   => $eventId,
                 'tariffId'  => $tariffId,
                 'paid'      => false,
-                'product'   => 'silver_pass',
-                'phone'     => '+123456789',
-                'firstName' => 'john',
-                'lastName'  => 'Doe',
-                'email'     => 'john@email.com',
                 'sum'       => '200',
                 'currency'  => 'RUB',
                 'discount'  => '100',
                 'cancelled' => false,
-                'productId' => null,
                 'userId'    => '@uuid@',
                 'makedAt'   => '@string@.isDateTime()',
-                'createdAt' => null,
             ]
         ]);
         $this->manager->seeFixedPromocodeInList($eventId, [
@@ -706,19 +653,12 @@ final class BuyProductTest extends TestCase
                     'eventId'   => $eventId,
                     'tariffId'  => $tariffId,
                     'paid'      => true,
-                    'product'   => 'silver_pass',
-                    'phone'     => '+123456789',
-                    'firstName' => 'john',
-                    'lastName'  => 'Doe',
-                    'email'     => 'john@email.com',
                     'sum'       => '200',
                     'currency'  => 'RUB',
                     'discount'  => '100',
                     'cancelled' => false,
-                    'productId' => '@uuid@',
                     'userId'    => '@uuid@',
                     'makedAt'   => '@string@.isDateTime()',
-                    'createdAt' => '@string@.isDateTime()',
                 ],
             ]
         ]);
@@ -728,19 +668,12 @@ final class BuyProductTest extends TestCase
                 'eventId'   => $eventId,
                 'tariffId'  => $tariffId,
                 'paid'      => true,
-                'product'   => 'silver_pass',
-                'phone'     => '+123456789',
-                'firstName' => 'john',
-                'lastName'  => 'Doe',
-                'email'     => 'john@email.com',
                 'sum'       => '200',
                 'currency'  => 'RUB',
                 'discount'  => '100',
                 'cancelled' => false,
-                'productId' => '@uuid@',
                 'userId'    => '@uuid@',
                 'makedAt'   => '@string@.isDateTime()',
-                'createdAt' => '@string@.isDateTime()',
             ]
         ]);
         $ticketId = $this->manager->seeTicketInList($eventId, [

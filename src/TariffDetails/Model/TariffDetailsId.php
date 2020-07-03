@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tariff\Model;
+namespace App\TariffDetails\Model;
 
 use App\Infrastructure\Persistence\DBALTypes\UuidType;
 use App\Infrastructure\Persistence\DBALTypesInitializer\CustomTypeAnnotation as DBALType;
