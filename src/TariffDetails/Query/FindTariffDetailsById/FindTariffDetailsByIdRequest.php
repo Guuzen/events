@@ -9,5 +9,6 @@ use App\Infrastructure\Http\RequestResolver\AppRequest;
 // TODO remove constructors from request ?
 final class FindTariffDetailsByIdRequest implements AppRequest
 {
+    /** @var string */
     public $tariffId;
 }

@@ -36,6 +36,7 @@ final class FindTariffDetailsHttpAdapter extends AppController
         $stmt->bindValue('tariff_id', $request->tariffId);
         $stmt->execute();
 
+        /** @var array|false $tariffDetails */
         $tariffDetails = $stmt->fetch();
 
         return $this->response($tariffDetails);
