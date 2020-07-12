@@ -1,0 +1,43 @@
+{
+  "title": "createFixedPromocode",
+  "type": "object",
+  "description": "",
+  "properties": {
+    "eventId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "code": {
+      "type": "string"
+    },
+    "discount": {
+      "$ref": "../money.v1.json"
+    },
+    "useLimit": {
+      "type": "number"
+    },
+    "usable": {
+      "type": "boolean"
+    },
+    "allowedTariffIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "uuid"
+      }
+    },
+    "expireAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "eventId",
+    "code",
+    "discount",
+    "useLimit",
+    "usable",
+    "allowedTariffIds",
+    "expireAt"
+  ]
+}

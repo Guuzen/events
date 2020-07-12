@@ -1,0 +1,495 @@
+openapi: 3.0.0
+info:
+  title: guuzen events
+  version: '1.0'
+  contact:
+    name: Guuzen
+  license:
+    name: MIT
+  description: Test
+servers:
+  - url: 'http://localhost:8128'
+    description: localhost
+  - url: 'http://web'
+    description: docker
+tags:
+  - name: event
+  - name: admin
+  - name: fondy
+  - name: order
+  - name: promocode
+  - name: tariff
+  - name: ticket
+paths:
+  /admin/event/create:
+    post:
+      summary: Create event
+      tags:
+        - event
+        - admin
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./idResponse.v1.json
+              examples:
+                example-1:
+                  value:
+                    data:
+                      id: 5f32426b-9409-498d-a87f-1f630e6bfff9
+          headers: {}
+      operationId: post-admin-event-create
+      description: Create new event
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ./event/createEvent.v1.json
+        description: New event do not need any data
+  /admin/eventDomain/create:
+    post:
+      summary: Create event domain
+      operationId: post-admin-eventDomain-create
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./emptyResponse.v1.json
+              examples:
+                example-1:
+                  value:
+                    data: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ./eventDomain/eventDomain.v1.json
+            examples:
+              example-1:
+                value:
+                  id: 36ab2906-c924-4bbd-83dc-f1264d214e32
+                  name: 2019 foo event
+                  domain: 2019foo.event.com
+        description: event domain
+      description: Create event domain
+      tags:
+        - admin
+        - event
+  /admin/eventDomain/show:
+    get:
+      summary: Show event domain
+      tags:
+        - admin
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: ./eventDomain/eventDomain.v1.json
+                required:
+                  - data
+      operationId: get-admin-eventDomain-show
+      description: Show event domain
+      parameters:
+        - schema:
+            type: string
+            format: uuid
+          in: query
+          name: eventId
+          description: ''
+          required: true
+  /admin/tariff/create:
+    post:
+      summary: Create tariff
+      operationId: post-admin-tariff-create
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./idResponse.v1.json
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ./tariff/tariff.v1.json
+        description: ''
+      description: creates new tariff
+      tags:
+        - tariff
+        - admin
+  /admin/tariffDetails/show:
+    get:
+      summary: show tariff details
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: ./tariffDetails/tariffDetails.v1.json
+                required:
+                  - data
+      operationId: get-admin-tariffDetails-show
+      parameters:
+        - schema:
+            type: string
+            format: uuid
+          in: query
+          name: tariffId
+          required: true
+      description: shows tariff details
+  /admin/tariff/list:
+    get:
+      summary: tariff list
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: ./tariff/tariff.v1.json
+                required:
+                  - data
+      operationId: get-admin-tariff-list
+      parameters:
+        - schema:
+            type: string
+            format: uuid
+          in: query
+          name: eventId
+          required: true
+      description: get tariff list
+  /admin/tariff/show:
+    get:
+      summary: tariff
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: ./tariff/tariff.v1.json
+                required:
+                  - data
+      operationId: get-admin-tariff-show
+      parameters:
+        - schema:
+            type: string
+            format: uuid
+          in: query
+          name: tariffId
+          required: true
+      description: shows tariff
+  /order/place:
+    post:
+      summary: place order
+      operationId: post-order-place
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./idResponse.v1.json
+      tags:
+        - admin
+        - order
+      description: places new order
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ./order/placeOrder.v1.json
+  /admin/order/list:
+    get:
+      summary: order list
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: ./order/order.v1.json
+                required:
+                  - data
+      operationId: get-admin-order-list
+      parameters:
+        - schema:
+            type: string
+            format: uuid
+          in: query
+          name: eventId
+          required: true
+      description: shows order list
+  /admin/order/show:
+    get:
+      summary: one order
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: ./order/order.v1.json
+                required:
+                  - data
+      operationId: get-admin-order-show
+      parameters:
+        - schema:
+            type: string
+            format: uuid
+          in: query
+          name: orderId
+          required: true
+      description: shows one order
+  /admin/order/markPaid:
+    post:
+      summary: mark paid
+      operationId: post-order-markPaid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./emptyResponse.v1.json
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                orderId:
+                  type: string
+                  format: uuid
+                eventId:
+                  type: string
+                  format: uuid
+              required:
+                - orderId
+                - eventId
+      description: marks paid specific order
+      tags:
+        - order
+        - admin
+    parameters: []
+  /admin/ticket/list:
+    get:
+      summary: ticket list
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: ./ticket/ticket.v1.json
+      operationId: get-admin-ticket-list
+      parameters:
+        - schema:
+            type: string
+            format: uuid
+          in: query
+          name: eventId
+          required: true
+      description: shows ticket list
+  /admin/ticket/show:
+    get:
+      summary: one ticket
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: ./ticket/ticket.v1.json
+      operationId: get-admin-ticket-show
+      parameters:
+        - schema:
+            type: string
+            format: uuid
+          in: query
+          name: ticketId
+          required: true
+      description: shows one ticket
+  /order/payByCard:
+    post:
+      summary: pay by card
+      operationId: post-order-payByCard
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                required:
+                  - data
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                orderId:
+                  type: string
+                  format: uuid
+              required:
+                - orderId
+      description: starts payment by bank card
+      tags:
+        - order
+  /order/markPaidByFondy:
+    post:
+      summary: mark paid by fondy
+      operationId: post-order-markPaidByFondy
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./emptyResponse.v1.json
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              format: uuid
+              properties:
+                orderId:
+                  type: string
+                  format: uuid
+              required:
+                - orderId
+        description: fondy marks payment as paid
+      description: fondy confirms that specific order was paid
+      tags:
+        - fondy
+        - order
+  /admin/promocode/createTariff:
+    post:
+      summary: create promocode for tariffs
+      operationId: post-admin-promocode-createTariff
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./idResponse.v1.json
+      description: creates promocode for specific tariffs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ./promocode/createFixedPromocode.v1.json
+      tags:
+        - admin
+        - promocode
+  /admin/promocode/list:
+    get:
+      summary: fixed promocode list
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: ./promocode/fixedPromocode.v1.json
+                required:
+                  - data
+      operationId: get-admin-promocode-list
+      parameters:
+        - schema:
+            type: string
+            format: uuid
+          in: query
+          name: eventId
+          required: true
+      description: shows list of fixed promocodes
+  /promocode/use:
+    post:
+      summary: use promocode
+      operationId: post-promocode-use
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./emptyResponse.v1.json
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                code:
+                  type: string
+                orderId:
+                  type: string
+                  format: uuid
+                tariffId:
+                  type: string
+                  format: uuid
+              required:
+                - code
+                - orderId
+                - tariffId
+      description: use promocode on specific order
+      tags:
+        - promocode
+components:
+  schemas: {}
+  securitySchemes: {}

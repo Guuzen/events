@@ -1,0 +1,26 @@
+{
+  "title": "ticket",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "eventId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "number": {
+      "type": "string"
+    },
+    "createdAt": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "eventId",
+    "number",
+    "createdAt"
+  ]
+}

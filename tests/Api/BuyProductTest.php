@@ -88,8 +88,8 @@ final class BuyProductTest extends TestCase
                         'currency' => 'RUB',
                     ],
                     'term'  => [
-                        'start' => '2000-01-01 12:00:00',
-                        'end'   => '3000-01-01 12:00:00',
+                        'start' => '2000-01-01 12:00:00Z',
+                        'end'   => '3000-01-01 12:00:00Z',
                     ],
                 ],
             ],
@@ -150,14 +150,16 @@ final class BuyProductTest extends TestCase
         ]);
         $this->visitor->awaitsForEmailWithTicket();
         $this->manager->seeOrderInList($eventId, [
-            'data' => [
+            'data' => [ // TODO currency and sum is a money type
                 [
                     'id'        => $orderId,
                     'eventId'   => $eventId,
                     'tariffId'  => $tariffId,
                     'paid'      => false,
-                    'sum'       => '200',
-                    'currency'  => 'RUB',
+                    'sum'       => [
+                        'amount'   => '200',
+                        'currency' => 'RUB',
+                    ],
                     'discount'  => null,
                     'cancelled' => false,
                     'userId'    => '@uuid@',
@@ -171,8 +173,10 @@ final class BuyProductTest extends TestCase
                 'eventId'   => $eventId,
                 'tariffId'  => $tariffId,
                 'paid'      => false,
-                'sum'       => '200',
-                'currency'  => 'RUB',
+                'sum'       => [
+                    'amount'   => '200',
+                    'currency' => 'RUB',
+                ],
                 'discount'  => null,
                 'cancelled' => false,
                 'userId'    => '@uuid@',
@@ -195,8 +199,10 @@ final class BuyProductTest extends TestCase
                     'eventId'   => $eventId,
                     'tariffId'  => $tariffId,
                     'paid'      => true,
-                    'sum'       => '200',
-                    'currency'  => 'RUB',
+                    'sum'       => [
+                        'amount'   => '200',
+                        'currency' => 'RUB',
+                    ],
                     'discount'  => null,
                     'cancelled' => false,
                     'userId'    => '@uuid@',
@@ -210,8 +216,10 @@ final class BuyProductTest extends TestCase
                 'eventId'   => $eventId,
                 'tariffId'  => $tariffId,
                 'paid'      => true,
-                'sum'       => '200',
-                'currency'  => 'RUB',
+                'sum'       => [
+                    'amount'   => '200',
+                    'currency' => 'RUB',
+                ],
                 'discount'  => null,
                 'cancelled' => false,
                 'userId'    => '@uuid@',
@@ -276,8 +284,8 @@ final class BuyProductTest extends TestCase
                         'currency' => 'RUB',
                     ],
                     'term'  => [
-                        'start' => '2000-01-01 12:00:00',
-                        'end'   => '3000-01-01 12:00:00',
+                        'start' => '2000-01-01 12:00:00Z',
+                        'end'   => '3000-01-01 12:00:00Z',
                     ],
                 ],
             ],
@@ -344,8 +352,10 @@ final class BuyProductTest extends TestCase
                     'eventId'   => $eventId,
                     'tariffId'  => $tariffId,
                     'paid'      => false,
-                    'sum'       => '200',
-                    'currency'  => 'RUB',
+                    'sum'       => [
+                        'amount'   => '200',
+                        'currency' => 'RUB',
+                    ],
                     'discount'  => null,
                     'cancelled' => false,
                     'userId'    => '@uuid@',
@@ -359,8 +369,10 @@ final class BuyProductTest extends TestCase
                 'eventId'   => $eventId,
                 'tariffId'  => $tariffId,
                 'paid'      => false,
-                'sum'       => '200',
-                'currency'  => 'RUB',
+                'sum'       => [
+                    'amount'   => '200',
+                    'currency' => 'RUB',
+                ],
                 'discount'  => null,
                 'cancelled' => false,
                 'userId'    => '@uuid@',
@@ -388,8 +400,10 @@ final class BuyProductTest extends TestCase
                     'eventId'   => $eventId,
                     'tariffId'  => $tariffId,
                     'paid'      => true,
-                    'sum'       => '200',
-                    'currency'  => 'RUB',
+                    'sum'       => [
+                        'amount'   => '200',
+                        'currency' => 'RUB',
+                    ],
                     'discount'  => null,
                     'cancelled' => false,
                     'userId'    => '@uuid@',
@@ -403,8 +417,10 @@ final class BuyProductTest extends TestCase
                 'eventId'   => $eventId,
                 'tariffId'  => $tariffId,
                 'paid'      => true,
-                'sum'       => '200',
-                'currency'  => 'RUB',
+                'sum'       => [
+                    'amount'   => '200',
+                    'currency' => 'RUB',
+                ],
                 'discount'  => null,
                 'cancelled' => false,
                 'userId'    => '@uuid@',
@@ -469,8 +485,8 @@ final class BuyProductTest extends TestCase
                         'currency' => 'RUB',
                     ],
                     'term'  => [
-                        'start' => '2000-01-01 12:00:00',
-                        'end'   => '3000-01-01 12:00:00',
+                        'start' => '2000-01-01 12:00:00Z',
+                        'end'   => '3000-01-01 12:00:00Z',
                     ],
                 ],
             ],
@@ -531,7 +547,7 @@ final class BuyProductTest extends TestCase
                 'currency' => 'RUB',
             ],
             'useLimit'         => 10,
-            'expireAt'         => '3000-01-01 12:00:00',
+            'expireAt'         => '3000-01-01 12:00:00Z',
             'usable'           => true,
             'allowedTariffIds' => [$tariffId]
         ]);
@@ -554,7 +570,7 @@ final class BuyProductTest extends TestCase
                     ],
                     'allowedTariffs' => [
                         'type'       => 'specific',
-                        'tariff_ids' => [
+                        'tariff_ids' => [ // TODO camelCase
                             ['id' => $tariffId],
                         ]
                     ],
@@ -582,9 +598,11 @@ final class BuyProductTest extends TestCase
                     'eventId'   => $eventId,
                     'tariffId'  => $tariffId,
                     'paid'      => false,
-                    'sum'       => '200',
+                    'sum'       => [
+                        'amount'   => '200',
+                        'currency' => 'RUB',
+                    ],
                     'discount'  => '100',
-                    'currency'  => 'RUB',
                     'cancelled' => false,
                     'userId'    => '@uuid@',
                     'makedAt'   => '@string@.isDateTime()',
@@ -597,8 +615,10 @@ final class BuyProductTest extends TestCase
                 'eventId'   => $eventId,
                 'tariffId'  => $tariffId,
                 'paid'      => false,
-                'sum'       => '200',
-                'currency'  => 'RUB',
+                'sum'       => [
+                    'amount'   => '200',
+                    'currency' => 'RUB',
+                ],
                 'discount'  => '100',
                 'cancelled' => false,
                 'userId'    => '@uuid@',
@@ -650,8 +670,10 @@ final class BuyProductTest extends TestCase
                     'eventId'   => $eventId,
                     'tariffId'  => $tariffId,
                     'paid'      => true,
-                    'sum'       => '200',
-                    'currency'  => 'RUB',
+                    'sum'       => [
+                        'amount'   => '200',
+                        'currency' => 'RUB',
+                    ],
                     'discount'  => '100',
                     'cancelled' => false,
                     'userId'    => '@uuid@',
@@ -665,8 +687,10 @@ final class BuyProductTest extends TestCase
                 'eventId'   => $eventId,
                 'tariffId'  => $tariffId,
                 'paid'      => true,
-                'sum'       => '200',
-                'currency'  => 'RUB',
+                'sum'       => [
+                    'amount'   => '200',
+                    'currency' => 'RUB',
+                ],
                 'discount'  => '100',
                 'cancelled' => false,
                 'userId'    => '@uuid@',

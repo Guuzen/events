@@ -1,0 +1,17 @@
+{
+  "title": "show tariff details",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "tariffType": {
+      "$ref": "../tariff/tariffType.v1.json"
+    }
+  },
+  "required": [
+    "id",
+    "tariffType"
+  ]
+}

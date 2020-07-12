@@ -1,0 +1,30 @@
+{
+  "title": "order",
+  "type": "object",
+  "properties": {
+    "tariffId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "firstName": {
+      "type": "string"
+    },
+    "lastName": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string",
+      "format": "email"
+    },
+    "phone": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "tariffId",
+    "firstName",
+    "lastName",
+    "email",
+    "phone"
+  ]
+}

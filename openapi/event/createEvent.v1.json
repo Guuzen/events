@@ -1,0 +1,24 @@
+{
+  "title": "Create event",
+  "type": "object",
+  "properties": {
+    "data": {
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "required": [
+    "data"
+  ],
+  "x-tags": [
+    "admin",
+    "event"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "title": "emptyResponse",
+  "type": "object",
+  "description": "Default response without any data",
+  "properties": {
+    "data": {
+      "type": "array",
+      "items": {}
+    }
+  },
+  "required": [
+    "data"
+  ]
+}

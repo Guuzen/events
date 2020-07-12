@@ -1,0 +1,26 @@
+{
+  "title": "Create event domain",
+  "type": "object",
+  "description": "",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "name": {
+      "type": "string"
+    },
+    "domain": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "domain"
+  ],
+  "x-tags": [
+    "eventDomain",
+    "admin"
+  ]
+}

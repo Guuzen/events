@@ -1,0 +1,48 @@
+{
+  "title": "order",
+  "type": "object",
+  "required": [
+    "id",
+    "eventId",
+    "tariffId",
+    "paid",
+    "sum",
+    "cancelled",
+    "userId",
+    "makedAt"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "eventId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "tariffId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "paid": {
+      "type": "boolean"
+    },
+    "sum": {
+      "$ref": "../money.v1.json"
+    },
+    "discount": {
+      "$ref": "../money.v1.json"
+    },
+    "cancelled": {
+      "type": "boolean"
+    },
+    "userId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "makedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

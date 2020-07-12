@@ -1,0 +1,21 @@
+{
+  "title": "money",
+  "type": "object",
+  "description": "money",
+  "properties": {
+    "amount": {
+      "type": "string",
+      "pattern": "^\\d+"
+    },
+    "currency": {
+      "type": "string",
+      "enum": [
+        "RUB"
+      ]
+    }
+  },
+  "required": [
+    "amount",
+    "currency"
+  ]
+}

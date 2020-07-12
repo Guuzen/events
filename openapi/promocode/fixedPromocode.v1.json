@@ -1,0 +1,108 @@
+{
+  "title": "fixedPromocode",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "eventId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "code": {
+      "type": "string"
+    },
+    "discount": {
+      "type": "object",
+      "required": [
+        "amount",
+        "currency",
+        "type"
+      ],
+      "properties": {
+        "amount": {
+          "type": "string"
+        },
+        "currency": {
+          "type": "string",
+          "enum": [
+            "RUB"
+          ]
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "fixed"
+          ]
+        }
+      }
+    },
+    "useLimit": {
+      "type": "number"
+    },
+    "expireAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "usable": {
+      "type": "boolean"
+    },
+    "usedInOrders": {
+      "type": "object",
+      "required": [
+        "order_ids"
+      ],
+      "properties": {
+        "order_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      }
+    },
+    "allowedTariffs": {
+      "type": "object",
+      "required": [
+        "type",
+        "tariff_ids"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "specific"
+          ]
+        },
+        "tariff_ids": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid"
+              }
+            },
+            "required": [
+              "id"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "id",
+    "eventId",
+    "code",
+    "discount",
+    "useLimit",
+    "expireAt",
+    "usable",
+    "usedInOrders",
+    "allowedTariffs"
+  ]
+}

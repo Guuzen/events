@@ -1,0 +1,58 @@
+{
+  "title": "Create tariff",
+  "type": "object",
+  "properties": {
+    "eventId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "tariffType": {
+      "$ref": "./tariffType.v1.json"
+    },
+    "segments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "price": {
+            "$ref": "../money.v1.json"
+          },
+          "term": {
+            "type": "object",
+            "required": [
+              "start",
+              "end"
+            ],
+            "properties": {
+              "start": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "end": {
+                "type": "string",
+                "format": "date-time"
+              }
+            }
+          }
+        },
+        "required": [
+          "price",
+          "term"
+        ]
+      }
+    },
+    "productType": {
+      "type": "string",
+      "enum": [
+        "ticket",
+        "broadcatsLink"
+      ]
+    }
+  },
+  "required": [
+    "eventId",
+    "tariffType",
+    "segments",
+    "productType"
+  ]
+}

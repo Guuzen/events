@@ -45,6 +45,7 @@ final class CreateTariffHandler
         );
         $this->tariffs->add($tariff);
 
+        // TODO extract to create tariff details
         $tariffDetails = new TariffDetails(new TariffDetailsId((string)$tariffId), $command->tariffType);
         $this->em->persist($tariffDetails);
 
