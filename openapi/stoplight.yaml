@@ -130,7 +130,9 @@ paths:
   /admin/tariffDetails/show:
     get:
       summary: show tariff details
-      tags: []
+      tags:
+        - tariff
+        - admin
       responses:
         '200':
           description: OK
@@ -155,7 +157,9 @@ paths:
   /admin/tariff/list:
     get:
       summary: tariff list
-      tags: []
+      tags:
+        - tariff
+        - admin
       responses:
         '200':
           description: OK
@@ -181,8 +185,10 @@ paths:
       description: get tariff list
   /admin/tariff/show:
     get:
-      summary: tariff
-      tags: []
+      summary: one tariff
+      tags:
+        - admin
+        - tariff
       responses:
         '200':
           description: OK
@@ -227,7 +233,9 @@ paths:
   /admin/order/list:
     get:
       summary: order list
-      tags: []
+      tags:
+        - order
+        - admin
       responses:
         '200':
           description: OK
@@ -254,7 +262,9 @@ paths:
   /admin/order/show:
     get:
       summary: one order
-      tags: []
+      tags:
+        - order
+        - admin
       responses:
         '200':
           description: OK
@@ -310,7 +320,9 @@ paths:
   /admin/ticket/list:
     get:
       summary: ticket list
-      tags: []
+      tags:
+        - ticket
+        - admin
       responses:
         '200':
           description: OK
@@ -335,7 +347,9 @@ paths:
   /admin/ticket/show:
     get:
       summary: one ticket
-      tags: []
+      tags:
+        - ticket
+        - admin
       responses:
         '200':
           description: OK
@@ -436,7 +450,9 @@ paths:
   /admin/promocode/list:
     get:
       summary: fixed promocode list
-      tags: []
+      tags:
+        - promocode
+        - admin
       responses:
         '200':
           description: OK

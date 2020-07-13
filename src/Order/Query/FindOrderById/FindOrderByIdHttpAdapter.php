@@ -55,7 +55,7 @@ final class FindOrderByIdHttpAdapter extends AppController
         $stmt->bindValue('order_id', $request->orderId);
         $stmt->execute();
 
-        /** @psalm-var array{sum: string}|false $order */
+        /** @psalm-var array{sum: string, discount: ?string}|false $order */
         $order = $stmt->fetch();
         if (false === $order) {
             return $this->response(new OrderNotFound());
