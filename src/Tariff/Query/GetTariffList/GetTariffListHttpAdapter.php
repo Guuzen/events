@@ -28,6 +28,7 @@ final class GetTariffListHttpAdapter extends AppController
                 row_to_json(tariff) as json
             from (
                 select
+                    tariff.event_id as "eventId",
                     tariff.id,
                     tariff_details.tariff_type as "tariffType",
                     segments,
@@ -41,7 +42,10 @@ final class GetTariffListHttpAdapter extends AppController
                                     \'amount\', segments -> \'price\' -> \'amount\',
                                     \'currency\', segments -> \'price\' -> \'currency\' -> \'code\'
                                 ),
-                                \'term\', segments -> \'term\'
+                                \'term\', json_build_object(
+                                    \'start\', concat(segments -> \'term\' ->> \'start\', \'Z\'),
+                                    \'end\', concat(segments -> \'term\' ->> \'end\', \'Z\')
+                                )
                             )
                         ) as segments
                     from (

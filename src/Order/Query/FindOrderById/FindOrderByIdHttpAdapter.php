@@ -31,12 +31,22 @@ final class FindOrderByIdHttpAdapter extends AppController
                 "order".user_id as "userId",
                 "order".paid as paid,
                 "order".cancelled as "cancelled",
-                "order".maked_at as "makedAt",
+                concat("order".maked_at, \'Z\') as "makedAt",
                 json_build_object(
                     \'amount\', "order".sum ->> \'amount\',
                     \'currency\', "order".sum -> \'currency\' ->> \'code\'
                 ) as sum,
-                "order".discount -> \'amount\' ->> \'amount\' as discount
+                (case
+                    when
+                        "order".discount is null
+                    then
+                        null
+                    else
+                        json_build_object(
+                            \'amount\', "order".discount -> \'amount\' ->> \'amount\',
+                            \'currency\', "order".discount -> \'amount\' -> \'currency\' ->> \'code\'
+                        )
+                end) as discount
             from
                 "order"
             where
@@ -53,6 +63,10 @@ final class FindOrderByIdHttpAdapter extends AppController
         /** @var array $sum */
         $sum          = \json_decode($order['sum'], true);
         $order['sum'] = $sum;
+
+        /** @var array|null $discount */
+        $discount          = $order['discount'] ? \json_decode($order['discount'], true) : null;
+        $order['discount'] = $discount;
 
         return $this->response($order);
     }

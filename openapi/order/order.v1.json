@@ -1,16 +1,6 @@
 {
   "title": "order",
   "type": "object",
-  "required": [
-    "id",
-    "eventId",
-    "tariffId",
-    "paid",
-    "sum",
-    "cancelled",
-    "userId",
-    "makedAt"
-  ],
   "properties": {
     "id": {
       "type": "string",
@@ -31,7 +21,12 @@
       "$ref": "../money.v1.json"
     },
     "discount": {
-      "$ref": "../money.v1.json"
+      "nullable": true,
+      "anyOf": [
+        { 
+            "$ref": "../money.v1.json"
+        }
+      ]
     },
     "cancelled": {
       "type": "boolean"
@@ -44,5 +39,15 @@
       "type": "string",
       "format": "date-time"
     }
-  }
+  },
+  "required": [
+    "id",
+    "eventId",
+    "tariffId",
+    "paid",
+    "sum",
+    "cancelled",
+    "userId",
+    "makedAt"
+  ]
 }

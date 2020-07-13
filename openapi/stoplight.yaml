@@ -446,9 +446,9 @@ paths:
                 type: object
                 properties:
                   data:
-                    $ref: ./promocode/fixedPromocode.v1.json
-                required:
-                  - data
+                    type: array
+                    items:
+                      $ref: ./promocode/fixedPromocode.v1.json
       operationId: get-admin-promocode-list
       parameters:
         - schema:
@@ -490,6 +490,28 @@ paths:
       description: use promocode on specific order
       tags:
         - promocode
+  /admin/eventDomain/list:
+    get:
+      summary: event domains
+      tags:
+        - event
+        - admin
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: ./eventDomain/eventDomain.v1.json
+                required:
+                  - data
+      operationId: get-admin-eventDomain-list
+      description: list of event domains
 components:
   schemas: {}
   securitySchemes: {}

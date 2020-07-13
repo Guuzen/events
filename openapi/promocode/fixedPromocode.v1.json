@@ -57,8 +57,14 @@
         "order_ids": {
           "type": "array",
           "items": {
-            "type": "string",
-            "format": "uuid"
+            "type": "object",
+            "format": "uuid",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid"
+              }
+            }
           }
         }
       }

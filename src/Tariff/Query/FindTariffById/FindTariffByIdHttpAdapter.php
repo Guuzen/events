@@ -28,6 +28,8 @@ final class FindTariffByIdHttpAdapter extends AppController
                 row_to_json(tariff) as json
             from (
                 select
+                    event_id as "eventId",
+                    tariff_details.tariff_type as "tariffType",
                     tariff.id,
                     segments,
                     tariff.product_type -> \'type\' as "productType"
@@ -40,7 +42,10 @@ final class FindTariffByIdHttpAdapter extends AppController
                                     \'amount\', segments -> \'price\' -> \'amount\',
                                     \'currency\', segments -> \'price\' -> \'currency\' -> \'code\'
                                 ),
-                                \'term\', segments -> \'term\'
+                                \'term\', json_build_object(
+                                    \'start\', concat(segments -> \'term\' ->> \'start\', \'Z\'),
+                                    \'end\', concat(segments -> \'term\' ->> \'end\', \'Z\')
+                                )
                             )
                         ) as segments
                     from (
@@ -54,6 +59,8 @@ final class FindTariffByIdHttpAdapter extends AppController
                 ) as formatted_tariff
                 left join
                     tariff on tariff.id = formatted_tariff.id
+                left join
+                    tariff_details on tariff_details.id = tariff.id
             ) as tariff
         ');
         $stmt->bindValue('tariff_id', $request->tariffId);

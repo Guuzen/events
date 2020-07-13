@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace Tests\Api\Infrastructure;
 
+use Google\Auth\Cache\MemoryCacheItemPool;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\MessageFormatter;
 use GuzzleHttp\Middleware;
+use League\OpenAPIValidation\PSR7\Exception\ValidationFailed;
+use League\OpenAPIValidation\Schema\BreadCrumb;
+use League\OpenAPIValidation\Schema\Exception\SchemaMismatch;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
@@ -22,6 +26,42 @@ final class Client
     {
         $isVerbose   = \in_array('--verbose', $_SERVER['argv'], true);
         $middlewares = HandlerStack::create();
+        $yamlFile  = '/var/www/html/openapi/stoplight.yaml';
+        $validator = (new \League\OpenAPIValidation\PSR7\ValidatorBuilder)
+            ->fromYamlFile($yamlFile)
+            ->getResponseValidator();
+
+        $middlewares->push(
+            static function (callable $handler) use ($validator) {
+                return static function (RequestInterface $request, array $options) use ($handler, $validator) {
+                    return $handler($request, $options)->then(
+                        static function (ResponseInterface $response) use ($request, $validator) {
+                            $uri       = $request->getUri()->getPath();
+                            $method    = mb_strtolower($request->getMethod());
+                            $operation = new \League\OpenAPIValidation\PSR7\OperationAddress($uri, $method);
+
+                            try {
+                                $validator->validate($operation, $response);
+                            } catch (ValidationFailed $validationFailed) {
+                                $previosException = $validationFailed->getPrevious();
+                                if ($previosException instanceof SchemaMismatch) {
+                                    /** @var BreadCrumb $breadCrumb */
+                                    $breadCrumb      = $previosException->dataBreadCrumb();
+                                    $breadCrumbChain = $breadCrumb->buildChain();
+                                    $message         = $previosException->getMessage() . ' ' . \implode('.', $breadCrumbChain);
+                                } else {
+                                    $message = $validationFailed->getMessage();
+                                }
+                                throw new \RuntimeException($message);
+                            }
+
+                            return $response;
+                        }
+                    );
+                };
+            }
+        );
+
         if ($isVerbose === true) {
             $middlewares->push(Middleware::mapRequest(static function (RequestInterface $request): RequestInterface {
                 $requestData   = \json_decode((string)$request->getBody(), true);

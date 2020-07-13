@@ -105,6 +105,7 @@ final class BuyProductTest extends TestCase
             'data' => [
                 [
                     'id'          => $tariffId,
+                    'eventId'     => $eventId,
                     'tariffType'  => 'silver_pass',
                     'segments'    => [
                         [
@@ -113,8 +114,8 @@ final class BuyProductTest extends TestCase
                                 'currency' => 'RUB',
                             ],
                             'term'  => [
-                                'start' => '2000-01-01 12:00:00',
-                                'end'   => '3000-01-01 12:00:00',
+                                'start' => '2000-01-01 12:00:00Z',
+                                'end'   => '3000-01-01 12:00:00Z',
                             ],
                         ],
                     ],
@@ -125,6 +126,8 @@ final class BuyProductTest extends TestCase
         $this->manager->seeTariffById($tariffId, [
             'data' => [
                 'id'          => $tariffId,
+                'eventId'     => $eventId,
+                'tariffType'  => 'silver_pass',
                 'segments'    => [
                     [
                         'price' => [
@@ -132,8 +135,8 @@ final class BuyProductTest extends TestCase
                             'currency' => 'RUB',
                         ],
                         'term'  => [
-                            'start' => '2000-01-01 12:00:00',
-                            'end'   => '3000-01-01 12:00:00',
+                            'start' => '2000-01-01 12:00:00Z',
+                            'end'   => '3000-01-01 12:00:00Z',
                         ],
                     ],
                 ],
@@ -301,6 +304,7 @@ final class BuyProductTest extends TestCase
             'data' => [
                 [
                     'id'          => $tariffId,
+                    'eventId'     => $eventId,
                     'tariffType'  => 'silver_pass',
                     'segments'    => [
                         [
@@ -309,8 +313,8 @@ final class BuyProductTest extends TestCase
                                 'currency' => 'RUB',
                             ],
                             'term'  => [
-                                'start' => '2000-01-01 12:00:00',
-                                'end'   => '3000-01-01 12:00:00',
+                                'start' => '2000-01-01 12:00:00Z',
+                                'end'   => '3000-01-01 12:00:00Z',
                             ],
                         ],
                     ],
@@ -321,6 +325,8 @@ final class BuyProductTest extends TestCase
         $this->manager->seeTariffById($tariffId, [
             'data' => [
                 'id'          => $tariffId,
+                'eventId'     => $eventId,
+                'tariffType'  => 'silver_pass',
                 'segments'    => [
                     [
                         'price' => [
@@ -328,8 +334,8 @@ final class BuyProductTest extends TestCase
                             'currency' => 'RUB',
                         ],
                         'term'  => [
-                            'start' => '2000-01-01 12:00:00',
-                            'end'   => '3000-01-01 12:00:00',
+                            'start' => '2000-01-01 12:00:00Z',
+                            'end'   => '3000-01-01 12:00:00Z',
                         ],
                     ],
                 ],
@@ -502,6 +508,7 @@ final class BuyProductTest extends TestCase
             'data' => [
                 [
                     'id'          => $tariffId,
+                    'eventId'     => $eventId,
                     'tariffType'  => 'silver_pass',
                     'segments'    => [
                         [
@@ -510,8 +517,8 @@ final class BuyProductTest extends TestCase
                                 'currency' => 'RUB',
                             ],
                             'term'  => [
-                                'start' => '2000-01-01 12:00:00',
-                                'end'   => '3000-01-01 12:00:00',
+                                'start' => '2000-01-01 12:00:00Z',
+                                'end'   => '3000-01-01 12:00:00Z',
                             ],
                         ],
                     ],
@@ -522,6 +529,8 @@ final class BuyProductTest extends TestCase
         $this->manager->seeTariffById($tariffId, [
             'data' => [
                 'id'          => $tariffId,
+                'eventId'     => $eventId,
+                'tariffType'  => 'silver_pass',
                 'segments'    => [
                     [
                         'price' => [
@@ -529,8 +538,8 @@ final class BuyProductTest extends TestCase
                             'currency' => 'RUB',
                         ],
                         'term'  => [
-                            'start' => '2000-01-01 12:00:00',
-                            'end'   => '3000-01-01 12:00:00',
+                            'start' => '2000-01-01 12:00:00Z',
+                            'end'   => '3000-01-01 12:00:00Z',
                         ],
                     ],
                 ],
@@ -563,7 +572,7 @@ final class BuyProductTest extends TestCase
                         'type'     => 'fixed',
                     ],
                     'useLimit'       => 10,
-                    'expireAt'       => '3000-01-01 12:00:00',
+                    'expireAt'       => '3000-01-01 12:00:00Z',
                     'usable'         => true,
                     'usedInOrders'   => [
                         'order_ids' => [],
@@ -602,7 +611,10 @@ final class BuyProductTest extends TestCase
                         'amount'   => '200',
                         'currency' => 'RUB',
                     ],
-                    'discount'  => '100',
+                    'discount'  => [
+                        'amount'   => '100',
+                        'currency' => 'RUB',
+                    ],
                     'cancelled' => false,
                     'userId'    => '@uuid@',
                     'makedAt'   => '@string@.isDateTime()',
@@ -619,7 +631,10 @@ final class BuyProductTest extends TestCase
                     'amount'   => '200',
                     'currency' => 'RUB',
                 ],
-                'discount'  => '100',
+                'discount'  => [
+                    'amount'   => '100',
+                    'currency' => 'RUB',
+                ],
                 'cancelled' => false,
                 'userId'    => '@uuid@',
                 'makedAt'   => '@string@.isDateTime()',
@@ -637,7 +652,7 @@ final class BuyProductTest extends TestCase
                         'type'     => 'fixed',
                     ],
                     'useLimit'       => 10,
-                    'expireAt'       => '3000-01-01 12:00:00',
+                    'expireAt'       => '3000-01-01 12:00:00Z',
                     'usable'         => true,
                     'usedInOrders'   => [
                         'order_ids' => [
@@ -674,7 +689,10 @@ final class BuyProductTest extends TestCase
                         'amount'   => '200',
                         'currency' => 'RUB',
                     ],
-                    'discount'  => '100',
+                    'discount'  => [
+                        'amount'   => '100',
+                        'currency' => 'RUB',
+                    ],
                     'cancelled' => false,
                     'userId'    => '@uuid@',
                     'makedAt'   => '@string@.isDateTime()',
@@ -691,7 +709,10 @@ final class BuyProductTest extends TestCase
                     'amount'   => '200',
                     'currency' => 'RUB',
                 ],
-                'discount'  => '100',
+                'discount'  => [
+                    'amount'   => '100',
+                    'currency' => 'RUB',
+                ],
                 'cancelled' => false,
                 'userId'    => '@uuid@',
                 'makedAt'   => '@string@.isDateTime()',

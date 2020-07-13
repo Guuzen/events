@@ -35,7 +35,7 @@ final class GetPromocodeListHttpAdapter extends AppController
                     \'type\', discount -> \'type\'
                 ) as discount,
                 use_limit as "useLimit",
-                expire_at as "expireAt",
+                concat(expire_at, \'Z\') as "expireAt",
                 usable,
                 used_in_orders as "usedInOrders",
                 allowed_tariffs as "allowedTariffs"

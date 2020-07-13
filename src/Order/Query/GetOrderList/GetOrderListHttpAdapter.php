@@ -34,12 +34,22 @@ final class GetOrderListHttpAdapter extends AppController
                 "order".user_id as "userId",
                 "order".paid as paid,
                 "order".cancelled as "cancelled",
-                "order".maked_at as "makedAt",
+                concat("order".maked_at, \'Z\') as "makedAt",
                 json_build_object(
                     \'amount\', "order".sum ->> \'amount\',
                     \'currency\', "order".sum -> \'currency\' ->> \'code\'
                 ) as sum,
-                "order".discount -> \'amount\' ->> \'amount\' as discount
+                (case
+                    when
+                        "order".discount is null
+                    then
+                        null
+                    else
+                        json_build_object(
+                            \'amount\', "order".discount -> \'amount\' ->> \'amount\',
+                            \'currency\', "order".discount -> \'amount\' -> \'currency\' ->> \'code\'
+                        )
+                end) as discount
             from
                 "order"
             where
@@ -51,14 +61,19 @@ final class GetOrderListHttpAdapter extends AppController
         $rows   = $stmt->fetchAll();
         $orders = [];
 
-        /** @psalm-var array{sum: string} $row */
+        /** @psalm-var array{sum: string, discount: ?string} $row */
         foreach ($rows as $row) {
             $order = $row;
 
             /** @var array $sum */
             $sum          = \json_decode($row['sum'], true);
             $order['sum'] = $sum;
-            $orders[]     = $order;
+
+            /** @var array|null $discount */
+            $discount          = $row['discount'] ? \json_decode($row['discount'], true) : null;
+            $order['discount'] = $discount;
+
+            $orders[] = $order;
         }
         // TODO mapping?
 
