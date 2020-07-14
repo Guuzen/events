@@ -1,11 +1,7 @@
 {
-  "title": "tariff",
+  "title": "create tariff",
   "type": "object",
   "properties": {
-    "id": {
-      "type": "string",
-      "format": "uuid"
-    },
     "eventId": {
       "type": "string",
       "format": "uuid"
@@ -57,7 +53,6 @@
     "eventId",
     "tariffType",
     "segments",
-    "productType",
-    "id"
+    "productType"
   ]
 }

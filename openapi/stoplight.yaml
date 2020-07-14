@@ -67,7 +67,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ./eventDomain/eventDomain.v1.json
+              $ref: ./eventDomain/createEventDomain.v1.json
             examples:
               example-1:
                 value:
@@ -121,7 +121,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ./tariff/tariff.v1.json
+              $ref: ./tariff/createTariff.v1.json
         description: ''
       description: creates new tariff
       tags:
