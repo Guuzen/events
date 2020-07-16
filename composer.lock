@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "367fc6780a42727fa918419a9bece7d3",
+    "content-hash": "2db8a4b60b82b6b7542bd6ba6910c28d",
     "packages": [
         {
             "name": "cardinity/cardinity-sdk-php",

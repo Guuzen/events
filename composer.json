@@ -8,6 +8,7 @@
         "ext-json": "*",
         "ext-pdo": "*",
         "cardinity/cardinity-sdk-php": "^2.1",
+        "cebe/php-openapi": "^1.4",
         "google/apiclient": "^2.2",
         "guzzlehttp/guzzle": "^6.5",
         "league/event": "^2.2",

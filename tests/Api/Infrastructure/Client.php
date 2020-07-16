@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Api\Infrastructure;
 
-use Google\Auth\Cache\MemoryCacheItemPool;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\MessageFormatter;
 use GuzzleHttp\Middleware;
@@ -26,11 +25,11 @@ final class Client
     {
         $isVerbose   = \in_array('--verbose', $_SERVER['argv'], true);
         $middlewares = HandlerStack::create();
-        $yamlFile  = '/var/www/html/openapi/stoplight.yaml';
-        $validator = (new \League\OpenAPIValidation\PSR7\ValidatorBuilder)
-            ->fromYamlFile($yamlFile)
-            ->getResponseValidator();
 
+        $openApiSpec = \file_get_contents('http://web/docs');
+        $validator   = (new \League\OpenAPIValidation\PSR7\ValidatorBuilder)
+            ->fromJson($openApiSpec)
+            ->getResponseValidator();
         $middlewares->push(
             static function (callable $handler) use ($validator) {
                 return static function (RequestInterface $request, array $options) use ($handler, $validator) {
