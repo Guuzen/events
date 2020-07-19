@@ -46,7 +46,11 @@ final class FindOrderByIdHttpAdapter extends AppController
                             \'amount\', "order".discount -> \'amount\' ->> \'amount\',
                             \'currency\', "order".discount -> \'amount\' -> \'currency\' ->> \'code\'
                         )
-                end) as discount
+                end) as discount,
+                json_build_object(
+                    \'amount\', "order".total ->> \'amount\',
+                    \'currency\', "order".total -> \'currency\' ->> \'code\'
+                ) as total
             from
                 "order"
             where
@@ -55,7 +59,13 @@ final class FindOrderByIdHttpAdapter extends AppController
         $stmt->bindValue('order_id', $request->orderId);
         $stmt->execute();
 
-        /** @psalm-var array{sum: string, discount: ?string}|false $order */
+        /**
+         * @psalm-var array{
+         *      sum: string,
+         *      discount: ?string,
+         *      total: string
+         * }|false $order
+         */
         $order = $stmt->fetch();
         if (false === $order) {
             return $this->response(new OrderNotFound());
@@ -67,6 +77,10 @@ final class FindOrderByIdHttpAdapter extends AppController
         /** @var array|null $discount */
         $discount          = $order['discount'] ? \json_decode($order['discount'], true) : null;
         $order['discount'] = $discount;
+
+        /** @var array $total */
+        $total          = \json_decode($order['total'], true);
+        $order['total'] = $total;
 
         return $this->response($order);
     }

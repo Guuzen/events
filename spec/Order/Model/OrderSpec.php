@@ -90,26 +90,12 @@ class OrderSpec extends ObjectBehavior
         $this->createFondyPayment($fondy)->shouldReturn($error);
     }
 
-    public function it_should_calculate_total_price_with_discount_if_discount_applied(): void
-    {
-        $anyDiscount = new FixedDiscount(new Money('1', new Currency('RUB')));
-
-        $this->applyDiscount($anyDiscount);
-
-        $this->calculateTotal()->shouldBeLike(new Money('99', new Currency('RUB')));
-    }
-
     public function it_should_not_be_possible_to_apply_discount_twice_on_order(): void
     {
         $anyDiscount = new FixedDiscount(new Money('1', new Currency('RUB')));
 
         $this->shouldNotThrow()->during('applyDiscount', [$anyDiscount]);
         $this->shouldThrow(NotPossibleToApplyDiscountTwiceOnOrder::class)->during('applyDiscount', [$anyDiscount]);
-    }
-
-    public function it_should_calculate_total_without_discount(): void
-    {
-        $this->calculateTotal()->shouldBeLike(new Money('100', new Currency('RUB')));
     }
 
 //    public function it_should_not_be_possible_to_cancel_if_paid()

@@ -67,6 +67,13 @@ class Order extends Entity
     private $discount;
 
     /**
+     * @var Money
+     *
+     * @ORM\Column(type=Money::class)
+     */
+    private $total;
+
+    /**
      * @ORM\Column(type="datetime_immutable")
      */
     private $makedAt;
@@ -98,6 +105,7 @@ class Order extends Entity
         $this->tariffId    = $tariffId;
         $this->userId      = $userId;
         $this->sum         = $sum;
+        $this->total       = $sum;
         $this->makedAt     = $asOf;
         $this->paid        = $paid;
     }
@@ -112,7 +120,7 @@ class Order extends Entity
         // TODO raise InvoiceCancelled for cancel Promocode
     }
 
-    // TODO rename pay ?
+    // TODO rename pay/confirm payment ?
     public function markPaid(): ?OrderAlreadyPaid
     {
         if ($this->paid) {
@@ -140,14 +148,6 @@ class Order extends Entity
         }
 
         $this->discount = $discount;
-    }
-
-    public function calculateTotal(): Money
-    {
-        if ($this->discount === null) {
-            return $this->sum;
-        }
-
-        return $this->discount->apply($this->sum);
+        $this->total    = $this->discount->apply($this->sum);
     }
 }

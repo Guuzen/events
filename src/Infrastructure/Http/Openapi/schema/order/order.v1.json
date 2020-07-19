@@ -23,8 +23,8 @@
     "discount": {
       "nullable": true,
       "anyOf": [
-        { 
-            "$ref": "../money.v1.json"
+        {
+          "$ref": "../money.v1.json"
         }
       ]
     },

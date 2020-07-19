@@ -204,6 +204,10 @@ final class BuyProductTest extends TestCase
                         'currency' => 'RUB',
                     ],
                     'discount'  => null,
+                    'total'     => [
+                        'amount'   => '200',
+                        'currency' => 'RUB',
+                    ],
                     'cancelled' => false,
                     'userId'    => '@uuid@',
                     'makedAt'   => '@string@.isDateTime()',
@@ -221,6 +225,10 @@ final class BuyProductTest extends TestCase
                     'currency' => 'RUB',
                 ],
                 'discount'  => null,
+                'total'     => [
+                    'amount'   => '200',
+                    'currency' => 'RUB',
+                ],
                 'cancelled' => false,
                 'userId'    => '@uuid@',
                 'makedAt'   => '@string@.isDateTime()',
@@ -247,6 +255,10 @@ final class BuyProductTest extends TestCase
                         'amount'   => '100',
                         'currency' => 'RUB',
                     ],
+                    'total'     => [
+                        'amount'   => '100',
+                        'currency' => 'RUB',
+                    ],
                     'cancelled' => false,
                     'userId'    => '@uuid@',
                     'makedAt'   => '@string@.isDateTime()',
@@ -264,6 +276,10 @@ final class BuyProductTest extends TestCase
                     'currency' => 'RUB',
                 ],
                 'discount'  => [
+                    'amount'   => '100',
+                    'currency' => 'RUB',
+                ],
+                'total'     => [
                     'amount'   => '100',
                     'currency' => 'RUB',
                 ],
@@ -325,6 +341,10 @@ final class BuyProductTest extends TestCase
                         'amount'   => '100',
                         'currency' => 'RUB',
                     ],
+                    'total'     => [
+                        'amount'   => '100',
+                        'currency' => 'RUB',
+                    ],
                     'cancelled' => false,
                     'userId'    => '@uuid@',
                     'makedAt'   => '@string@.isDateTime()',
@@ -342,6 +362,10 @@ final class BuyProductTest extends TestCase
                     'currency' => 'RUB',
                 ],
                 'discount'  => [
+                    'amount'   => '100',
+                    'currency' => 'RUB',
+                ],
+                'total'     => [
                     'amount'   => '100',
                     'currency' => 'RUB',
                 ],
@@ -523,6 +547,10 @@ final class BuyProductTest extends TestCase
                         'currency' => 'RUB',
                     ],
                     'discount'  => null,
+                    'total'     => [
+                        'amount'   => '200',
+                        'currency' => 'RUB',
+                    ],
                     'cancelled' => false,
                     'userId'    => '@uuid@',
                     'makedAt'   => '@string@.isDateTime()',
@@ -540,6 +568,10 @@ final class BuyProductTest extends TestCase
                     'currency' => 'RUB',
                 ],
                 'discount'  => null,
+                'total'     => [
+                    'amount'   => '200',
+                    'currency' => 'RUB',
+                ],
                 'cancelled' => false,
                 'userId'    => '@uuid@',
                 'makedAt'   => '@string@.isDateTime()',
@@ -566,6 +598,10 @@ final class BuyProductTest extends TestCase
                         'amount'   => '100',
                         'currency' => 'RUB',
                     ],
+                    'total'     => [
+                        'amount'   => '100',
+                        'currency' => 'RUB',
+                    ],
                     'cancelled' => false,
                     'userId'    => '@uuid@',
                     'makedAt'   => '@string@.isDateTime()',
@@ -583,6 +619,10 @@ final class BuyProductTest extends TestCase
                     'currency' => 'RUB',
                 ],
                 'discount'  => [
+                    'amount'   => '100',
+                    'currency' => 'RUB',
+                ],
+                'total'     => [
                     'amount'   => '100',
                     'currency' => 'RUB',
                 ],
@@ -620,8 +660,6 @@ final class BuyProductTest extends TestCase
             ]
         ]);
 
-//        $this->visitor->awaitsForEmailWithTicket();
-
         $this->visitor->payOrderByCard([
             'orderId' => $orderId,
         ]);
@@ -650,6 +688,10 @@ final class BuyProductTest extends TestCase
                         'amount'   => '100',
                         'currency' => 'RUB',
                     ],
+                    'total'     => [
+                        'amount'   => '100',
+                        'currency' => 'RUB',
+                    ],
                     'cancelled' => false,
                     'userId'    => '@uuid@',
                     'makedAt'   => '@string@.isDateTime()',
@@ -667,6 +709,10 @@ final class BuyProductTest extends TestCase
                     'currency' => 'RUB',
                 ],
                 'discount'  => [
+                    'amount'   => '100',
+                    'currency' => 'RUB',
+                ],
+                'total'     => [
                     'amount'   => '100',
                     'currency' => 'RUB',
                 ],

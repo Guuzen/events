@@ -12,6 +12,7 @@ class Fondy
      */
     public function checkoutUrl(Money $sum, OrderId $orderId)
     {
+        // TODO check for external call missing ?
         return 'http://fondy.checkout.url';
     }
 }

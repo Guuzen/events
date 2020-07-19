@@ -13,11 +13,11 @@ final class OpenapiSchema
     /**
      * @var string
      */
-    private $pathToOasSpec;
+    private $pathToOas;
 
     public function __construct(string $pathToOasSpec)
     {
-        $this->pathToOasSpec = $pathToOasSpec;
+        $this->pathToOas = $pathToOasSpec;
     }
 
     public function asJson(): string
@@ -26,12 +26,16 @@ final class OpenapiSchema
         /** @var array $specData */
         $specData = $cebeOpenapi->getSerializableData();
 
-        return \json_encode($specData);
+        /** @var string $json */
+        $json = \json_encode($specData);
+
+        return $json;
     }
 
     public function asCebeOpenapi(): OpenApi
     {
-        $cebeOpenapi = Reader::readFromYamlFile($this->pathToOasSpec);
+        /** @var OpenApi $cebeOpenapi */
+        $cebeOpenapi = Reader::readFromYamlFile($this->pathToOas);
         $cebeOpenapi->resolveReferences(new ReferenceContext($cebeOpenapi, '/'));
 
         return $cebeOpenapi;

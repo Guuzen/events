@@ -49,7 +49,11 @@ final class GetOrderListHttpAdapter extends AppController
                             \'amount\', "order".discount -> \'amount\' ->> \'amount\',
                             \'currency\', "order".discount -> \'amount\' -> \'currency\' ->> \'code\'
                         )
-                end) as discount
+                end) as discount,
+                json_build_object(
+                    \'amount\', "order".total ->> \'amount\',
+                    \'currency\', "order".total -> \'currency\' ->> \'code\'
+                ) as total
             from
                 "order"
             where
@@ -61,7 +65,13 @@ final class GetOrderListHttpAdapter extends AppController
         $rows   = $stmt->fetchAll();
         $orders = [];
 
-        /** @psalm-var array{sum: string, discount: ?string} $row */
+        /**
+         * @psalm-var array{
+         *      sum: string,
+         *      discount: ?string,
+         *      total: string
+         * } $row
+         */
         foreach ($rows as $row) {
             $order = $row;
 
@@ -72,6 +82,10 @@ final class GetOrderListHttpAdapter extends AppController
             /** @var array|null $discount */
             $discount          = $row['discount'] ? \json_decode($row['discount'], true) : null;
             $order['discount'] = $discount;
+
+            /** @var array $total */
+            $total          = \json_decode($row['total'], true);
+            $order['total'] = $total;
 
             $orders[] = $order;
         }
