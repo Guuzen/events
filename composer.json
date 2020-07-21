@@ -91,7 +91,7 @@
             "@psalm"
         ],
         "spec": "phpspec run --ansi",
-        "psalm": "psalm --no-cache"
+        "psalm": "psalm"
     },
     "conflict": {
         "symfony/symfony": "*"
