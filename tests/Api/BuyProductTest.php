@@ -106,7 +106,6 @@ final class BuyProductTest extends TestCase
                 [
                     'id'          => $tariffId,
                     'eventId'     => $eventId,
-                    'tariffType'  => 'silver_pass',
                     'segments'    => [
                         [
                             'price' => [
@@ -127,7 +126,6 @@ final class BuyProductTest extends TestCase
             'data' => [
                 'id'          => $tariffId,
                 'eventId'     => $eventId,
-                'tariffType'  => 'silver_pass',
                 'segments'    => [
                     [
                         'price' => [
@@ -450,7 +448,6 @@ final class BuyProductTest extends TestCase
                 [
                     'id'          => $tariffId,
                     'eventId'     => $eventId,
-                    'tariffType'  => 'silver_pass',
                     'segments'    => [
                         [
                             'price' => [
@@ -471,7 +468,6 @@ final class BuyProductTest extends TestCase
             'data' => [
                 'id'          => $tariffId,
                 'eventId'     => $eventId,
-                'tariffType'  => 'silver_pass',
                 'segments'    => [
                     [
                         'price' => [

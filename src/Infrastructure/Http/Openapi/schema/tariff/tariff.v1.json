@@ -10,9 +10,6 @@
       "type": "string",
       "format": "uuid"
     },
-    "tariffType": {
-      "$ref": "./tariffType.v1.json"
-    },
     "segments": {
       "type": "array",
       "items": {
@@ -55,7 +52,6 @@
   },
   "required": [
     "eventId",
-    "tariffType",
     "segments",
     "productType",
     "id"
