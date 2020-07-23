@@ -1,5 +1,5 @@
 {
-  "title": "show tariff details",
+  "title": "show tariff description",
   "type": "object",
   "properties": {
     "id": {

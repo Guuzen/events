@@ -13,12 +13,12 @@ abstract class Uuid
     /**
      * @var string
      */
-    private $id;
+    protected $id;
 
     final public function __construct(string $id)
     {
         if (!\Ramsey\Uuid\Uuid::isValid($id)) {
-            throw new RuntimeException(sprintf('invalid uuid: %s', $id));
+            throw new RuntimeException(\sprintf('invalid uuid: %s', $id));
         }
 
         $this->id = $id;

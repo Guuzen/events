@@ -7,8 +7,8 @@ use App\Event\Model\Error\EventNotFound;
 use App\Event\Model\Events;
 use App\Tariff\Model\TariffId;
 use App\Tariff\Model\Tariffs;
-use App\TariffDetails\Model\TariffDetails;
-use App\TariffDetails\Model\TariffDetailsId;
+use App\TariffDescription\TariffDescription;
+use App\TariffDescription\TariffDescriptionId;
 use Doctrine\ORM\EntityManagerInterface;
 
 final class CreateTariffHandler
@@ -46,8 +46,8 @@ final class CreateTariffHandler
         $this->tariffs->add($tariff);
 
         // TODO extract to create tariff details
-        $tariffDetails = new TariffDetails(new TariffDetailsId((string)$tariffId), $command->tariffType);
-        $this->em->persist($tariffDetails);
+        $tariffDescription = new TariffDescription(new TariffDescriptionId((string)$tariffId), $command->tariffType);
+        $this->em->persist($tariffDescription);
 
         return $tariffId;
     }

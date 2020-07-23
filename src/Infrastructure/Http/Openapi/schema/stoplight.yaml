@@ -127,7 +127,7 @@ paths:
       tags:
         - tariff
         - admin
-  /admin/tariffDetails/show:
+  /admin/tariffDescription/show:
     get:
       summary: show tariff details
       tags:
@@ -142,10 +142,10 @@ paths:
                 type: object
                 properties:
                   data:
-                    $ref: ./tariffDetails/tariffDetails.v1.json
+                    $ref: ./tariffDescription/tariffDescription.v1.json
                 required:
                   - data
-      operationId: get-admin-tariffDetails-show
+      operationId: get-admin-tariffDescription-show
       parameters:
         - schema:
             type: string

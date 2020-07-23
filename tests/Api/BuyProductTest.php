@@ -95,7 +95,7 @@ final class BuyProductTest extends TestCase
             ],
             'productType' => 'ticket',
         ]);
-        $this->manager->seeTariffDetailsById($tariffId, [
+        $this->manager->seeTariffDescriptionById($tariffId, [
             'data' => [
                 'id'         => $tariffId,
                 'tariffType' => 'silver_pass',
@@ -437,7 +437,7 @@ final class BuyProductTest extends TestCase
             ],
             'productType' => 'ticket',
         ]);
-        $this->manager->seeTariffDetailsById($tariffId, [
+        $this->manager->seeTariffDescriptionById($tariffId, [
             'data' => [
                 'id'         => $tariffId,
                 'tariffType' => 'silver_pass',
