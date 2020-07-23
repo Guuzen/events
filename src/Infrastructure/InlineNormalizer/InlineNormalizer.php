@@ -78,12 +78,12 @@ final class InlineNormalizer implements DenormalizerInterface, NormalizerInterfa
         return $this->normalizer->normalize($firstPropery->getValue($object));
     }
 
-    /**
-     * @psalm-suppress MixedArgument
-     */
-    public function supportsNormalization($data, $format = null)
+    public function supportsNormalization($data, $format = null): bool
     {
-        /** @psalm-suppress ArgumentTypeCoercion */
+        if (!\is_object($data)) {
+            return false;
+        }
+
         $reflectionClass = new \ReflectionClass($data);
         /** @var InlineDenormalizable|null $annotation */
         $annotation = $this->reader->getClassAnnotation($reflectionClass, InlineDenormalizable::class);

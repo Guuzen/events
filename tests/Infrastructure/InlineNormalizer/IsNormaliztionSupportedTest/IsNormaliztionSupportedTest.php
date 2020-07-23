@@ -31,4 +31,13 @@ final class IsNormaliztionSupportedTest extends TestCase
 
         self::assertFalse($isSupported);
     }
+
+    public function testItSupportsOnlyObjects(): void
+    {
+        $normalizer = new InlineNormalizer(new AnnotationReader());
+
+        $isSupported = $normalizer->supportsNormalization([1]);
+
+        self::assertFalse($isSupported);
+    }
 }
