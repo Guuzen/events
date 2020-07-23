@@ -4,7 +4,7 @@ namespace App\Tariff\Action;
 
 use App\Event\Model\EventId;
 use App\Infrastructure\Http\RequestResolver\AppRequest;
-use App\Product\Model\ProductType;
+use App\Tariff\Model\ProductType;
 use App\Tariff\Model\TariffPriceNet;
 use App\Tariff\Model\TariffSegment;
 use App\Tariff\Model\TariffTerm;

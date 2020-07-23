@@ -1,17 +1,11 @@
 <?php
 
-namespace App\Product\Model;
+namespace App\Tariff\Model;
 
-use App\Infrastructure\InlineNormalizer\InlineDenormalizable;
 use App\Infrastructure\Persistence\DBALTypes\JsonDocumentType;
 use App\Infrastructure\Persistence\DBALTypesInitializer\CustomTypeAnnotation as DBALType;
-use Exception;
-use function sprintf;
 
 /**
- * TODO move to tariff ?
- * @InlineDenormalizable()
- *
  * @DBALType(typeClass=JsonDocumentType::class)
  *
  * @psalm-immutable
@@ -40,7 +34,7 @@ final class ProductType
             return;
         }
 
-        throw new Exception(sprintf('unknown product type %s', $type));
+        throw new \RuntimeException(\sprintf('unknown product type %s', $type));
     }
 
     public static function broadcastLink(): self

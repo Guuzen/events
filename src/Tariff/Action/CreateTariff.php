@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tariff\Action;
 
 use App\Event\Model\EventId;
-use App\Product\Model\ProductType;
+use App\Tariff\Model\ProductType;
 use App\Tariff\Model\TariffPriceNet;
 
 /**

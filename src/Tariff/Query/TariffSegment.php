@@ -12,10 +12,10 @@ final class TariffSegment
     /**
      * @var Money
      */
-    public $price;
+    private $price;
 
     /**
      * @var TariffTerm
      */
-    public $term;
+    private $term;
 }

@@ -12,10 +12,10 @@ final class TariffTerm
     /**
      * @var DateTimeImmutable
      */
-    public $start;
+    private $start;
 
     /**
      * @var DateTimeImmutable
      */
-    public $end;
+    private $end;
 }

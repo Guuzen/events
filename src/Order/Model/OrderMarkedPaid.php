@@ -4,7 +4,7 @@ namespace App\Order\Model;
 
 use App\Event\Model\EventId;
 use App\Infrastructure\DomainEvent\Event;
-use App\Product\Model\ProductType;
+use App\Tariff\Model\ProductType;
 
 /**
  * @psalm-immutable

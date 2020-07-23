@@ -6,7 +6,6 @@ use App\Common\Error;
 use App\Event\Model\EventId;
 use App\Order\Model\Order;
 use App\Order\Model\OrderId;
-use App\Product\Model\ProductType;
 use App\Promocode\Model\Discount\Discount;
 use App\Tariff\Model\Error\TariffSegmentNotFound;
 use App\User\Model\UserId;

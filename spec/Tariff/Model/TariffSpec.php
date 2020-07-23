@@ -5,7 +5,7 @@ namespace spec\App\Tariff\Model;
 use App\Event\Model\EventId;
 use App\Order\Model\Order;
 use App\Order\Model\OrderId;
-use App\Product\Model\ProductType;
+use App\Tariff\Model\ProductType;
 use App\Tariff\Model\TariffId;
 use App\Tariff\Model\TariffPriceNet;
 use App\Tariff\Model\TariffSegment;

@@ -2,42 +2,28 @@
 
 namespace App\Tariff\Query;
 
-use App\Product\Model\ProductType;
-
 /**
  * @psalm-immutable
  */
 final class Tariff
 {
     /**
-     * TODO common id type
-     *
      * @var string
      */
-    public $id;
+    private $id;
 
     /**
      * @var string
      */
-    public $eventId;
+    private $eventId;
 
     /**
      * @var TariffPriceNet
      */
-    public $priceNet;
+    private $priceNet;
 
     /**
-     * TODO is this property belongs here ?
-     *
      * @var ProductType
      */
-    public $productType;
-
-    public function __construct(string $id, string $eventId, TariffPriceNet $priceNet, ProductType $productType)
-    {
-        $this->id          = $id;
-        $this->eventId     = $eventId;
-        $this->priceNet    = $priceNet;
-        $this->productType = $productType;
-    }
+    private $productType;
 }
