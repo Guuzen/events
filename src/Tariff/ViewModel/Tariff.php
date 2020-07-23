@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tariff\Query;
+namespace App\Tariff\ViewModel;
 
 /**
  * @psalm-immutable

@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Tariff\Query;
+declare(strict_types=1);
+
+namespace App\Tariff\ViewModel;
 
 use App\Infrastructure\InlineNormalizer\InlineDenormalizable;
 
@@ -9,10 +11,10 @@ use App\Infrastructure\InlineNormalizer\InlineDenormalizable;
  *
  * @psalm-immutable
  */
-final class TariffPriceNet
+final class ProductType
 {
     /**
-     * @var TariffSegment[]
+     * @var string
      */
-    private $segments;
+    private $type;
 }

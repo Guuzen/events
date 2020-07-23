@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tariff\Query\GetTariffList;
 
 use App\Infrastructure\Http\AppController;
-use App\Tariff\Query\Tariff;
+use App\Tariff\ViewModel\Tariff;
 use Doctrine\DBAL\Connection;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
