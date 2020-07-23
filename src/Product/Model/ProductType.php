@@ -2,6 +2,7 @@
 
 namespace App\Product\Model;
 
+use App\Infrastructure\InlineNormalizer\InlineDenormalizable;
 use App\Infrastructure\Persistence\DBALTypes\JsonDocumentType;
 use App\Infrastructure\Persistence\DBALTypesInitializer\CustomTypeAnnotation as DBALType;
 use Exception;
@@ -9,6 +10,8 @@ use function sprintf;
 
 /**
  * TODO move to tariff ?
+ * @InlineDenormalizable()
+ *
  * @DBALType(typeClass=JsonDocumentType::class)
  *
  * @psalm-immutable

@@ -10,7 +10,7 @@
       "type": "string",
       "format": "uuid"
     },
-    "segments": {
+    "priceNet": {
       "type": "array",
       "items": {
         "type": "object",
@@ -52,7 +52,7 @@
   },
   "required": [
     "eventId",
-    "segments",
+    "priceNet",
     "productType",
     "id"
   ]

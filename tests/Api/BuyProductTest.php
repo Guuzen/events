@@ -81,7 +81,7 @@ final class BuyProductTest extends TestCase
         $tariffId = $this->manager->createsTariff([
             'eventId'     => $eventId,
             'tariffType'  => 'silver_pass',
-            'segments'    => [
+            'segments'    => [ // TODO change to priceNet
                 [
                     'price' => [
                         'amount'   => '200',
@@ -106,15 +106,15 @@ final class BuyProductTest extends TestCase
                 [
                     'id'          => $tariffId,
                     'eventId'     => $eventId,
-                    'segments'    => [
+                    'priceNet'    => [
                         [
                             'price' => [
                                 'amount'   => '200',
                                 'currency' => 'RUB',
                             ],
                             'term'  => [
-                                'start' => '2000-01-01 12:00:00Z',
-                                'end'   => '3000-01-01 12:00:00Z',
+                                'start' => '2000-01-01T12:00:00+0000',
+                                'end'   => '3000-01-01T12:00:00+0000',
                             ],
                         ],
                     ],
@@ -126,15 +126,15 @@ final class BuyProductTest extends TestCase
             'data' => [
                 'id'          => $tariffId,
                 'eventId'     => $eventId,
-                'segments'    => [
+                'priceNet'    => [
                     [
                         'price' => [
                             'amount'   => '200',
                             'currency' => 'RUB',
                         ],
                         'term'  => [
-                            'start' => '2000-01-01 12:00:00Z',
-                            'end'   => '3000-01-01 12:00:00Z',
+                            'start' => '2000-01-01T12:00:00+0000',
+                            'end'   => '3000-01-01T12:00:00+0000',
                         ],
                     ],
                 ],
@@ -448,15 +448,15 @@ final class BuyProductTest extends TestCase
                 [
                     'id'          => $tariffId,
                     'eventId'     => $eventId,
-                    'segments'    => [
+                    'priceNet'    => [
                         [
                             'price' => [
                                 'amount'   => '200',
                                 'currency' => 'RUB',
                             ],
                             'term'  => [
-                                'start' => '2000-01-01 12:00:00Z',
-                                'end'   => '3000-01-01 12:00:00Z',
+                                'start' => '2000-01-01T12:00:00+0000',
+                                'end'   => '3000-01-01T12:00:00+0000',
                             ],
                         ],
                     ],
@@ -468,15 +468,15 @@ final class BuyProductTest extends TestCase
             'data' => [
                 'id'          => $tariffId,
                 'eventId'     => $eventId,
-                'segments'    => [
+                'priceNet'    => [
                     [
                         'price' => [
                             'amount'   => '200',
                             'currency' => 'RUB',
                         ],
                         'term'  => [
-                            'start' => '2000-01-01 12:00:00Z',
-                            'end'   => '3000-01-01 12:00:00Z',
+                            'start' => '2000-01-01T12:00:00+0000',
+                            'end'   => '3000-01-01T12:00:00+0000',
                         ],
                     ],
                 ],

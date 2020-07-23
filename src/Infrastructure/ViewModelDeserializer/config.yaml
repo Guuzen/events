@@ -1,0 +1,35 @@
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    app.infrastructure.view_model_deserializer.normalizer.datetime:
+        class: Symfony\Component\Serializer\Normalizer\DateTimeNormalizer
+        arguments:
+            $defaultContext:
+                !php/const Symfony\Component\Serializer\Normalizer\DateTimeNormalizer::FORMAT_KEY: 'Y-m-d H:i:s'
+
+    app.infrastructure.view_model_deserializer.normalizer.array:
+        class: Symfony\Component\Serializer\Normalizer\ArrayDenormalizer
+
+    app.infrastructure.view_model_deserializer.php_doc_extractor:
+        class: Symfony\Component\PropertyInfo\Extractor\PhpDocExtractor
+
+    app.infrastructure.view_model_deserializer.property_normalizer:
+        class: Symfony\Component\Serializer\Normalizer\PropertyNormalizer
+        arguments:
+            - '@serializer.mapping.class_metadata_factory'
+            - '@serializer.name_converter.camel_case_to_snake_case'
+            - '@app.infrastructure.view_model_deserializer.php_doc_extractor'
+
+    app.infrastructure.view_model_deserializer.serializer:
+        class: Symfony\Component\Serializer\Serializer
+        arguments:
+            $normalizers:
+                - '@app.infrastructure.view_model_deserializer.normalizer.datetime'
+                - '@app.infrastructure.view_model_deserializer.normalizer.array'
+                - '@app.infrastructure.view_model_deserializer.property_normalizer'
+            $encoders:
+                - '@serializer.encoder.json'
+

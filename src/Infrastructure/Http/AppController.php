@@ -18,6 +18,8 @@ abstract class AppController
     private $locator;
 
     /**
+     * todo why do we need required ?
+     *
      * @required
      */
     public function setLocator(ContainerInterface $locator): void
@@ -31,6 +33,27 @@ abstract class AppController
     protected function response($data): Response
     {
         return $data instanceof Error ? $this->errorJson($data) : $this->successJson($data);
+    }
+
+    /**
+     * TODO make collections for view models ?
+     *
+     * @param mixed $data
+     *
+     * @template T
+     * @psalm-param class-string<T> $toClass
+     *
+     * @psalm-return T
+     */
+    protected function deserializeFromDb($data, string $toClass, bool $asArray = false)
+    {
+        /** @var SerializerInterface $deserializer */
+        $deserializer = $this->locator->get('viewModelDeserializer');
+
+        /** @psalm-var T $viewModel */
+        $viewModel = $deserializer->deserialize($data, $toClass . ($asArray ? '[]' : ''), 'json');
+
+        return $viewModel;
     }
 
     /**
