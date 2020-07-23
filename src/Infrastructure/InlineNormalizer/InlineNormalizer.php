@@ -7,10 +7,18 @@ namespace App\Infrastructure\InlineNormalizer;
 use Doctrine\Common\Annotations\Reader;
 use Symfony\Component\Serializer\Exception\UnexpectedValueException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\SerializerAwareInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 
-final class InlineNormalizer implements DenormalizerInterface
+final class InlineNormalizer implements DenormalizerInterface, NormalizerInterface, SerializerAwareInterface
 {
     private $reader;
+
+    /**
+     * @var NormalizerInterface|SerializerInterface
+     */
+    private $normalizer;
 
     public function __construct(Reader $reader)
     {
@@ -47,5 +55,44 @@ final class InlineNormalizer implements DenormalizerInterface
         $annotation = $this->reader->getClassAnnotation($reflectionClass, InlineDenormalizable::class);
 
         return $annotation !== null;
+    }
+
+    /**
+     * @psalm-suppress MixedInferredReturnType
+     * @psalm-suppress MixedArgument
+     * @psalm-suppress MixedReturnStatement
+     * @psalm-suppress PossiblyUndefinedMethod
+     */
+    public function normalize($object, $format = null, array $context = [])
+    {
+        $reflectionClass = new \ReflectionClass($object);
+        $properties      = $reflectionClass->getProperties();
+        if (\count($properties) > 1) {
+            throw new UnexpectedValueException(
+                \sprintf('It is not possible to inline more than one value for class: %s.', \get_class($object))
+            );
+        }
+        $firstPropery = $properties[0];
+        $firstPropery->setAccessible(true);
+
+        return $this->normalizer->normalize($firstPropery->getValue($object));
+    }
+
+    /**
+     * @psalm-suppress MixedArgument
+     */
+    public function supportsNormalization($data, $format = null)
+    {
+        /** @psalm-suppress ArgumentTypeCoercion */
+        $reflectionClass = new \ReflectionClass($data);
+        /** @var InlineDenormalizable|null $annotation */
+        $annotation = $this->reader->getClassAnnotation($reflectionClass, InlineDenormalizable::class);
+
+        return $annotation !== null;
+    }
+
+    public function setSerializer(SerializerInterface $serializer): void
+    {
+        $this->normalizer = $serializer;
     }
 }
