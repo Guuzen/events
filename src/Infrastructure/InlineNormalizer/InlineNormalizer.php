@@ -16,7 +16,7 @@ final class InlineNormalizer implements DenormalizerInterface, NormalizerInterfa
     private $reader;
 
     /**
-     * @var NormalizerInterface|SerializerInterface
+     * @var NormalizerInterface|SerializerInterface|DenormalizerInterface
      */
     private $normalizer;
 
@@ -32,19 +32,21 @@ final class InlineNormalizer implements DenormalizerInterface, NormalizerInterfa
      */
     public function denormalize($data, $type, $format = null, array $context = [])
     {
+        /** @psalm-suppress ArgumentTypeCoercion */
+        $reflectionClass = new \ReflectionClass($type);
+        $properties      = $reflectionClass->getProperties();
 
-        if (\count($data) > 1) {
+        if (\count($properties) > 1) {
             throw new UnexpectedValueException(
                 \sprintf('It is not possible to inline more than one value. Type: %s.', $type)
             );
         }
 
-        // TODO array_key_first from php 7.3 ?
-        /** @psalm-suppress MixedArrayAccess */
-        $firstKey = \key($data);
+        $firstProperty = $properties[0];
+        $propertyName  = $firstProperty->getName();
 
-        /** @psalm-suppress MixedArrayAccess */
-        return $data[$firstKey];
+        /** @psalm-suppress PossiblyUndefinedMethod */
+        return $this->normalizer->denormalize([$propertyName => $data], $type, $format, $context);
     }
 
     public function supportsDenormalization($data, $type, $format = null): bool
@@ -53,18 +55,15 @@ final class InlineNormalizer implements DenormalizerInterface, NormalizerInterfa
             return false;
         }
 
-        if (\is_int($data) === true)
-        {
+        if (\is_int($data) === true) {
             return false;
         }
 
-        if (\is_bool($data) === true)
-        {
+        if (\is_bool($data) === true) {
             return false;
         }
 
-        if (\is_float($data) === true)
-        {
+        if (\is_float($data) === true) {
             return false;
         }
 
@@ -91,10 +90,10 @@ final class InlineNormalizer implements DenormalizerInterface, NormalizerInterfa
                 \sprintf('It is not possible to inline more than one value for class: %s.', \get_class($object))
             );
         }
-        $firstPropery = $properties[0];
-        $firstPropery->setAccessible(true);
+        $firstProperty = $properties[0];
+        $firstProperty->setAccessible(true);
 
-        return $this->normalizer->normalize($firstPropery->getValue($object));
+        return $this->normalizer->normalize($firstProperty->getValue($object));
     }
 
     public function supportsNormalization($data, $format = null): bool
