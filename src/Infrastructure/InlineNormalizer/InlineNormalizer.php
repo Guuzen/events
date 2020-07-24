@@ -49,6 +49,25 @@ final class InlineNormalizer implements DenormalizerInterface, NormalizerInterfa
 
     public function supportsDenormalization($data, $type, $format = null): bool
     {
+        if (\is_string($data) === true) {
+            return false;
+        }
+
+        if (\is_int($data) === true)
+        {
+            return false;
+        }
+
+        if (\is_bool($data) === true)
+        {
+            return false;
+        }
+
+        if (\is_float($data) === true)
+        {
+            return false;
+        }
+
         /** @psalm-suppress ArgumentTypeCoercion */
         $reflectionClass = new \ReflectionClass($type);
         /** @var InlineDenormalizable|null $annotation */
