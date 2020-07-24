@@ -31,48 +31,4 @@ final class IsDenormaliztionSupportedTest extends TestCase
 
         self::assertFalse($isSupported);
     }
-
-    public function testStringsIsNotSupported(): void
-    {
-        $normalizer = new InlineNormalizer(new AnnotationReader());
-
-        $nonsenseString = 'some string';
-
-        $isSupported = $normalizer->supportsDenormalization($nonsenseString, WithAnnotation::class);
-
-        self::assertFalse($isSupported);
-    }
-
-    public function testIntsIsNotSupported(): void
-    {
-        $normalizer = new InlineNormalizer(new AnnotationReader());
-
-        $nonsenseInt = 1231;
-
-        $isSupported = $normalizer->supportsDenormalization($nonsenseInt, WithAnnotation::class);
-
-        self::assertFalse($isSupported);
-    }
-
-    public function testBoolsIsNotSupported(): void
-    {
-        $normalizer = new InlineNormalizer(new AnnotationReader());
-
-        $nonsenseBool = true;
-
-        $isSupported = $normalizer->supportsDenormalization($nonsenseBool, WithAnnotation::class);
-
-        self::assertFalse($isSupported);
-    }
-
-    public function testFloatsIsNotSupported(): void
-    {
-        $normalizer = new InlineNormalizer(new AnnotationReader());
-
-        $nonsenseFloat = 0.121;
-
-        $isSupported = $normalizer->supportsDenormalization($nonsenseFloat, WithAnnotation::class);
-
-        self::assertFalse($isSupported);
-    }
 }
