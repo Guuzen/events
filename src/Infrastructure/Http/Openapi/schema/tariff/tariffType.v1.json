@@ -1,8 +1,0 @@
-{
-  "type": "string",
-  "title": "tariff type",
-  "enum": [
-    "silver_pass"
-  ],
-  "description": "possible tariff types"
-}

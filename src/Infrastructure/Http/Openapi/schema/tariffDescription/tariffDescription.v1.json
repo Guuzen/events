@@ -7,7 +7,7 @@
       "format": "uuid"
     },
     "tariffType": {
-      "$ref": "../tariff/tariffType.v1.json"
+      "$ref": "./tariffType.v1.json"
     }
   },
   "required": [

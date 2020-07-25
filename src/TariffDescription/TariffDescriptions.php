@@ -13,4 +13,9 @@ final class TariffDescriptions extends ServiceEntityRepository
     {
         parent::__construct($registry, TariffDescription::class);
     }
+
+    public function add(TariffDescription $tariffDescription): void
+    {
+        $this->_em->persist($tariffDescription);
+    }
 }

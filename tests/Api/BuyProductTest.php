@@ -80,7 +80,6 @@ final class BuyProductTest extends TestCase
 
         $tariffId = $this->manager->createsTariff([
             'eventId'     => $eventId,
-            'tariffType'  => 'silver_pass',
             'segments'    => [ // TODO change to priceNet
                 [
                     'price' => [
@@ -94,6 +93,10 @@ final class BuyProductTest extends TestCase
                 ],
             ],
             'productType' => 'ticket',
+        ]);
+        $this->manager->createTariffDescription([
+            'id'         => $tariffId,
+            'tariffType' => 'silver_pass',
         ]);
         $this->manager->seeTariffDescriptionById($tariffId, [
             'data' => [
@@ -422,7 +425,6 @@ final class BuyProductTest extends TestCase
 
         $tariffId = $this->manager->createsTariff([
             'eventId'     => $eventId,
-            'tariffType'  => 'silver_pass',
             'segments'    => [
                 [
                     'price' => [
@@ -436,6 +438,10 @@ final class BuyProductTest extends TestCase
                 ],
             ],
             'productType' => 'ticket',
+        ]);
+        $this->manager->createTariffDescription([
+            'id'         => $tariffId,
+            'tariffType' => 'silver_pass',
         ]);
         $this->manager->seeTariffDescriptionById($tariffId, [
             'data' => [

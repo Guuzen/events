@@ -2,19 +2,20 @@
 
 namespace App\TariffDescription;
 
+use App\Infrastructure\Http\RequestResolver\AppRequest;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
  */
-class TariffDescription
+class TariffDescription implements AppRequest
 {
     /**
-     * @var TariffDescriptionId
+     * @var string
      *
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\Column(type=TariffDescriptionId::class)
+     * @ORM\Column(type="guid")
      */
     private $id;
 
@@ -25,7 +26,7 @@ class TariffDescription
      */
     private $tariffType;
 
-    public function __construct(TariffDescriptionId $id, string $tariffType)
+    public function __construct(string $id, string $tariffType)
     {
         $this->id         = $id;
         $this->tariffType = $tariffType;

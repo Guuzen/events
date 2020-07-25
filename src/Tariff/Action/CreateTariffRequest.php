@@ -19,17 +19,6 @@ final class CreateTariffRequest implements AppRequest
 {
     private $eventId;
 
-    private $tariffType;
-
-//    /**
-//     * @psalm-var array<
-//     *      array-key,
-//     *      array{
-//     *          price: array{amount: string, currency: string},
-//     *          term: array{start: string, end: string},
-//     *      }
-//     * >
-//     */
     private $segments;
 
     /**
@@ -46,10 +35,9 @@ final class CreateTariffRequest implements AppRequest
      *      }
      * > $segments
      */
-    public function __construct(string $eventId, string $tariffType, array $segments, string $productType)
+    public function __construct(string $eventId, array $segments, string $productType)
     {
         $this->eventId     = $eventId;
-        $this->tariffType  = $tariffType;
         $this->segments    = $segments;
         $this->productType = $productType;
     }
@@ -72,7 +60,6 @@ final class CreateTariffRequest implements AppRequest
 
         return new CreateTariff(
             new EventId($this->eventId),
-            $this->tariffType,
             new TariffPriceNet($tariffSegments),
             new ProductType($this->productType)
         );

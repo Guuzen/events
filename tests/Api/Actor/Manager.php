@@ -79,6 +79,12 @@ final class Manager
         $this->assertResultMatchesPattern($response, $tariffs);
     }
 
+    public function createTariffDescription(array $createTariffDescription): void
+    {
+        $response = $this->client->post('/admin/tariffDescription/create', $createTariffDescription);
+        $this->assertResultMatchesPattern($response, ['data' => []]);
+    }
+
     public function seeTariffDescriptionById(string $tariffId, array $tariffDescription): void
     {
         $response = $this->client->get('/admin/tariffDescription/show', [

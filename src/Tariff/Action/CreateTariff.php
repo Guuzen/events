@@ -15,16 +15,13 @@ final class CreateTariff
 {
     public $eventId;
 
-    public $tariffType;
-
     public $tariffPriceNet;
 
     public $productType;
 
-    public function __construct(EventId $eventId, string $tariffType, TariffPriceNet $tariffPriceNet, ProductType $productType)
+    public function __construct(EventId $eventId, TariffPriceNet $tariffPriceNet, ProductType $productType)
     {
         $this->eventId        = $eventId;
-        $this->tariffType     = $tariffType;
         $this->tariffPriceNet = $tariffPriceNet;
         $this->productType    = $productType;
     }

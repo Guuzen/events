@@ -7,9 +7,6 @@ use App\Event\Model\Error\EventNotFound;
 use App\Event\Model\Events;
 use App\Tariff\Model\TariffId;
 use App\Tariff\Model\Tariffs;
-use App\TariffDescription\TariffDescription;
-use App\TariffDescription\TariffDescriptionId;
-use Doctrine\ORM\EntityManagerInterface;
 
 final class CreateTariffHandler
 {
@@ -17,11 +14,8 @@ final class CreateTariffHandler
 
     private $events;
 
-    private $em;
-
-    public function __construct(EntityManagerInterface $em, Tariffs $tariffs, Events $events)
+    public function __construct(Tariffs $tariffs, Events $events)
     {
-        $this->em      = $em;
         $this->tariffs = $tariffs;
         $this->events  = $events;
     }
@@ -44,10 +38,6 @@ final class CreateTariffHandler
             $command->productType
         );
         $this->tariffs->add($tariff);
-
-        // TODO extract to create tariff details
-        $tariffDescription = new TariffDescription(new TariffDescriptionId((string)$tariffId), $command->tariffType);
-        $this->em->persist($tariffDescription);
 
         return $tariffId;
     }
