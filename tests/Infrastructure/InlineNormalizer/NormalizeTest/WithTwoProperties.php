@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace Tests\Infrastructure\InlineNormalizer\NormalizeTest;
 
+use App\Infrastructure\InlineNormalizer\InlineDenormalizable;
+
+/**
+ * @InlineDenormalizable()
+ */
 final class WithTwoProperties
 {
     private $foo;

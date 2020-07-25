@@ -31,7 +31,7 @@ final class NormalizeTest extends TestCase
 
         $data = $this->normalizer->normalize($object);
 
-        self::assertEquals($data, null);
+        self::assertEquals(null, $data);
     }
 
     public function testInlineScalar(): void
@@ -40,7 +40,7 @@ final class NormalizeTest extends TestCase
 
         $data = $this->normalizer->normalize($object);
 
-        self::assertEquals($data, 'some string');
+        self::assertEquals('some string', $data);
     }
 
     public function testInlineArray(): void
@@ -49,7 +49,7 @@ final class NormalizeTest extends TestCase
 
         $data = $this->normalizer->normalize($object);
 
-        self::assertEquals($data, [1,2]);
+        self::assertEquals([1,2], $data);
     }
 
     public function testItIsNotPossibleToInlineManyValues(): void

@@ -17,18 +17,12 @@ class TariffDescription implements AppRequest
      * @ORM\GeneratedValue(strategy="NONE")
      * @ORM\Column(type="guid")
      */
-    private $id;
+    public $id;
 
     /**
      * @var string
      *
      * @ORM\Column(type="string")
      */
-    private $tariffType;
-
-    public function __construct(string $id, string $tariffType)
-    {
-        $this->id         = $id;
-        $this->tariffType = $tariffType;
-    }
+    public $tariffType;
 }
