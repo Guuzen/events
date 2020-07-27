@@ -2,7 +2,7 @@
 
 namespace App\Event\Action\CreateEvent;
 
-use App\Infrastructure\Http\AppController;
+use App\Infrastructure\Http\AppController\AppController;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;

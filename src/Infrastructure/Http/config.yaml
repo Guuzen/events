@@ -3,18 +3,40 @@ services:
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
-        bind:
-            $locator: '@Symfony\Component\DependencyInjection\ServiceLocator'
-    _instanceof:
-        App\Infrastructure\Http\AppController:
-            tags: ['controller.service_arguments']
 
-    # HTTP ADAPTERS
-    App\:
-        resource: '../../../src/**/*HttpAdapter.php'
-
-    # LOCATOR FOR HTTP ADAPTERS
-    Symfony\Component\DependencyInjection\ServiceLocator:
+    # SERIALIZER todo need inline services ?
+    app.infrastructure.http.serializer.normalizer.datetime:
+        class: Symfony\Component\Serializer\Normalizer\DateTimeNormalizer
         arguments:
-            -   serializer: '@app.infrastructure.http.serializer'
-                viewModelDeserializer: '@app.infrastructure.view_model_deserializer.serializer'
+            $defaultContext:
+                !php/const Symfony\Component\Serializer\Normalizer\DateTimeNormalizer::FORMAT_KEY: !php/const DateTimeInterface::ISO8601
+
+    app.infrastructure.http.serializer.normalizer.array:
+        class: Symfony\Component\Serializer\Normalizer\ArrayDenormalizer
+
+    app.infrastructure.http.serializer.php_doc_extractor:
+        class: Symfony\Component\PropertyInfo\Extractor\PhpDocExtractor
+
+    app.infrastructure.http.serializer.inline_normalizer:
+        class: App\Infrastructure\InlineNormalizer\InlineNormalizer
+        arguments:
+            - '@annotations.reader'
+
+    app.infrastructure.http.serializer.property_normalizer:
+        class: Symfony\Component\Serializer\Normalizer\PropertyNormalizer
+        arguments:
+            - '@serializer.mapping.class_metadata_factory'
+            - ~
+            - '@app.infrastructure.http.serializer.php_doc_extractor'
+
+    app.infrastructure.http.serializer:
+        class: Symfony\Component\Serializer\Serializer
+        arguments:
+            $normalizers:
+                - '@app.infrastructure.http.serializer.normalizer.datetime'
+                - '@app.infrastructure.http.serializer.normalizer.array'
+                - '@app.infrastructure.http.serializer.inline_normalizer'
+                - '@serializer.normalizer.json_serializable'
+                - '@app.infrastructure.http.serializer.property_normalizer'
+            $encoders:
+                - '@serializer.encoder.json'

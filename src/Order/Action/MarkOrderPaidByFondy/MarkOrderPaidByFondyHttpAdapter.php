@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Order\Action\MarkOrderPaidByFondy;
 
 use App\Event\Model\EventId;
-use App\Infrastructure\Http\AppController;
+use App\Infrastructure\Http\AppController\AppController;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;

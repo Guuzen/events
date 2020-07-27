@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Order\Action\PayByCard;
 
 use App\Event\Model\EventId;
-use App\Infrastructure\Http\AppController;
+use App\Infrastructure\Http\AppController\AppController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App;
 
-use App\Infrastructure\Http\AppController;
+use App\Infrastructure\Http\AppController\AppController;
 use App\Infrastructure\Http\Openapi\OpenapiSchema;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;

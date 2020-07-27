@@ -6,7 +6,7 @@ namespace App\Order\Action\PlaceOrder;
 
 use App\Common\Error;
 use App\Event\Model\EventId;
-use App\Infrastructure\Http\AppController;
+use App\Infrastructure\Http\AppController\AppController;
 use App\Order\Model\OrderId;
 use App\User\Action\UserHandler;
 use App\User\Model\UserId;

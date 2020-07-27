@@ -1,0 +1,20 @@
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        bind:
+            $locator: '@Symfony\Component\DependencyInjection\ServiceLocator'
+    _instanceof:
+        App\Infrastructure\Http\AppController\AppController:
+            tags: ['controller.service_arguments']
+
+    # HTTP ADAPTERS
+    App\:
+        resource: '../../../../src/**/*HttpAdapter.php'
+
+    # LOCATOR FOR HTTP ADAPTERS
+    Symfony\Component\DependencyInjection\ServiceLocator:
+        arguments:
+            -   serializer: '@app.infrastructure.http.serializer'
+                viewModelDeserializer: '@app.infrastructure.view_model_deserializer.serializer'
