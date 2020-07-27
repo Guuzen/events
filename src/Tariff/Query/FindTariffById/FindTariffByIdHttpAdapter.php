@@ -45,7 +45,7 @@ final class FindTariffByIdHttpAdapter extends AppController
             return $this->response(new TariffByIdNotFound());
         }
 
-        $tariff = $this->deserializeFromDb($tariffData['json'], Tariff::class);
+        $tariff = $this->deserializeToViewModel($tariffData['json'], Tariff::class);
 
         return $this->response($tariff);
     }

@@ -3,7 +3,6 @@
 namespace App\Infrastructure\Http\AppController;
 
 use App\Common\Error;
-use Exception;
 use Psr\Container\ContainerInterface;
 use ReflectionClass;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -36,8 +35,6 @@ abstract class AppController
     }
 
     /**
-     * TODO make collections for view models ?
-     *
      * @param mixed $data
      *
      * @template T
@@ -45,13 +42,13 @@ abstract class AppController
      *
      * @psalm-return T
      */
-    protected function deserializeFromDb($data, string $toClass, bool $asArray = false)
+    protected function deserializeToViewModel($data, string $toClass)
     {
         /** @var SerializerInterface $deserializer */
         $deserializer = $this->locator->get('viewModelDeserializer');
 
         /** @psalm-var T $viewModel */
-        $viewModel = $deserializer->deserialize($data, $toClass . ($asArray ? '[]' : ''), 'json');
+        $viewModel = $deserializer->deserialize($data, $toClass, 'json');
 
         return $viewModel;
     }
@@ -87,7 +84,7 @@ abstract class AppController
     {
         /** @var SerializerInterface */
         $serializer = $this->locator->get('serializer');
-        $json       = $serializer->serialize($data, 'json', array_merge([
+        $json       = $serializer->serialize($data, 'json', \array_merge([
             'json_encode_options' => JsonResponse::DEFAULT_ENCODING_OPTIONS,
         ], $context));
 
@@ -97,11 +94,11 @@ abstract class AppController
     private function stringifyError(Error $errorObject): string
     {
         $errorClassName = (new ReflectionClass($errorObject))->getShortName();
-        $message        = preg_replace('/[A-Z]/', ' \\0', lcfirst($errorClassName));
+        $message        = \preg_replace('/[A-Z]/', ' \\0', \lcfirst($errorClassName));
         if (null === $message) {
-            throw new Exception();
+            throw new \RuntimeException();
         }
 
-        return strtolower($message);
+        return \strtolower($message);
     }
 }
