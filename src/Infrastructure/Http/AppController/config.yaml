@@ -17,4 +17,4 @@ services:
     Symfony\Component\DependencyInjection\ServiceLocator:
         arguments:
             -   serializer: '@app.infrastructure.http.serializer'
-                viewModelDeserializer: '@app.infrastructure.view_model_deserializer.serializer'
+                viewModelDeserializer: '@app.infrastructure.persistence.serializer'

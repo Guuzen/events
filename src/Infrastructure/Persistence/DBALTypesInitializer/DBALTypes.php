@@ -4,12 +4,21 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Persistence\DBALTypesInitializer;
 
+use App\Infrastructure\Persistence\DBALTypes\JsonDocumentType;
 use Doctrine\DBAL\Types\Type;
+use Symfony\Component\Serializer\SerializerInterface;
 
 final class DBALTypes
 {
     /** @psalm-var array<class-string, class-string> */
     private $types;
+
+    private $jsonDocumentTypeSerializer;
+
+    public function __construct(SerializerInterface $jsonDocumentTypeSerializer)
+    {
+        $this->jsonDocumentTypeSerializer = $jsonDocumentTypeSerializer;
+    }
 
     /**
      * @psalm-param class-string $mappedClass
@@ -29,6 +38,9 @@ final class DBALTypes
                 /** @var CustomType $dbalType */
                 $dbalType = Type::getType($mappedClass);
                 $dbalType->setMappedClass($mappedClass);
+                if ($dbalType instanceof JsonDocumentType) {
+                    $dbalType->setSerializer($this->jsonDocumentTypeSerializer);
+                }
             }
         }
     }

@@ -2,15 +2,14 @@
 
 namespace App\Infrastructure\Persistence\DBALTypes;
 
-use App\Common\Serializer;
 use App\Infrastructure\Persistence\DBALTypesInitializer\CustomType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
+use Symfony\Component\Serializer\SerializerInterface;
 
-// TODO make final
-class JsonDocumentType extends Type implements CustomType
+final class JsonDocumentType extends Type implements CustomType
 {
-    /** @var Serializer|null */
+    /** @var SerializerInterface|null */
     private $serializer;
 
     /** @var string */
@@ -19,40 +18,25 @@ class JsonDocumentType extends Type implements CustomType
     /** @psalm-var string */
     protected $className;
 
-    final public function convertToPHPValue($value, AbstractPlatform $platform)
+    public function convertToPHPValue($value, AbstractPlatform $platform)
     {
-        if (null === $this->serializer) {
-            $this->serializer = new Serializer();
-        }
-
         if ($value === null) {
             return null;
         }
 
-        /**
-         * TODO
-         *
-         * @psalm-suppress MixedArgument
-         * @psalm-suppress UndefinedMethod
-         * @psalm-suppress DocblockTypeContradiction TODO remove when remove ??
-         */
-        return $this->serializer->deserialize($value, $this->className ?? $this->className());
+        return $this->serializer->deserialize($value, $this->className, 'json');
     }
 
-    final public function convertToDatabaseValue($value, AbstractPlatform $platform)
+    public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
-        if (null === $this->serializer) {
-            $this->serializer = new Serializer();
-        }
-
         if ($value === null) {
             return null;
         }
 
-        return $this->serializer->serialize($value);
+        return $this->serializer->serialize($value, 'json');
     }
 
-    final public function setMappedClass(string $mappedClass): void
+    public function setMappedClass(string $mappedClass): void
     {
         $this->className = $mappedClass;
     }
@@ -62,7 +46,12 @@ class JsonDocumentType extends Type implements CustomType
         return $this->className;
     }
 
-    final public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string
+    public function setSerializer(SerializerInterface $serializer): void
+    {
+        $this->serializer = $serializer;
+    }
+
+    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string
     {
         return $platform->getJsonTypeDeclarationSQL($fieldDeclaration);
     }
