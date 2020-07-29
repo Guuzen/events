@@ -23,11 +23,12 @@ services:
             - '@annotations.reader'
 
     app.infrastructure.http.serializer.property_normalizer:
-        class: Symfony\Component\Serializer\Normalizer\PropertyNormalizer
+        class: App\Infrastructure\WithoutConstructorPropertyNormalizer
         arguments:
             - '@serializer.mapping.class_metadata_factory'
             - ~
             - '@app.infrastructure.http.serializer.php_doc_extractor'
+            - '@serializer.mapping.class_discriminator_resolver'
 
     app.infrastructure.http.serializer:
         class: Symfony\Component\Serializer\Serializer

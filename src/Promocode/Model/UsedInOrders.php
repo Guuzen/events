@@ -8,11 +8,19 @@ use App\Order\Model\OrderId;
 
 /**
  * @DBALType(typeClass=JsonDocumentType::class)
+ *
+ * @psalm-immutable
  */
 final class UsedInOrders
 {
+    /**
+     * @var OrderId[]
+     */
     private $orderIds;
 
+    /**
+     * @param OrderId[] $orderIds
+     */
     public function __construct(array $orderIds)
     {
         $this->orderIds = $orderIds;
@@ -26,18 +34,18 @@ final class UsedInOrders
         return new self($orderIds);
     }
 
-    public function remove(OrderId $orderId): void
+    public function remove(OrderId $orderId): self
     {
-        $this->orderIds = array_diff($this->orderIds, [$orderId]);
+        return new self(\array_diff($this->orderIds, [$orderId]));
     }
 
     public function count(): int
     {
-        return count($this->orderIds);
+        return \count($this->orderIds);
     }
 
     public function has(OrderId $orderId): bool
     {
-        return in_array($orderId, $this->orderIds, true);
+        return \in_array($orderId, $this->orderIds, true);
     }
 }

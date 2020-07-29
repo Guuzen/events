@@ -15,6 +15,7 @@ services:
                             !php/const Symfony\Component\Serializer\Normalizer\DateTimeNormalizer::FORMAT_KEY: 'Y-m-d H:i:s' # todo microsecs ?
                             !php/const Symfony\Component\Serializer\Normalizer\DateTimeNormalizer::TIMEZONE_KEY: 'UTC'
                 - '@serializer.denormalizer.array'
+                - '@app.infrastructure.http.serializer.inline_normalizer'
                 - !service
                     class: App\Infrastructure\WithoutConstructorPropertyNormalizer
                     arguments:

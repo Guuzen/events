@@ -1,18 +1,19 @@
 <?php
 
-namespace App\Tariff\ViewModel;
+namespace App\Promocode\ViewModel;
 
 use App\Infrastructure\InlineNormalizer\InlineNormalizable;
+use App\Order\ViewModel\OrderId;
 
 /**
  * @InlineNormalizable()
  *
  * @psalm-immutable
  */
-final class TariffPriceNet
+final class UsedInOrders
 {
     /**
-     * @var TariffSegment[]
+     * @var OrderId[]
      */
-    private $segments;
+    private $orderIds;
 }

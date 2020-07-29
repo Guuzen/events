@@ -28,12 +28,10 @@ final class Manager
     {
         $response = $this->client->post('/admin/event/create', []);
         $this->assertResultMatchesPattern($response, [
-            'data' => [
-                'id' => '@uuid@',
-            ],
+            'data' => '@uuid@',
         ]);
 
-        return $response['data']['id'];
+        return $response['data'];
     }
 
     public function createsEventDomain(array $createEvent): void
@@ -63,12 +61,10 @@ final class Manager
     {
         $response = $this->client->post('/admin/tariff/create', $createTariff);
         $this->assertResultMatchesPattern($response, [
-            'data' => [
-                'id' => '@uuid@',
-            ],
+            'data' => '@uuid@',
         ]);
 
-        return $response['data']['id'];
+        return $response['data'];
     }
 
     public function seeTariffInList(string $eventId, array $tariffs): void
@@ -157,9 +153,7 @@ final class Manager
     {
         $response = $this->client->post('/admin/promocode/createTariff', $promocode);
         $this->assertResultMatchesPattern($response, [
-            'data' => [
-                'id' => '@uuid@',
-            ],
+            'data' => '@uuid@',
         ]);
     }
 

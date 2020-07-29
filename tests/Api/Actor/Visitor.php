@@ -38,12 +38,10 @@ final class Visitor
     {
         $response = $this->client->post('/order/place', $placeOrder);
         $this->assertResultMatchesPattern($response, [
-            'data' => [
-                'id' => '@uuid@',
-            ]
+            'data' => '@uuid@',
         ]);
 
-        return $response['data']['id'];
+        return $response['data'];
     }
 
     public function usePromocode($promocode): void

@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Tariff\ViewModel;
+declare(strict_types=1);
+
+namespace App\Promocode\ViewModel;
 
 use App\Infrastructure\InlineNormalizer\InlineNormalizable;
 
@@ -9,10 +11,10 @@ use App\Infrastructure\InlineNormalizer\InlineNormalizable;
  *
  * @psalm-immutable
  */
-final class TariffPriceNet
+final class PromocodeList
 {
     /**
-     * @var TariffSegment[]
+     * @var Promocode[]
      */
-    private $segments;
+    private $promocodes;
 }

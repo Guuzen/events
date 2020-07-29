@@ -17,18 +17,11 @@
       "type": "object",
       "required": [
         "amount",
-        "currency",
         "type"
       ],
       "properties": {
         "amount": {
-          "type": "string"
-        },
-        "currency": {
-          "type": "string",
-          "enum": [
-            "RUB"
-          ]
+          "$ref": "../money.v1.json"
         },
         "type": {
           "type": "string",
@@ -49,31 +42,17 @@
       "type": "boolean"
     },
     "usedInOrders": {
-      "type": "object",
-      "required": [
-        "order_ids"
-      ],
-      "properties": {
-        "order_ids": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "format": "uuid",
-            "properties": {
-              "id": {
-                "type": "string",
-                "format": "uuid"
-              }
-            }
-          }
-        }
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "uuid"
       }
     },
     "allowedTariffs": {
       "type": "object",
       "required": [
         "type",
-        "tariff_ids"
+        "tariffIds"
       ],
       "properties": {
         "type": {
@@ -82,19 +61,11 @@
             "specific"
           ]
         },
-        "tariff_ids": {
+        "tariffIds": {
           "type": "array",
           "items": {
-            "type": "object",
-            "properties": {
-              "id": {
-                "type": "string",
-                "format": "uuid"
-              }
-            },
-            "required": [
-              "id"
-            ]
+            "type": "string",
+            "format": "uuid"
           }
         }
       }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tariff\ViewModel;
+namespace App\Event\ViewModel;
 
 use App\Infrastructure\InlineNormalizer\InlineDenormalizable;
 use App\Infrastructure\InlineNormalizer\InlineNormalizable;
@@ -13,10 +13,20 @@ use App\Infrastructure\InlineNormalizer\InlineNormalizable;
  *
  * @psalm-immutable
  */
-final class ProductType
+final class EventId
 {
     /**
      * @var string
      */
-    private $type;
+    private $id;
+
+    public function equals(self $uuid): bool
+    {
+        return $this->id === $uuid->id;
+    }
+
+    public function __toString(): string
+    {
+        return $this->id;
+    }
 }

@@ -9,14 +9,11 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 final class JsonDocumentType extends Type implements CustomType
 {
-    /** @var SerializerInterface|null */
+    /** @var SerializerInterface */
     private $serializer;
 
-    /** @var string */
-    protected $name;
-
     /** @psalm-var string */
-    protected $className;
+    private $mappedClass;
 
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
@@ -24,7 +21,7 @@ final class JsonDocumentType extends Type implements CustomType
             return null;
         }
 
-        return $this->serializer->deserialize($value, $this->className, 'json');
+        return $this->serializer->deserialize($value, $this->mappedClass, 'json');
     }
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
@@ -38,12 +35,12 @@ final class JsonDocumentType extends Type implements CustomType
 
     public function setMappedClass(string $mappedClass): void
     {
-        $this->className = $mappedClass;
+        $this->mappedClass = $mappedClass;
     }
 
     public function getName(): string
     {
-        return $this->className;
+        return $this->mappedClass;
     }
 
     public function setSerializer(SerializerInterface $serializer): void

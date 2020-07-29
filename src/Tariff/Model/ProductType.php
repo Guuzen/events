@@ -2,11 +2,16 @@
 
 namespace App\Tariff\Model;
 
-use App\Infrastructure\Persistence\DBALTypes\JsonDocumentType;
+use App\Infrastructure\InlineNormalizer\InlineDenormalizable;
+use App\Infrastructure\InlineNormalizer\InlineNormalizable;
+use App\Infrastructure\Persistence\DBALTypes\ProductTypeType;
 use App\Infrastructure\Persistence\DBALTypesInitializer\CustomTypeAnnotation as DBALType;
 
 /**
- * @DBALType(typeClass=JsonDocumentType::class)
+ * @DBALType(typeClass=ProductTypeType::class)
+ *
+ * @InlineNormalizable()
+ * @InlineDenormalizable()
  *
  * @psalm-immutable
  */

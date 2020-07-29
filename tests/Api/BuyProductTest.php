@@ -165,20 +165,20 @@ final class BuyProductTest extends TestCase
                     'eventId'        => $eventId,
                     'code'           => $promocode,
                     'discount'       => [
-                        'amount'   => '100',
-                        'currency' => 'RUB',
-                        'type'     => 'fixed',
+                        'amount' => [
+                            'amount'   => '100',
+                            'currency' => 'RUB',
+                        ],
+                        'type'   => 'fixed',
                     ],
                     'useLimit'       => 10,
-                    'expireAt'       => '3000-01-01 12:00:00Z',
+                    'expireAt'       => '3000-01-01T12:00:00+0000',
                     'usable'         => true,
-                    'usedInOrders'   => [
-                        'order_ids' => [],
-                    ],
+                    'usedInOrders'   => [],
                     'allowedTariffs' => [
-                        'type'       => 'specific',
-                        'tariff_ids' => [ // TODO camelCase
-                            ['id' => $tariffId],
+                        'type'      => 'specific',
+                        'tariffIds' => [
+                            $tariffId,
                         ]
                     ],
                 ]
@@ -296,22 +296,22 @@ final class BuyProductTest extends TestCase
                     'eventId'        => $eventId,
                     'code'           => $promocode,
                     'discount'       => [
-                        'amount'   => '100',
-                        'currency' => 'RUB',
-                        'type'     => 'fixed',
+                        'amount' => [
+                            'amount'   => '100',
+                            'currency' => 'RUB',
+                        ],
+                        'type'   => 'fixed',
                     ],
                     'useLimit'       => 10,
-                    'expireAt'       => '3000-01-01 12:00:00Z',
+                    'expireAt'       => '3000-01-01T12:00:00+0000',
                     'usable'         => true,
                     'usedInOrders'   => [
-                        'order_ids' => [
-                            ['id' => $orderId],
-                        ],
+                        $orderId,
                     ],
                     'allowedTariffs' => [
-                        'type'       => 'specific',
-                        'tariff_ids' => [
-                            ['id' => $tariffId],
+                        'type'      => 'specific',
+                        'tariffIds' => [
+                            $tariffId,
                         ]
                     ],
                 ]
@@ -510,20 +510,20 @@ final class BuyProductTest extends TestCase
                     'eventId'        => $eventId,
                     'code'           => $promocode,
                     'discount'       => [
-                        'amount'   => '100',
-                        'currency' => 'RUB',
-                        'type'     => 'fixed',
+                        'amount' => [
+                            'amount'   => '100',
+                            'currency' => 'RUB',
+                        ],
+                        'type'   => 'fixed',
                     ],
                     'useLimit'       => 10,
-                    'expireAt'       => '3000-01-01 12:00:00Z',
+                    'expireAt'       => '3000-01-01T12:00:00+0000',
                     'usable'         => true,
-                    'usedInOrders'   => [
-                        'order_ids' => [],
-                    ],
+                    'usedInOrders'   => [],
                     'allowedTariffs' => [
-                        'type'       => 'specific',
-                        'tariff_ids' => [ // TODO camelCase
-                            ['id' => $tariffId],
+                        'type'      => 'specific',
+                        'tariffIds' => [
+                            $tariffId,
                         ]
                     ],
                 ]
@@ -640,22 +640,22 @@ final class BuyProductTest extends TestCase
                     'eventId'        => $eventId,
                     'code'           => $promocode,
                     'discount'       => [
-                        'amount'   => '100',
-                        'currency' => 'RUB',
-                        'type'     => 'fixed',
+                        'amount' => [
+                            'amount'   => '100',
+                            'currency' => 'RUB',
+                        ],
+                        'type'   => 'fixed',
                     ],
                     'useLimit'       => 10,
-                    'expireAt'       => '3000-01-01 12:00:00Z',
+                    'expireAt'       => '3000-01-01T12:00:00+0000',
                     'usable'         => true,
                     'usedInOrders'   => [
-                        'order_ids' => [
-                            ['id' => $orderId],
-                        ],
+                        $orderId,
                     ],
                     'allowedTariffs' => [
-                        'type'       => 'specific',
-                        'tariff_ids' => [
-                            ['id' => $tariffId],
+                        'type'      => 'specific',
+                        'tariffIds' => [
+                            $tariffId,
                         ]
                     ],
                 ]

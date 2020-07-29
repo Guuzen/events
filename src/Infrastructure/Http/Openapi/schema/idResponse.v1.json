@@ -4,15 +4,7 @@
   "description": "Default success response for POST operations which returns id of created resource",
   "properties": {
     "data": {
-      "type": "object",
-      "required": [
-        "id"
-      ],
-      "properties": {
-        "id": {
-          "type": "string"
-        }
-      }
+      "type": "string"
     }
   },
   "required": [

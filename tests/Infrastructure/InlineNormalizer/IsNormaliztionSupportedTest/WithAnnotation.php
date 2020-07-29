@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Infrastructure\InlineNormalizer\IsNormaliztionSupportedTest;
 
-use App\Infrastructure\InlineNormalizer\InlineDenormalizable;
+use App\Infrastructure\InlineNormalizer\InlineNormalizable;
 
 /**
- * @InlineDenormalizable()
+ * @InlineNormalizable()
  */
 final class WithAnnotation
 {

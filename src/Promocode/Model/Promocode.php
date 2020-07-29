@@ -144,7 +144,7 @@ class Promocode extends Entity
             throw new PromocodeNotUsedInOrder();
         }
 
-        $this->usedInOrders->remove($orderId);
+        $this->usedInOrders = $this->usedInOrders->remove($orderId);
     }
 
     private function usedInOrders(OrderId $orderId): bool
