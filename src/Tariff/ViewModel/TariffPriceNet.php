@@ -2,10 +2,12 @@
 
 namespace App\Tariff\ViewModel;
 
+use App\Infrastructure\InlineNormalizer\InlineDenormalizable;
 use App\Infrastructure\InlineNormalizer\InlineNormalizable;
 
 /**
  * @InlineNormalizable()
+ * @InlineDenormalizable()
  *
  * @psalm-immutable
  */

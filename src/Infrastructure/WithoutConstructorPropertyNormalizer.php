@@ -7,7 +7,7 @@ use RuntimeException;
 use Symfony\Component\Serializer\Normalizer\PropertyNormalizer;
 use function sprintf;
 
-final class WithoutConstructorPropertyNormalizer extends PropertyNormalizer
+class WithoutConstructorPropertyNormalizer extends PropertyNormalizer
 {
     /**
      * @var array

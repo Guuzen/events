@@ -15,14 +15,20 @@ services:
                             !php/const Symfony\Component\Serializer\Normalizer\DateTimeNormalizer::FORMAT_KEY: 'Y-m-d H:i:s' # todo microsecs ?
                             !php/const Symfony\Component\Serializer\Normalizer\DateTimeNormalizer::TIMEZONE_KEY: 'UTC'
                 - '@serializer.denormalizer.array'
-                - '@app.infrastructure.http.serializer.inline_normalizer'
+                - !service
+                    class: App\Infrastructure\InlineNormalizer\InlineNormalizer
+                    arguments:
+                        - '@annotations.reader'
+                        - '@serializer.mapping.class_metadata_factory'
+                        - '@serializer.name_converter.camel_case_to_snake_case'
+                        - '@property_info.php_doc_extractor'
+                        - '@serializer.mapping.class_discriminator_resolver'
                 - !service
                     class: App\Infrastructure\WithoutConstructorPropertyNormalizer
                     arguments:
                         - '@serializer.mapping.class_metadata_factory'
                         - '@serializer.name_converter.camel_case_to_snake_case'
-                        - !service
-                            class: Symfony\Component\PropertyInfo\Extractor\PhpDocExtractor
+                        - '@property_info.php_doc_extractor'
                         - '@serializer.mapping.class_discriminator_resolver'
             $encoders:
                 - '@serializer.encoder.json'

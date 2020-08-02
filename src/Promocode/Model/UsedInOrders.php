@@ -2,12 +2,17 @@
 
 namespace App\Promocode\Model;
 
+use App\Infrastructure\InlineNormalizer\InlineDenormalizable;
+use App\Infrastructure\InlineNormalizer\InlineNormalizable;
 use App\Infrastructure\Persistence\DBALTypes\JsonDocumentType;
 use App\Infrastructure\Persistence\DBALTypesInitializer\CustomTypeAnnotation as DBALType;
 use App\Order\Model\OrderId;
 
 /**
  * @DBALType(typeClass=JsonDocumentType::class)
+ *
+ * @InlineNormalizable()
+ * @InlineDenormalizable()
  *
  * @psalm-immutable
  */

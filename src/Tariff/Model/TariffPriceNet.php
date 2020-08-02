@@ -3,6 +3,8 @@
 namespace App\Tariff\Model;
 
 use App\Common\Error;
+use App\Infrastructure\InlineNormalizer\InlineDenormalizable;
+use App\Infrastructure\InlineNormalizer\InlineNormalizable;
 use App\Infrastructure\Persistence\DBALTypes\JsonDocumentType;
 use App\Infrastructure\Persistence\DBALTypesInitializer\CustomTypeAnnotation as DBALType;
 use App\Promocode\Model\Discount\Discount;
@@ -16,6 +18,10 @@ use Money\Money;
 
 /**
  * @DBALType(typeClass=JsonDocumentType::class)
+ *
+ * @InlineNormalizable()
+ * @InlineDenormalizable()
+ *
  * @psalm-immutable
  */
 final class TariffPriceNet

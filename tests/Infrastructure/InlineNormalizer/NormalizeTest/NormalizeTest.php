@@ -5,9 +5,13 @@ declare(strict_types=1);
 namespace Tests\Infrastructure\InlineNormalizer\NormalizeTest;
 
 use App\Infrastructure\InlineNormalizer\InlineNormalizer;
-use Doctrine\Common\Annotations\Reader;
+use Doctrine\Common\Annotations\AnnotationReader;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\PropertyInfo\Extractor\PhpDocExtractor;
 use Symfony\Component\Serializer\Exception\UnexpectedValueException;
+use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
+use Symfony\Component\Serializer\Mapping\Loader\AnnotationLoader;
+use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
 use Symfony\Component\Serializer\Normalizer\PropertyNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
@@ -17,12 +21,22 @@ final class NormalizeTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->normalizer = new InlineNormalizer($this->createStub(Reader::class));
-        $this->normalizer->setSerializer(new Serializer(
+        $reader           = new AnnotationReader();
+        $this->normalizer = new InlineNormalizer(
+            $reader,
+            new ClassMetadataFactory(new AnnotationLoader($reader)),
+            null,
+            new PhpDocExtractor()
+        );
+        $serializer       = new Serializer(
             [
+                new ArrayDenormalizer(),
+                $this->normalizer,
                 new PropertyNormalizer()
             ]
-        ));
+        );
+
+        $this->normalizer->setSerializer($serializer);
     }
 
     public function testInlineNull(): void

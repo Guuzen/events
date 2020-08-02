@@ -4,36 +4,52 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\InlineNormalizer;
 
+use App\Infrastructure\WithoutConstructorPropertyNormalizer;
 use Doctrine\Common\Annotations\Reader;
+use Symfony\Component\PropertyInfo\PropertyTypeExtractorInterface;
 use Symfony\Component\Serializer\Exception\UnexpectedValueException;
-use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
-use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
-use Symfony\Component\Serializer\SerializerAwareInterface;
-use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Serializer\Mapping\ClassDiscriminatorResolverInterface;
+use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactoryInterface;
+use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
 
-final class InlineNormalizer implements NormalizerInterface, DenormalizerInterface, SerializerAwareInterface
+final class InlineNormalizer extends WithoutConstructorPropertyNormalizer
 {
+    /**
+     * @var Reader
+     */
     private $reader;
 
-    /**
-     * @var NormalizerInterface|SerializerInterface
-     */
-    private $normalizer;
-
-    public function __construct(Reader $reader)
+    public function __construct(
+        Reader $reader,
+        ClassMetadataFactoryInterface $classMetadataFactory = null,
+        NameConverterInterface $nameConverter = null,
+        PropertyTypeExtractorInterface $propertyTypeExtractor = null,
+        ClassDiscriminatorResolverInterface $classDiscriminatorResolver = null,
+        callable $objectClassResolver = null,
+        array $defaultContext = []
+    )
     {
         $this->reader = $reader;
+        parent::__construct(
+            $classMetadataFactory,
+            $nameConverter,
+            $propertyTypeExtractor,
+            $classDiscriminatorResolver,
+            $objectClassResolver,
+            $defaultContext
+        );
     }
 
     /**
      * @psalm-suppress MixedInferredReturnType
      * @psalm-suppress MixedArgument
      * @psalm-suppress MixedReturnStatement
-     * @psalm-suppress PossiblyUndefinedMethod
      */
     public function normalize($object, $format = null, array $context = [])
     {
-        $reflectionClass = new \ReflectionClass($object);
+        /** @psalm-suppress PossiblyNullReference */
+        $typeMetadata    = $this->classMetadataFactory->getMetadataFor($object);
+        $reflectionClass = $typeMetadata->getReflectionClass();
         $properties      = $reflectionClass->getProperties();
         if (\count($properties) > 1) {
             throw new UnexpectedValueException(
@@ -43,7 +59,8 @@ final class InlineNormalizer implements NormalizerInterface, DenormalizerInterfa
         $firstProperty = $properties[0];
         $firstProperty->setAccessible(true);
 
-        return $this->normalizer->normalize($firstProperty->getValue($object));
+        /** @psalm-suppress UndefinedInterfaceMethod */
+        return $this->serializer->normalize($firstProperty->getValue($object));
     }
 
     public function supportsNormalization($data, $format = null): bool
@@ -52,7 +69,10 @@ final class InlineNormalizer implements NormalizerInterface, DenormalizerInterfa
             return false;
         }
 
-        $reflectionClass = new \ReflectionClass($data);
+        /** @psalm-suppress PossiblyNullReference */
+        $typeMetadata    = $this->classMetadataFactory->getMetadataFor($data);
+        $reflectionClass = $typeMetadata->getReflectionClass();
+
         /** @var InlineDenormalizable|null $annotation */
         $annotation = $this->reader->getClassAnnotation($reflectionClass, InlineNormalizable::class);
 
@@ -66,8 +86,9 @@ final class InlineNormalizer implements NormalizerInterface, DenormalizerInterfa
      */
     public function denormalize($data, $type, $format = null, array $context = [])
     {
-        /** @psalm-suppress ArgumentTypeCoercion */
-        $reflectionClass = new \ReflectionClass($type);
+        /** @psalm-suppress PossiblyNullReference */
+        $typeMetadata    = $this->classMetadataFactory->getMetadataFor($type);
+        $reflectionClass = $typeMetadata->getReflectionClass();
         $properties      = $reflectionClass->getProperties();
 
         if (\count($properties) > 1) {
@@ -81,25 +102,18 @@ final class InlineNormalizer implements NormalizerInterface, DenormalizerInterfa
             $firstProperty->setAccessible(true);
         }
 
-        $object = $reflectionClass->newInstanceWithoutConstructor();
-        $firstProperty->setValue($object, $data);
-
-        return $object;
+        return parent::denormalize([$firstProperty->getName() => $data], $type, $format, $context);
     }
 
     public function supportsDenormalization($data, $type, $format = null): bool
     {
-        /** @psalm-suppress ArgumentTypeCoercion */
-        $reflectionClass = new \ReflectionClass($type);
+        /** @psalm-suppress PossiblyNullReference */
+        $typeMetadata    = $this->classMetadataFactory->getMetadataFor($type);
+        $reflectionClass = $typeMetadata->getReflectionClass();
+
         /** @var InlineDenormalizable|null $annotation */
         $annotation = $this->reader->getClassAnnotation($reflectionClass, InlineDenormalizable::class);
 
         return $annotation !== null;
-    }
-
-
-    public function setSerializer(SerializerInterface $serializer): void
-    {
-        $this->normalizer = $serializer;
     }
 }
