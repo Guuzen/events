@@ -26,8 +26,8 @@ final class FindTicketByIdHttpAdapter extends AppController
         $stmt = $this->connection->prepare('
             select
                 ticket.id as id,
-                ticket.event_id as "eventId",
-                ticket.created_at as "createdAt",
+                ticket.event_id as "event_id",
+                ticket.created_at as "created_at",
                 ticket.number
             from
                 ticket

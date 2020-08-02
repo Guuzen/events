@@ -51,7 +51,7 @@ final class Manager
     public function seeEventById(string $eventId, array $event): void
     {
         $response = $this->client->get('/admin/eventDomain/show', [
-            'eventId' => $eventId,
+            'event_id' => $eventId,
         ]);
         $this->assertResultMatchesPattern($response, $event);
     }
@@ -70,7 +70,7 @@ final class Manager
     public function seeTariffInList(string $eventId, array $tariffs): void
     {
         $response = $this->client->get('/admin/tariff/list', [
-            'eventId' => $eventId,
+            'event_id' => $eventId,
         ]);
         $this->assertResultMatchesPattern($response, $tariffs);
     }
@@ -84,7 +84,7 @@ final class Manager
     public function seeTariffDescriptionById(string $tariffId, array $tariffDescription): void
     {
         $response = $this->client->get('/admin/tariffDescription/show', [
-            'tariffId' => $tariffId,
+            'tariff_id' => $tariffId,
         ]);
         $this->assertResultMatchesPattern($response, $tariffDescription);
     }
@@ -92,7 +92,7 @@ final class Manager
     public function seeTariffById(string $tariffId, array $tariff): void
     {
         $response = $this->client->get('/admin/tariff/show', [
-            'tariffId' => $tariffId,
+            'tariff_id' => $tariffId,
         ]);
         $this->assertResultMatchesPattern($response, $tariff);
     }
@@ -112,7 +112,7 @@ final class Manager
     public function seeTicketInList(string $eventId, array $tickets): string
     {
         $response = $this->client->get('/admin/ticket/list', [
-            'eventId' => $eventId,
+            'event_id' => $eventId,
         ]);
         $this->assertResultMatchesPattern($response, $tickets);
 
@@ -130,7 +130,7 @@ final class Manager
     public function seeOrderInList(string $eventId, array $orders): void
     {
         $response = $this->client->get('/admin/order/list', [
-            'eventId' => $eventId,
+            'event_id' => $eventId,
         ]);
         $this->assertResultMatchesPattern($response, $orders);
     }
@@ -138,7 +138,7 @@ final class Manager
     public function seeOrderById(string $orderId, array $order): void
     {
         $response = $this->client->get('/admin/order/show', [
-            'orderId' => $orderId,
+            'order_id' => $orderId,
         ]);
         $this->assertResultMatchesPattern($response, $order);
     }
@@ -160,7 +160,7 @@ final class Manager
     public function seeFixedPromocodeInList(string $eventId, array $promocodes): void
     {
         $response = $this->client->get('/admin/promocode/list', [
-            'eventId' => $eventId,
+            'event_id' => $eventId,
         ]);
         $this->assertResultMatchesPattern($response, $promocodes);
     }

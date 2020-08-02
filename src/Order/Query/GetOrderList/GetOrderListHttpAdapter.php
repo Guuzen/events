@@ -28,13 +28,13 @@ final class GetOrderListHttpAdapter extends AppController
     {
         $stmt = $this->connection->prepare('
             select
-                "order".event_id as "eventId",
+                "order".event_id as "event_id",
                 "order".id as id,
-                "order".tariff_id as "tariffId",
-                "order".user_id as "userId",
+                "order".tariff_id as "tariff_id",
+                "order".user_id as "user_id",
                 "order".paid as paid,
                 "order".cancelled as "cancelled",
-                concat("order".maked_at, \'Z\') as "makedAt",
+                concat("order".maked_at, \'Z\') as "maked_at",
                 json_build_object(
                     \'amount\', "order".sum ->> \'amount\',
                     \'currency\', "order".sum -> \'currency\' ->> \'code\'

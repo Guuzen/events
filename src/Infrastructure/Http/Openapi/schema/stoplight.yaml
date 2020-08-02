@@ -103,7 +103,7 @@ paths:
             type: string
             format: uuid
           in: query
-          name: eventId
+          name: event_id
           description: ''
           required: true
   /admin/tariff/create:
@@ -151,7 +151,7 @@ paths:
             type: string
             format: uuid
           in: query
-          name: tariffId
+          name: tariff_id
           required: true
       description: shows tariff details
   /admin/tariff/list:
@@ -180,7 +180,7 @@ paths:
             type: string
             format: uuid
           in: query
-          name: eventId
+          name: event_id
           required: true
       description: get tariff list
   /admin/tariff/show:
@@ -207,7 +207,7 @@ paths:
             type: string
             format: uuid
           in: query
-          name: tariffId
+          name: tariff_id
           required: true
       description: shows tariff
   /order/place:
@@ -256,7 +256,7 @@ paths:
             type: string
             format: uuid
           in: query
-          name: eventId
+          name: event_id
           required: true
       description: shows order list
   /admin/order/show:
@@ -283,7 +283,7 @@ paths:
             type: string
             format: uuid
           in: query
-          name: orderId
+          name: order_id
           required: true
       description: shows one order
   /admin/order/markPaid:
@@ -303,15 +303,15 @@ paths:
             schema:
               type: object
               properties:
-                orderId:
+                order_id:
                   type: string
                   format: uuid
-                eventId:
+                event_id:
                   type: string
                   format: uuid
               required:
-                - orderId
-                - eventId
+                - order_id
+                - event_id
       description: marks paid specific order
       tags:
         - order
@@ -341,7 +341,7 @@ paths:
             type: string
             format: uuid
           in: query
-          name: eventId
+          name: event_id
           required: true
       description: shows ticket list
   /admin/ticket/show:
@@ -391,11 +391,11 @@ paths:
             schema:
               type: object
               properties:
-                orderId:
+                order_id:
                   type: string
                   format: uuid
               required:
-                - orderId
+                - order_id
       description: starts payment by bank card
       tags:
         - order
@@ -417,11 +417,11 @@ paths:
               type: object
               format: uuid
               properties:
-                orderId:
+                order_id:
                   type: string
                   format: uuid
               required:
-                - orderId
+                - order_id
         description: fondy marks payment as paid
       description: fondy confirms that specific order was paid
       tags:
@@ -471,7 +471,7 @@ paths:
             type: string
             format: uuid
           in: query
-          name: eventId
+          name: event_id
           required: true
       description: shows list of fixed promocodes
   /promocode/use:
@@ -493,16 +493,16 @@ paths:
               properties:
                 code:
                   type: string
-                orderId:
+                order_id:
                   type: string
                   format: uuid
-                tariffId:
+                tariff_id:
                   type: string
                   format: uuid
               required:
                 - code
-                - orderId
-                - tariffId
+                - order_id
+                - tariff_id
       description: use promocode on specific order
       tags:
         - promocode

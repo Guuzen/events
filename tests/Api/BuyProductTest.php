@@ -79,8 +79,8 @@ final class BuyProductTest extends TestCase
         ]);
 
         $tariffId = $this->manager->createsTariff([
-            'eventId'     => $eventId,
-            'segments'    => [ // TODO change to priceNet
+            'event_id'     => $eventId,
+            'segments'     => [ // TODO change to priceNet
                 [
                     'price' => [
                         'amount'   => '200',
@@ -92,24 +92,24 @@ final class BuyProductTest extends TestCase
                     ],
                 ],
             ],
-            'productType' => 'ticket',
+            'product_type' => 'ticket',
         ]);
         $this->manager->createTariffDescription([
-            'id'         => $tariffId,
-            'tariffType' => 'silver_pass',
+            'id'          => $tariffId,
+            'tariff_type' => 'silver_pass',
         ]);
         $this->manager->seeTariffDescriptionById($tariffId, [
             'data' => [
-                'id'         => $tariffId,
-                'tariffType' => 'silver_pass',
+                'id'          => $tariffId,
+                'tariff_type' => 'silver_pass',
             ],
         ]);
         $this->manager->seeTariffInList($eventId, [
             'data' => [
                 [
-                    'id'          => $tariffId,
-                    'eventId'     => $eventId,
-                    'priceNet'    => [
+                    'id'           => $tariffId,
+                    'event_id'     => $eventId,
+                    'price_net'    => [
                         [
                             'price' => [
                                 'amount'   => '200',
@@ -121,15 +121,15 @@ final class BuyProductTest extends TestCase
                             ],
                         ],
                     ],
-                    'productType' => 'ticket',
+                    'product_type' => 'ticket',
                 ],
             ]
         ]);
         $this->manager->seeTariffById($tariffId, [
             'data' => [
-                'id'          => $tariffId,
-                'eventId'     => $eventId,
-                'priceNet'    => [
+                'id'           => $tariffId,
+                'event_id'     => $eventId,
+                'price_net'    => [
                     [
                         'price' => [
                             'amount'   => '200',
@@ -141,43 +141,43 @@ final class BuyProductTest extends TestCase
                         ],
                     ],
                 ],
-                'productType' => 'ticket',
+                'product_type' => 'ticket',
             ],
         ]);
 
         $promocode = 'FOO';
         $this->manager->createFixedPromocode([
-            'eventId'          => $eventId,
-            'code'             => $promocode,
-            'discount'         => [
+            'event_id'           => $eventId,
+            'code'               => $promocode,
+            'discount'           => [
                 'amount'   => '100',
                 'currency' => 'RUB',
             ],
-            'useLimit'         => 10,
-            'expireAt'         => '3000-01-01 12:00:00Z',
-            'usable'           => true,
-            'allowedTariffIds' => [$tariffId]
+            'use_limit'          => 10,
+            'expire_at'          => '3000-01-01 12:00:00Z',
+            'usable'             => true,
+            'allowed_tariff_ids' => [$tariffId]
         ]);
         $this->manager->seeFixedPromocodeInList($eventId, [
             'data' => [
                 [
-                    'id'             => '@uuid@',
-                    'eventId'        => $eventId,
-                    'code'           => $promocode,
-                    'discount'       => [
+                    'id'              => '@uuid@',
+                    'event_id'        => $eventId,
+                    'code'            => $promocode,
+                    'discount'        => [
                         'amount' => [
                             'amount'   => '100',
                             'currency' => 'RUB',
                         ],
                         'type'   => 'fixed',
                     ],
-                    'useLimit'       => 10,
-                    'expireAt'       => '3000-01-01T12:00:00+0000',
-                    'usable'         => true,
-                    'usedInOrders'   => [],
-                    'allowedTariffs' => [
-                        'type'      => 'specific',
-                        'tariffIds' => [
+                    'use_limit'       => 10,
+                    'expire_at'       => '3000-01-01T12:00:00+0000',
+                    'usable'          => true,
+                    'used_in_orders'  => [],
+                    'allowed_tariffs' => [
+                        'type'       => 'specific',
+                        'tariff_ids' => [
                             $tariffId,
                         ]
                     ],
@@ -186,19 +186,19 @@ final class BuyProductTest extends TestCase
         ]);
 
         $orderId = $this->visitor->placeOrder([
-            'tariffId'  => $tariffId,
-            'firstName' => 'john',
-            'lastName'  => 'Doe',
-            'email'     => 'john@email.com',
-            'phone'     => '+123456789',
+            'tariff_id'  => $tariffId,
+            'first_name' => 'john',
+            'last_name'  => 'Doe',
+            'email'      => 'john@email.com',
+            'phone'      => '+123456789',
         ]);
         $this->visitor->awaitsForEmailWithTicket();
         $this->manager->seeOrderInList($eventId, [
             'data' => [ // TODO currency and sum is a money type
                 [
                     'id'        => $orderId,
-                    'eventId'   => $eventId,
-                    'tariffId'  => $tariffId,
+                    'event_id'  => $eventId,
+                    'tariff_id' => $tariffId,
                     'paid'      => false,
                     'sum'       => [
                         'amount'   => '200',
@@ -210,16 +210,16 @@ final class BuyProductTest extends TestCase
                         'currency' => 'RUB',
                     ],
                     'cancelled' => false,
-                    'userId'    => '@uuid@',
-                    'makedAt'   => '@string@.isDateTime()',
+                    'user_id'   => '@uuid@',
+                    'maked_at'  => '@string@.isDateTime()',
                 ],
             ]
         ]);
         $this->manager->seeOrderById($orderId, [
             'data' => [
                 'id'        => $orderId,
-                'eventId'   => $eventId,
-                'tariffId'  => $tariffId,
+                'event_id'  => $eventId,
+                'tariff_id' => $tariffId,
                 'paid'      => false,
                 'sum'       => [
                     'amount'   => '200',
@@ -231,22 +231,22 @@ final class BuyProductTest extends TestCase
                     'currency' => 'RUB',
                 ],
                 'cancelled' => false,
-                'userId'    => '@uuid@',
-                'makedAt'   => '@string@.isDateTime()',
+                'user_id'   => '@uuid@',
+                'maked_at'  => '@string@.isDateTime()',
             ]
         ]);
 
         $this->visitor->usePromocode([
-            'code'     => $promocode,
-            'orderId'  => $orderId,
-            'tariffId' => $tariffId,
+            'code'      => $promocode,
+            'order_id'  => $orderId,
+            'tariff_id' => $tariffId,
         ]);
         $this->manager->seeOrderInList($eventId, [
             'data' => [
                 [
                     'id'        => $orderId,
-                    'eventId'   => $eventId,
-                    'tariffId'  => $tariffId,
+                    'event_id'  => $eventId,
+                    'tariff_id' => $tariffId,
                     'paid'      => false,
                     'sum'       => [
                         'amount'   => '200',
@@ -261,16 +261,16 @@ final class BuyProductTest extends TestCase
                         'currency' => 'RUB',
                     ],
                     'cancelled' => false,
-                    'userId'    => '@uuid@',
-                    'makedAt'   => '@string@.isDateTime()',
+                    'user_id'   => '@uuid@',
+                    'maked_at'  => '@string@.isDateTime()',
                 ],
             ]
         ]);
         $this->manager->seeOrderById($orderId, [
             'data' => [
                 'id'        => $orderId,
-                'eventId'   => $eventId,
-                'tariffId'  => $tariffId,
+                'event_id'  => $eventId,
+                'tariff_id' => $tariffId,
                 'paid'      => false,
                 'sum'       => [
                     'amount'   => '200',
@@ -285,32 +285,32 @@ final class BuyProductTest extends TestCase
                     'currency' => 'RUB',
                 ],
                 'cancelled' => false,
-                'userId'    => '@uuid@',
-                'makedAt'   => '@string@.isDateTime()',
+                'user_id'   => '@uuid@',
+                'maked_at'  => '@string@.isDateTime()',
             ]
         ]);
         $this->manager->seeFixedPromocodeInList($eventId, [
             'data' => [
                 [
-                    'id'             => '@uuid@',
-                    'eventId'        => $eventId,
-                    'code'           => $promocode,
-                    'discount'       => [
+                    'id'              => '@uuid@',
+                    'event_id'        => $eventId,
+                    'code'            => $promocode,
+                    'discount'        => [
                         'amount' => [
                             'amount'   => '100',
                             'currency' => 'RUB',
                         ],
                         'type'   => 'fixed',
                     ],
-                    'useLimit'       => 10,
-                    'expireAt'       => '3000-01-01T12:00:00+0000',
-                    'usable'         => true,
-                    'usedInOrders'   => [
+                    'use_limit'       => 10,
+                    'expire_at'       => '3000-01-01T12:00:00+0000',
+                    'usable'          => true,
+                    'used_in_orders'  => [
                         $orderId,
                     ],
-                    'allowedTariffs' => [
-                        'type'      => 'specific',
-                        'tariffIds' => [
+                    'allowed_tariffs' => [
+                        'type'       => 'specific',
+                        'tariff_ids' => [
                             $tariffId,
                         ]
                     ],
@@ -319,8 +319,8 @@ final class BuyProductTest extends TestCase
         ]);
 
         $this->manager->markOrderPaid([
-            'orderId' => $orderId,
-            'eventId' => $eventId,
+            'order_id' => $orderId,
+            'event_id' => $eventId,
         ]);
         $this->visitor->receivesEmailWithTicket([
             'subject' => 'Thanks for buy ticket',
@@ -331,8 +331,8 @@ final class BuyProductTest extends TestCase
             'data' => [
                 [
                     'id'        => $orderId,
-                    'eventId'   => $eventId,
-                    'tariffId'  => $tariffId,
+                    'event_id'  => $eventId,
+                    'tariff_id' => $tariffId,
                     'paid'      => true,
                     'sum'       => [
                         'amount'   => '200',
@@ -347,16 +347,16 @@ final class BuyProductTest extends TestCase
                         'currency' => 'RUB',
                     ],
                     'cancelled' => false,
-                    'userId'    => '@uuid@',
-                    'makedAt'   => '@string@.isDateTime()',
+                    'user_id'   => '@uuid@',
+                    'maked_at'  => '@string@.isDateTime()',
                 ],
             ]
         ]);
         $this->manager->seeOrderById($orderId, [
             'data' => [
                 'id'        => $orderId,
-                'eventId'   => $eventId,
-                'tariffId'  => $tariffId,
+                'event_id'  => $eventId,
+                'tariff_id' => $tariffId,
                 'paid'      => true,
                 'sum'       => [
                     'amount'   => '200',
@@ -371,26 +371,26 @@ final class BuyProductTest extends TestCase
                     'currency' => 'RUB',
                 ],
                 'cancelled' => false,
-                'userId'    => '@uuid@',
-                'makedAt'   => '@string@.isDateTime()',
+                'user_id'   => '@uuid@',
+                'maked_at'  => '@string@.isDateTime()',
             ]
         ]);
         $ticketId = $this->manager->seeTicketInList($eventId, [
             'data' => [
                 [
-                    'id'        => '@uuid@',
-                    'eventId'   => $eventId,
-                    'number'    => '@string@',
-                    'createdAt' => '@string@.isDateTime()',
+                    'id'         => '@uuid@',
+                    'event_id'   => $eventId,
+                    'number'     => '@string@',
+                    'created_at' => '@string@.isDateTime()',
                 ]
             ]
         ]);
         $this->manager->seeTicketById($ticketId, [
             'data' => [
-                'id'        => $ticketId,
-                'eventId'   => $eventId,
-                'number'    => '@string@',
-                'createdAt' => '@string@.isDateTime()',
+                'id'         => $ticketId,
+                'event_id'   => $eventId,
+                'number'     => '@string@',
+                'created_at' => '@string@.isDateTime()',
             ]
         ]);
     }
@@ -424,8 +424,8 @@ final class BuyProductTest extends TestCase
         ]);
 
         $tariffId = $this->manager->createsTariff([
-            'eventId'     => $eventId,
-            'segments'    => [
+            'event_id'     => $eventId,
+            'segments'     => [
                 [
                     'price' => [
                         'amount'   => '200',
@@ -437,24 +437,24 @@ final class BuyProductTest extends TestCase
                     ],
                 ],
             ],
-            'productType' => 'ticket',
+            'product_type' => 'ticket',
         ]);
         $this->manager->createTariffDescription([
-            'id'         => $tariffId,
-            'tariffType' => 'silver_pass',
+            'id'          => $tariffId,
+            'tariff_type' => 'silver_pass',
         ]);
         $this->manager->seeTariffDescriptionById($tariffId, [
             'data' => [
-                'id'         => $tariffId,
-                'tariffType' => 'silver_pass',
+                'id'          => $tariffId,
+                'tariff_type' => 'silver_pass',
             ],
         ]);
         $this->manager->seeTariffInList($eventId, [
             'data' => [
                 [
-                    'id'          => $tariffId,
-                    'eventId'     => $eventId,
-                    'priceNet'    => [
+                    'id'           => $tariffId,
+                    'event_id'     => $eventId,
+                    'price_net'    => [
                         [
                             'price' => [
                                 'amount'   => '200',
@@ -466,15 +466,15 @@ final class BuyProductTest extends TestCase
                             ],
                         ],
                     ],
-                    'productType' => 'ticket',
+                    'product_type' => 'ticket',
                 ],
             ]
         ]);
         $this->manager->seeTariffById($tariffId, [
             'data' => [
-                'id'          => $tariffId,
-                'eventId'     => $eventId,
-                'priceNet'    => [
+                'id'           => $tariffId,
+                'event_id'     => $eventId,
+                'price_net'    => [
                     [
                         'price' => [
                             'amount'   => '200',
@@ -486,43 +486,43 @@ final class BuyProductTest extends TestCase
                         ],
                     ],
                 ],
-                'productType' => 'ticket',
+                'product_type' => 'ticket',
             ]
         ]);
 
         $promocode = 'FOO';
         $this->manager->createFixedPromocode([
-            'eventId'          => $eventId,
-            'code'             => $promocode,
-            'discount'         => [
+            'event_id'           => $eventId,
+            'code'               => $promocode,
+            'discount'           => [
                 'amount'   => '100',
                 'currency' => 'RUB',
             ],
-            'useLimit'         => 10,
-            'expireAt'         => '3000-01-01 12:00:00Z',
-            'usable'           => true,
-            'allowedTariffIds' => [$tariffId]
+            'use_limit'          => 10,
+            'expire_at'          => '3000-01-01 12:00:00Z',
+            'usable'             => true,
+            'allowed_tariff_ids' => [$tariffId]
         ]);
         $this->manager->seeFixedPromocodeInList($eventId, [
             'data' => [
                 [
-                    'id'             => '@uuid@',
-                    'eventId'        => $eventId,
-                    'code'           => $promocode,
-                    'discount'       => [
+                    'id'              => '@uuid@',
+                    'event_id'        => $eventId,
+                    'code'            => $promocode,
+                    'discount'        => [
                         'amount' => [
                             'amount'   => '100',
                             'currency' => 'RUB',
                         ],
                         'type'   => 'fixed',
                     ],
-                    'useLimit'       => 10,
-                    'expireAt'       => '3000-01-01T12:00:00+0000',
-                    'usable'         => true,
-                    'usedInOrders'   => [],
-                    'allowedTariffs' => [
-                        'type'      => 'specific',
-                        'tariffIds' => [
+                    'use_limit'       => 10,
+                    'expire_at'       => '3000-01-01T12:00:00+0000',
+                    'usable'          => true,
+                    'used_in_orders'  => [],
+                    'allowed_tariffs' => [
+                        'type'       => 'specific',
+                        'tariff_ids' => [
                             $tariffId,
                         ]
                     ],
@@ -531,18 +531,18 @@ final class BuyProductTest extends TestCase
         ]);
 
         $orderId = $this->visitor->placeOrder([
-            'tariffId'  => $tariffId,
-            'firstName' => 'john',
-            'lastName'  => 'Doe',
-            'email'     => 'john@email.com',
-            'phone'     => '+123456789',
+            'tariff_id'  => $tariffId,
+            'first_name' => 'john',
+            'last_name'  => 'Doe',
+            'email'      => 'john@email.com',
+            'phone'      => '+123456789',
         ]);
         $this->manager->seeOrderInList($eventId, [
             'data' => [
                 [
                     'id'        => $orderId,
-                    'eventId'   => $eventId,
-                    'tariffId'  => $tariffId,
+                    'event_id'  => $eventId,
+                    'tariff_id' => $tariffId,
                     'paid'      => false,
                     'sum'       => [
                         'amount'   => '200',
@@ -554,16 +554,16 @@ final class BuyProductTest extends TestCase
                         'currency' => 'RUB',
                     ],
                     'cancelled' => false,
-                    'userId'    => '@uuid@',
-                    'makedAt'   => '@string@.isDateTime()',
+                    'user_id'   => '@uuid@',
+                    'maked_at'  => '@string@.isDateTime()',
                 ],
             ]
         ]);
         $this->manager->seeOrderById($orderId, [
             'data' => [
                 'id'        => $orderId,
-                'eventId'   => $eventId,
-                'tariffId'  => $tariffId,
+                'event_id'  => $eventId,
+                'tariff_id' => $tariffId,
                 'paid'      => false,
                 'sum'       => [
                     'amount'   => '200',
@@ -575,22 +575,22 @@ final class BuyProductTest extends TestCase
                     'currency' => 'RUB',
                 ],
                 'cancelled' => false,
-                'userId'    => '@uuid@',
-                'makedAt'   => '@string@.isDateTime()',
+                'user_id'   => '@uuid@',
+                'maked_at'  => '@string@.isDateTime()',
             ]
         ]);
 
         $this->visitor->usePromocode([
-            'code'     => $promocode,
-            'orderId'  => $orderId,
-            'tariffId' => $tariffId,
+            'code'      => $promocode,
+            'order_id'  => $orderId,
+            'tariff_id' => $tariffId,
         ]);
         $this->manager->seeOrderInList($eventId, [
             'data' => [
                 [
                     'id'        => $orderId,
-                    'eventId'   => $eventId,
-                    'tariffId'  => $tariffId,
+                    'event_id'  => $eventId,
+                    'tariff_id' => $tariffId,
                     'paid'      => false,
                     'sum'       => [
                         'amount'   => '200',
@@ -605,16 +605,16 @@ final class BuyProductTest extends TestCase
                         'currency' => 'RUB',
                     ],
                     'cancelled' => false,
-                    'userId'    => '@uuid@',
-                    'makedAt'   => '@string@.isDateTime()',
+                    'user_id'   => '@uuid@',
+                    'maked_at'  => '@string@.isDateTime()',
                 ],
             ]
         ]);
         $this->manager->seeOrderById($orderId, [
             'data' => [
                 'id'        => $orderId,
-                'eventId'   => $eventId,
-                'tariffId'  => $tariffId,
+                'event_id'  => $eventId,
+                'tariff_id' => $tariffId,
                 'paid'      => false,
                 'sum'       => [
                     'amount'   => '200',
@@ -629,32 +629,32 @@ final class BuyProductTest extends TestCase
                     'currency' => 'RUB',
                 ],
                 'cancelled' => false,
-                'userId'    => '@uuid@',
-                'makedAt'   => '@string@.isDateTime()',
+                'user_id'   => '@uuid@',
+                'maked_at'  => '@string@.isDateTime()',
             ]
         ]);
         $this->manager->seeFixedPromocodeInList($eventId, [
             'data' => [
                 [
-                    'id'             => '@uuid@',
-                    'eventId'        => $eventId,
-                    'code'           => $promocode,
-                    'discount'       => [
+                    'id'              => '@uuid@',
+                    'event_id'        => $eventId,
+                    'code'            => $promocode,
+                    'discount'        => [
                         'amount' => [
                             'amount'   => '100',
                             'currency' => 'RUB',
                         ],
                         'type'   => 'fixed',
                     ],
-                    'useLimit'       => 10,
-                    'expireAt'       => '3000-01-01T12:00:00+0000',
-                    'usable'         => true,
-                    'usedInOrders'   => [
+                    'use_limit'       => 10,
+                    'expire_at'       => '3000-01-01T12:00:00+0000',
+                    'usable'          => true,
+                    'used_in_orders'  => [
                         $orderId,
                     ],
-                    'allowedTariffs' => [
-                        'type'      => 'specific',
-                        'tariffIds' => [
+                    'allowed_tariffs' => [
+                        'type'       => 'specific',
+                        'tariff_ids' => [
                             $tariffId,
                         ]
                     ],
@@ -663,11 +663,11 @@ final class BuyProductTest extends TestCase
         ]);
 
         $this->visitor->payOrderByCard([
-            'orderId' => $orderId,
+            'order_id' => $orderId,
         ]);
         $this->visitor->awaitsForEmailWithTicket();
         $this->fondy->orderPaid([
-            'orderId' => $orderId,
+            'order_id' => $orderId,
         ]);
         $this->visitor->receivesEmailWithTicket([
             'subject' => 'Thanks for buy ticket',
@@ -679,8 +679,8 @@ final class BuyProductTest extends TestCase
             'data' => [
                 [
                     'id'        => $orderId,
-                    'eventId'   => $eventId,
-                    'tariffId'  => $tariffId,
+                    'event_id'  => $eventId,
+                    'tariff_id' => $tariffId,
                     'paid'      => true,
                     'sum'       => [
                         'amount'   => '200',
@@ -695,16 +695,16 @@ final class BuyProductTest extends TestCase
                         'currency' => 'RUB',
                     ],
                     'cancelled' => false,
-                    'userId'    => '@uuid@',
-                    'makedAt'   => '@string@.isDateTime()',
+                    'user_id'   => '@uuid@',
+                    'maked_at'  => '@string@.isDateTime()',
                 ],
             ]
         ]);
         $this->manager->seeOrderById($orderId, [
             'data' => [
                 'id'        => $orderId,
-                'eventId'   => $eventId,
-                'tariffId'  => $tariffId,
+                'event_id'  => $eventId,
+                'tariff_id' => $tariffId,
                 'paid'      => true,
                 'sum'       => [
                     'amount'   => '200',
@@ -719,26 +719,26 @@ final class BuyProductTest extends TestCase
                     'currency' => 'RUB',
                 ],
                 'cancelled' => false,
-                'userId'    => '@uuid@',
-                'makedAt'   => '@string@.isDateTime()',
+                'user_id'   => '@uuid@',
+                'maked_at'  => '@string@.isDateTime()',
             ]
         ]);
         $ticketId = $this->manager->seeTicketInList($eventId, [
             'data' => [
                 [
-                    'id'        => '@uuid@',
-                    'eventId'   => $eventId,
-                    'number'    => '@string@',
-                    'createdAt' => '@string@.isDateTime()',
+                    'id'         => '@uuid@',
+                    'event_id'   => $eventId,
+                    'number'     => '@string@',
+                    'created_at' => '@string@.isDateTime()',
                 ]
             ]
         ]);
         $this->manager->seeTicketById($ticketId, [
             'data' => [
-                'id'        => $ticketId,
-                'eventId'   => $eventId,
-                'number'    => '@string@',
-                'createdAt' => '@string@.isDateTime()',
+                'id'         => $ticketId,
+                'event_id'   => $eventId,
+                'number'     => '@string@',
+                'created_at' => '@string@.isDateTime()',
             ]
         ]);
     }

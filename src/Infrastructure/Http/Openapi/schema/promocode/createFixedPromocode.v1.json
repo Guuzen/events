@@ -3,7 +3,7 @@
   "type": "object",
   "description": "",
   "properties": {
-    "eventId": {
+    "event_id": {
       "type": "string",
       "format": "uuid"
     },
@@ -13,31 +13,31 @@
     "discount": {
       "$ref": "../money.v1.json"
     },
-    "useLimit": {
+    "use_limit": {
       "type": "number"
     },
     "usable": {
       "type": "boolean"
     },
-    "allowedTariffIds": {
+    "allowed_tariff_ids": {
       "type": "array",
       "items": {
         "type": "string",
         "format": "uuid"
       }
     },
-    "expireAt": {
+    "expire_at": {
       "type": "string",
       "format": "date-time"
     }
   },
   "required": [
-    "eventId",
+    "event_id",
     "code",
     "discount",
-    "useLimit",
+    "use_limit",
     "usable",
-    "allowedTariffIds",
-    "expireAt"
+    "allowed_tariff_ids",
+    "expire_at"
   ]
 }
