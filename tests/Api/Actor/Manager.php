@@ -122,7 +122,7 @@ final class Manager
     public function seeTicketById(string $ticketId, array $ticket): void
     {
         $response = $this->client->get('/admin/ticket/show', [
-            'ticketId' => $ticketId,
+            'ticket_id' => $ticketId,
         ]);
         $this->assertResultMatchesPattern($response, $ticket);
     }

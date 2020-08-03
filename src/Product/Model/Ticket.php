@@ -39,7 +39,7 @@ final class Ticket
     private $number;
 
     /**
-     * @ORM\Column(type="datetime_immutable")
+     * @ORM\Column(type="datetimetz_immutable")
      */
     private $createdAt;
 

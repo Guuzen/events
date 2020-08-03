@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Tariff\Query\FindTariffById;
 
 use App\Infrastructure\Http\AppController\AppController;
-use App\Tariff\ViewModel\Tariff;
 use Doctrine\DBAL\Connection;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -26,7 +25,10 @@ final class FindTariffByIdHttpAdapter extends AppController
     {
         $stmt = $this->connection->prepare('
             select
-                row_to_json(tariff) as json
+                json_build_object(
+                    \'data\',
+                    row_to_json(tariff)
+                ) as json
             from (
                 select
                     *
@@ -45,8 +47,6 @@ final class FindTariffByIdHttpAdapter extends AppController
             return $this->response(new TariffByIdNotFound());
         }
 
-        $tariff = $this->deserializeToViewModel($tariffData['json'], Tariff::class);
-
-        return $this->response($tariff);
+        return $this->toJsonResponse($tariffData['json']);
     }
 }

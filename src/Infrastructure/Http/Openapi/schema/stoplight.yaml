@@ -366,7 +366,7 @@ paths:
             type: string
             format: uuid
           in: query
-          name: ticketId
+          name: ticket_id
           required: true
       description: shows one ticket
   /order/payByCard:

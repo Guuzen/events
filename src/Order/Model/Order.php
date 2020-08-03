@@ -74,7 +74,7 @@ class Order extends Entity
     private $total;
 
     /**
-     * @ORM\Column(type="datetime_immutable")
+     * @ORM\Column(type="datetimetz_immutable")
      */
     private $makedAt;
 

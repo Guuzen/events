@@ -53,7 +53,7 @@ class Promocode extends Entity
     private $useLimit;
 
     /**
-     * @ORM\Column(type="datetime_immutable")
+     * @ORM\Column(type="datetimetz_immutable")
      */
     private $expireAt;
 

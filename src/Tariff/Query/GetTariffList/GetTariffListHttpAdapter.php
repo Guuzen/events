@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Tariff\Query\GetTariffList;
 
 use App\Infrastructure\Http\AppController\AppController;
-use App\Tariff\ViewModel\TariffList;
 use Doctrine\DBAL\Connection;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -27,7 +26,7 @@ final class GetTariffListHttpAdapter extends AppController
         $stmt = $this->connection->prepare('
             select
                 json_build_object(
-                    \'tariffs\', json_agg(tariff)
+                    \'data\', json_agg(tariff)
                 ) as json
             from (
                 select
@@ -43,8 +42,6 @@ final class GetTariffListHttpAdapter extends AppController
         /** @psalm-var array{json: string} $tariffsData */
         $tariffsData = $stmt->fetchAll()[0];
 
-        $tariffs = $this->deserializeToViewModel($tariffsData['json'], TariffList::class);
-
-        return $this->response($tariffs);
+        return $this->toJsonResponse($tariffsData['json']);
     }
 }

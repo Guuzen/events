@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Promocode\Query\GetPromocodeList;
 
 use App\Infrastructure\Http\AppController\AppController;
-use App\Promocode\ViewModel\PromocodeList;
 use Doctrine\DBAL\Connection;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -28,7 +27,7 @@ final class GetPromocodeListHttpAdapter extends AppController
         $stmt = $this->connection->prepare('
             select
                 json_build_object(
-                    \'promocodes\', json_agg(promocodes)
+                    \'data\', json_agg(promocodes)
                 ) as json
             from (                
                 select
@@ -45,8 +44,6 @@ final class GetPromocodeListHttpAdapter extends AppController
         /** @psalm-var array{json: string} $promocodesData */
         $promocodesData = $stmt->fetchAll()[0];
 
-        $promocodeList = $this->deserializeToViewModel($promocodesData['json'], PromocodeList::class);
-
-        return $this->response($promocodeList);
+        return $this->toJsonResponse($promocodesData['json']);
     }
 }

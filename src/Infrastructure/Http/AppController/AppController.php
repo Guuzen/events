@@ -53,6 +53,11 @@ abstract class AppController
         return $viewModel;
     }
 
+    protected function toJsonResponse(string $json): Response
+    {
+        return new JsonResponse($json, 200, [], true);
+    }
+
     /**
      * @param mixed $data
      */

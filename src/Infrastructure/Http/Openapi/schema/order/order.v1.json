@@ -22,10 +22,22 @@
     },
     "discount": {
       "nullable": true,
-      "anyOf": [
-        {
-          "$ref": "../money.v1.json"
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "amount": {
+          "anyOf": [
+            {
+              "$ref": "../money.v1.json"
+            }
+          ]
         }
+      },
+      "required": [
+        "type",
+        "amount"
       ]
     },
     "cancelled": {

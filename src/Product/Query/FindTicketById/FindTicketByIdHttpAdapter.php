@@ -25,24 +25,28 @@ final class FindTicketByIdHttpAdapter extends AppController
     {
         $stmt = $this->connection->prepare('
             select
-                ticket.id as id,
-                ticket.event_id as "event_id",
-                ticket.created_at as "created_at",
-                ticket.number
-            from
-                ticket
-            where
-                ticket.id = :ticket_id
+                json_build_object(
+                    \'data\',
+                    row_to_json(ticket)                    
+                ) as json
+            from (
+                select
+                    *
+                from
+                    ticket
+                where
+                    ticket.id = :ticket_id
+            ) as ticket
         ');
         $stmt->bindValue('ticket_id', $request->ticketId);
         $stmt->execute();
 
-        /** @psalm-var array|false */
-        $ticket = $stmt->fetch();
-        if (false === $ticket) {
+        /** @psalm-var array{json: string}|false $ticketData */
+        $ticketData = $stmt->fetch();
+        if (false === $ticketData) {
             return $this->response(new TicketByIdNotFound());
         }
 
-        return $this->response($ticket);
+        return $this->toJsonResponse($ticketData['json']);
     }
 }

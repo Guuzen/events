@@ -25,20 +25,25 @@ final class GetTicketListHttpAdapter extends AppController
     {
         $stmt = $this->connection->prepare('
             select
-                ticket.id as id,
-                ticket.event_id as "event_id",
-                ticket.created_at as "created_at",
-                ticket.number
-            from
-                ticket
-            where
-                ticket.event_id = :event_id
+                json_build_object(
+                    \'data\',
+                    json_agg(ticket)
+                ) as json
+            from (
+                select
+                    *
+                from
+                    ticket
+                where
+                    ticket.event_id = :event_id                 
+            ) as ticket
         ');
         $stmt->bindValue('event_id', $request->eventId);
         $stmt->execute();
 
-        $tickets = $stmt->fetchAll();
+        /** @psalm-var array{json: string} $ticketData */
+        $ticketData = $stmt->fetchAll()[0];
 
-        return $this->response($tickets);
+        return $this->toJsonResponse($ticketData['json']);
     }
 }
