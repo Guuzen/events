@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2db8a4b60b82b6b7542bd6ba6910c28d",
+    "content-hash": "f3851f5cf7db48e9398a8c1cb7cb926b",
     "packages": [
         {
             "name": "cardinity/cardinity-sdk-php",
@@ -2030,16 +2030,16 @@
         },
         {
             "name": "league/openapi-psr7-validator",
-            "version": "0.9",
+            "version": "0.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/openapi-psr7-validator.git",
-                "reference": "ac49e52407b92ceb52ab1a57083a51db8e8de660"
+                "reference": "2284946869e4a6868e04d7781f5e869d2848c373"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/openapi-psr7-validator/zipball/ac49e52407b92ceb52ab1a57083a51db8e8de660",
-                "reference": "ac49e52407b92ceb52ab1a57083a51db8e8de660",
+                "url": "https://api.github.com/repos/thephpleague/openapi-psr7-validator/zipball/2284946869e4a6868e04d7781f5e869d2848c373",
+                "reference": "2284946869e4a6868e04d7781f5e869d2848c373",
                 "shasum": ""
             },
             "require": {
@@ -2050,7 +2050,7 @@
                 "psr/cache": "^1.0",
                 "psr/http-message": "^1.0",
                 "psr/http-server-middleware": "^1.0",
-                "respect/validation": "^1.1",
+                "respect/validation": "^1.1.3",
                 "riverline/multipart-parser": "^2.0.3",
                 "webmozart/assert": "^1.4"
             },
@@ -2078,7 +2078,7 @@
                 "psr7",
                 "validation"
             ],
-            "time": "2020-06-12T10:28:04+00:00"
+            "time": "2020-08-10T14:26:37+00:00"
         },
         {
             "name": "moneyphp/money",
