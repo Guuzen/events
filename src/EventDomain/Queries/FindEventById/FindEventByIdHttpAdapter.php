@@ -19,7 +19,7 @@ final class FindEventByIdHttpAdapter extends AppController
     }
 
     /**
-     * @Route("/admin/eventDomain/show")
+     * @Route("/admin/eventDomain/{event_id}", methods={"GET"})
      */
     public function __invoke(FindEventByIdRequest $request): Response
     {

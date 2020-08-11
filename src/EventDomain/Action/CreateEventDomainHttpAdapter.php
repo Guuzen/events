@@ -20,7 +20,7 @@ final class CreateEventDomainHttpAdapter extends AppController
     }
 
     /**
-     * @Route("/admin/eventDomain/create")
+     * @Route("/admin/eventDomain", methods={"POST"})
      */
     public function __invoke(EventDomain $eventDomain): Response
     {

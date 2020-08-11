@@ -36,7 +36,7 @@ final class Manager
 
     public function createsEventDomain(array $createEvent): void
     {
-        $response = $this->client->post('/admin/eventDomain/create', $createEvent);
+        $response = $this->client->post('/admin/eventDomain', $createEvent);
         $this->assertResultMatchesPattern($response, [
             'data' => [],
         ]);
@@ -44,15 +44,13 @@ final class Manager
 
     public function seeEventInList(array $events): void
     {
-        $response = $this->client->get('/admin/eventDomain/list', []);
+        $response = $this->client->get('/admin/eventDomain', []);
         $this->assertResultMatchesPattern($response, $events);
     }
 
     public function seeEventById(string $eventId, array $event): void
     {
-        $response = $this->client->get('/admin/eventDomain/show', [
-            'event_id' => $eventId,
-        ]);
+        $response = $this->client->get("/admin/eventDomain/$eventId", []);
         $this->assertResultMatchesPattern($response, $event);
     }
 

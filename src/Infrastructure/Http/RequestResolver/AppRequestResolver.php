@@ -41,7 +41,9 @@ final class AppRequestResolver implements ArgumentValueResolverInterface
         }
 
         if (Request::METHOD_GET === $request->getMethod()) {
-            $params = $request->query->all();
+            $routeParams = $request->attributes->get('_route_params');
+            $queryParams = $request->query->all();
+            $params = \array_merge($queryParams, $routeParams);
             /** @var AppRequest $appRequest */
             $appRequest = $this->serializer->denormalize($params, $argumentType);
             $this->validate($request);

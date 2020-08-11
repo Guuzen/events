@@ -19,7 +19,7 @@ final class GetEventListHttpAdapter extends AppController
     }
 
     /**
-     * @Route("/admin/eventDomain/list")
+     * @Route("/admin/eventDomain", methods={"GET"})
      */
     public function getEventList(): Response
     {
