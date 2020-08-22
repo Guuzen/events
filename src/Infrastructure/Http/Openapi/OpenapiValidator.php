@@ -6,8 +6,7 @@ namespace App\Infrastructure\Http\Openapi;
 
 use App\Infrastructure\Http\RequestResolver\InvalidAppRequest;
 use League\OpenAPIValidation\PSR7\Exception\ValidationFailed;
-use League\OpenAPIValidation\PSR7\OperationAddress;
-use League\OpenAPIValidation\PSR7\RoutedServerRequestValidator;
+use League\OpenAPIValidation\PSR7\ValidatorBuilder;
 use League\OpenAPIValidation\Schema\BreadCrumb;
 use League\OpenAPIValidation\Schema\Exception\SchemaMismatch;
 use Psr\Http\Message\ServerRequestInterface;
@@ -25,12 +24,13 @@ final class OpenapiValidator
 
     public function validate(ServerRequestInterface $request): void
     {
-        /** @var string $requestMethod */
-        $requestMethod    = mb_strtolower($request->getMethod());
-        $validator        = new RoutedServerRequestValidator($this->openapiSchema->asCebeOpenapi());
-        $operationAddress = new OperationAddress($request->getUri()->getPath(), $requestMethod);
+        $validatorBuilder = new ValidatorBuilder();
+        $validator        = $validatorBuilder
+            ->fromSchema($this->openapiSchema->asCebeOpenapi())
+            ->getServerRequestValidator();
+
         try {
-            $validator->validate($operationAddress, $request);
+            $validator->validate($request);
         } catch (ValidationFailed $validationFailed) {
             $previosException = $validationFailed->getPrevious();
             if ($previosException instanceof SchemaMismatch) {

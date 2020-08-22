@@ -124,6 +124,7 @@ paths:
           type: string
           format: uuid
         name: event_id
+        required: true
         in: path
         description: ''
   /admin/tariff/create:
