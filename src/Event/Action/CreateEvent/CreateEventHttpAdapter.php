@@ -20,7 +20,7 @@ final class CreateEventHttpAdapter extends AppController
     }
 
     /**
-     * @Route("/admin/event/create", methods={"POST"})
+     * @Route("/admin/event", methods={"POST"})
      */
     public function __invoke(): Response
     {

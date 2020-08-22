@@ -21,7 +21,7 @@ tags:
   - name: tariff
   - name: ticket
 paths:
-  /admin/event/create:
+  /admin/event:
     post:
       summary: Create event
       tags:
@@ -48,6 +48,7 @@ paths:
             schema:
               $ref: ./event/createEvent.v1.json
         description: New event do not need any data
+    parameters: []
   /admin/eventDomain:
     post:
       summary: Create event domain

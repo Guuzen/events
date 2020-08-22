@@ -26,7 +26,7 @@ final class Manager
 
     public function createsEvent(): string
     {
-        $response = $this->client->post('/admin/event/create', []);
+        $response = $this->client->post('/admin/event', []);
         $this->assertResultMatchesPattern($response, [
             'data' => '@uuid@',
         ]);
