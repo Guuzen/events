@@ -127,7 +127,35 @@ paths:
         required: true
         in: path
         description: ''
-  /admin/tariff/create:
+  /admin/tariff:
+    get:
+      summary: tariff list
+      tags:
+        - tariff
+        - admin
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: ./tariff/tariff.v1.json
+                required:
+                  - data
+      operationId: get-admin-tariff-list
+      parameters:
+        - schema:
+            type: string
+            format: uuid
+          in: query
+          name: event_id
+          required: true
+      description: get tariff list
     post:
       summary: Create tariff
       operationId: post-admin-tariff-create
@@ -175,36 +203,7 @@ paths:
           name: tariff_id
           required: true
       description: shows tariff details
-  /admin/tariff/list:
-    get:
-      summary: tariff list
-      tags:
-        - tariff
-        - admin
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      $ref: ./tariff/tariff.v1.json
-                required:
-                  - data
-      operationId: get-admin-tariff-list
-      parameters:
-        - schema:
-            type: string
-            format: uuid
-          in: query
-          name: event_id
-          required: true
-      description: get tariff list
-  /admin/tariff/show:
+  '/admin/tariff/{tariff_id}':
     get:
       summary: one tariff
       tags:
@@ -223,14 +222,15 @@ paths:
                 required:
                   - data
       operationId: get-admin-tariff-show
-      parameters:
-        - schema:
-            type: string
-            format: uuid
-          in: query
-          name: tariff_id
-          required: true
+      parameters: []
       description: shows tariff
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: tariff_id
+        in: path
+        required: true
   /order/place:
     post:
       summary: place order

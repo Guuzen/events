@@ -57,7 +57,7 @@ final class Manager
 
     public function createsTariff(array $createTariff): string
     {
-        $response = $this->client->post('/admin/tariff/create', $createTariff);
+        $response = $this->client->post('/admin/tariff', $createTariff);
         $this->assertResultMatchesPattern($response, [
             'data' => '@uuid@',
         ]);
@@ -67,7 +67,7 @@ final class Manager
 
     public function seeTariffInList(string $eventId, array $tariffs): void
     {
-        $response = $this->client->get('/admin/tariff/list', [
+        $response = $this->client->get('/admin/tariff', [
             'event_id' => $eventId,
         ]);
         $this->assertResultMatchesPattern($response, $tariffs);
@@ -89,7 +89,7 @@ final class Manager
 
     public function seeTariffById(string $tariffId, array $tariff): void
     {
-        $response = $this->client->get('/admin/tariff/show', [
+        $response = $this->client->get("/admin/tariff/$tariffId", [
             'tariff_id' => $tariffId,
         ]);
         $this->assertResultMatchesPattern($response, $tariff);

@@ -20,7 +20,7 @@ final class CreateTariffHttpAdapter extends AppController
     }
 
     /**
-     * @Route("/admin/tariff/create")
+     * @Route("/admin/tariff", methods={"POST"})
      */
     public function create(CreateTariffRequest $request): Response
     {

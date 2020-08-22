@@ -19,7 +19,7 @@ final class GetTariffListHttpAdapter extends AppController
     }
 
     /**
-     * @Route("/admin/tariff/list", methods={"GET"})
+     * @Route("/admin/tariff", methods={"GET"})
      */
     public function __invoke(GetTariffListRequest $request): Response
     {
