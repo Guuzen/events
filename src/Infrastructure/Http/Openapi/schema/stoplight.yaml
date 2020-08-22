@@ -177,7 +177,7 @@ paths:
       tags:
         - tariff
         - admin
-  /admin/tariffDescription/show:
+  '/admin/tariffDescription/{tariff_id}':
     get:
       summary: show tariff description
       tags:
@@ -196,14 +196,15 @@ paths:
                 required:
                   - data
       operationId: get-admin-tariffDescription-show
-      parameters:
-        - schema:
-            type: string
-            format: uuid
-          in: query
-          name: tariff_id
-          required: true
+      parameters: []
       description: shows tariff details
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: tariff_id
+        in: path
+        required: true
   '/admin/tariff/{tariff_id}':
     get:
       summary: one tariff
@@ -528,7 +529,7 @@ paths:
       description: use promocode on specific order
       tags:
         - promocode
-  /admin/tariffDescription/create:
+  /admin/tariffDescription:
     post:
       summary: create tariff description
       operationId: post-admin-tariffDescription-create
@@ -548,6 +549,7 @@ paths:
           application/json:
             schema:
               $ref: ./tariffDescription/tariffDescription.v1.json
+    parameters: []
 components:
   schemas: {}
   securitySchemes: {}
