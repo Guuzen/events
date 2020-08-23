@@ -19,7 +19,7 @@ final class FindTariffByIdHttpAdapter extends AppController
     }
 
     /**
-     * @Route("/admin/tariff/{tairff_id}", methods={"GET"})
+     * @Route("/admin/tariff/{tariff_id}", methods={"GET"})
      */
     public function __invoke(FindTariffByIdRequest $request): Response
     {

@@ -20,7 +20,7 @@ final class MarkOrderPaidHttpAdapter extends AppController
     }
 
     /**
-     * @Route("/admin/order/markPaid", methods={"POST"})
+     * @Route("/admin/order/{order_id}/markPaid", methods={"POST"})
      */
     public function markOrderPaid(MarkOrderPaidRequest $markOrderPaidRequest): Response
     {

@@ -22,7 +22,7 @@ final class GetOrderListHttpAdapter extends AppController
     }
 
     /**
-     * @Route("/admin/order/list")
+     * @Route("/admin/order", methods={"GET"})
      */
     public function __invoke(GetOrderListRequest $request): Response
     {

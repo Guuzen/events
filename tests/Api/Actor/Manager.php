@@ -81,17 +81,13 @@ final class Manager
 
     public function seeTariffDescriptionById(string $tariffId, array $tariffDescription): void
     {
-        $response = $this->client->get("/admin/tariffDescription/$tariffId", [
-            'tariff_id' => $tariffId,
-        ]);
+        $response = $this->client->get("/admin/tariffDescription/$tariffId", []);
         $this->assertResultMatchesPattern($response, $tariffDescription);
     }
 
     public function seeTariffById(string $tariffId, array $tariff): void
     {
-        $response = $this->client->get("/admin/tariff/$tariffId", [
-            'tariff_id' => $tariffId,
-        ]);
+        $response = $this->client->get("/admin/tariff/$tariffId", []);
         $this->assertResultMatchesPattern($response, $tariff);
     }
 
@@ -127,7 +123,7 @@ final class Manager
 
     public function seeOrderInList(string $eventId, array $orders): void
     {
-        $response = $this->client->get('/admin/order/list', [
+        $response = $this->client->get('/admin/order', [
             'event_id' => $eventId,
         ]);
         $this->assertResultMatchesPattern($response, $orders);
@@ -135,15 +131,13 @@ final class Manager
 
     public function seeOrderById(string $orderId, array $order): void
     {
-        $response = $this->client->get('/admin/order/show', [
-            'order_id' => $orderId,
-        ]);
+        $response = $this->client->get("/admin/order/$orderId", []);
         $this->assertResultMatchesPattern($response, $order);
     }
 
-    public function markOrderPaid(array $markOrderPaid): void
+    public function markOrderPaid(string $orderId, array $markOrderPaid): void
     {
-        $response = $this->client->post('/admin/order/markPaid', $markOrderPaid);
+        $response = $this->client->post("/admin/order/$orderId/markPaid", $markOrderPaid);
         $this->assertResultMatchesPattern($response, ['data' => []]);
     }
 

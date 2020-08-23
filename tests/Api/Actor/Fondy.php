@@ -24,9 +24,9 @@ final class Fondy
         ]);
     }
 
-    public function orderPaid(array $markPaidByFondy): void
+    public function orderPaid(string $orderId): void
     {
-        $response = $this->client->post('/order/markPaidByFondy', $markPaidByFondy);
+        $response = $this->client->post("/order/$orderId/markPaidByFondy", []);
         $this->assertResultMatchesPattern($response, ['data' => []]);
     }
 }

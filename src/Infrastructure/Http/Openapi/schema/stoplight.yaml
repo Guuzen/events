@@ -253,7 +253,7 @@ paths:
           application/json:
             schema:
               $ref: ./order/placeOrder.v1.json
-  /admin/order/list:
+  /admin/order:
     get:
       summary: order list
       tags:
@@ -282,7 +282,8 @@ paths:
           name: event_id
           required: true
       description: shows order list
-  /admin/order/show:
+    parameters: []
+  '/admin/order/{order_id}':
     get:
       summary: one order
       tags:
@@ -301,15 +302,16 @@ paths:
                 required:
                   - data
       operationId: get-admin-order-show
-      parameters:
-        - schema:
-            type: string
-            format: uuid
-          in: query
-          name: order_id
-          required: true
+      parameters: []
       description: shows one order
-  /admin/order/markPaid:
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: order_id
+        in: path
+        required: true
+  '/admin/order/{order_id}/markPaid':
     post:
       summary: mark paid
       operationId: post-order-markPaid
@@ -326,20 +328,22 @@ paths:
             schema:
               type: object
               properties:
-                order_id:
-                  type: string
-                  format: uuid
                 event_id:
                   type: string
                   format: uuid
               required:
-                - order_id
                 - event_id
       description: marks paid specific order
       tags:
         - order
         - admin
-    parameters: []
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: order_id
+        in: path
+        required: true
   /admin/ticket/list:
     get:
       summary: ticket list
@@ -392,7 +396,7 @@ paths:
           name: ticket_id
           required: true
       description: shows one ticket
-  /order/payByCard:
+  '/order/{order_id}/payByCard':
     post:
       summary: pay by card
       operationId: post-order-payByCard
@@ -413,16 +417,17 @@ paths:
           application/json:
             schema:
               type: object
-              properties:
-                order_id:
-                  type: string
-                  format: uuid
-              required:
-                - order_id
       description: starts payment by bank card
       tags:
         - order
-  /order/markPaidByFondy:
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: order_id
+        in: path
+        required: true
+  '/order/{order_id}/markPaidByFondy':
     post:
       summary: mark paid by fondy
       operationId: post-order-markPaidByFondy
@@ -439,17 +444,18 @@ paths:
             schema:
               type: object
               format: uuid
-              properties:
-                order_id:
-                  type: string
-                  format: uuid
-              required:
-                - order_id
         description: fondy marks payment as paid
       description: fondy confirms that specific order was paid
       tags:
         - fondy
         - order
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: order_id
+        in: path
+        required: true
   /admin/promocode/createTariff:
     post:
       summary: create promocode for tariffs

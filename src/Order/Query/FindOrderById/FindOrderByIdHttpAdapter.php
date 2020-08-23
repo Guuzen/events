@@ -19,7 +19,7 @@ final class FindOrderByIdHttpAdapter extends AppController
     }
 
     /**
-     * @Route("/admin/order/show")
+     * @Route("/admin/order/{order_id}", methods={"GET"})
      */
     public function __invoke(FindOrderByIdRequest $request): Response
     {

@@ -52,9 +52,9 @@ final class Visitor
         ]);
     }
 
-    public function payOrderByCard(array $payOrderByCard): string
+    public function payOrderByCard(string $orderId): string
     {
-        $response = $this->client->post('/order/payByCard', $payOrderByCard);
+        $response = $this->client->post("/order/$orderId/payByCard", []);
         $this->assertResultMatchesPattern($response, [
             'data' => '@string@',
         ]);

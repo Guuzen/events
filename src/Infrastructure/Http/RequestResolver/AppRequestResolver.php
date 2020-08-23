@@ -40,20 +40,22 @@ final class AppRequestResolver implements ArgumentValueResolverInterface
             throw new Exception();
         }
 
+        $this->validate($request);
+
+        /** @var array $routeParams */
+        $routeParams = $request->attributes->get('_route_params');
         if (Request::METHOD_GET === $request->getMethod()) {
-            /** @var array $routeParams */
-            $routeParams = $request->attributes->get('_route_params');
-            $queryParams = $request->query->all();
-            $params      = \array_merge($queryParams, $routeParams);
-            /** @var AppRequest $appRequest */
-            $appRequest = $this->serializer->denormalize($params, $argumentType);
-            $this->validate($request);
+            $requestParams = $request->query->all();
         } else {
+            /** @var string $requestContent */
             $requestContent = $request->getContent();
-            $this->validate($request);
-            /** @var AppRequest $appRequest */
-            $appRequest = $this->serializer->deserialize($requestContent, $argumentType, 'json');
+            /** @var array $requestParams */
+            $requestParams = $this->serializer->decode($requestContent, 'json');
         }
+
+        $params = \array_merge($requestParams, $routeParams);
+        /** @var AppRequest $appRequest */
+        $appRequest = $this->serializer->denormalize($params, $argumentType);
 
         yield $appRequest;
     }

@@ -328,8 +328,7 @@ final class BuyProductTest extends TestCase
             ]
         ]);
 
-        $this->manager->markOrderPaid([
-            'order_id' => $orderId,
+        $this->manager->markOrderPaid($orderId, [
             'event_id' => $eventId,
         ]);
         $this->visitor->receivesEmailWithTicket([
@@ -692,13 +691,9 @@ final class BuyProductTest extends TestCase
             ]
         ]);
 
-        $this->visitor->payOrderByCard([
-            'order_id' => $orderId,
-        ]);
+        $this->visitor->payOrderByCard($orderId);
         $this->visitor->awaitsForEmailWithTicket();
-        $this->fondy->orderPaid([
-            'order_id' => $orderId,
-        ]);
+        $this->fondy->orderPaid($orderId);
         $this->visitor->receivesEmailWithTicket([
             'subject' => 'Thanks for buy ticket',
             'from'    => ['no-reply@event.com' => null],
