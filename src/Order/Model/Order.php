@@ -133,10 +133,7 @@ class Order extends Entity
         return null;
     }
 
-    /**
-     * @return string|CantGetPaymentUrl
-     */
-    public function createFondyPayment(Fondy $fondy)
+    public function createFondyPayment(Fondy $fondy): string
     {
         return $fondy->checkoutUrl($this->sum, $this->id);
     }

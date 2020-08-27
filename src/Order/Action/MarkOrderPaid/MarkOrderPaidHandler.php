@@ -16,10 +16,7 @@ final class MarkOrderPaidHandler
 
     public function markOrderPaid(MarkOrderPaid $command): ?Error
     {
-        $order = $this->orders->findById($command->orderId, $command->eventId);
-        if ($order instanceof Error) {
-            return $order;
-        }
+        $order = $this->orders->getById($command->orderId, $command->eventId);
 
         $markPaidError = $order->markPaid();
         if ($markPaidError instanceof Error) {

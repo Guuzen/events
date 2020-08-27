@@ -3,7 +3,7 @@
 namespace App\Order\Model;
 
 use App\Event\Model\EventId;
-use App\Order\Model\Error\OrderNotFound;
+use App\Order\Model\Exception\LoadOrderFailed;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -14,10 +14,7 @@ final class Orders extends ServiceEntityRepository
         parent::__construct($registry, Order::class);
     }
 
-    /**
-     * @return Order|OrderNotFound
-     */
-    public function findById(OrderId $orderId, EventId $eventId)
+    public function getById(OrderId $orderId, EventId $eventId): Order
     {
         $query = $this->_em->createQuery('
             select
@@ -32,10 +29,11 @@ final class Orders extends ServiceEntityRepository
         $query->setParameter('order_id', $orderId);
         $query->setParameter('event_id', $eventId);
 
-        /** @var Order|null */
-        $order = $query->getOneOrNullResult();
-        if (null === $order) {
-            return new OrderNotFound();
+        try {
+            /** @var Order */
+            $order = $query->getSingleResult();
+        } catch (\Throwable $exception) {
+            throw new LoadOrderFailed('', 0, $exception);
         }
 
         return $order;

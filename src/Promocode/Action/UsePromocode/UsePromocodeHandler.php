@@ -29,11 +29,6 @@ final class UsePromocodeHandler
             return $promocode;
         }
 
-        $order = $this->orders->findById($command->orderId, $command->eventId);
-        if ($order instanceof Error) {
-            return $order;
-        }
-
         $promocode->use($command->orderId, $command->tariffId, new DateTimeImmutable());
 
         return null;

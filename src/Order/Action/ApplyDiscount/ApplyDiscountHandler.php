@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Order\Action\ApplyDiscount;
 
-use App\Common\Error;
 use App\Order\Model\Orders;
 
 final class ApplyDiscountHandler
@@ -16,15 +15,10 @@ final class ApplyDiscountHandler
         $this->orders = $orders;
     }
 
-    public function handle(ApplyDiscount $command): ?Error
+    public function handle(ApplyDiscount $command): void
     {
-        $order = $this->orders->findById($command->orderId, $command->eventId);
-        if ($order instanceof Error) {
-            return $order;
-        }
+        $order = $this->orders->getById($command->orderId, $command->eventId);
 
         $order->applyDiscount($command->discount);
-
-        return null;
     }
 }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Order\Action\PayByCard;
 
-use App\Common\Error;
 use App\Fondy\Fondy;
 use App\Order\Model\Orders;
 
@@ -20,15 +19,9 @@ final class PayByCardHandler
         $this->fondy  = $fondy;
     }
 
-    /**
-     * @return string|Error
-     */
-    public function payByCard(PayByCard $payByCard)
+    public function payByCard(PayByCard $payByCard): string
     {
-        $order = $this->orders->findById($payByCard->orderId, $payByCard->eventId);
-        if ($order instanceof Error) {
-            return $order;
-        }
+        $order = $this->orders->getById($payByCard->orderId, $payByCard->eventId);
 
         return $order->createFondyPayment($this->fondy);
     }

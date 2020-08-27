@@ -18,10 +18,7 @@ final class MarkOrderPaidByFondyHandler
 
     public function handle(MarkOrderPaidByFondy $markOrderPaidByFondy): ?Error
     {
-        $order = $this->orders->findById($markOrderPaidByFondy->orderId, $markOrderPaidByFondy->eventId);
-        if ($order instanceof Error) {
-            return $order;
-        }
+        $order = $this->orders->getById($markOrderPaidByFondy->orderId, $markOrderPaidByFondy->eventId);
 
         $markPaidError = $order->markPaid();
         if ($markPaidError instanceof Error) {

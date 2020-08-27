@@ -77,17 +77,6 @@ class OrderSpec extends ObjectBehavior
         $this->createFondyPayment($fondyGateway)->shouldReturn($paymentUrl);
     }
 
-    public function it_cant_create_fondy_payment_when_fondy_cant_get_payment_url(Fondy $fondy)
-    {
-        $error = new CantGetPaymentUrl();
-        $fondy->beADoubleOf(Fondy::class);
-        $fondy
-            ->checkoutUrl(Argument::cetera())
-            ->willReturn($error);
-
-        $this->createFondyPayment($fondy)->shouldReturn($error);
-    }
-
     public function it_should_not_be_possible_to_apply_discount_twice_on_order(): void
     {
         $anyDiscount = new FixedDiscount(new Money('1', new Currency('RUB')));
