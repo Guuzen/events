@@ -2,7 +2,6 @@
 
 namespace App\Promocode\Action\CreateTariffPromocode;
 
-use App\Common\Error;
 use App\Event\Model\Events;
 use App\Promocode\Model\PromocodeId;
 use App\Promocode\Model\Promocodes;
@@ -19,17 +18,11 @@ final class CreateTariffPromocodeHandler
         $this->events            = $events;
     }
 
-    /**
-     * @return PromocodeId|Error
-     */
-    public function handle(CreateTariffPromocode $command)
+    public function handle(CreateTariffPromocode $command): PromocodeId
     {
         $promocodeId = PromocodeId::new();
 
         $event = $this->events->findById($command->eventId);
-        if ($event instanceof Error) {
-            return $event;
-        }
 
         $promocode = $event->createTariffPromocode(
             $promocodeId,

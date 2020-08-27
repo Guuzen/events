@@ -22,15 +22,9 @@ final class CreateTicketHandler
         $this->tickets = $tickets;
     }
 
-    /**
-     * @return TicketId|Error
-     */
-    public function createTicket(CreateTicket $createTicket)
+    public function createTicket(CreateTicket $createTicket): TicketId
     {
         $event = $this->events->findById($createTicket->eventId);
-        if ($event instanceof Error) {
-            return $event;
-        }
 
         $ticketId = TicketId::new();
         $ticket   = $event->createTicket(

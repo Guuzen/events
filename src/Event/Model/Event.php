@@ -44,7 +44,7 @@ final class Event
     }
 
     /**
-     * @return Order|Error
+     * @return Order
      */
     public function makeOrder(
         OrderId $orderId,

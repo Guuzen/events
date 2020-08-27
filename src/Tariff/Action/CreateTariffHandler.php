@@ -2,8 +2,6 @@
 
 namespace App\Tariff\Action;
 
-use App\Common\Error;
-use App\Event\Model\Error\EventNotFound;
 use App\Event\Model\Events;
 use App\Tariff\Model\TariffId;
 use App\Tariff\Model\Tariffs;
@@ -20,17 +18,11 @@ final class CreateTariffHandler
         $this->events  = $events;
     }
 
-    /**
-     * @return TariffId|EventNotFound
-     */
-    public function createTariff(CreateTariff $command)
+    public function createTariff(CreateTariff $command): TariffId
     {
         $tariffId = TariffId::new();
 
         $event = $this->events->findById($command->eventId);
-        if ($event instanceof Error) {
-            return $event;
-        }
 
         $tariff = $event->createTariff(
             $tariffId,

@@ -73,15 +73,14 @@ final class OrderSubscriber implements EventSubscriberInterface
             return; // TODO saga ?
         }
 
-        $ticketId = $this->createTicketHandler->createTicket(
-            new CreateTicket($orderMarkedPaid->eventId, $orderMarkedPaid->orderId, new DateTimeImmutable('now'))
-        );
-
-        // TODO move to exceptions
-        if ($ticketId instanceof Error) {
+        try {
+            $ticketId = $this->createTicketHandler->createTicket(
+                new CreateTicket($orderMarkedPaid->eventId, $orderMarkedPaid->orderId, new DateTimeImmutable('now'))
+            );
+        } catch (\Throwable $exception) {
             $this->logger->error('create ticket failed', [
-                'orderId' => $orderMarkedPaid->orderId,
-                'error'   => get_class($ticketId),
+                'orderId'   => $orderMarkedPaid->orderId,
+                'exception' => $exception,
             ]);
 
             return;

@@ -36,9 +36,6 @@ final class PlaceOrderHandler
         $orderDate = new \DateTimeImmutable();
 
         $event = $this->events->findById($placeOrder->eventId);
-        if ($event instanceof Error) {
-            return $event;
-        }
 
         $tariff = $this->tariffs->findById($placeOrder->tariffId, $placeOrder->eventId);
         if ($tariff instanceof Error) {
@@ -59,9 +56,6 @@ final class PlaceOrderHandler
             $sum,
             $orderDate
         );
-        if ($order instanceof Error) {
-            return $order;
-        }
 
         $this->orders->add($order);
 

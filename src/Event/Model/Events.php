@@ -2,7 +2,7 @@
 
 namespace App\Event\Model;
 
-use App\Event\Model\Error\EventNotFound;
+use App\Event\Model\Exception\LoadEventFailed;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -13,10 +13,7 @@ final class Events extends ServiceEntityRepository
         parent::__construct($registry, Event::class);
     }
 
-    /**
-     * @return Event|EventNotFound
-     */
-    public function findById(EventId $eventId)
+    public function findById(EventId $eventId): Event
     {
         $query = $this->_em->createQuery('
             select
@@ -28,10 +25,11 @@ final class Events extends ServiceEntityRepository
         ');
         $query->setParameter('id', $eventId);
 
-        /** @var Event|null */
-        $event = $query->getOneOrNullResult();
-        if (null === $event) {
-            return new EventNotFound();
+        try {
+            /** @var Event */
+            $event = $query->getSingleResult();
+        } catch (\Throwable $exception) {
+            throw new LoadEventFailed('', 0, $exception);
         }
 
         return $event;
