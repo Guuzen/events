@@ -48,7 +48,8 @@ final class InlineNormalizer extends WithoutConstructorPropertyNormalizer
     public function normalize($object, $format = null, array $context = [])
     {
         /** @psalm-suppress PossiblyNullReference */
-        $typeMetadata    = $this->classMetadataFactory->getMetadataFor($object);
+        $typeMetadata = $this->classMetadataFactory->getMetadataFor($object);
+        /** @psalm-suppress InternalMethod */
         $reflectionClass = $typeMetadata->getReflectionClass();
         $properties      = $reflectionClass->getProperties();
         if (\count($properties) > 1) {
@@ -70,7 +71,8 @@ final class InlineNormalizer extends WithoutConstructorPropertyNormalizer
         }
 
         /** @psalm-suppress PossiblyNullReference */
-        $typeMetadata    = $this->classMetadataFactory->getMetadataFor($data);
+        $typeMetadata = $this->classMetadataFactory->getMetadataFor($data);
+        /** @psalm-suppress InternalMethod */
         $reflectionClass = $typeMetadata->getReflectionClass();
 
         /** @var InlineDenormalizable|null $annotation */
@@ -87,7 +89,8 @@ final class InlineNormalizer extends WithoutConstructorPropertyNormalizer
     public function denormalize($data, $type, $format = null, array $context = [])
     {
         /** @psalm-suppress PossiblyNullReference */
-        $typeMetadata    = $this->classMetadataFactory->getMetadataFor($type);
+        $typeMetadata = $this->classMetadataFactory->getMetadataFor($type);
+        /** @psalm-suppress InternalMethod */
         $reflectionClass = $typeMetadata->getReflectionClass();
         $properties      = $reflectionClass->getProperties();
 
@@ -108,7 +111,8 @@ final class InlineNormalizer extends WithoutConstructorPropertyNormalizer
     public function supportsDenormalization($data, $type, $format = null): bool
     {
         /** @psalm-suppress PossiblyNullReference */
-        $typeMetadata    = $this->classMetadataFactory->getMetadataFor($type);
+        $typeMetadata = $this->classMetadataFactory->getMetadataFor($type);
+        /** @psalm-suppress InternalMethod */
         $reflectionClass = $typeMetadata->getReflectionClass();
 
         /** @var InlineDenormalizable|null $annotation */
