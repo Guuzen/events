@@ -28,7 +28,7 @@ final class TicketSending
         $this->from   = $from;
     }
 
-    public function send(TicketEmail $ticketEmail): ?Error
+    public function send(TicketEmail $ticketEmail): void
     {
         $email = (new Swift_Message())
             ->setSubject('Thanks for buy ticket')
@@ -38,9 +38,7 @@ final class TicketSending
 
         $sent = $this->mailer->send($email);
         if (0 === $sent) {
-            return new TicketNotSent();
+            throw new TicketNotSent('');
         }
-
-        return null;
     }
 }

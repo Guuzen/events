@@ -2,8 +2,8 @@
 
 namespace App\Product\Action\SendTicket\TicketSending;
 
-use App\Common\Error;
+use App\Infrastructure\AppException\AppException;
 
-final class TicketNotSent extends Error
+final class TicketNotSent extends AppException
 {
 }

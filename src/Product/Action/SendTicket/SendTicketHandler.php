@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Product\Action\SendTicket;
 
-use App\Common\Error;
 use App\Product\Action\SendTicket\FindTicketEmail\FindTicketEmail;
 use App\Product\Action\SendTicket\TicketSending\TicketSending;
 
@@ -20,18 +19,10 @@ final class SendTicketHandler
         $this->findTicketEmail = $findTicketEmail;
     }
 
-    public function handle(SendTicket $sendTicket): ?Error
+    public function handle(SendTicket $sendTicket): void
     {
         $ticketEmail = $this->findTicketEmail->find($sendTicket->ticketId);
-        if ($ticketEmail instanceof Error) {
-            return $ticketEmail;
-        }
 
-        $error = $this->ticketDelivery->send($ticketEmail);
-        if ($error instanceof Error) {
-            return $error;
-        }
-
-        return null;
+        $this->ticketDelivery->send($ticketEmail);
     }
 }

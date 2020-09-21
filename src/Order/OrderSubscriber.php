@@ -2,7 +2,6 @@
 
 namespace App\Order;
 
-use App\Common\Error;
 use App\Order\Action\ApplyDiscount\ApplyDiscount;
 use App\Order\Action\ApplyDiscount\ApplyDiscountHandler;
 use App\Order\Model\OrderMarkedPaid;
@@ -16,7 +15,6 @@ use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use function get_class;
 
 final class OrderSubscriber implements EventSubscriberInterface
 {
@@ -67,6 +65,7 @@ final class OrderSubscriber implements EventSubscriberInterface
         $this->em->flush();
     }
 
+    // TODO messages should be retried on fails or atleast logged symfony messenger ?
     public function onOrderMarkedPaid(OrderMarkedPaid $orderMarkedPaid): void
     {
         if ($orderMarkedPaid->productType->equals(ProductType::ticket()) === false) {
@@ -88,14 +87,15 @@ final class OrderSubscriber implements EventSubscriberInterface
 
         $this->em->flush();
 
-
-        $error = $this->sendTicketHandler->handle(new SendTicket($ticketId));
-
-        if ($error instanceof Error) {
+        try {
+            $this->sendTicketHandler->handle(new SendTicket($ticketId));
+        } catch (\Throwable $exception) {
             $this->logger->error('send ticket failed', [
-                'orderId' => $orderMarkedPaid->orderId,
-                'error'   => get_class($error),
+                'orderId'   => $orderMarkedPaid->orderId,
+                'exception' => $exception,
             ]);
+
+            return;
         }
 
         $this->em->flush();

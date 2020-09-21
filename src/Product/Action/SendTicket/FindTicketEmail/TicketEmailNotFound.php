@@ -2,8 +2,8 @@
 
 namespace App\Product\Action\SendTicket\FindTicketEmail;
 
-use App\Common\Error;
+use App\Infrastructure\AppException\AppException;
 
-final class TicketEmailNotFound extends Error
+final class TicketEmailNotFound extends AppException
 {
 }

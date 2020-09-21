@@ -3,7 +3,7 @@
 namespace App\Product\Model;
 
 use App\Event\Model\EventId;
-use App\Product\Model\Error\TicketNotFound;
+use App\Product\Model\Exception\TicketNotFound;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -14,10 +14,7 @@ final class Tickets extends ServiceEntityRepository
         parent::__construct($registry, Ticket::class);
     }
 
-    /**
-     * @return Ticket|TicketNotFound
-     */
-    public function findById(TicketId $ticketId, EventId $eventId)
+    public function findById(TicketId $ticketId, EventId $eventId): Ticket
     {
         $query = $this->_em->createQuery('
             select
@@ -32,10 +29,11 @@ final class Tickets extends ServiceEntityRepository
         $query->setParameter('ticket_id', $ticketId);
         $query->setParameter('event_id', $eventId);
 
-        /** @var Ticket|null */
-        $ticket = $query->getOneOrNullResult();
-        if ($ticket === null) {
-            return new TicketNotFound();
+        try {
+            /** @var Ticket $ticket */
+            $ticket = $query->getSingleResult();
+        } catch (\Throwable $exception) {
+            throw new TicketNotFound('', 0, $exception);
         }
 
         return $ticket;

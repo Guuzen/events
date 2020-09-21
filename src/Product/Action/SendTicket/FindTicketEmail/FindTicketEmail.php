@@ -15,10 +15,7 @@ final class FindTicketEmail
         $this->connection = $connection;
     }
 
-    /**
-     * @return TicketEmail|TicketEmailNotFound
-     */
-    public function find(TicketId $ticketId)
+    public function find(TicketId $ticketId): TicketEmail
     {
         $stmt = $this->connection->prepare('
             select
@@ -39,7 +36,7 @@ final class FindTicketEmail
         $result = $stmt->fetch();
 
         if (false === $result) {
-            return new TicketEmailNotFound();
+            throw new TicketEmailNotFound('');
         }
 
         return new TicketEmail($result['email'], $result['number']);

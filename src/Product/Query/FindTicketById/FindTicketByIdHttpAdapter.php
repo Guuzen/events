@@ -44,7 +44,7 @@ final class FindTicketByIdHttpAdapter extends AppController
         /** @psalm-var array{json: string}|false $ticketData */
         $ticketData = $stmt->fetch();
         if (false === $ticketData) {
-            return $this->response(new TicketByIdNotFound());
+            throw new TicketByIdNotFound('');
         }
 
         return $this->toJsonResponse($ticketData['json']);

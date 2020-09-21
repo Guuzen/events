@@ -2,8 +2,8 @@
 
 namespace App\Product\Query\FindTicketById;
 
-use App\Common\Error;
+use App\Infrastructure\AppException\AppException;
 
-final class TicketByIdNotFound extends Error
+final class TicketByIdNotFound extends AppException
 {
 }
