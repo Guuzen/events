@@ -14,15 +14,10 @@ final class MarkOrderPaidHandler
         $this->orders = $orders;
     }
 
-    public function markOrderPaid(MarkOrderPaid $command): ?Error
+    public function markOrderPaid(MarkOrderPaid $command): void
     {
         $order = $this->orders->getById($command->orderId, $command->eventId);
 
-        $markPaidError = $order->markPaid();
-        if ($markPaidError instanceof Error) {
-            return $markPaidError;
-        }
-
-        return null;
+        $order->markPaid();
     }
 }

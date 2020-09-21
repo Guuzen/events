@@ -6,8 +6,8 @@ use App\Event\Model\EventId;
 use App\Fondy\CantGetPaymentUrl;
 use App\Fondy\Fondy;
 use App\Infrastructure\DomainEvent\Entity;
-use App\Order\Model\Error\OrderAlreadyPaid;
 use App\Order\Model\Exception\NotPossibleToApplyDiscountTwiceOnOrder;
+use App\Order\Model\Exception\OrderAlreadyPaid;
 use App\Order\Model\Exception\OrderCancelled;
 use App\Promocode\Model\Discount\Discount;
 use App\Tariff\Model\ProductType;
@@ -113,7 +113,7 @@ class Order extends Entity
     public function cancel(): void
     {
         if ($this->cancelled) {
-            throw new OrderCancelled();
+            throw new OrderCancelled('');
         }
 
         $this->cancelled = true;
@@ -121,16 +121,14 @@ class Order extends Entity
     }
 
     // TODO rename pay/confirm payment ?
-    public function markPaid(): ?OrderAlreadyPaid
+    public function markPaid(): void
     {
         if ($this->paid) {
-            return new OrderAlreadyPaid();
+            throw new OrderAlreadyPaid('');
         }
         $this->paid = true;
 
         $this->rememberThat(new OrderMarkedPaid($this->eventId, $this->productType, $this->id));
-
-        return null;
     }
 
     public function createFondyPayment(Fondy $fondy): string
@@ -141,7 +139,7 @@ class Order extends Entity
     public function applyDiscount(Discount $discount): void
     {
         if ($this->discount !== null) {
-            throw new NotPossibleToApplyDiscountTwiceOnOrder();
+            throw new NotPossibleToApplyDiscountTwiceOnOrder('');
         }
 
         $this->discount = $discount;

@@ -5,8 +5,8 @@ namespace spec\App\Order\Model;
 use App\Event\Model\EventId;
 use App\Fondy\CantGetPaymentUrl;
 use App\Fondy\Fondy;
-use App\Order\Model\Error\OrderAlreadyPaid;
 use App\Order\Model\Exception\NotPossibleToApplyDiscountTwiceOnOrder;
+use App\Order\Model\Exception\OrderAlreadyPaid;
 use App\Order\Model\OrderId;
 use App\Promocode\Model\Discount\FixedDiscount;
 use App\Tariff\Model\ProductType;
@@ -16,7 +16,6 @@ use DateTimeImmutable;
 use Money\Currency;
 use Money\Money;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class OrderSpec extends ObjectBehavior
 {
@@ -54,15 +53,10 @@ class OrderSpec extends ObjectBehavior
         );
     }
 
-    public function it_should_be_possible_to_mark_paid()
-    {
-        $this->markPaid()->shouldReturn(null);
-    }
-
     public function it_should_not_be_possible_to_mark_paid_if_already_paid()
     {
         $this->markPaid();
-        $this->markPaid()->shouldReturnAnInstanceOf(OrderAlreadyPaid::class);
+        $this->shouldThrow(OrderAlreadyPaid::class)->during('markPaid');
     }
 
     public function it_can_create_fondy_payment(Fondy $fondyGateway)

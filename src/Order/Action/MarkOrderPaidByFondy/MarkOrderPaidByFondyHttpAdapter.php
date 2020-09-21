@@ -27,10 +27,10 @@ final class MarkOrderPaidByFondyHttpAdapter extends AppController
      */
     public function markOrdePaidByFondy(MarkOrderPaidByFondyRequest $markOrderPaidByFondyRequest, EventId $eventId): Response
     {
-        $result = $this->handler->handle($markOrderPaidByFondyRequest->toMarkOrderPaidByFondy($eventId));
+        $this->handler->handle($markOrderPaidByFondyRequest->toMarkOrderPaidByFondy($eventId));
 
         $this->em->flush();
 
-        return $this->response($result);
+        return $this->response([]);
     }
 }

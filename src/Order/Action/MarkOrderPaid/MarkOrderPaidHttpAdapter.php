@@ -24,10 +24,10 @@ final class MarkOrderPaidHttpAdapter extends AppController
      */
     public function markOrderPaid(MarkOrderPaidRequest $markOrderPaidRequest): Response
     {
-        $result = $this->orderHandler->markOrderPaid($markOrderPaidRequest->createMarkOrderPaid());
+        $this->orderHandler->markOrderPaid($markOrderPaidRequest->createMarkOrderPaid());
 
         $this->em->flush();
 
-        return $this->response($result);
+        return $this->response([]);
     }
 }
