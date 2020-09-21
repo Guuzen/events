@@ -2,8 +2,8 @@
 
 namespace App\EventDomain\Queries\FindEventById;
 
-use App\Common\Error;
+use App\Infrastructure\AppException\AppException;
 
-final class EventNotFound extends Error
+final class EventNotFound extends AppException
 {
 }

@@ -2,7 +2,6 @@
 
 namespace App\Event\Model;
 
-use App\Common\Error;
 use App\Order\Model\Order;
 use App\Order\Model\OrderId;
 use App\Product\Model\Ticket;

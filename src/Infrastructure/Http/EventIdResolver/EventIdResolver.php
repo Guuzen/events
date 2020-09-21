@@ -36,9 +36,6 @@ final class EventIdResolver implements ArgumentValueResolverInterface
     public function resolve(Request $request, ArgumentMetadata $argument): Generator
     {
         $eventId = ($this->findEventIdByDomain)($request->getHost());
-        if ($eventId instanceof Error) {
-            throw new \RuntimeException(); // TODO remove errors and make exceptions great again ?
-        }
 
         /** @psalm-suppress MixedArgument */
         yield new EventId($eventId);

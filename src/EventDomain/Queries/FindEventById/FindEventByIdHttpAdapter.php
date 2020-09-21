@@ -37,7 +37,7 @@ final class FindEventByIdHttpAdapter extends AppController
         /** @var array|false */
         $event = $stmt->fetch();
         if (false === $event) {
-            return $this->response(new EventNotFound());
+            throw new EventNotFound('');
         }
 
         return $this->response($event);

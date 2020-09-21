@@ -2,8 +2,9 @@
 
 namespace App\EventDomain\Queries\FindEventIdByDomain;
 
-use App\Common\Error;
+use App\Infrastructure\AppException\AppException;
 
-final class EventIdByDomainNotFound extends Error
+// TODO check all runtime exceptions maybe they must extends from AppException
+final class EventIdByDomainNotFound extends AppException
 {
 }
