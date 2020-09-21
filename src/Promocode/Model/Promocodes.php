@@ -3,7 +3,7 @@
 namespace App\Promocode\Model;
 
 use App\Event\Model\EventId;
-use App\Promocode\Model\Error\PromocodeNotFound;
+use App\Promocode\Model\Exception\PromocodeNotFound;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -14,10 +14,7 @@ final class Promocodes extends ServiceEntityRepository
         parent::__construct($registry, Promocode::class);
     }
 
-    /**
-     * @return Promocode|PromocodeNotFound
-     */
-    public function findById(PromocodeId $promocodeId, EventId $eventId)
+    public function findById(PromocodeId $promocodeId, EventId $eventId): Promocode
     {
         $query = $this->_em->createQuery('
             select
@@ -32,19 +29,17 @@ final class Promocodes extends ServiceEntityRepository
         $query->setParameter('promocode_id', $promocodeId);
         $query->setParameter('event_id', $eventId);
 
-        /** @var Promocode|null */
-        $promocode = $query->getOneOrNullResult();
-        if (null === $promocode) {
-            return new PromocodeNotFound();
+        try {
+            /** @var Promocode $promocode */
+            $promocode = $query->getOneOrNullResult();
+        } catch (\Throwable $exception) {
+            throw new PromocodeNotFound('', 0, $exception);
         }
 
         return $promocode;
     }
 
-    /**
-     * @return Promocode|PromocodeNotFound
-     */
-    public function findByCode(string $code, EventId $eventId)
+    public function findByCode(string $code, EventId $eventId): Promocode
     {
         $query = $this->_em->createQuery('
             select
@@ -59,10 +54,11 @@ final class Promocodes extends ServiceEntityRepository
         $query->setParameter('code', $code);
         $query->setParameter('event_id', $eventId);
 
-        /** @var Promocode|null */
-        $promocode = $query->getOneOrNullResult();
-        if (null === $promocode) {
-            return new PromocodeNotFound();
+        try {
+            /** @var Promocode $promocode */
+            $promocode = $query->getSingleResult();
+        } catch (\Throwable $exception) {
+            throw new PromocodeNotFound('', 0, $exception);
         }
 
         return $promocode;

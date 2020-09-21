@@ -2,8 +2,8 @@
 
 namespace App\Promocode\Model\Exception;
 
-use Exception;
+use App\Infrastructure\AppException\AppException;
 
-final class PromocodeUseLimitExceeded extends Exception
+final class PromocodeUseLimitExceeded extends AppException
 {
 }

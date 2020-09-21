@@ -7,11 +7,11 @@ use App\Infrastructure\DomainEvent\Entity;
 use App\Order\Model\OrderId;
 use App\Promocode\Model\AllowedTariffs\AllowedTariffs;
 use App\Promocode\Model\Discount\Discount;
+use App\Promocode\Model\Exception\PromocodeExpired;
 use App\Promocode\Model\Exception\PromocodeNotAllowedForTariff;
 use App\Promocode\Model\Exception\PromocodeNotUsable;
 use App\Promocode\Model\Exception\PromocodeNotUsedInOrder;
 use App\Promocode\Model\Exception\PromocodeUseLimitExceeded;
-use App\Tariff\Model\Exception\PromocodeExpired;
 use App\Tariff\Model\TariffId;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
@@ -102,19 +102,19 @@ class Promocode extends Entity
     public function use(OrderId $orderId, TariffId $tariffId, DateTimeImmutable $asOf): void
     {
         if (!$this->usable) {
-            throw new PromocodeNotUsable();
+            throw new PromocodeNotUsable('');
         }
 
         if ($this->useLimitExceeded()) {
-            throw new PromocodeUseLimitExceeded();
+            throw new PromocodeUseLimitExceeded('');
         }
 
         if ($this->expired($asOf)) {
-            throw new PromocodeExpired();
+            throw new PromocodeExpired('');
         }
 
         if (!$this->allowedTariffs->contains($tariffId)) {
-            throw new PromocodeNotAllowedForTariff();
+            throw new PromocodeNotAllowedForTariff('');
         }
 
         $this->usedInOrders = $this->usedInOrders->add($orderId);
@@ -141,7 +141,7 @@ class Promocode extends Entity
     public function cancel(OrderId $orderId): void
     {
         if (!$this->usedInOrders($orderId)) {
-            throw new PromocodeNotUsedInOrder();
+            throw new PromocodeNotUsedInOrder('');
         }
 
         $this->usedInOrders = $this->usedInOrders->remove($orderId);
