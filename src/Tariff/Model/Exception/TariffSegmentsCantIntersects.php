@@ -2,8 +2,8 @@
 
 namespace App\Tariff\Model\Exception;
 
-use Exception;
+use App\Infrastructure\AppException\AppException;
 
-final class TariffSegmentsCantIntersects extends Exception
+final class TariffSegmentsCantIntersects extends AppException
 {
 }

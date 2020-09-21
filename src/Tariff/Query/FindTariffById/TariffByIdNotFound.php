@@ -2,8 +2,8 @@
 
 namespace App\Tariff\Query\FindTariffById;
 
-use App\Common\Error;
+use App\Infrastructure\AppException\AppException;
 
-final class TariffByIdNotFound extends Error
+final class TariffByIdNotFound extends AppException
 {
 }

@@ -2,13 +2,12 @@
 
 namespace App\Tariff\Model;
 
-use App\Common\Error;
 use App\Infrastructure\InlineNormalizer\InlineDenormalizable;
 use App\Infrastructure\InlineNormalizer\InlineNormalizable;
 use App\Infrastructure\Persistence\DBALTypes\JsonDocumentType;
 use App\Infrastructure\Persistence\DBALTypesInitializer\CustomTypeAnnotation as DBALType;
 use App\Promocode\Model\Discount\Discount;
-use App\Tariff\Model\Error\TariffSegmentNotFound;
+use App\Tariff\Model\Exception\TariffSegmentNotFound;
 use App\Tariff\Model\Exception\TariffSegmentsCantIntersects;
 use DateTimeImmutable;
 use Exception;
@@ -41,23 +40,14 @@ final class TariffPriceNet
         $this->segments = $segments;
     }
 
-    /**
-     * @return Money|TariffSegmentNotFound
-     */
-    public function calculateSum(Discount $discount, DateTimeImmutable $asOf)
+    public function calculateSum(Discount $discount, DateTimeImmutable $asOf): Money
     {
         $segment = $this->findSegmentAsOF($asOf);
-        if ($segment instanceof Error) {
-            return $segment;
-        }
 
         return $segment->calculateSum($discount);
     }
 
-    /**
-     * @return TariffSegment|TariffSegmentNotFound
-     */
-    private function findSegmentAsOF(DateTimeImmutable $asOf)
+    private function findSegmentAsOF(DateTimeImmutable $asOf): TariffSegment
     {
         foreach ($this->segments as $segment) {
             if ($segment->includes($asOf)) {
@@ -65,7 +55,7 @@ final class TariffPriceNet
             }
         }
 
-        return new TariffSegmentNotFound();
+        throw new TariffSegmentNotFound('');
     }
 
     /**
@@ -80,7 +70,7 @@ final class TariffPriceNet
                 }
 
                 if ($outerSegment->intersects($innerSegment)) {
-                    throw new TariffSegmentsCantIntersects();
+                    throw new TariffSegmentsCantIntersects('');
                 }
             }
         }

@@ -3,7 +3,7 @@
 namespace App\Tariff\Model;
 
 use App\Event\Model\EventId;
-use App\Tariff\Model\Error\TariffNotFound;
+use App\Tariff\Model\Exception\TariffNotFound;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -14,10 +14,7 @@ final class Tariffs extends ServiceEntityRepository
         parent::__construct($registry, Tariff::class);
     }
 
-    /**
-     * @return Tariff|TariffNotFound
-     */
-    public function findById(TariffId $tariffId, EventId $eventId)
+    public function findById(TariffId $tariffId, EventId $eventId): Tariff
     {
         $query = $this->_em->createQuery('
             select
@@ -32,10 +29,11 @@ final class Tariffs extends ServiceEntityRepository
         $query->setParameter('tariff_id', $tariffId);
         $query->setParameter('event_id', $eventId);
 
-        /** @var Tariff|null */
-        $tariff = $query->getOneOrNullResult();
-        if (null === $tariff) {
-            return new TariffNotFound();
+        try {
+            /** @var Tariff $tariff */
+            $tariff = $query->getSingleResult();
+        } catch (\Throwable $exception) {
+            throw new TariffNotFound('', 0, $exception);
         }
 
         return $tariff;

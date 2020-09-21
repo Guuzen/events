@@ -23,7 +23,7 @@ final class TariffTerm
     public function __construct(DateTimeImmutable $start, DateTimeImmutable $end)
     {
         if ($start > $end) {
-            throw new TariffTermMustStartBeforeEnd();
+            throw new TariffTermMustStartBeforeEnd('');
         }
         $this->start = $start;
         $this->end   = $end;

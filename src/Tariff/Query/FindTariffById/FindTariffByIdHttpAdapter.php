@@ -44,7 +44,7 @@ final class FindTariffByIdHttpAdapter extends AppController
         /** @psalm-var array{json: string}|false */
         $tariffData = $stmt->fetch();
         if (false === $tariffData) {
-            return $this->response(new TariffByIdNotFound());
+            throw new TariffByIdNotFound('');
         }
 
         return $this->toJsonResponse($tariffData['json']);

@@ -2,12 +2,10 @@
 
 namespace App\Tariff\Model;
 
-use App\Common\Error;
 use App\Event\Model\EventId;
 use App\Order\Model\Order;
 use App\Order\Model\OrderId;
 use App\Promocode\Model\Discount\Discount;
-use App\Tariff\Model\Error\TariffSegmentNotFound;
 use App\User\Model\UserId;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
@@ -48,24 +46,18 @@ class Tariff
         $this->productType = $productType;
     }
 
-    /**
-     * @return Money|TariffSegmentNotFound
-     */
-    public function calculateSum(Discount $discount, DateTimeImmutable $asOf) // TODO remove discount ?
+    public function calculateSum(Discount $discount, DateTimeImmutable $asOf): Money // TODO remove discount ?
     {
         return $this->priceNet->calculateSum($discount, $asOf);
     }
 
-    /**
-     * @return Order
-     */
     public function makeOrder(
         OrderId $orderId,
         EventId $eventId,
         UserId $userId,
         Money $sum,
         DateTimeImmutable $asOf
-    )
+    ): Order
     {
         return new Order($orderId, $eventId, $this->productType, $this->id, $userId, $sum, $asOf);
     }

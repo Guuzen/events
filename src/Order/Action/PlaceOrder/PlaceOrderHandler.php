@@ -38,15 +38,9 @@ final class PlaceOrderHandler
         $event = $this->events->findById($placeOrder->eventId);
 
         $tariff = $this->tariffs->findById($placeOrder->tariffId, $placeOrder->eventId);
-        if ($tariff instanceof Error) {
-            return $tariff;
-        }
 
         $discount = new FixedDiscount(new Money(0, new Currency('RUB')));
         $sum      = $tariff->calculateSum($discount, $orderDate); // TODO doouble dispatch
-        if ($sum instanceof Error) {
-            return $sum;
-        }
 
         $orderId = OrderId::new();
         $order   = $event->makeOrder(
