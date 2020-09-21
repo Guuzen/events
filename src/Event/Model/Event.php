@@ -42,16 +42,13 @@ final class Event
         return new Ticket($ticketId, $this->id, $orderId, $number, $asOf);
     }
 
-    /**
-     * @return Order
-     */
     public function makeOrder(
         OrderId $orderId,
         Tariff $tariff,
         UserId $userId,
         Money $sum,
         DateTimeImmutable $asOf
-    )
+    ): Order
     {
         return $tariff->makeOrder($orderId, $this->id, $userId, $sum, $asOf);
     }

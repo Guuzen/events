@@ -2,7 +2,6 @@
 
 namespace App\Order\Action\MarkOrderPaid;
 
-use App\Common\Error;
 use App\Order\Model\Orders;
 
 final class MarkOrderPaidHandler

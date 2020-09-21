@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Product\Action\SendTicket\TicketSending;
 
-use App\Common\Error;
 use App\Product\Action\SendTicket\FindTicketEmail\TicketEmail;
 use Swift_Mailer;
 use Swift_Message;

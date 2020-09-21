@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Http\EventIdResolver;
 
-use App\Common\Error;
 use App\Event\Model\EventId;
 use App\EventDomain\Queries\FindEventIdByDomain\FindEventIdByDomainQuery;
 use Generator;

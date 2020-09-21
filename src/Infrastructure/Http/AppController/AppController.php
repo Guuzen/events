@@ -2,9 +2,7 @@
 
 namespace App\Infrastructure\Http\AppController;
 
-use App\Common\Error;
 use Psr\Container\ContainerInterface;
-use ReflectionClass;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -29,9 +27,11 @@ abstract class AppController
     /**
      * @param mixed $data
      */
-    protected function response($data): Response
+    protected function response($data, int $status = 200, array $headers = [], array $context = []): Response
     {
-        return $data instanceof Error ? $this->errorJson($data) : $this->successJson($data);
+        return $this->toJson([
+            'data' => $data ?? [],
+        ], $status, $headers, $context);
     }
 
     /**
@@ -61,30 +61,6 @@ abstract class AppController
     /**
      * @param mixed $data
      */
-    private function successJson($data = [], int $status = 200, array $headers = [], array $context = []): JsonResponse
-    {
-        return $this->toJson([
-            'data' => $data ?? [],
-        ], $status, $headers, $context);
-    }
-
-    /**
-     * @param Error|string $message
-     */
-    private function errorJson($message, int $status = 400, array $headers = [], array $context = []): JsonResponse
-    {
-        if ($message instanceof Error) {
-            $message = $this->stringifyError($message);
-        }
-
-        return $this->toJson([
-            'error' => $message,
-        ], $status, $headers, $context);
-    }
-
-    /**
-     * @param mixed $data
-     */
     private function toJson($data, int $status, array $headers = [], array $context = []): JsonResponse
     {
         /** @var SerializerInterface */
@@ -94,16 +70,5 @@ abstract class AppController
         ], $context));
 
         return new JsonResponse($json, $status, $headers, true);
-    }
-
-    private function stringifyError(Error $errorObject): string
-    {
-        $errorClassName = (new ReflectionClass($errorObject))->getShortName();
-        $message        = \preg_replace('/[A-Z]/', ' \\0', \lcfirst($errorClassName));
-        if (null === $message) {
-            throw new \RuntimeException();
-        }
-
-        return \strtolower($message);
     }
 }

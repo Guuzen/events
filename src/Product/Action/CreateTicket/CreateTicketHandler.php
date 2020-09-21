@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Product\Action\CreateTicket;
 
-use App\Common\Error;
 use App\Event\Model\Events;
 use App\Product\Model\TicketId;
 use App\Product\Model\Tickets;

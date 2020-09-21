@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Order\Action\PlaceOrder;
 
-use App\Common\Error;
 use App\Event\Model\Events;
 use App\Order\Model\OrderId;
 use App\Order\Model\Orders;
@@ -28,10 +27,7 @@ final class PlaceOrderHandler
         $this->tariffs = $tariffs;
     }
 
-    /**
-     * @return OrderId|Error
-     */
-    public function handle(PlaceOrder $placeOrder)
+    public function handle(PlaceOrder $placeOrder): OrderId
     {
         $orderDate = new \DateTimeImmutable();
 
@@ -55,5 +51,4 @@ final class PlaceOrderHandler
 
         return $orderId;
     }
-
 }

@@ -2,8 +2,7 @@
 
 namespace App\User\Model;
 
-use App\Common\Error;
-use App\User\Model\Error\UserNotFound;
+use App\User\Model\Exception\UserNotFound;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -19,10 +18,7 @@ final class Users extends ServiceEntityRepository
         $this->_em->persist($user);
     }
 
-    /**
-     * @return User|Error
-     */
-    public function findById(UserId $userId)
+    public function findById(UserId $userId): User
     {
         $query = $this->_em->createQuery('
             select
@@ -34,10 +30,11 @@ final class Users extends ServiceEntityRepository
         ');
         $query->setParameter('user_id', $userId);
 
-        /** @var User|null */
-        $user = $query->getOneOrNullResult();
-        if (null === $user) {
-            return new UserNotFound();
+        try {
+            /** @var User $user */
+            $user = $query->getSingleResult();
+        } catch (\Throwable $exception) {
+            throw new UserNotFound('', 0, $exception);
         }
 
         return $user;
