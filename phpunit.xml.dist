@@ -7,9 +7,9 @@
          colors="true"
 >
     <php>
-        <ini name="error_reporting" value="-1" />
-        <server name="APP_ENV" value="test" force="true" />
-        <server name="SHELL_VERBOSITY" value="-1" />
+        <ini name="error_reporting" value="-1"/>
+        <server name="APP_ENV" value="test" force="true"/>
+        <server name="SHELL_VERBOSITY" value="-1"/>
     </php>
 
     <testsuites>
@@ -17,6 +17,10 @@
             <directory>tests</directory>
         </testsuite>
     </testsuites>
+
+    <extensions>
+        <extension class="Tests\ClearSymfonyCacheListener"/>
+    </extensions>
 
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">

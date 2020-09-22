@@ -7,5 +7,12 @@ services:
     App\Infrastructure\Http\Openapi\OpenapiSchema:
         arguments:
             $pathToOasSpec: '%kernel.root_dir%/Infrastructure/Http/Openapi/schema/stoplight.yaml'
+            $cache: !service
+                class: Symfony\Component\Cache\Adapter\PhpFilesAdapter
+                arguments:
+                    - ''
+                    - 0
+                    - '%kernel.cache_dir%/openapi'
+
 
     App\Infrastructure\Http\Openapi\OpenapiValidator: ~
