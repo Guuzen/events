@@ -46,11 +46,11 @@ final class Event
         OrderId $orderId,
         Tariff $tariff,
         UserId $userId,
-        Money $sum,
+        Money $price,
         DateTimeImmutable $asOf
     ): Order
     {
-        return $tariff->makeOrder($orderId, $this->id, $userId, $sum, $asOf);
+        return $tariff->makeOrder($orderId, $this->id, $userId, $price, $asOf);
     }
 
     public function createTariff(TariffId $tariffId, TariffPriceNet $tariffPriceNet, ProductType $productType): Tariff

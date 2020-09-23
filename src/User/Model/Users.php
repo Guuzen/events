@@ -2,7 +2,7 @@
 
 namespace App\User\Model;
 
-use App\User\Model\Exception\UserNotFound;
+use App\User\Model\Exception\UserLoadFailed;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -34,7 +34,7 @@ final class Users extends ServiceEntityRepository
             /** @var User $user */
             $user = $query->getSingleResult();
         } catch (\Throwable $exception) {
-            throw new UserNotFound('', 0, $exception);
+            throw new UserLoadFailed('', 0, $exception);
         }
 
         return $user;

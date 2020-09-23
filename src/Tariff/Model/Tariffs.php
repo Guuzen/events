@@ -3,7 +3,7 @@
 namespace App\Tariff\Model;
 
 use App\Event\Model\EventId;
-use App\Tariff\Model\Exception\TariffNotFound;
+use App\Tariff\Model\Exception\TariffLoadFailed;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -33,7 +33,7 @@ final class Tariffs extends ServiceEntityRepository
             /** @var Tariff $tariff */
             $tariff = $query->getSingleResult();
         } catch (\Throwable $exception) {
-            throw new TariffNotFound('', 0, $exception);
+            throw new TariffLoadFailed('', 0, $exception);
         }
 
         return $tariff;

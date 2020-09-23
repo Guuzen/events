@@ -38,8 +38,8 @@ final class TariffSegment
         return $this->term->intersects($price->term);
     }
 
-    public function calculateSum(Discount $discount): Money
+    public function calculatePrice(): Money
     {
-        return $discount->apply($this->price);
+        return $this->price;
     }
 }

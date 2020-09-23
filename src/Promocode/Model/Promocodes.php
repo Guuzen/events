@@ -3,7 +3,7 @@
 namespace App\Promocode\Model;
 
 use App\Event\Model\EventId;
-use App\Promocode\Model\Exception\PromocodeNotFound;
+use App\Promocode\Model\Exception\PromocodeLoadFailed;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -33,7 +33,7 @@ final class Promocodes extends ServiceEntityRepository
             /** @var Promocode $promocode */
             $promocode = $query->getOneOrNullResult();
         } catch (\Throwable $exception) {
-            throw new PromocodeNotFound('', 0, $exception);
+            throw new PromocodeLoadFailed('', 0, $exception);
         }
 
         return $promocode;
@@ -58,7 +58,7 @@ final class Promocodes extends ServiceEntityRepository
             /** @var Promocode $promocode */
             $promocode = $query->getSingleResult();
         } catch (\Throwable $exception) {
-            throw new PromocodeNotFound('', 0, $exception);
+            throw new PromocodeLoadFailed('', 0, $exception);
         }
 
         return $promocode;

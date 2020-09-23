@@ -3,7 +3,7 @@
 namespace App\Product\Model;
 
 use App\Event\Model\EventId;
-use App\Product\Model\Exception\TicketNotFound;
+use App\Product\Model\Exception\TicketLoadFailed;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -33,7 +33,7 @@ final class Tickets extends ServiceEntityRepository
             /** @var Ticket $ticket */
             $ticket = $query->getSingleResult();
         } catch (\Throwable $exception) {
-            throw new TicketNotFound('', 0, $exception);
+            throw new TicketLoadFailed('', 0, $exception);
         }
 
         return $ticket;

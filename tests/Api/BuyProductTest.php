@@ -200,7 +200,7 @@ final class BuyProductTest extends TestCase
                     'event_id'     => $eventId,
                     'tariff_id'    => $tariffId,
                     'paid'         => false,
-                    'sum'          => [
+                    'price'        => [
                         'amount'   => '200',
                         'currency' => 'RUB',
                     ],
@@ -222,7 +222,7 @@ final class BuyProductTest extends TestCase
                 'event_id'     => $eventId,
                 'tariff_id'    => $tariffId,
                 'paid'         => false,
-                'sum'          => [
+                'price'        => [
                     'amount'   => '200',
                     'currency' => 'RUB',
                 ],
@@ -250,7 +250,7 @@ final class BuyProductTest extends TestCase
                     'event_id'     => $eventId,
                     'tariff_id'    => $tariffId,
                     'paid'         => false,
-                    'sum'          => [
+                    'price'        => [
                         'amount'   => '200',
                         'currency' => 'RUB',
                     ],
@@ -278,7 +278,7 @@ final class BuyProductTest extends TestCase
                 'event_id'     => $eventId,
                 'tariff_id'    => $tariffId,
                 'paid'         => false,
-                'sum'          => [
+                'price'        => [
                     'amount'   => '200',
                     'currency' => 'RUB',
                 ],
@@ -343,7 +343,7 @@ final class BuyProductTest extends TestCase
                     'event_id'     => $eventId,
                     'tariff_id'    => $tariffId,
                     'paid'         => true,
-                    'sum'          => [
+                    'price'        => [
                         'amount'   => '200',
                         'currency' => 'RUB',
                     ],
@@ -371,7 +371,7 @@ final class BuyProductTest extends TestCase
                 'event_id'     => $eventId,
                 'tariff_id'    => $tariffId,
                 'paid'         => true,
-                'sum'          => [
+                'price'        => [
                     'amount'   => '200',
                     'currency' => 'RUB',
                 ],
@@ -563,7 +563,7 @@ final class BuyProductTest extends TestCase
                     'event_id'     => $eventId,
                     'tariff_id'    => $tariffId,
                     'paid'         => false,
-                    'sum'          => [
+                    'price'        => [
                         'amount'   => '200',
                         'currency' => 'RUB',
                     ],
@@ -585,7 +585,7 @@ final class BuyProductTest extends TestCase
                 'event_id'     => $eventId,
                 'tariff_id'    => $tariffId,
                 'paid'         => false,
-                'sum'          => [
+                'price'        => [
                     'amount'   => '200',
                     'currency' => 'RUB',
                 ],
@@ -613,7 +613,7 @@ final class BuyProductTest extends TestCase
                     'event_id'     => $eventId,
                     'tariff_id'    => $tariffId,
                     'paid'         => false,
-                    'sum'          => [
+                    'price'        => [
                         'amount'   => '200',
                         'currency' => 'RUB',
                     ],
@@ -641,7 +641,7 @@ final class BuyProductTest extends TestCase
                 'event_id'     => $eventId,
                 'tariff_id'    => $tariffId,
                 'paid'         => false,
-                'sum'          => [
+                'price'        => [
                     'amount'   => '200',
                     'currency' => 'RUB',
                 ],
@@ -707,7 +707,7 @@ final class BuyProductTest extends TestCase
                     'event_id'     => $eventId,
                     'tariff_id'    => $tariffId,
                     'paid'         => true,
-                    'sum'          => [
+                    'price'        => [
                         'amount'   => '200',
                         'currency' => 'RUB',
                     ],
@@ -735,7 +735,7 @@ final class BuyProductTest extends TestCase
                 'event_id'     => $eventId,
                 'tariff_id'    => $tariffId,
                 'paid'         => true,
-                'sum'          => [
+                'price'        => [
                     'amount'   => '200',
                     'currency' => 'RUB',
                 ],

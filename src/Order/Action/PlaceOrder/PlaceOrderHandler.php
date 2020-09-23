@@ -7,10 +7,7 @@ namespace App\Order\Action\PlaceOrder;
 use App\Event\Model\Events;
 use App\Order\Model\OrderId;
 use App\Order\Model\Orders;
-use App\Promocode\Model\Discount\FixedDiscount;
 use App\Tariff\Model\Tariffs;
-use Money\Currency;
-use Money\Money;
 
 final class PlaceOrderHandler
 {
@@ -35,15 +32,14 @@ final class PlaceOrderHandler
 
         $tariff = $this->tariffs->findById($placeOrder->tariffId, $placeOrder->eventId);
 
-        $discount = new FixedDiscount(new Money(0, new Currency('RUB')));
-        $sum      = $tariff->calculateSum($discount, $orderDate); // TODO doouble dispatch
+        $price = $tariff->calculatePrice($orderDate);
 
         $orderId = OrderId::new();
         $order   = $event->makeOrder(
             $orderId,
             $tariff,
             $placeOrder->userId,
-            $sum,
+            $price,
             $orderDate
         );
 

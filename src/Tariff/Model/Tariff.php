@@ -46,19 +46,19 @@ class Tariff
         $this->productType = $productType;
     }
 
-    public function calculateSum(Discount $discount, DateTimeImmutable $asOf): Money // TODO remove discount ?
+    public function calculatePrice(DateTimeImmutable $asOf): Money
     {
-        return $this->priceNet->calculateSum($discount, $asOf);
+        return $this->priceNet->calculatePrice($asOf);
     }
 
     public function makeOrder(
         OrderId $orderId,
         EventId $eventId,
         UserId $userId,
-        Money $sum,
+        Money $price,
         DateTimeImmutable $asOf
     ): Order
     {
-        return new Order($orderId, $eventId, $this->productType, $this->id, $userId, $sum, $asOf);
+        return new Order($orderId, $eventId, $this->productType, $this->id, $userId, $price, $asOf);
     }
 }

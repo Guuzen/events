@@ -53,11 +53,13 @@ class Order extends Entity
     private $userId;
 
     /**
+     * TODO rename to price
+     *
      * @var Money
      *
      * @ORM\Column(type=Money::class)
      */
-    private $sum;
+    private $price;
 
     /**
      * @var Discount|null
@@ -94,7 +96,7 @@ class Order extends Entity
         ProductType $productType,
         TariffId $tariffId,
         UserId $userId,
-        Money $sum,
+        Money $price,
         DateTimeImmutable $asOf,
         bool $paid = false
     )
@@ -104,8 +106,8 @@ class Order extends Entity
         $this->productType = $productType;
         $this->tariffId    = $tariffId;
         $this->userId      = $userId;
-        $this->sum         = $sum;
-        $this->total       = $sum;
+        $this->price       = $price;
+        $this->total       = $price;
         $this->makedAt     = $asOf;
         $this->paid        = $paid;
     }
@@ -133,7 +135,7 @@ class Order extends Entity
 
     public function createFondyPayment(Fondy $fondy): string
     {
-        return $fondy->checkoutUrl($this->sum, $this->id);
+        return $fondy->checkoutUrl($this->price, $this->id);
     }
 
     public function applyDiscount(Discount $discount): void
@@ -143,6 +145,6 @@ class Order extends Entity
         }
 
         $this->discount = $discount;
-        $this->total    = $this->discount->apply($this->sum);
+        $this->total    = $this->discount->apply($this->price);
     }
 }

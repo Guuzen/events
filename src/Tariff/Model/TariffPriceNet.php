@@ -40,11 +40,11 @@ final class TariffPriceNet
         $this->segments = $segments;
     }
 
-    public function calculateSum(Discount $discount, DateTimeImmutable $asOf): Money
+    public function calculatePrice(DateTimeImmutable $asOf): Money
     {
         $segment = $this->findSegmentAsOF($asOf);
 
-        return $segment->calculateSum($discount);
+        return $segment->calculatePrice();
     }
 
     private function findSegmentAsOF(DateTimeImmutable $asOf): TariffSegment

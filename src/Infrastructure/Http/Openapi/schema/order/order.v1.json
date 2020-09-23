@@ -17,7 +17,7 @@
     "paid": {
       "type": "boolean"
     },
-    "sum": {
+    "price": {
       "$ref": "../money.v1.json"
     },
     "discount": {
@@ -57,7 +57,7 @@
     "event_id",
     "tariff_id",
     "paid",
-    "sum",
+    "price",
     "cancelled",
     "user_id",
     "maked_at"

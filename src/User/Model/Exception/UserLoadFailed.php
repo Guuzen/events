@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Product\Model\Exception;
+namespace App\User\Model\Exception;
 
 use App\Infrastructure\AppException\AppException;
 
-final class TicketNotFound extends AppException
+final class UserLoadFailed extends AppException
 {
 }

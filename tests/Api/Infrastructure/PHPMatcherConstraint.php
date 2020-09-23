@@ -36,7 +36,7 @@ final class PHPMatcherConstraint extends Constraint
     /**
      * {@inheritdoc}
      */
-    public function toString() : string
+    public function toString(): string
     {
         return 'matches given pattern.';
     }
@@ -48,7 +48,7 @@ final class PHPMatcherConstraint extends Constraint
             . "\nError: " . $this->matcher->error();
     }
 
-    protected function matches($value) : bool
+    protected function matches($value): bool
     {
         return $this->matcher->match($this->lastValue = $value, $this->pattern);
     }
@@ -56,35 +56,36 @@ final class PHPMatcherConstraint extends Constraint
     /**
      * {@inheritdoc}
      */
-    protected function fail($other, $description, ComparisonFailure $comparisonFailure = null) : void
+    protected function fail($other, $description, ComparisonFailure $comparisonFailure = null): void
     {
-        if (null === $comparisonFailure
-            && \is_string($other)
-            && \is_string($this->pattern)
-            && \class_exists(Json::class)
-        ) {
-            list($error) = Json::canonicalize($other);
+        parent::fail($other, $description, $comparisonFailure ?? $this->createComparisonFailure($other));
+    }
 
-            if ($error) {
-                parent::fail($other, $description);
-            }
-
-            list($error) = Json::canonicalize($this->pattern);
-
-            if ($error) {
-                parent::fail($other, $description);
-            }
-
-            $comparisonFailure = new ComparisonFailure(
-                \json_decode($this->pattern),
-                \json_decode($other),
-                Json::prettify($this->pattern),
-                Json::prettify($other),
-                false,
-                'Failed asserting that the pattern matches the given value.'
-            );
+    private function createComparisonFailure($other): ?ComparisonFailure
+    {
+        if (!\is_string($other) || !\is_string($this->pattern) || !\class_exists(Json::class)) {
+            return null;
         }
 
-        parent::fail($other, $description, $comparisonFailure);
+        [$error, $otherJson] = Json::canonicalize($other);
+
+        if ($error) {
+            return null;
+        }
+
+        [$error, $patternJson] = Json::canonicalize($this->pattern);
+
+        if ($error) {
+            return null;
+        }
+
+        return new ComparisonFailure(
+            \json_decode($this->pattern),
+            \json_decode($other),
+            Json::prettify($patternJson),
+            Json::prettify($otherJson),
+            false,
+            'Failed asserting that the pattern matches the given value.'
+        );
     }
 }
