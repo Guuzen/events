@@ -20,6 +20,8 @@ final class CreateEventDomainHttpAdapter extends AppController
     }
 
     /**
+     * TODO eventDomain cant be api request because of different requests for create and update
+     *
      * @Route("/admin/eventDomain", methods={"POST"})
      */
     public function __invoke(EventDomain $eventDomain): Response

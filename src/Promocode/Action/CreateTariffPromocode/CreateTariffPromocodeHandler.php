@@ -22,6 +22,7 @@ final class CreateTariffPromocodeHandler
     {
         $promocodeId = PromocodeId::new();
 
+        // TODO What will happen if there is no check for event existence, just pass id from frontend? Does it affect security or consistency?
         $event = $this->events->findById($command->eventId);
 
         $promocode = $event->createTariffPromocode(

@@ -1,7 +1,10 @@
 <?php
 
-namespace App\Event\Action\CreateEvent;
+namespace App\Event\Action;
 
+use App\Event\Model\Event;
+use App\Event\Model\EventId;
+use App\Event\Model\Events;
 use App\Infrastructure\Http\AppController\AppController;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,12 +14,12 @@ final class CreateEventHttpAdapter extends AppController
 {
     private $em;
 
-    private $handler;
+    private $events;
 
-    public function __construct(EntityManagerInterface $em, CreateEventHandler $handler)
+    public function __construct(EntityManagerInterface $em, Events $events)
     {
-        $this->em      = $em;
-        $this->handler = $handler;
+        $this->em     = $em;
+        $this->events = $events;
     }
 
     /**
@@ -24,9 +27,11 @@ final class CreateEventHttpAdapter extends AppController
      */
     public function __invoke(): Response
     {
-        // TODO wrap transactions on kernel events ?
-        $eventId = $this->handler->createEvent();
+        $eventId = EventId::new();
+        $event   = new Event($eventId);
+        $this->events->add($event);
 
+        // TODO wrap transactions on kernel events ?
         $this->em->flush();
 
         // TODO how about response objects ?
