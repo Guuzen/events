@@ -5,7 +5,7 @@ namespace App\Order\Model;
 use App\Event\Model\EventId;
 use App\Order\Model\Exception\LoadOrderFailed;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 final class Orders extends ServiceEntityRepository
 {

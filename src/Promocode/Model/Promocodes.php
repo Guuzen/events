@@ -5,7 +5,7 @@ namespace App\Promocode\Model;
 use App\Event\Model\EventId;
 use App\Promocode\Model\Exception\PromocodeLoadFailed;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 final class Promocodes extends ServiceEntityRepository
 {

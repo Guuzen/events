@@ -22,6 +22,8 @@ use Doctrine\ORM\Mapping as ORM;
 class Promocode extends Entity
 {
     /**
+     * @var PromocodeId
+     *
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
      * @ORM\Column(type=PromocodeId::class)
@@ -36,6 +38,8 @@ class Promocode extends Entity
     private $eventId;
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="string")
      */
     private $code;
@@ -48,11 +52,15 @@ class Promocode extends Entity
     private $discount;
 
     /**
+     * @var int
+     *
      * @ORM\Column(type="integer")
      */
     private $useLimit;
 
     /**
+     * @var DateTimeImmutable
+     *
      * @ORM\Column(type="datetimetz_immutable")
      */
     private $expireAt;
@@ -73,6 +81,8 @@ class Promocode extends Entity
     private $usedInOrders;
     // TODO State ?
     /**
+     * @var bool
+     *
      * @ORM\Column(type="boolean")
      */
     private $usable;

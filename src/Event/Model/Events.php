@@ -4,7 +4,7 @@ namespace App\Event\Model;
 
 use App\Event\Model\Exception\LoadEventFailed;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 final class Events extends ServiceEntityRepository
 {

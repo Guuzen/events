@@ -5,7 +5,7 @@ namespace App\Product\Model;
 use App\Event\Model\EventId;
 use App\Product\Model\Exception\TicketLoadFailed;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 final class Tickets extends ServiceEntityRepository
 {

@@ -5,7 +5,7 @@ namespace App\Tariff\Model;
 use App\Event\Model\EventId;
 use App\Tariff\Model\Exception\TariffLoadFailed;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 final class Tariffs extends ServiceEntityRepository
 {

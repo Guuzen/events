@@ -17,8 +17,7 @@
     </projectFiles>
 
     <issueHandlers>
-        <!-- level 3 issues - slightly lazy code writing, but provably low false-negatives -->
-
         <PropertyNotSetInConstructor errorLevel="suppress" />
+        <ParamNameMismatch errorLevel="suppress" />
     </issueHandlers>
 </psalm>

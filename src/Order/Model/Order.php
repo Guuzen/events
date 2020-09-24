@@ -86,6 +86,8 @@ class Order extends Entity
     private $paid; // TODO primitive obsession
 
     /**
+     * @var bool
+     *
      * @ORM\Column(type="boolean")
      */
     private $cancelled = false;

@@ -4,7 +4,7 @@ namespace App\User\Model;
 
 use App\User\Model\Exception\UserLoadFailed;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 final class Users extends ServiceEntityRepository
 {
