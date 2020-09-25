@@ -52,4 +52,9 @@ final class JsonDocumentType extends Type implements CustomType
     {
         return $platform->getJsonTypeDeclarationSQL($fieldDeclaration);
     }
+
+    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
+    {
+        return true;
+    }
 }

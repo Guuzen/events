@@ -67,4 +67,9 @@ final class UuidType extends Type implements CustomType
     {
         return $platform->getGuidTypeDeclarationSQL($fieldDeclaration);
     }
+
+    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
+    {
+        return true;
+    }
 }
