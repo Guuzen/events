@@ -2,7 +2,7 @@
   "title": "create tariff",
   "type": "object",
   "properties": {
-    "event_id": {
+    "eventId": {
       "type": "string",
       "format": "uuid"
     },
@@ -38,7 +38,7 @@
         ]
       }
     },
-    "product_type": {
+    "productType": {
       "type": "string",
       "enum": [
         "ticket",
@@ -47,8 +47,8 @@
     }
   },
   "required": [
-    "event_id",
+    "eventId",
     "segments",
-    "product_type"
+    "productType"
   ]
 }

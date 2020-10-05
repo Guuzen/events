@@ -2,14 +2,14 @@
   "title": "order",
   "type": "object",
   "properties": {
-    "tariff_id": {
+    "tariffId": {
       "type": "string",
       "format": "uuid"
     },
-    "first_name": {
+    "firstName": {
       "type": "string"
     },
-    "last_name": {
+    "lastName": {
       "type": "string"
     },
     "email": {
@@ -21,9 +21,9 @@
     }
   },
   "required": [
-    "tariff_id",
-    "first_name",
-    "last_name",
+    "tariffId",
+    "firstName",
+    "lastName",
     "email",
     "phone"
   ]

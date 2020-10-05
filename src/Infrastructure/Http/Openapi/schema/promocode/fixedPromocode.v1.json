@@ -6,7 +6,7 @@
       "type": "string",
       "format": "uuid"
     },
-    "event_id": {
+    "eventId": {
       "type": "string",
       "format": "uuid"
     },
@@ -31,28 +31,28 @@
         }
       }
     },
-    "use_limit": {
+    "useLimit": {
       "type": "number"
     },
-    "expire_at": {
+    "expireAt": {
       "type": "string",
       "format": "date-time"
     },
     "usable": {
       "type": "boolean"
     },
-    "used_in_orders": {
+    "usedInOrders": {
       "type": "array",
       "items": {
         "type": "string",
         "format": "uuid"
       }
     },
-    "allowed_tariffs": {
+    "allowedTariffs": {
       "type": "object",
       "required": [
         "type",
-        "tariff_ids"
+        "tariffIds"
       ],
       "properties": {
         "type": {
@@ -61,7 +61,7 @@
             "specific"
           ]
         },
-        "tariff_ids": {
+        "tariffIds": {
           "type": "array",
           "items": {
             "type": "string",
@@ -73,13 +73,13 @@
   },
   "required": [
     "id",
-    "event_id",
+    "eventId",
     "code",
     "discount",
-    "use_limit",
-    "expire_at",
+    "useLimit",
+    "expireAt",
     "usable",
-    "used_in_orders",
-    "allowed_tariffs"
+    "usedInOrders",
+    "allowedTariffs"
   ]
 }

@@ -6,11 +6,11 @@
       "type": "string",
       "format": "uuid"
     },
-    "event_id": {
+    "eventId": {
       "type": "string",
       "format": "uuid"
     },
-    "price_net": {
+    "priceNet": {
       "type": "array",
       "items": {
         "type": "object",
@@ -42,7 +42,7 @@
         ]
       }
     },
-    "product_type": {
+    "productType": {
       "type": "string",
       "enum": [
         "ticket",
@@ -51,9 +51,9 @@
     }
   },
   "required": [
-    "event_id",
-    "price_net",
-    "product_type",
+    "eventId",
+    "priceNet",
+    "productType",
     "id"
   ]
 }

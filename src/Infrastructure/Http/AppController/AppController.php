@@ -53,6 +53,14 @@ abstract class AppController
         return $viewModel;
     }
 
+    protected function deserializeFromDb(string $json, array $context = []): array
+    {
+        /** @var SerializerInterface $serializer */
+        $serializer = $this->locator->get('persistenceSerializer');
+
+        return $serializer->deserialize($json, 'array', 'json', $context);
+    }
+
     protected function toJsonResponse(string $json): Response
     {
         return new JsonResponse($json, 200, [], true);

@@ -19,7 +19,7 @@ final class PayByCardHttpAdapter extends AppController
     }
 
     /**
-     * @Route("/order/{order_id}/payByCard", methods={"POST"})
+     * @Route("/order/{orderId}/payByCard", methods={"POST"})
      */
     public function payByCard(PayByCardRequest $payByCardRequest, EventId $eventId): Response
     {

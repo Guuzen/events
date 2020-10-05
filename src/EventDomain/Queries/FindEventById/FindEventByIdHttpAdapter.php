@@ -19,7 +19,7 @@ final class FindEventByIdHttpAdapter extends AppController
     }
 
     /**
-     * @Route("/admin/eventDomain/{event_id}", methods={"GET"})
+     * @Route("/admin/eventDomain/{eventId}", methods={"GET"})
      */
     public function __invoke(FindEventByIdRequest $request): Response
     {
@@ -37,7 +37,7 @@ final class FindEventByIdHttpAdapter extends AppController
         /** @var array|false */
         $event = $stmt->fetch();
         if (false === $event) {
-            throw new EventNotFound('');
+            throw new EventNotFound(''); // TODO exceptions in dev and in prod. In prod need only message. In dev - full trace?
         }
 
         return $this->response($event);

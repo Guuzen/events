@@ -25,9 +25,7 @@ final class GetTariffListHttpAdapter extends AppController
     {
         $stmt = $this->connection->prepare('
             select
-                json_build_object(
-                    \'data\', json_agg(tariff)
-                ) as json
+                json_agg(tariff) as json
             from (
                 select
                     *
@@ -42,6 +40,8 @@ final class GetTariffListHttpAdapter extends AppController
         /** @psalm-var array{json: string} $tariffsData */
         $tariffsData = $stmt->fetchAll()[0];
 
-        return $this->toJsonResponse($tariffsData['json']);
+        $decoded = $this->deserializeFromDb($tariffsData['json']);
+
+        return $this->response($decoded);
     }
 }

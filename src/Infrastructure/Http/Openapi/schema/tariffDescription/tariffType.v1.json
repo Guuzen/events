@@ -2,7 +2,7 @@
   "type": "string",
   "title": "tariff type",
   "enum": [
-    "silver_pass"
+    "silverPass"
   ],
   "description": "possible tariff types"
 }

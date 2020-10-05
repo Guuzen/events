@@ -23,7 +23,7 @@ final class MarkOrderPaidByFondyHttpAdapter extends AppController
     }
 
     /**
-     * @Route("/order/{order_id}/markPaidByFondy", methods={"POST"})
+     * @Route("/order/{orderId}/markPaidByFondy", methods={"POST"})
      */
     public function markOrdePaidByFondy(MarkOrderPaidByFondyRequest $markOrderPaidByFondyRequest, EventId $eventId): Response
     {

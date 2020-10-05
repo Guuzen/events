@@ -21,7 +21,7 @@ final class AppExceptionListener
             $response = new JsonResponse([
                 'error' => $message,
             ], 400);
-            $event->setResponse($response);
+//            $event->setResponse($response);
         }
     }
 

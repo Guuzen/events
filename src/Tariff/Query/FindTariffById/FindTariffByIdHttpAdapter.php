@@ -19,16 +19,13 @@ final class FindTariffByIdHttpAdapter extends AppController
     }
 
     /**
-     * @Route("/admin/tariff/{tariff_id}", methods={"GET"})
+     * @Route("/admin/tariff/{tariffId}", methods={"GET"})
      */
     public function __invoke(FindTariffByIdRequest $request): Response
     {
         $stmt = $this->connection->prepare('
             select
-                json_build_object(
-                    \'data\',
-                    row_to_json(tariff)
-                ) as json
+                row_to_json(tariff) as json
             from (
                 select
                     *
@@ -47,6 +44,8 @@ final class FindTariffByIdHttpAdapter extends AppController
             throw new TariffByIdNotFound('');
         }
 
-        return $this->toJsonResponse($tariffData['json']);
+        $decoded = $this->deserializeFromDb($tariffData['json']);
+
+        return $this->response($decoded);
     }
 }
