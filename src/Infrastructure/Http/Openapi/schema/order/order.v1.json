@@ -6,11 +6,11 @@
       "type": "string",
       "format": "uuid"
     },
-    "event_id": {
+    "eventId": {
       "type": "string",
       "format": "uuid"
     },
-    "tariff_id": {
+    "tariffId": {
       "type": "string",
       "format": "uuid"
     },
@@ -43,23 +43,23 @@
     "cancelled": {
       "type": "boolean"
     },
-    "user_id": {
+    "userId": {
       "type": "string",
       "format": "uuid"
     },
-    "maked_at": {
+    "makedAt": {
       "type": "string",
       "format": "date-time"
     }
   },
   "required": [
     "id",
-    "event_id",
-    "tariff_id",
+    "eventId",
+    "tariffId",
     "paid",
     "price",
     "cancelled",
-    "user_id",
-    "maked_at"
+    "userId",
+    "makedAt"
   ]
 }

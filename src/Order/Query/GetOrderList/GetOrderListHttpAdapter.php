@@ -28,9 +28,7 @@ final class GetOrderListHttpAdapter extends AppController
     {
         $stmt = $this->connection->prepare('
             select
-                json_build_object(
-                    \'data\', json_agg(orders)
-                ) as json
+                json_agg(orders)
             from (
                 select
                     *
@@ -43,10 +41,15 @@ final class GetOrderListHttpAdapter extends AppController
         $stmt->bindValue('event_id', $request->eventId);
         $stmt->execute();
 
-        /** @psalm-var array{json: string} $ordersData */
-        $ordersData = $stmt->fetchAll()[0];
+        /** @var string|false $ordersData */
+        $ordersData = $stmt->fetchColumn();
+        if ($ordersData === false) {
+            throw new OrderListNotFound('');
+        }
 
-        return $this->toJsonResponse($ordersData['json']);
+        $decoded = $this->deserializeFromDb($ordersData);
+
+        return $this->response($decoded);
     }
 
 }

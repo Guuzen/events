@@ -21,8 +21,9 @@ final class ArrayKeysNameConverter
     public function convert(array &$array): array
     {
         $result = [];
+        /** @psalm-suppress MixedAssignment */
         foreach ($array as $key => $value) {
-            $camleizedKey = $this->nameConverter->denormalize($key);
+            $camleizedKey = $this->nameConverter->denormalize((string)$key);
             if (\is_array($value) === true) {
                 $result[$camleizedKey] = $this->convert($value);
             } else {

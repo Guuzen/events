@@ -25,9 +25,7 @@ final class GetTariffListHttpAdapter extends AppController
     {
         $stmt = $this->connection->prepare('
             select
-                json_build_object(
-                    \'data\', json_agg(tariff)
-                ) as json
+                json_agg(tariff)
             from (
                 select
                     *
@@ -39,9 +37,14 @@ final class GetTariffListHttpAdapter extends AppController
         $stmt->bindValue('event_id', $request->eventId);
         $stmt->execute();
 
-        /** @psalm-var array{json: string} $tariffsData */
-        $tariffsData = $stmt->fetchAll()[0];
+        /** @var string|false $tariffsData */
+        $tariffsData = $stmt->fetchColumn();
+        if ($tariffsData === false) {
+            throw new TariffListNotFound('');
+        }
 
-        return $this->toJsonResponse($tariffsData['json']);
+        $decoded = $this->deserializeFromDb($tariffsData);
+
+        return $this->response($decoded);
     }
 }

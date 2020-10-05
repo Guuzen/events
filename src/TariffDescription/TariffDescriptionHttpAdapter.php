@@ -22,7 +22,7 @@ final class TariffDescriptionHttpAdapter extends AppController
     }
 
     /**
-     * @Route("/admin/tariffDescription/{tariff_id}", methods={"GET"})
+     * @Route("/admin/tariffDescription/{tariffId}", methods={"GET"})
      */
     public function show(FindTariffDescriptionByIdRequest $request): Response
     {

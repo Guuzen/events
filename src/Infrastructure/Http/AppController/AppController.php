@@ -2,9 +2,11 @@
 
 namespace App\Infrastructure\Http\AppController;
 
+use App\Infrastructure\ArrayKeysNameConverter\ArrayKeysNameConverter;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Serializer\Encoder\DecoderInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
 abstract class AppController
@@ -34,28 +36,17 @@ abstract class AppController
         ], $status, $headers, $context);
     }
 
-    /**
-     * @param mixed $data
-     *
-     * @template T
-     * @psalm-param class-string<T> $toClass
-     *
-     * @psalm-return T
-     */
-    protected function deserializeToViewModel($data, string $toClass)
+    protected function deserializeFromDb(string $json, array $context = []): array
     {
-        /** @var SerializerInterface $deserializer */
-        $deserializer = $this->locator->get('viewModelDeserializer');
+        /** @var DecoderInterface $serializer */
+        $serializer = $this->locator->get('persistenceSerializer');
+        /** @var array $decoded */
+        $decoded    = $serializer->decode($json, 'json', $context);
 
-        /** @psalm-var T $viewModel */
-        $viewModel = $deserializer->deserialize($data, $toClass, 'json');
+        /** @var ArrayKeysNameConverter $caseConverter */
+        $caseConverter = $this->locator->get('arrayKeysNameConverter');
 
-        return $viewModel;
-    }
-
-    protected function toJsonResponse(string $json): Response
-    {
-        return new JsonResponse($json, 200, [], true);
+        return $caseConverter->convert($decoded);
     }
 
     /**

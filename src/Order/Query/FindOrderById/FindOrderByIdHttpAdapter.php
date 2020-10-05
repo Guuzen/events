@@ -19,16 +19,13 @@ final class FindOrderByIdHttpAdapter extends AppController
     }
 
     /**
-     * @Route("/admin/order/{order_id}", methods={"GET"})
+     * @Route("/admin/order/{orderId}", methods={"GET"})
      */
     public function __invoke(FindOrderByIdRequest $request): Response
     {
         $stmt = $this->connection->prepare('
             select
-                json_build_object(
-                    \'data\',
-                    row_to_json("order")
-                ) as json
+                row_to_json("order")
             from (
                 select
                     *
@@ -41,9 +38,11 @@ final class FindOrderByIdHttpAdapter extends AppController
         $stmt->bindValue('order_id', $request->orderId);
         $stmt->execute();
 
-        /** @psalm-var array{json: string} $orderData */
-        $orderData = $stmt->fetch();
+        /** @var string $orderData */
+        $orderData = $stmt->fetchColumn();
 
-        return $this->toJsonResponse($orderData['json']);
+        $decoded = $this->deserializeFromDb($orderData);
+
+        return $this->response($decoded);
     }
 }

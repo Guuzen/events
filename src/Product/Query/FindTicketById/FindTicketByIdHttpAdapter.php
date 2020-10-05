@@ -25,10 +25,7 @@ final class FindTicketByIdHttpAdapter extends AppController
     {
         $stmt = $this->connection->prepare('
             select
-                json_build_object(
-                    \'data\',
-                    row_to_json(ticket)                    
-                ) as json
+                row_to_json(ticket)
             from (
                 select
                     *
@@ -41,12 +38,14 @@ final class FindTicketByIdHttpAdapter extends AppController
         $stmt->bindValue('ticket_id', $request->ticketId);
         $stmt->execute();
 
-        /** @psalm-var array{json: string}|false $ticketData */
-        $ticketData = $stmt->fetch();
+        /** @var string|false $ticketData */
+        $ticketData = $stmt->fetchColumn();
         if (false === $ticketData) {
             throw new TicketByIdNotFound('');
         }
 
-        return $this->toJsonResponse($ticketData['json']);
+        $decoded = $this->deserializeFromDb($ticketData);
+
+        return $this->response($decoded);
     }
 }

@@ -26,9 +26,7 @@ final class GetPromocodeListHttpAdapter extends AppController
     {
         $stmt = $this->connection->prepare('
             select
-                json_build_object(
-                    \'data\', json_agg(promocodes)
-                ) as json
+                json_agg(promocodes)
             from (                
                 select
                     *        
@@ -41,9 +39,14 @@ final class GetPromocodeListHttpAdapter extends AppController
         $stmt->bindValue('event_id', $request->eventId);
         $stmt->execute();
 
-        /** @psalm-var array{json: string} $promocodesData */
-        $promocodesData = $stmt->fetchAll()[0];
+        /** @var string|false $promocodesData */
+        $promocodesData = $stmt->fetchColumn();
+        if ($promocodesData === false) {
+            throw new PromocodeListNotFound('');
+        }
 
-        return $this->toJsonResponse($promocodesData['json']);
+        $decoded = $this->deserializeFromDb($promocodesData);
+
+        return $this->response($decoded);
     }
 }

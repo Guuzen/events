@@ -25,10 +25,7 @@ final class GetTicketListHttpAdapter extends AppController
     {
         $stmt = $this->connection->prepare('
             select
-                json_build_object(
-                    \'data\',
-                    json_agg(ticket)
-                ) as json
+                json_agg(ticket)
             from (
                 select
                     *
@@ -41,9 +38,14 @@ final class GetTicketListHttpAdapter extends AppController
         $stmt->bindValue('event_id', $request->eventId);
         $stmt->execute();
 
-        /** @psalm-var array{json: string} $ticketData */
-        $ticketData = $stmt->fetchAll()[0];
+        /** @var string|false $ticketData */
+        $ticketData = $stmt->fetchColumn();
+        if ($ticketData === false) {
+            throw new TicketListNotFound('');
+        }
 
-        return $this->toJsonResponse($ticketData['json']);
+        $decoded = $this->deserializeFromDb($ticketData);
+
+        return $this->response($decoded);
     }
 }

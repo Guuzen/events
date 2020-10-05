@@ -6,21 +6,21 @@
       "type": "string",
       "format": "uuid"
     },
-    "event_id": {
+    "eventId": {
       "type": "string",
       "format": "uuid"
     },
     "number": {
       "type": "string"
     },
-    "created_at": {
+    "createdAt": {
       "type": "string"
     }
   },
   "required": [
     "id",
-    "event_id",
+    "eventId",
     "number",
-    "created_at"
+    "createdAt"
   ]
 }

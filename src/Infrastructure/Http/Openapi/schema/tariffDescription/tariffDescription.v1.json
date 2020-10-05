@@ -6,12 +6,12 @@
       "type": "string",
       "format": "uuid"
     },
-    "tariff_type": {
+    "tariffType": {
       "$ref": "./tariffType.v1.json"
     }
   },
   "required": [
     "id",
-    "tariff_type"
+    "tariffType"
   ]
 }
