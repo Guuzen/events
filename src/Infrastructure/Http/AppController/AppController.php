@@ -2,11 +2,10 @@
 
 namespace App\Infrastructure\Http\AppController;
 
-use App\Infrastructure\ArrayKeysNameConverter\ArrayKeysNameConverter;
+use App\Infrastructure\Persistence\JsonFromDatabaseDeserializer\JsonFromDatabaseDeserializer;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Serializer\Encoder\DecoderInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
 abstract class AppController
@@ -38,15 +37,10 @@ abstract class AppController
 
     protected function deserializeFromDb(string $json, array $context = []): array
     {
-        /** @var DecoderInterface $serializer */
-        $serializer = $this->locator->get('persistenceSerializer');
-        /** @var array $decoded */
-        $decoded    = $serializer->decode($json, 'json', $context);
+        /** @var JsonFromDatabaseDeserializer $deserializer */
+        $deserializer = $this->locator->get('jsonFromDatabaseConverter');
 
-        /** @var ArrayKeysNameConverter $caseConverter */
-        $caseConverter = $this->locator->get('arrayKeysNameConverter');
-
-        return $caseConverter->convert($decoded);
+        return $deserializer->deserialize($json, $context);
     }
 
     /**

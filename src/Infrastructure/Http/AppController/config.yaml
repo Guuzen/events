@@ -7,7 +7,7 @@ services:
             $locator: '@Symfony\Component\DependencyInjection\ServiceLocator'
     _instanceof:
         App\Infrastructure\Http\AppController\AppController:
-            tags: ['controller.service_arguments']
+            tags: [ 'controller.service_arguments' ]
 
     # HTTP ADAPTERS
     App\:
@@ -17,5 +17,4 @@ services:
     Symfony\Component\DependencyInjection\ServiceLocator:
         arguments:
             -   serializer: '@app.infrastructure.http.serializer'
-                persistenceSerializer: '@app.infrastructure.persistence.serializer'
-                arrayKeysNameConverter: '@App\Infrastructure\ArrayKeysNameConverter\ArrayKeysNameConverter'
+                jsonFromDatabaseConverter: '@App\Infrastructure\Persistence\JsonFromDatabaseDeserializer\JsonFromDatabaseDeserializer'
