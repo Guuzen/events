@@ -31,6 +31,10 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
+    # import message handlers as services
+    App\:
+        resource: '../src/**/*Handler.php'
+
     annotations.reader:
         class: Doctrine\Common\Annotations\AnnotationReader
         calls:

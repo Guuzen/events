@@ -4,8 +4,6 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
-    App\Product\Action\SendTicket\SendTicketHandler: ~
-
     App\Product\Action\SendTicket\FindTicketEmail\FindTicketEmail: ~
 
     App\Product\Action\SendTicket\TicketSending\TicketSending:
