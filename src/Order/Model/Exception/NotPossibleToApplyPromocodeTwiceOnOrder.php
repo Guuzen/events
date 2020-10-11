@@ -6,6 +6,6 @@ namespace App\Order\Model\Exception;
 
 use App\Infrastructure\AppException\AppException;
 
-final class NotPossibleToApplyDiscountTwiceOnOrder extends AppException
+final class NotPossibleToApplyPromocodeTwiceOnOrder extends AppException
 {
 }

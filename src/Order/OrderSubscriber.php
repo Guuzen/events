@@ -59,8 +59,7 @@ final class OrderSubscriber implements EventSubscriberInterface
             new ApplyPromocode(
                 $event->eventId,
                 $event->promocodeId,
-                $event->orderId,
-                $event->discount
+                $event->orderId
             )
         );
 

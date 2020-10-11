@@ -5,10 +5,11 @@ namespace spec\App\Order\Model;
 use App\Event\Model\EventId;
 use App\Fondy\CantGetPaymentUrl;
 use App\Fondy\Fondy;
-use App\Order\Model\Exception\NotPossibleToApplyDiscountTwiceOnOrder;
+use App\Order\Model\Exception\NotPossibleToApplyPromocodeTwiceOnOrder;
 use App\Order\Model\Exception\OrderAlreadyPaid;
 use App\Order\Model\OrderId;
 use App\Promocode\Model\Discount\FixedDiscount;
+use App\Promocode\Model\PromocodeId;
 use App\Tariff\Model\ProductType;
 use App\Tariff\Model\TariffId;
 use App\User\Model\UserId;
@@ -71,12 +72,12 @@ class OrderSpec extends ObjectBehavior
         $this->createFondyPayment($fondyGateway)->shouldReturn($paymentUrl);
     }
 
-    public function it_should_not_be_possible_to_apply_discount_twice_on_order(): void
+    public function it_should_not_be_possible_to_apply_promocode_twice_on_order(): void
     {
-        $anyDiscount = new FixedDiscount(new Money('1', new Currency('RUB')));
+        $promocodeId = PromocodeId::new();
 
-        $this->shouldNotThrow()->during('applyDiscount', [$anyDiscount]);
-        $this->shouldThrow(NotPossibleToApplyDiscountTwiceOnOrder::class)->during('applyDiscount', [$anyDiscount]);
+        $this->shouldNotThrow()->during('applyPromocode', [$promocodeId]);
+        $this->shouldThrow(NotPossibleToApplyPromocodeTwiceOnOrder::class)->during('applyPromocode', [$promocodeId]);
     }
 
 //    public function it_should_not_be_possible_to_cancel_if_paid()

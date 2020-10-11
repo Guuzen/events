@@ -5,7 +5,7 @@ namespace App\Order\Model;
 use App\Event\Model\EventId;
 use App\Fondy\Fondy;
 use App\Infrastructure\DomainEvent\Entity;
-use App\Order\Model\Exception\NotPossibleToApplyDiscountTwiceOnOrder;
+use App\Order\Model\Exception\NotPossibleToApplyPromocodeTwiceOnOrder;
 use App\Order\Model\Exception\OrderAlreadyPaid;
 use App\Order\Model\Exception\OrderCancelled;
 use App\Promocode\Model\PromocodeId;
@@ -142,7 +142,7 @@ class Order extends Entity
     public function applyPromocode(PromocodeId $promocodeId): void
     {
         if ($this->promocodeId !== null) {
-            throw new NotPossibleToApplyDiscountTwiceOnOrder(''); // TODO compensate use of promocode when new promocode applying
+            throw new NotPossibleToApplyPromocodeTwiceOnOrder(''); // TODO compensate use of promocode when new promocode applying
         }
 
         $this->promocodeId = $promocodeId;
