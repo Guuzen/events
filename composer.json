@@ -47,7 +47,7 @@
         "friendsofphp/php-cs-fixer": "^2.15",
         "internations/http-mock": "^0.13.0",
         "phpspec/phpspec": "^6.2",
-        "phpunit/phpunit": "^8.5",
+        "phpunit/phpunit": "^9.0",
         "symfony/browser-kit": "^4.4",
         "symfony/css-selector": "^4.4",
         "symfony/debug-bundle": "*",
