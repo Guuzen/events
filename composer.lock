@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "070056b8a1ba0156a5f6456997c6e2bd",
+    "content-hash": "d43001d83f37d0ec0696186d011ef245",
     "packages": [
         {
             "name": "cardinity/cardinity-sdk-php",
@@ -8649,16 +8649,16 @@
         },
         {
             "name": "coduo/php-matcher",
-            "version": "4.0.2",
+            "version": "5.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/coduo/php-matcher.git",
-                "reference": "5c3f3cbefa23a0aa3d42bbb506d4191813c63e64"
+                "reference": "d850d0b8c53c0b929f966325ccd4b7d794b72499"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/coduo/php-matcher/zipball/5c3f3cbefa23a0aa3d42bbb506d4191813c63e64",
-                "reference": "5c3f3cbefa23a0aa3d42bbb506d4191813c63e64",
+                "url": "https://api.github.com/repos/coduo/php-matcher/zipball/d850d0b8c53c0b929f966325ccd4b7d794b72499",
+                "reference": "d850d0b8c53c0b929f966325ccd4b7d794b72499",
                 "shasum": ""
             },
             "require": {
@@ -8666,21 +8666,19 @@
                 "doctrine/lexer": "^1.0",
                 "ext-filter": "*",
                 "ext-json": "*",
-                "openlss/lib-array2xml": "^1.0",
-                "php": ">=7.2",
-                "symfony/expression-language": "^2.3|^3.0|^4.0|^5.0",
-                "symfony/property-access": "^2.3|^3.0|^4.0|^5.0"
+                "ext-simplexml": "*",
+                "php": ">=7.2"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^2.4",
-                "phpunit/phpunit": "^8.4"
+                "openlss/lib-array2xml": "^1.0",
+                "phpunit/phpunit": "^8.5",
+                "symfony/expression-language": "^2.3|^3.0|^4.0|^5.0"
+            },
+            "suggest": {
+                "openlss/lib-array2xml": "In order ot use Coduo\\PHPMatcher\\Matcher\\XmlMatcher",
+                "symfony/expression-language": "In order to use Coduo\\PHPMatcher\\Matcher\\ExpressionMatcher"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "5.0-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Coduo\\PHPMatcher\\": "src/"
@@ -8707,7 +8705,7 @@
                 "matcher",
                 "tests"
             ],
-            "time": "2020-10-09T13:29:23+00:00"
+            "time": "2020-10-09T13:31:33+00:00"
         },
         {
             "name": "coduo/php-to-string",

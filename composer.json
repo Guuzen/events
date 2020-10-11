@@ -45,7 +45,7 @@
         "symfony/yaml": "^4.4"
     },
     "require-dev": {
-        "coduo/php-matcher": "^4.0",
+        "coduo/php-matcher": "^5.0",
         "friendsofphp/php-cs-fixer": "^2.15",
         "internations/http-mock": "^0.13.0",
         "phpspec/phpspec": "^6.2",

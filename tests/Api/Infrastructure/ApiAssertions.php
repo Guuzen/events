@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Api\Infrastructure;
 
+use Coduo\PHPMatcher\PHPUnit\PHPMatcherConstraint;
 use PHPUnit\Framework\TestCase;
 
 trait ApiAssertions
