@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\Promocode\Model;
+namespace App\Order\Action\ApplyPromocode;
 
 use App\Event\Model\EventId;
-use App\Infrastructure\DomainEvent\Event;
 use App\Order\Model\OrderId;
 use App\Promocode\Model\Discount\Discount;
+use App\Promocode\Model\PromocodeId;
 
 /**
  * @psalm-immutable
  */
-final class PromocodeUsed implements Event
+final class ApplyPromocode
 {
     public $eventId;
 

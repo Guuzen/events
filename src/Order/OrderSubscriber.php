@@ -2,8 +2,8 @@
 
 namespace App\Order;
 
-use App\Order\Action\ApplyDiscount\ApplyDiscount;
-use App\Order\Action\ApplyDiscount\ApplyDiscountHandler;
+use App\Order\Action\ApplyPromocode\ApplyPromocode;
+use App\Order\Action\ApplyPromocode\ApplyPromocodeHandler;
 use App\Order\Model\OrderMarkedPaid;
 use App\Product\Action\CreateTicket\CreateTicket;
 use App\Product\Action\CreateTicket\CreateTicketHandler;
@@ -16,6 +16,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
+// TODO are subscribers controllers ?
 final class OrderSubscriber implements EventSubscriberInterface
 {
     private $applyDiscountHandler;
@@ -29,7 +30,7 @@ final class OrderSubscriber implements EventSubscriberInterface
     private $em;
 
     public function __construct(
-        ApplyDiscountHandler $applyDiscountHandler,
+        ApplyPromocodeHandler $applyDiscountHandler,
         CreateTicketHandler $createTicketHandler,
         SendTicketHandler $sendTicketHandler,
         EntityManagerInterface $em,
@@ -55,8 +56,9 @@ final class OrderSubscriber implements EventSubscriberInterface
     {
         // TODO try catch + log is not helpful. There is must be user notification about error
         $this->applyDiscountHandler->handle(
-            new ApplyDiscount(
+            new ApplyPromocode(
                 $event->eventId,
+                $event->promocodeId,
                 $event->orderId,
                 $event->discount
             )

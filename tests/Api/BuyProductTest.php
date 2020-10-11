@@ -194,7 +194,7 @@ final class BuyProductTest extends TestCase
         ]);
         $this->visitor->awaitsForEmailWithTicket();
         $this->manager->seeOrderInList($eventId, [
-            'data' => [ // TODO currency and sum is a money type
+            'data' => [
                 [
                     'id'          => $orderId,
                     'eventId'     => $eventId,
@@ -205,6 +205,7 @@ final class BuyProductTest extends TestCase
                         'currency' => 'RUB',
                     ],
                     'discount'    => null,
+                    'promocodeId' => null,
                     'total'       => [
                         'amount'   => '200',
                         'currency' => 'RUB',
@@ -227,6 +228,7 @@ final class BuyProductTest extends TestCase
                     'currency' => 'RUB',
                 ],
                 'discount'    => null,
+                'promocodeId' => null,
                 'total'       => [
                     'amount'   => '200',
                     'currency' => 'RUB',
@@ -261,6 +263,7 @@ final class BuyProductTest extends TestCase
                             'currency' => 'RUB',
                         ],
                     ],
+                    'promocodeId' => '@uuid@',
                     'total'       => [
                         'amount'   => '100',
                         'currency' => 'RUB',
@@ -289,6 +292,7 @@ final class BuyProductTest extends TestCase
                         'currency' => 'RUB',
                     ],
                 ],
+                'promocodeId' => '@uuid@',
                 'total'       => [
                     'amount'   => '100',
                     'currency' => 'RUB',
@@ -354,6 +358,7 @@ final class BuyProductTest extends TestCase
                             'currency' => 'RUB',
                         ],
                     ],
+                    'promocodeId' => '@uuid@',
                     'total'       => [
                         'amount'   => '100',
                         'currency' => 'RUB',
@@ -382,6 +387,7 @@ final class BuyProductTest extends TestCase
                         'currency' => 'RUB',
                     ],
                 ],
+                'promocodeId' => '@uuid@',
                 'total'       => [
                     'amount'   => '100',
                     'currency' => 'RUB',
@@ -568,6 +574,7 @@ final class BuyProductTest extends TestCase
                         'currency' => 'RUB',
                     ],
                     'discount'    => null,
+                    'promocodeId' => null,
                     'total'       => [
                         'amount'   => '200',
                         'currency' => 'RUB',
@@ -590,6 +597,7 @@ final class BuyProductTest extends TestCase
                     'currency' => 'RUB',
                 ],
                 'discount'    => null,
+                'promocodeId' => null,
                 'total'       => [
                     'amount'   => '200',
                     'currency' => 'RUB',
@@ -624,6 +632,7 @@ final class BuyProductTest extends TestCase
                         ],
                         'type'   => 'fixed',
                     ],
+                    'promocodeId' => '@uuid@',
                     'total'       => [
                         'amount'   => '100',
                         'currency' => 'RUB',
@@ -652,6 +661,7 @@ final class BuyProductTest extends TestCase
                     ],
                     'type'   => 'fixed',
                 ],
+                'promocodeId' => '@uuid@',
                 'total'       => [
                     'amount'   => '100',
                     'currency' => 'RUB',
@@ -718,6 +728,7 @@ final class BuyProductTest extends TestCase
                         ],
                         'type'   => 'fixed',
                     ],
+                    'promocodeId' => '@uuid@',
                     'total'       => [
                         'amount'   => '100',
                         'currency' => 'RUB',
@@ -746,6 +757,7 @@ final class BuyProductTest extends TestCase
                     ],
                     'type'   => 'fixed',
                 ],
+                'promocodeId' => '@uuid@',
                 'total'       => [
                     'amount'   => '100',
                     'currency' => 'RUB',

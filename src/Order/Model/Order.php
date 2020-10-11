@@ -3,13 +3,12 @@
 namespace App\Order\Model;
 
 use App\Event\Model\EventId;
-use App\Fondy\CantGetPaymentUrl;
 use App\Fondy\Fondy;
 use App\Infrastructure\DomainEvent\Entity;
 use App\Order\Model\Exception\NotPossibleToApplyDiscountTwiceOnOrder;
 use App\Order\Model\Exception\OrderAlreadyPaid;
 use App\Order\Model\Exception\OrderCancelled;
-use App\Promocode\Model\Discount\Discount;
+use App\Promocode\Model\PromocodeId;
 use App\Tariff\Model\ProductType;
 use App\Tariff\Model\TariffId;
 use App\User\Model\UserId;
@@ -62,13 +61,6 @@ class Order extends Entity
     private $price;
 
     /**
-     * @var Discount|null
-     *
-     * @ORM\Column(type=Discount::class, nullable=true)
-     */
-    private $discount;
-
-    /**
      * @var Money
      *
      * @ORM\Column(type=Money::class)
@@ -91,6 +83,13 @@ class Order extends Entity
      * @ORM\Column(type="boolean")
      */
     private $cancelled = false;
+
+    /**
+     * @var PromocodeId|null
+     *
+     * @ORM\Column(type=PromocodeId::class, nullable=true)
+     */
+    private $promocodeId;
 
     public function __construct(
         OrderId $id,
@@ -140,13 +139,12 @@ class Order extends Entity
         return $fondy->checkoutUrl($this->price, $this->id);
     }
 
-    public function applyDiscount(Discount $discount): void
+    public function applyPromocode(PromocodeId $promocodeId): void
     {
-        if ($this->discount !== null) {
-            throw new NotPossibleToApplyDiscountTwiceOnOrder('');
+        if ($this->promocodeId !== null) {
+            throw new NotPossibleToApplyDiscountTwiceOnOrder(''); // TODO compensate use of promocode when new promocode applying
         }
 
-        $this->discount = $discount;
-        $this->total    = $this->discount->apply($this->price);
+        $this->promocodeId = $promocodeId;
     }
 }

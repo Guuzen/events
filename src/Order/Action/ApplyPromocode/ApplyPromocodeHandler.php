@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Order\Action\ApplyDiscount;
+namespace App\Order\Action\ApplyPromocode;
 
 use App\Order\Model\Orders;
 
-final class ApplyDiscountHandler
+final class ApplyPromocodeHandler
 {
     private $orders;
 
@@ -15,10 +15,10 @@ final class ApplyDiscountHandler
         $this->orders = $orders;
     }
 
-    public function handle(ApplyDiscount $command): void
+    public function handle(ApplyPromocode $command): void
     {
         $order = $this->orders->getById($command->orderId, $command->eventId);
 
-        $order->applyDiscount($command->discount);
+        $order->applyPromocode($command->promocodeId);
     }
 }

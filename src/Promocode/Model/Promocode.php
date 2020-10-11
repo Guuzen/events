@@ -74,6 +74,8 @@ class Promocode extends Entity
     // TODO нельзя применять промокод к отменённому заказу
 
     /**
+     * TODO try to avoid use of order id here
+     *
      * @ORM\Column(type=UsedInOrders::class)
      *
      * @var UsedInOrders
@@ -132,6 +134,7 @@ class Promocode extends Entity
         $this->rememberThat(
             new PromocodeUsed(
                 $this->eventId,
+                $this->id,
                 $orderId,
                 $this->discount
             )

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Order\Query\FindOrderById;
+namespace App\ApiGateway\FindOrderById;
 
 use App\Infrastructure\Http\RequestResolver\AppRequest;
 use Symfony\Component\Validator\Constraints as Assert;
