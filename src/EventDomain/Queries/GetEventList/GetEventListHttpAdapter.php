@@ -23,13 +23,15 @@ final class GetEventListHttpAdapter extends AppController
      */
     public function getEventList(): Response
     {
-        $stmt = $this->connection->query('
+        $eventList = $this->connection->fetchAllAssociative(
+            '
             select
                 *
             from
                 event_domain
-        ');
+            '
+        );
 
-        return $this->response($stmt->fetchAll());
+        return $this->response($eventList);
     }
 }

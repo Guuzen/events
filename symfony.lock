@@ -158,6 +158,9 @@
     "justinrainbow/json-schema": {
         "version": "5.2.10"
     },
+    "laminas/laminas-zendframework-bridge": {
+        "version": "1.1.1"
+    },
     "league/event": {
         "version": "2.2.0"
     },
@@ -195,7 +198,7 @@
         "version": "2.0.1"
     },
     "php": {
-        "version": "7.2"
+        "version": "7.4"
     },
     "php-cs-fixer/diff": {
         "version": "v1.3.0"
@@ -645,6 +648,9 @@
     },
     "vimeo/psalm": {
         "version": "3.4.12"
+    },
+    "webimpress/safe-writer": {
+        "version": "2.1.0"
     },
     "webmozart/assert": {
         "version": "1.4.0"

@@ -39,7 +39,7 @@ final class GetTicketListHttpAdapter extends AppController
         $stmt->execute();
 
         /** @var string|false $ticketData */
-        $ticketData = $stmt->fetchColumn();
+        $ticketData = $stmt->fetchOne();
         if ($ticketData === false) {
             throw new TicketListNotFound('');
         }

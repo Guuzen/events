@@ -48,7 +48,7 @@ final class FindOrderByIdHandler
         $stmt->execute();
 
         /** @var string $orderData */
-        $orderData = $stmt->fetchColumn();
+        $orderData = $stmt->fetchOne();
 
         return $this->deserializer->deserialize($orderData);
     }

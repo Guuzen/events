@@ -33,7 +33,7 @@ final class FindTicketEmail
         $stmt->execute();
 
         /** @var array{email: string, number: string}|false */
-        $result = $stmt->fetch();
+        $result = $stmt->fetchAssociative();
 
         if (false === $result) {
             throw new TicketEmailNotFound('');

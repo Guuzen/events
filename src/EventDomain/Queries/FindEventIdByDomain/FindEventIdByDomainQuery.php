@@ -26,7 +26,7 @@ final class FindEventIdByDomainQuery
         $stmt->bindParam('domain', $domain);
         $stmt->execute();
         /** @psalm-var array{id: string}|false */
-        $result = $stmt->fetch();
+        $result = $stmt->fetchAssociative();
         if (false === $result) {
             throw new EventIdByDomainNotFound('');
         }

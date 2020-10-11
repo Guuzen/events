@@ -34,7 +34,7 @@ final class ApplyDiscountHandler
         $stmt->execute();
 
         /** @var string|false $discountJson */
-        $discountJson = $stmt->fetchColumn();
+        $discountJson = $stmt->fetchOne();
 
         /** @var Discount $discount */
         $discount = $this->connection->convertToPHPValue($discountJson, Discount::class);

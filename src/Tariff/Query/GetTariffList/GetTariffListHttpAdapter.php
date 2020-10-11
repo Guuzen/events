@@ -38,7 +38,7 @@ final class GetTariffListHttpAdapter extends AppController
         $stmt->execute();
 
         /** @var string|false $tariffsData */
-        $tariffsData = $stmt->fetchColumn();
+        $tariffsData = $stmt->fetchOne();
         if ($tariffsData === false) {
             throw new TariffListNotFound('');
         }

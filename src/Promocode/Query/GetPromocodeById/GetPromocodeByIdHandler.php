@@ -46,7 +46,7 @@ final class GetPromocodeByIdHandler
         $stmt->execute();
 
         /** @var string $promocode */
-        $promocode = $stmt->fetchColumn();
+        $promocode = $stmt->fetchOne();
 
         return $this->deserializer->deserialize($promocode);
     }

@@ -35,7 +35,7 @@ final class FindEventByIdHttpAdapter extends AppController
         $stmt->execute();
 
         /** @var array|false */
-        $event = $stmt->fetch();
+        $event = $stmt->fetchAssociative();
         if (false === $event) {
             throw new EventNotFound(''); // TODO exceptions in dev and in prod. In prod need only message. In dev - full trace?
         }

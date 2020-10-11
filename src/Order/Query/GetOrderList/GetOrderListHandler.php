@@ -52,7 +52,7 @@ final class GetOrderListHandler
         $stmt->execute();
 
         /** @var string|false $ordersData */
-        $ordersData = $stmt->fetchColumn();
+        $ordersData = $stmt->fetchOne();
         if ($ordersData === false) {
             throw new OrderListNotFound('');
         }

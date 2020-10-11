@@ -39,7 +39,7 @@ final class FindTicketByIdHttpAdapter extends AppController
         $stmt->execute();
 
         /** @var string|false $ticketData */
-        $ticketData = $stmt->fetchColumn();
+        $ticketData = $stmt->fetchOne();
         if (false === $ticketData) {
             throw new TicketByIdNotFound('');
         }

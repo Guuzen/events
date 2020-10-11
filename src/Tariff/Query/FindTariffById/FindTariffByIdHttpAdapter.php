@@ -39,7 +39,7 @@ final class FindTariffByIdHttpAdapter extends AppController
         $stmt->execute();
 
         /** @var string|false $tariffData */
-        $tariffData = $stmt->fetchColumn();
+        $tariffData = $stmt->fetchOne();
         if (false === $tariffData) {
             throw new TariffByIdNotFound('');
         }

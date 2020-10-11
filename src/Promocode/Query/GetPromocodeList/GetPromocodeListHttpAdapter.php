@@ -40,7 +40,7 @@ final class GetPromocodeListHttpAdapter extends AppController
         $stmt->execute();
 
         /** @var string|false $promocodesData */
-        $promocodesData = $stmt->fetchColumn();
+        $promocodesData = $stmt->fetchOne();
         if ($promocodesData === false) {
             throw new PromocodeListNotFound('');
         }
