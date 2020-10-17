@@ -2,17 +2,17 @@
 
 namespace App\Infrastructure\Persistence\DBALTypes;
 
+use App\Infrastructure\Persistence\DatabaseSerializer\DatabaseSerializer;
 use App\Infrastructure\Persistence\DBALTypesInitializer\CustomType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
-use Symfony\Component\Serializer\SerializerInterface;
 
 final class JsonDocumentType extends Type implements CustomType
 {
-    /** @var SerializerInterface */
+    /** @var DatabaseSerializer */
     private $serializer;
 
-    /** @psalm-var string */
+    /** @psalm-var class-string */
     private $mappedClass;
 
     public function convertToPHPValue($value, AbstractPlatform $platform)
@@ -21,7 +21,7 @@ final class JsonDocumentType extends Type implements CustomType
             return null;
         }
 
-        return $this->serializer->deserialize($value, $this->mappedClass, 'json');
+        return $this->serializer->deserialize($value, $this->mappedClass);
     }
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
@@ -30,7 +30,7 @@ final class JsonDocumentType extends Type implements CustomType
             return null;
         }
 
-        return $this->serializer->serialize($value, 'json');
+        return $this->serializer->serialize($value);
     }
 
     public function setMappedClass(string $mappedClass): void
@@ -43,7 +43,7 @@ final class JsonDocumentType extends Type implements CustomType
         return $this->mappedClass;
     }
 
-    public function setSerializer(SerializerInterface $serializer): void
+    public function setSerializer(DatabaseSerializer $serializer): void
     {
         $this->serializer = $serializer;
     }

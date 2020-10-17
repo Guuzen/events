@@ -6,4 +6,4 @@ services:
 
     App\Infrastructure\Persistence\DBALTypesInitializer\DBALTypes:
         arguments:
-            - '@app.infrastructure.persistence.serializer'
+            - '@App\Infrastructure\Persistence\DatabaseSerializer\DatabaseSerializer'

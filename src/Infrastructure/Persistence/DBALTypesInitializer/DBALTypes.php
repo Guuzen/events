@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Persistence\DBALTypesInitializer;
 
+use App\Infrastructure\Persistence\DatabaseSerializer\DatabaseSerializer;
 use App\Infrastructure\Persistence\DBALTypes\JsonDocumentType;
 use Doctrine\DBAL\Types\Type;
-use Symfony\Component\Serializer\SerializerInterface;
 
 final class DBALTypes
 {
@@ -15,7 +15,7 @@ final class DBALTypes
 
     private $jsonDocumentTypeSerializer;
 
-    public function __construct(SerializerInterface $jsonDocumentTypeSerializer)
+    public function __construct(DatabaseSerializer $jsonDocumentTypeSerializer)
     {
         $this->jsonDocumentTypeSerializer = $jsonDocumentTypeSerializer;
     }
