@@ -35,7 +35,10 @@ final class JoinResponse
         return $result;
     }
 
-    private function findOne(iterable $collection, int $findBy): ?iterable
+    /**
+     * @return iterable|object|null
+     */
+    private function findOne(iterable $collection, int $findBy)
     {
         foreach ($collection as $key => $value) {
             if ($key === $findBy) {

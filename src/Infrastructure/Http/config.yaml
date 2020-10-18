@@ -30,6 +30,9 @@ services:
             - '@app.infrastructure.http.serializer.php_doc_extractor'
             - '@serializer.mapping.class_discriminator_resolver'
 
+    app.infrastructure.http.get_set_method_normalizer:
+        class: Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer
+
     app.infrastructure.http.serializer:
         class: Symfony\Component\Serializer\Serializer
         arguments:
@@ -38,6 +41,7 @@ services:
                 - '@app.infrastructure.http.serializer.normalizer.array'
                 - '@app.infrastructure.http.serializer.inline_normalizer'
                 - '@serializer.normalizer.json_serializable'
+                - '@app.infrastructure.http.get_set_method_normalizer'
                 - '@app.infrastructure.http.serializer.property_normalizer'
             $encoders:
                 - '@serializer.encoder.json'

@@ -4,39 +4,27 @@ declare(strict_types=1);
 
 namespace App\Order\Query\GetOrderList;
 
-use App\Infrastructure\Persistence\JsonFromDatabaseDeserializer\JsonFromDatabaseDeserializer;
+use App\Infrastructure\Persistence\DatabaseSerializer\DatabaseSerializer;
+use App\Order\Query\OrderResource;
 use Doctrine\DBAL\Connection;
 
 final class GetOrderListHandler
 {
     private $connection;
 
-    private $deserializer;
+    private $serializer;
 
-    public function __construct(Connection $connection, JsonFromDatabaseDeserializer $deserializer)
+    public function __construct(Connection $connection, DatabaseSerializer $serializer)
     {
-        $this->connection = $connection;
-        $this->deserializer = $deserializer;
+        $this->connection   = $connection;
+        $this->serializer   = $serializer;
     }
 
     // TODO should all exceptions be in docblock? Handlers may be used not only by http. What will happen on exception
-
-    /**
-     * @psalm-return array{
-     *      array{
-     *          price: array{
-     *              amount: string,
-     *              currency: string,
-     *          },
-     *          promocodeId: ?string,
-     *      }
-     * }
-     *
-     * @psalm-suppress MixedReturnTypeCoercion
-     */
     public function execute(GetOrderList $query): array
     {
-        $stmt = $this->connection->prepare('
+        $stmt = $this->connection->prepare(
+            '
             select
                 json_agg(orders)
             from (
@@ -47,7 +35,8 @@ final class GetOrderListHandler
                 where
                     "order".event_id = :event_id
             ) as orders
-        ');
+        '
+        );
         $stmt->bindValue('event_id', $query->eventId);
         $stmt->execute();
 
@@ -57,6 +46,6 @@ final class GetOrderListHandler
             throw new OrderListNotFound('');
         }
 
-        return $this->deserializer->deserialize($ordersData);
+        return $this->serializer->deserializeToArray($ordersData, OrderResource::class);
     }
 }

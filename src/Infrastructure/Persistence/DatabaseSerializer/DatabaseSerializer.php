@@ -43,7 +43,7 @@ final class DatabaseSerializer
      * @psalm-suppress InvalidReturnType
      * @psalm-suppress MixedReturnTypeCoercion
      */
-    public function deserializeToArray(string $data, string $type, array $context = [])
+    public function deserializeToArray(string $data, string $type, array $context = []): array
     {
         /** @psalm-suppress InvalidReturnStatement */
         return $this->serializer->deserialize($data, $type . '[]', 'json', $context);

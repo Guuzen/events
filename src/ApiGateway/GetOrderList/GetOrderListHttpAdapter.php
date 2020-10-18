@@ -6,34 +6,31 @@ namespace App\ApiGateway\GetOrderList;
 
 use App\Event\Model\EventId;
 use App\Infrastructure\Http\AppController\AppController;
+use App\Infrastructure\JoinResponse\JoinResponse;
 use App\Order\Query\GetOrderList\GetOrderList;
 use App\Order\Query\GetOrderList\GetOrderListHandler;
-use App\Promocode\Model\PromocodeId;
-use App\Promocode\Query\ApplyDiscountHandler\ApplyDiscount;
-use App\Promocode\Query\ApplyDiscountHandler\ApplyDiscountHandler;
-use App\Promocode\Query\GetPromocodeById\GetPromocodeById;
-use App\Promocode\Query\GetPromocodeById\GetPromocodeByIdHandler;
-use Money\Currency;
-use Money\Money;
+use App\Order\Query\OrderResource;
+use App\Promocode\Query\GetPromocodesByIds\GetPromocodesByIds;
+use App\Promocode\Query\GetPromocodesByIds\GetPromocodesByIdsHandler;
 use Symfony\Component\Routing\Annotation\Route;
 
 final class GetOrderListHttpAdapter extends AppController
 {
     private $getOrderList;
 
-    private $applyDiscount;
+    private $getPromocodesByIds;
 
-    private $getPromocodeById;
+    private $joinResponse;
 
     public function __construct(
         GetOrderListHandler $getOrderList,
-        ApplyDiscountHandler $applyDiscount,
-        GetPromocodeByIdHandler $getPromocodeById
+        GetPromocodesByIdsHandler $getPromocodesByIds,
+        JoinResponse $joinResponse
     )
     {
-        $this->getOrderList     = $getOrderList;
-        $this->applyDiscount    = $applyDiscount;
-        $this->getPromocodeById = $getPromocodeById;
+        $this->getOrderList       = $getOrderList;
+        $this->getPromocodesByIds = $getPromocodesByIds;
+        $this->joinResponse       = $joinResponse;
     }
 
     /**
@@ -45,23 +42,19 @@ final class GetOrderListHttpAdapter extends AppController
             new GetOrderList(new EventId($request->eventId))
         );
 
-        foreach ($orders as &$order) {
-            if ($order['promocodeId'] === null) {
-                $order['total']    = new Money($order['price']['amount'], new Currency($order['price']['currency']));
-                $order['discount'] = null;
-            } else { // TODO infrastructure code ? Move to some join functions ?
-                $promocodeId       = new PromocodeId($order['promocodeId']);
-                $order['total']    = $this->applyDiscount->execute(
-                    new ApplyDiscount(
-                        $promocodeId,
-                        new Money($order['price']['amount'], new Currency($order['price']['currency']))
+        $promocodes = $this->getPromocodesByIds->execute(
+            new GetPromocodesByIds(
+                \array_filter(
+                    \array_map(
+                        static fn(OrderResource $order) => $order->promocodeId,
+                        $orders
                     )
-                );
-                $promocode         = $this->getPromocodeById->execute(new GetPromocodeById($promocodeId));
-                $order['discount'] = $promocode['discount'];
-            }
-        }
+                )
+            )
+        );
 
-        return $this->response($orders);
+        $response = $this->joinResponse->oneToOne(GetOrderListItemResponse::class, $orders, $promocodes);
+
+        return $this->response($response);
     }
 }

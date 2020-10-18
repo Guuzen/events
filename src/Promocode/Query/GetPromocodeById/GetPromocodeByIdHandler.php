@@ -4,29 +4,23 @@ declare(strict_types=1);
 
 namespace App\Promocode\Query\GetPromocodeById;
 
-use App\Infrastructure\Persistence\JsonFromDatabaseDeserializer\JsonFromDatabaseDeserializer;
+use App\Infrastructure\Persistence\DatabaseSerializer\DatabaseSerializer;
+use App\Promocode\Query\PromocodeResource;
 use Doctrine\DBAL\Connection;
 
 final class GetPromocodeByIdHandler
 {
     private $connection;
 
-    private $deserializer;
+    private $serializer;
 
-    public function __construct(Connection $connection, JsonFromDatabaseDeserializer $deserializer)
+    public function __construct(Connection $connection, DatabaseSerializer $serializer)
     {
-        $this->connection   = $connection;
-        $this->deserializer = $deserializer;
+        $this->connection = $connection;
+        $this->serializer = $serializer;
     }
 
-    /**
-     * @psalm-return array{
-     *      discount: array,
-     * }
-     *
-     * @psalm-suppress MixedReturnTypeCoercion
-     */
-    public function execute(GetPromocodeById $query): array
+    public function execute(GetPromocodeById $query): PromocodeResource
     {
         $stmt = $this->connection->prepare(
             '
@@ -48,6 +42,6 @@ final class GetPromocodeByIdHandler
         /** @var string $promocode */
         $promocode = $stmt->fetchOne();
 
-        return $this->deserializer->deserialize($promocode);
+        return $this->serializer->deserialize($promocode, PromocodeResource::class);
     }
 }
