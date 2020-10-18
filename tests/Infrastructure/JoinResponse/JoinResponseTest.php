@@ -188,4 +188,36 @@ final class JoinResponseTest extends TestCase
             $result
         );
     }
+
+    public function testSingleJoinOneToPossiblyNullOne(): void
+    {
+        $firstOneFirstItem  = ['id' => 1];
+        $firstOneSecondItem = ['id' => 2];
+        $firstOneCollection = [
+            $firstOneFirstItem,
+            $firstOneSecondItem,
+        ];
+
+        $secondOneFirstItem  = [
+            'id'         => 10,
+            'firstOneId' => 1,
+        ];
+        $secondOneCollection = [
+            $secondOneFirstItem,
+        ];
+
+        $result = (new JoinResponse())->oneToOne(
+            SingleJoinedOneToPossiblyNullOneResponse::class,
+            new Collection($firstOneCollection, fn(array $oneItem) => $oneItem['id']),
+            new Collection($secondOneCollection, fn(array $oneItem) => $oneItem['firstOneId'])
+        );
+
+        self::assertEquals(
+            [
+                new SingleJoinedOneToPossiblyNullOneResponse($firstOneFirstItem, $secondOneFirstItem),
+                new SingleJoinedOneToPossiblyNullOneResponse($firstOneSecondItem, null),
+            ],
+            $result
+        );
+    }
 }

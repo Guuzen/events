@@ -12,11 +12,7 @@ final class JoinResponse
         foreach ($firstOne as $firstOneKey => $firstOneValue) {
             $foundOnes = [];
             foreach ($otherOnes as $otherOne) {
-                $foundOne = $this->findOne($otherOne, $firstOneKey);
-                if ($foundOne === null) {
-                    continue;
-                }
-                $foundOnes[] = $foundOne;
+                $foundOnes[] = $this->findOne($otherOne, $firstOneKey);
             }
 
             $result[] = new $into($firstOneValue, ...$foundOnes);
