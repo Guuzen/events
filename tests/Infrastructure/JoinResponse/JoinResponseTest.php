@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Infrastructure\JoinResponse;
 
 use App\Infrastructure\JoinResponse\Collection;
-use App\Infrastructure\JoinResponse\JoinResponse;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -17,7 +16,7 @@ final class JoinResponseTest extends TestCase
     {
         $oneFirstItem  = ['id' => 1];
         $oneSecondItem = ['id' => 2];
-        $oneCollection = [
+        $oneItems      = [
             $oneFirstItem,
             $oneSecondItem,
         ];
@@ -30,16 +29,14 @@ final class JoinResponseTest extends TestCase
             'id'    => 2,
             'oneId' => 2,
         ];
-        $manyCollection = [
+        $manyItems      = [
             $manyFirstItem,
             $manySecondItem,
         ];
 
-        $result = (new JoinResponse())->oneToMany(
-            SingleJoinedOneToManyResponse::class,
-            new Collection($oneCollection, fn(array $oneItem) => $oneItem['id']),
-            new Collection($manyCollection, fn(array $manyItem) => $manyItem['oneId'])
-        );
+        $oneCollection  = new Collection($oneItems, fn(array $oneItem) => $oneItem['id']);
+        $manyCollection = new Collection($manyItems, fn(array $manyItem) => $manyItem['oneId']);
+        $result         = $oneCollection->eachToMany(SingleJoinedOneToManyResponse::class, $manyCollection);
 
         self::assertEquals(
             [
@@ -54,7 +51,7 @@ final class JoinResponseTest extends TestCase
     {
         $oneFirstItem  = ['id' => 1];
         $oneSecondItem = ['id' => 2];
-        $oneCollection = [
+        $oneItems      = [
             $oneFirstItem,
             $oneSecondItem,
         ];
@@ -67,7 +64,7 @@ final class JoinResponseTest extends TestCase
             'id'    => 20,
             'oneId' => 2,
         ];
-        $firstManyCollection = [
+        $firstManyItems      = [
             $firstManyFirstItem,
             $firstManySecondItem,
         ];
@@ -80,16 +77,19 @@ final class JoinResponseTest extends TestCase
             'id'    => 40,
             'oneId' => 2,
         ];
-        $secondManyCollection = [
+        $secondManyItems      = [
             $secondManyFirstItem,
             $secondManySecondItem,
         ];
 
-        $result = (new JoinResponse())->oneToMany(
+        $oneCollection        = new Collection($oneItems, fn(array $one) => $one['id']);
+        $firstManyCollection  = new Collection($firstManyItems, fn(array $manyItem) => $manyItem['oneId']);
+        $secondManyCollection = new Collection($secondManyItems, fn(array $manyItem) => $manyItem['oneId']);
+
+        $result = $oneCollection->eachToMany(
             DoubleJoinedOneToManyResponse::class,
-            new Collection($oneCollection, fn(array $one) => $one['id']),
-            new Collection($firstManyCollection, fn(array $manyItem) => $manyItem['oneId']),
-            new Collection($secondManyCollection, fn(array $manyItem) => $manyItem['oneId'])
+            $firstManyCollection,
+            $secondManyCollection
         );
 
         self::assertEquals(
@@ -105,7 +105,7 @@ final class JoinResponseTest extends TestCase
     {
         $firstOneFirstItem  = ['id' => 1];
         $firstOneSecondItem = ['id' => 2];
-        $firstOneCollection = [
+        $firstOneItems      = [
             $firstOneFirstItem,
             $firstOneSecondItem,
         ];
@@ -118,17 +118,15 @@ final class JoinResponseTest extends TestCase
             'id'         => 20,
             'firstOneId' => 2,
         ];
-        $secondOneCollection = [
+        $secondOneItems      = [
             $secondOneFirstItem,
             $secondOneSecondItem,
         ];
 
-        $result = (new JoinResponse())->oneToOne(
-            SingleJoinedOneToOneResponse::class,
-            new Collection($firstOneCollection, fn(array $oneItem) => $oneItem['id']),
-            new Collection($secondOneCollection, fn(array $oneItem) => $oneItem['firstOneId'])
-        );
+        $firstOneCollection = new Collection($firstOneItems, fn(array $oneItem) => $oneItem['id']);
+        $seoncOneCollection = new Collection($secondOneItems, fn(array $oneItem) => $oneItem['firstOneId']);
 
+        $result = $firstOneCollection->eachToOne(SingleJoinedOneToOneResponse::class, $seoncOneCollection);
         self::assertEquals(
             [
                 new SingleJoinedOneToOneResponse($firstOneFirstItem, $secondOneFirstItem),
@@ -142,7 +140,7 @@ final class JoinResponseTest extends TestCase
     {
         $firstOneFirstItem  = ['id' => 1];
         $firstOneSecondItem = ['id' => 2];
-        $firstOneCollection = [
+        $firstOneItems      = [
             $firstOneFirstItem,
             $firstOneSecondItem,
         ];
@@ -155,7 +153,7 @@ final class JoinResponseTest extends TestCase
             'id'         => 20,
             'firstOneId' => 2,
         ];
-        $secondOneCollection = [
+        $secondOneItems      = [
             $secondOneFirstItem,
             $secondOneSecondItem,
         ];
@@ -168,16 +166,19 @@ final class JoinResponseTest extends TestCase
             'id'         => 200,
             'firstOneId' => 2,
         ];
-        $thirdOneCollection = [
+        $thirdOneItems      = [
             $thirdOneFirstItem,
             $thirdOneSecondItem,
         ];
 
-        $result = (new JoinResponse())->oneToOne(
+        $firstOneCollection  = new Collection($firstOneItems, fn(array $oneItem) => $oneItem['id']);
+        $secondOneCollection = new Collection($secondOneItems, fn(array $oneItem) => $oneItem['firstOneId']);
+        $thirdOneCollection  = new Collection($thirdOneItems, fn(array $oneItem) => $oneItem['firstOneId']);
+
+        $result = $firstOneCollection->eachToOne(
             DoubleJoinedOneToOneResponse::class,
-            new Collection($firstOneCollection, fn(array $oneItem) => $oneItem['id']),
-            new Collection($secondOneCollection, fn(array $oneItem) => $oneItem['firstOneId']),
-            new Collection($thirdOneCollection, fn(array $oneItem) => $oneItem['firstOneId'])
+            $secondOneCollection,
+            $thirdOneCollection
         );
 
         self::assertEquals(
@@ -193,24 +194,23 @@ final class JoinResponseTest extends TestCase
     {
         $firstOneFirstItem  = ['id' => 1];
         $firstOneSecondItem = ['id' => 2];
-        $firstOneCollection = [
+        $firstOneItems      = [
             $firstOneFirstItem,
             $firstOneSecondItem,
         ];
 
-        $secondOneFirstItem  = [
+        $secondOneFirstItem = [
             'id'         => 10,
             'firstOneId' => 1,
         ];
-        $secondOneCollection = [
+        $secondOneItems     = [
             $secondOneFirstItem,
         ];
 
-        $result = (new JoinResponse())->oneToOne(
-            SingleJoinedOneToPossiblyNullOneResponse::class,
-            new Collection($firstOneCollection, fn(array $oneItem) => $oneItem['id']),
-            new Collection($secondOneCollection, fn(array $oneItem) => $oneItem['firstOneId'])
-        );
+        $firstOneCollection  = new Collection($firstOneItems, fn(array $oneItem) => $oneItem['id']);
+        $secondOneCollection = new Collection($secondOneItems, fn(array $oneItem) => $oneItem['firstOneId']);
+
+        $result = $firstOneCollection->eachToOne(SingleJoinedOneToPossiblyNullOneResponse::class, $secondOneCollection);
 
         self::assertEquals(
             [
@@ -219,5 +219,73 @@ final class JoinResponseTest extends TestCase
             ],
             $result
         );
+    }
+
+    public function testJoinOneWithoutSecondOneKey(): void
+    {
+        $firstOneFirstItem = [
+            'id'          => 1,
+            'secondOneId' => null,
+        ];
+        $firstOneItems     = [
+            $firstOneFirstItem,
+        ];
+
+        $secondOneFirstItem = [
+            'id' => 10,
+        ];
+        $secondOneItems     = [
+            $secondOneFirstItem,
+        ];
+
+        $firstOneCollection  = new Collection($firstOneItems, fn(array $oneItem) => $oneItem['secondOneId']);
+        $secondOneCollection = new Collection($secondOneItems, fn(array $oneItem) => $oneItem['id']);
+
+        $result = $firstOneCollection->eachToOne(SingleJoinedOneToPossiblyNullOneResponse::class, $secondOneCollection);
+
+        self::assertEquals(
+            [
+                new SingleJoinedOneToPossiblyNullOneResponse($firstOneFirstItem, null),
+            ],
+            $result
+        );
+    }
+
+    public function testCollectionGetKeys(): void
+    {
+        $collection = new Collection(
+            [
+                ['key' => 1]
+            ],
+            fn(array $item) => $item['key']
+        );
+
+        self::assertEquals([1], $collection->getKeys());
+    }
+
+    public function testCollectionGetOnlyUniqueKeys(): void
+    {
+        $collection = new Collection(
+            [
+                ['key' => 1],
+                ['key' => 1],
+            ],
+            fn(array $item) => $item['key']
+        );
+
+        self::assertEquals([1], $collection->getKeys());
+    }
+
+    public function testCollectionGetKeysWithoutNulls(): void
+    {
+        $collection = new Collection(
+            [
+                ['key' => 1],
+                ['key' => null],
+            ],
+            fn(array $item) => $item['key']
+        );
+
+        self::assertEquals([1], $collection->getKeys());
     }
 }

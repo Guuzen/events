@@ -20,6 +20,9 @@ final class GetPromocodesByIdsHandler
         $this->serializer = $serializer;
     }
 
+    /**
+     * @return PromocodeResource[]
+     */
     public function execute(GetPromocodesByIds $query): array
     {
         /** @var string|null $promocodes */

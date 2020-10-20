@@ -12,7 +12,6 @@
         <directory name="src" />
         <ignoreFiles>
             <directory name="vendor" />
-            <directory name="src/Infrastructure/JoinResponse" />
             <file name="src/Kernel.php"/>
         </ignoreFiles>
     </projectFiles>

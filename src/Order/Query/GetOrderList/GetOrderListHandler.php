@@ -21,6 +21,9 @@ final class GetOrderListHandler
     }
 
     // TODO should all exceptions be in docblock? Handlers may be used not only by http. What will happen on exception
+    /**
+     * @return OrderResource[]
+     */
     public function execute(GetOrderList $query): array
     {
         $stmt = $this->connection->prepare(

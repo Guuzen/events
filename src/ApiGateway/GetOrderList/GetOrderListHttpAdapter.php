@@ -6,12 +6,13 @@ namespace App\ApiGateway\GetOrderList;
 
 use App\Event\Model\EventId;
 use App\Infrastructure\Http\AppController\AppController;
-use App\Infrastructure\JoinResponse\JoinResponse;
+use App\Infrastructure\JoinResponse\Collection;
 use App\Order\Query\GetOrderList\GetOrderList;
 use App\Order\Query\GetOrderList\GetOrderListHandler;
 use App\Order\Query\OrderResource;
 use App\Promocode\Query\GetPromocodesByIds\GetPromocodesByIds;
 use App\Promocode\Query\GetPromocodesByIds\GetPromocodesByIdsHandler;
+use App\Promocode\Query\PromocodeResource;
 use Symfony\Component\Routing\Annotation\Route;
 
 final class GetOrderListHttpAdapter extends AppController
@@ -20,17 +21,10 @@ final class GetOrderListHttpAdapter extends AppController
 
     private $getPromocodesByIds;
 
-    private $joinResponse;
-
-    public function __construct(
-        GetOrderListHandler $getOrderList,
-        GetPromocodesByIdsHandler $getPromocodesByIds,
-        JoinResponse $joinResponse
-    )
+    public function __construct(GetOrderListHandler $getOrderList, GetPromocodesByIdsHandler $getPromocodesByIds)
     {
         $this->getOrderList       = $getOrderList;
         $this->getPromocodesByIds = $getPromocodesByIds;
-        $this->joinResponse       = $joinResponse;
     }
 
     /**
@@ -38,22 +32,17 @@ final class GetOrderListHttpAdapter extends AppController
      */
     public function __invoke(GetOrderListRequest $request)
     {
-        $orders = $this->getOrderList->execute(
+        $orders              = $this->getOrderList->execute(
             new GetOrderList(new EventId($request->eventId))
         );
-
-        $promocodes = $this->getPromocodesByIds->execute(
-            new GetPromocodesByIds(
-                \array_filter(
-                    \array_map(
-                        static fn(OrderResource $order) => $order->promocodeId,
-                        $orders
-                    )
-                )
-            )
+        $ordersCollection    = new Collection($orders, fn(OrderResource $order) => $order->promocodeId);
+        $promocodeIds        = $ordersCollection->getKeys();
+        $promocodes          = $this->getPromocodesByIds->execute(
+            new GetPromocodesByIds($promocodeIds)
         );
+        $promocodeCollection = new Collection($promocodes, fn(PromocodeResource $promocode) => $promocode->id);
 
-        $response = $this->joinResponse->oneToOne(GetOrderListItemResponse::class, $orders, $promocodes);
+        $response = $ordersCollection->eachToOne(GetOrderListItemResponse::class, $promocodeCollection);
 
         return $this->response($response);
     }
