@@ -2,25 +2,38 @@
 
 declare(strict_types=1);
 
-namespace App\ApiGateway\GetOrderList;
+namespace App\ApiGateway\Responses;
 
+use App\Infrastructure\ResponseComposer\Schema;
+use App\Infrastructure\ResponseComposer\SchemaProvider;
 use App\Order\Query\OrderResource;
 use App\Promocode\Model\Discount\Discount;
-use App\Promocode\Query\PromocodeResource;
+use App\Promocode\Query\ProvidePromocodeResources\PromocodeResource;
 use Money\Money;
 
-final class GetOrderListItemResponse
+final class Order implements SchemaProvider
 {
-    private $order;
+    private OrderResource $order;
 
-    private $promocode;
+    private ?Promocode $promocode;
 
-    public function __construct(OrderResource $order, ?PromocodeResource $promocode)
+    public function __construct(OrderResource $order, ?Promocode $promocode)
     {
         $this->order     = $order;
         $this->promocode = $promocode;
     }
 
+    public static function schema(): Schema
+    {
+        $schema = new Schema(self::class);
+        $schema->oneToOne(
+            Promocode::schema(),
+            fn(OrderResource $order) => $order->promocodeId,
+            fn(PromocodeResource $promocode) => $promocode->id
+        );
+
+        return $schema;
+    }
 
     public function getId(): string
     {
@@ -58,8 +71,9 @@ final class GetOrderListItemResponse
             return $this->order->price;
         }
 
-        return $this->promocode->discount->apply($this->order->price);
+        return $this->promocode->getDiscount()->apply($this->order->price);
     }
+
 
     public function getMakedAt(): \DateTimeImmutable
     {
@@ -86,6 +100,7 @@ final class GetOrderListItemResponse
         if ($this->promocode === null) {
             return null;
         }
-        return $this->promocode->discount;
+
+        return $this->promocode->getDiscount();
     }
 }

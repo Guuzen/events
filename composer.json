@@ -100,7 +100,7 @@
             "@psalm"
         ],
         "spec": "phpspec run --ansi",
-        "psalm": "psalm"
+        "psalm": "vendor/bin/psalm --output-format=phpstorm --no-cache"
     },
     "conflict": {
         "symfony/symfony": "*"

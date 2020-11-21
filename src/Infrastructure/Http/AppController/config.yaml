@@ -18,3 +18,6 @@ services:
         arguments:
             -   serializer: '@app.infrastructure.http.serializer'
                 jsonFromDatabaseConverter: '@App\Infrastructure\Persistence\JsonFromDatabaseDeserializer\JsonFromDatabaseDeserializer'
+                resourceProviders: '@App\Infrastructure\ResponseComposer\ResourceProviders'
+
+   # TODO tags for resource providers by interface

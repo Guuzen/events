@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Promocode\Query\GetPromocodesByIds;
+namespace App\Promocode\Query\ProvidePromocodeResources;
 
 use App\Infrastructure\Persistence\DatabaseSerializer\DatabaseSerializer;
-use App\Promocode\Query\ProvidePromocodeResources\PromocodeResource;
+use App\Infrastructure\ResponseComposer\ResourceProvider;
 use Doctrine\DBAL\Connection;
 
-final class GetPromocodesByIdsHandler
+final class ProvidePromocodeResources implements ResourceProvider
 {
     private $connection;
 
@@ -23,7 +23,7 @@ final class GetPromocodesByIdsHandler
     /**
      * @return PromocodeResource[]
      */
-    public function execute(GetPromocodesByIds $query): array
+    public function resources(array $promocodeIds): array
     {
         /** @var string|null $promocodes */
         $promocodes = $this->connection->fetchOne(
@@ -39,7 +39,7 @@ final class GetPromocodesByIdsHandler
                     promocode.id in (:promocodes_ids)                 
             ) as promocode
             ',
-            ['promocodes_ids' => $query->promocodesIds],
+            ['promocodes_ids' => $promocodeIds],
             ['promocodes_ids' => Connection::PARAM_STR_ARRAY],
         );
 

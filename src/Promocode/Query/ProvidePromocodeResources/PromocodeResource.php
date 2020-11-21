@@ -2,12 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Promocode\Query;
+namespace App\Promocode\Query\ProvidePromocodeResources;
 
 // TODO better names for return types for queries ?
 use App\Promocode\Model\Discount\Discount;
-use DateTimeImmutable;
 
+/**
+ * @psalm-immutable
+ */
 final class PromocodeResource
 {
     /**
@@ -36,7 +38,7 @@ final class PromocodeResource
     public $useLimit;
 
     /**
-     * @var DateTimeImmutable
+     * @var \DateTimeImmutable
      */
     public $expireAt;
 
