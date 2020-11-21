@@ -9,20 +9,14 @@ namespace App\Infrastructure\ResponseComposer\ResponseBuilder;
  */
 final class SingleBuilder implements ResponseBuilder
 {
+    private $class;
+
     /**
      * @psalm-var Resource
      */
     private $resource;
 
-    /**
-     * @var ResponseBuilder[]
-     */
-    private array $builders;
-
-    /**
-     * @psalm-var class-string
-     */
-    private string $class;
+    private $builders;
 
     /**
      * @psalm-param class-string $class
@@ -51,7 +45,7 @@ final class SingleBuilder implements ResponseBuilder
     }
 
     /**
-     * @psalm-param callable(array|object): string $keyExtractor
+     * @psalm-param callable(Resource): string $keyExtractor
      */
     public function extractKey(callable $keyExtractor): string
     {

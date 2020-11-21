@@ -17,10 +17,7 @@ use App\Infrastructure\ResponseComposer\ResponseBuilder\SingleBuilder;
  */
 final class Schema
 {
-    /**
-     * @psalm-var class-string
-     */
-    private string $class;
+    private $class;
 
     /**
      * @psalm-var array<int, array{0: self, 1: LeftKeyExtractor, 2: ResourceLink}>

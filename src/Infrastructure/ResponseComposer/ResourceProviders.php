@@ -6,10 +6,7 @@ namespace App\Infrastructure\ResponseComposer;
 
 final class ResourceProviders
 {
-    /**
-     * @var ResourceProvider[]
-     */
-    private array $providers;
+    private $providers;
 
     /**
      * @param ResourceProvider[] $providers

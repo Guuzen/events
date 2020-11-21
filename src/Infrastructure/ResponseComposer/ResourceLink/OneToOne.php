@@ -12,9 +12,6 @@ use App\Infrastructure\ResponseComposer\ResponseBuilder\ResponseBuilder;
  */
 final class OneToOne implements ResourceLink
 {
-    /**
-     * @psalm-var RightKeyExtractor
-     */
     private $keyExtractor;
 
     /**

@@ -8,10 +8,7 @@ use App\Infrastructure\ResponseComposer\ResourceLink\ResourceLink;
 
 final class GroupBuilder implements ResponseBuilder
 {
-    /**
-     * @var SingleBuilder[]
-     */
-    private array $builders;
+    private $builders;
 
     /**
      * @param SingleBuilder[] $builders
