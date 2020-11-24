@@ -5,6 +5,8 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 imports:
     - { resource: ../src/**/config.yaml }
+    - { resource: ../src/**/doctrine.yaml }
+    - { resource: ../src/**/config.php }
 
 parameters:
     locale: 'en'

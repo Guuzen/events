@@ -1,0 +1,8 @@
+doctrine:
+    orm:
+        mappings:
+            Event:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/Event/Model'
+                prefix: 'App\Event\Model'
