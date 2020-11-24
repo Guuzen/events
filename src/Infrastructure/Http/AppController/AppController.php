@@ -20,11 +20,6 @@ abstract class AppController
      */
     private $locator;
 
-    /**
-     * todo why do we need required ?
-     *
-     * @required
-     */
     public function setLocator(ContainerInterface $locator): void
     {
         $this->locator = $locator;
