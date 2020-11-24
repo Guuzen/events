@@ -8,16 +8,16 @@ use App\Infrastructure\ResponseComposer\Schema;
 use App\Infrastructure\ResponseComposer\SchemaProvider;
 use App\Order\Query\OrderResource;
 use App\Promocode\Model\Discount\Discount;
-use App\Promocode\Query\ProvidePromocodeResources\PromocodeResource;
+use App\Promocode\Query\PromocodeResource;
 use Money\Money;
 
-final class Order implements SchemaProvider
+final class OrderResponse implements SchemaProvider
 {
     private OrderResource $order;
 
-    private ?Promocode $promocode;
+    private ?PromocodeResponse $promocode;
 
-    public function __construct(OrderResource $order, ?Promocode $promocode)
+    public function __construct(OrderResource $order, ?PromocodeResponse $promocode)
     {
         $this->order     = $order;
         $this->promocode = $promocode;
@@ -27,7 +27,7 @@ final class Order implements SchemaProvider
     {
         $schema = new Schema(self::class);
         $schema->oneToOne(
-            Promocode::schema(),
+            PromocodeResponse::schema(),
             fn(OrderResource $order) => $order->promocodeId,
             fn(PromocodeResource $promocode) => $promocode->id
         );

@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Promocode\Query\ProvidePromocodeResources;
+namespace App\Promocode\Query\FindPromocodeResources;
 
 use App\Infrastructure\Persistence\DatabaseSerializer\DatabaseSerializer;
 use App\Infrastructure\ResponseComposer\ResourceProvider;
+use App\Promocode\Query\PromocodeResource;
 use Doctrine\DBAL\Connection;
 
-final class ProvidePromocodeResources implements ResourceProvider
+final class FindPromocodeResources implements ResourceProvider
 {
     private $connection;
 

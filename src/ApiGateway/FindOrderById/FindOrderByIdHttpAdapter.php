@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\ApiGateway\FindOrderById;
 
-use App\ApiGateway\Responses\Order;
+use App\ApiGateway\Responses\OrderResponse;
 use App\Infrastructure\Http\AppController\AppController;
 use App\Order\Model\OrderId;
 use App\Order\Query\FindOrderById\FindOrderById;
@@ -30,6 +30,6 @@ final class FindOrderByIdHttpAdapter extends AppController
             new FindOrderById(new OrderId($request->orderId))
         );
 
-        return $this->responseJoinedOne($order, Order::schema());
+        return $this->responseJoinedOne($order, OrderResponse::schema());
     }
 }

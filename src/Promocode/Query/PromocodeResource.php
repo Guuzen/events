@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Promocode\Query\ProvidePromocodeResources;
+namespace App\Promocode\Query;
 
 // TODO better names for return types for queries ?
 use App\Promocode\Model\Discount\Discount;

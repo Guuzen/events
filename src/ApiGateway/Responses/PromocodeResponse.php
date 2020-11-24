@@ -7,9 +7,9 @@ namespace App\ApiGateway\Responses;
 use App\Infrastructure\ResponseComposer\Schema;
 use App\Infrastructure\ResponseComposer\SchemaProvider;
 use App\Promocode\Model\Discount\Discount;
-use App\Promocode\Query\ProvidePromocodeResources\PromocodeResource;
+use App\Promocode\Query\PromocodeResource;
 
-final class Promocode implements SchemaProvider
+final class PromocodeResponse implements SchemaProvider
 {
     private PromocodeResource $promocode;
 

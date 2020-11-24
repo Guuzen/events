@@ -6,4 +6,4 @@ services:
 
     App\Infrastructure\ResponseComposer\ResourceProviders:
         arguments:
-            -   App\ApiGateway\Responses\Promocode: '@App\Promocode\Query\ProvidePromocodeResources\ProvidePromocodeResources'
+            -   App\ApiGateway\Responses\PromocodeResponse: '@App\Promocode\Query\FindPromocodeResources\FindPromocodeResources'

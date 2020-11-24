@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\ApiGateway\GetOrderList;
 
-use App\ApiGateway\Responses\Order;
+use App\ApiGateway\Responses\OrderResponse;
 use App\Event\Model\EventId;
 use App\Infrastructure\Http\AppController\AppController;
 use App\Order\Query\GetOrderList\GetOrderList;
@@ -30,6 +30,6 @@ final class GetOrderListHttpAdapter extends AppController
             new GetOrderList(new EventId($request->eventId))
         );
 
-        return $this->responseJoinedCollection($orders, Order::schema());
+        return $this->responseJoinedCollection($orders, OrderResponse::schema());
     }
 }

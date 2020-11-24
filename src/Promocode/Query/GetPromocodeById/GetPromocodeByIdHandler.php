@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Promocode\Query\GetPromocodeById;
 
 use App\Infrastructure\Persistence\DatabaseSerializer\DatabaseSerializer;
-use App\Promocode\Query\ProvidePromocodeResources\PromocodeResource;
+use App\Promocode\Query\PromocodeResource;
 use Doctrine\DBAL\Connection;
 
 final class GetPromocodeByIdHandler
