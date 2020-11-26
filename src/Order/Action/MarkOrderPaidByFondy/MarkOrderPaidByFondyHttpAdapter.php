@@ -6,7 +6,6 @@ namespace App\Order\Action\MarkOrderPaidByFondy;
 
 use App\Event\Model\EventId;
 use App\Infrastructure\Http\AppController\AppController;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -14,12 +13,9 @@ final class MarkOrderPaidByFondyHttpAdapter extends AppController
 {
     private $handler;
 
-    private $em;
-
-    public function __construct(MarkOrderPaidByFondyHandler $handler, EntityManagerInterface $em)
+    public function __construct(MarkOrderPaidByFondyHandler $handler)
     {
         $this->handler = $handler;
-        $this->em      = $em;
     }
 
     /**
@@ -29,7 +25,7 @@ final class MarkOrderPaidByFondyHttpAdapter extends AppController
     {
         $this->handler->handle($markOrderPaidByFondyRequest->toMarkOrderPaidByFondy($eventId));
 
-        $this->em->flush();
+        $this->flush();
 
         return $this->response([]);
     }

@@ -3,7 +3,6 @@
 namespace App\Tariff\Action;
 
 use App\Infrastructure\Http\AppController\AppController;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -11,12 +10,9 @@ final class CreateTariffHttpAdapter extends AppController
 {
     private $handler;
 
-    private $em;
-
-    public function __construct(CreateTariffHandler $handler, EntityManagerInterface $em)
+    public function __construct(CreateTariffHandler $handler)
     {
         $this->handler = $handler;
-        $this->em      = $em;
     }
 
     /**
@@ -26,7 +22,7 @@ final class CreateTariffHttpAdapter extends AppController
     {
         $tariffId = $this->handler->createTariff($request->toCreateTariff());
 
-        $this->em->flush();
+        $this->flush();
 
         return $this->response($tariffId);
     }

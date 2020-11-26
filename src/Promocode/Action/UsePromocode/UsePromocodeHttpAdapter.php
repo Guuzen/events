@@ -6,7 +6,6 @@ namespace App\Promocode\Action\UsePromocode;
 
 use App\Event\Model\EventId;
 use App\Infrastructure\Http\AppController\AppController;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -14,12 +13,9 @@ final class UsePromocodeHttpAdapter extends AppController
 {
     private $handler;
 
-    private $em;
-
-    public function __construct(UsePromocodeHandler $handler, EntityManagerInterface $em)
+    public function __construct(UsePromocodeHandler $handler)
     {
         $this->handler = $handler;
-        $this->em      = $em;
     }
 
     /**
@@ -30,7 +26,7 @@ final class UsePromocodeHttpAdapter extends AppController
         $usePromocode = $request->toUsePromocode($eventId);
         $this->handler->handle($usePromocode);
 
-        $this->em->flush();
+        $this->flush();
 
         return $this->response([]);
     }

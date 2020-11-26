@@ -5,6 +5,7 @@ namespace App\Infrastructure\Http\AppController;
 use App\Infrastructure\Persistence\JsonFromDatabaseDeserializer\JsonFromDatabaseDeserializer;
 use App\Infrastructure\ResponseComposer\ResourceProviders;
 use App\Infrastructure\ResponseComposer\Schema;
+use Doctrine\ORM\EntityManagerInterface;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -59,6 +60,22 @@ abstract class AppController
         $deserializer = $this->locator->get('jsonFromDatabaseConverter');
 
         return $deserializer->deserialize($json, $context);
+    }
+
+    public function persist(object $object): void
+    {
+        /** @var EntityManagerInterface $em */
+        $em = $this->locator->get('em');
+
+        $em->persist($object);
+    }
+
+    public function flush(): void
+    {
+        /** @var EntityManagerInterface $em */
+        $em = $this->locator->get('em');
+
+        $em->flush();
     }
 
     /**

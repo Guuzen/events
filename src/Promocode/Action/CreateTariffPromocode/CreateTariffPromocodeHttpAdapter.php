@@ -3,7 +3,6 @@
 namespace App\Promocode\Action\CreateTariffPromocode;
 
 use App\Infrastructure\Http\AppController\AppController;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -11,12 +10,9 @@ final class CreateTariffPromocodeHttpAdapter extends AppController
 {
     private $handler;
 
-    private $em;
-
-    public function __construct(CreateTariffPromocodeHandler $handler, EntityManagerInterface $em)
+    public function __construct(CreateTariffPromocodeHandler $handler)
     {
         $this->handler = $handler;
-        $this->em      = $em;
     }
 
     /**
@@ -26,7 +22,7 @@ final class CreateTariffPromocodeHttpAdapter extends AppController
     {
         $promocodeId = $this->handler->handle($request->toCreateTariffPromocode());
 
-        $this->em->flush();
+        $this->flush();
 
         return $this->response($promocodeId);
     }

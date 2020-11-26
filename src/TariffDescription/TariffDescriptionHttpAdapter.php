@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\TariffDescription;
 
 use App\Infrastructure\Http\AppController\AppController;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -13,12 +12,9 @@ final class TariffDescriptionHttpAdapter extends AppController
 {
     private $tariffDescriptions;
 
-    private $em;
-
-    public function __construct(TariffDescriptions $tariffDescriptions, EntityManagerInterface $em)
+    public function __construct(TariffDescriptions $tariffDescriptions)
     {
         $this->tariffDescriptions = $tariffDescriptions;
-        $this->em                 = $em;
     }
 
     /**
@@ -38,7 +34,7 @@ final class TariffDescriptionHttpAdapter extends AppController
     {
         $this->tariffDescriptions->add($tariffDescription);
 
-        $this->em->flush();
+        $this->flush();
 
         return $this->response([]);
     }
