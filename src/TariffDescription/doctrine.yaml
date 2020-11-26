@@ -1,0 +1,8 @@
+doctrine:
+    orm:
+        mappings:
+            TariffDescription:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/TariffDescription'
+                prefix: 'App\TariffDescription'
