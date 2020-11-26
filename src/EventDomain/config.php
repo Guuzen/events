@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Infrastructure;
+namespace App\EventDomain;
 
+use App\EventDomain\Queries\FindEventIdByDomain\FindEventIdByDomainQuery;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $configurator) {
@@ -10,6 +11,5 @@ return static function (ContainerConfigurator $configurator) {
         ->autowire(true)
         ->autoconfigure(true);
 
-    $services->set(FixPostgreSQLDefaultSchemaListener::class)
-        ->tag('doctrine.event_listener', ['event' => 'postGenerateSchema']);
+    $services->set(FindEventIdByDomainQuery::class); // TODO rename to FindEventByIdHandler ?
 };

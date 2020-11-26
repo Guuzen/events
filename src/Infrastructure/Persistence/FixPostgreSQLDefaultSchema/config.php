@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Promocode\Model;
+namespace App\Infrastructure\Persistence\FixPostgreSQLDefaultSchema;
 
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
@@ -10,5 +10,6 @@ return static function (ContainerConfigurator $configurator) {
         ->autowire(true)
         ->autoconfigure(true);
 
-    $services->set(Promocodes::class);
+    $services->set(FixPostgreSQLDefaultSchemaListener::class)
+        ->tag('doctrine.event_listener', ['event' => 'postGenerateSchema']);
 };

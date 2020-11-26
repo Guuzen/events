@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Promocode\Query\FindPromocodeResources;
+namespace App\Promocode;
 
+use App\Promocode\Model\Promocodes;
+use App\Promocode\Query\FindPromocodeResources\FindPromocodeResources;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $configurator) {
@@ -10,5 +12,7 @@ return static function (ContainerConfigurator $configurator) {
         ->autowire(true)
         ->autoconfigure(true);
 
-    $services->set(FindPromocodeResources::class);
+    $services->set(Promocodes::class);
+
+    $services->set(FindPromocodeResources::class); // TODO move to compiler pass ?
 };

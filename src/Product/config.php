@@ -1,7 +1,8 @@
 <?php
 
-namespace App\EventDomain\Queries\FindEventIdByDomain;
+namespace App\Product;
 
+use App\Product\Model\Tickets;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $configurator) {
@@ -10,5 +11,5 @@ return static function (ContainerConfigurator $configurator) {
         ->autowire(true)
         ->autoconfigure(true);
 
-    $services->set(FindEventIdByDomainQuery::class); // TODO rename to FindEventByIdHandler ?
+    $services->set(Tickets::class);
 };
