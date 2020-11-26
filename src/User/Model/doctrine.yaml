@@ -1,0 +1,9 @@
+doctrine:
+    orm:
+        mappings:
+            User:
+                is_bundle: false
+                prefix: 'App\User\Model'
+                type: annotation
+                dir: '%kernel.project_dir%/src/User/Model'
+
