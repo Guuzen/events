@@ -1,10 +1,10 @@
 <?php
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+namespace App\Infrastructure\Http\Openapi;
 
-use App\Infrastructure\Http\Openapi\OpenapiSchema;
-use App\Infrastructure\Http\Openapi\OpenapiValidator;
 use Symfony\Component\Cache\Adapter\PhpFilesAdapter;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\inline;
 
 return static function (ContainerConfigurator $configurator) {
     $services = $configurator->services()

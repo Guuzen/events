@@ -1,9 +1,10 @@
 <?php
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+namespace App\Infrastructure\Persistence\JsonFromDatabaseDeserializer;
 
 use App\Infrastructure\ArrayKeysNameConverter\ArrayKeysNameConverter;
-use App\Infrastructure\Persistence\JsonFromDatabaseDeserializer\JsonFromDatabaseDeserializer;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
 
 return static function (ContainerConfigurator $configurator) {
     $services = $configurator->services()

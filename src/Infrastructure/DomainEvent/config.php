@@ -1,9 +1,10 @@
 <?php
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+namespace App\Infrastructure\DomainEvent;
 
-use App\Infrastructure\DomainEvent\DoctrineNotificationSubscriber;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\EventDispatcher\EventDispatcher;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
 
 return static function (ContainerConfigurator $configurator) {
     $services = $configurator->services()

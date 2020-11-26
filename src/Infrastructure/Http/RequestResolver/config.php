@@ -1,9 +1,9 @@
 <?php
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+namespace App\Infrastructure\Http\RequestResolver;
 
-use App\Infrastructure\Http\RequestResolver\AppRequestResolver;
-use App\Infrastructure\Http\RequestResolver\InvalidAppRequestListener;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
 
 return static function (ContainerConfigurator $configurator) {
     $services = $configurator->services()

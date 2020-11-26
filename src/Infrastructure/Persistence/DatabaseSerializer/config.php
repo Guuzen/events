@@ -1,14 +1,16 @@
 <?php
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+namespace App\Infrastructure\Persistence\DatabaseSerializer;
 
 use App\Infrastructure\InlineNormalizer\InlineNormalizer;
 use App\Infrastructure\MoneyNormalizer;
-use App\Infrastructure\Persistence\DatabaseSerializer\DatabaseSerializer;
 use App\Infrastructure\WithoutConstructorPropertyNormalizer;
 use DateTimeInterface;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\Serializer;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\inline;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
 
 return static function (ContainerConfigurator $configurator) {
     $services = $configurator->services()

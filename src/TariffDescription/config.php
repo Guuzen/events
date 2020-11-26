@@ -1,8 +1,8 @@
 <?php
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+namespace App\TariffDescription;
 
-use App\TariffDescription\TariffDescriptions;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $configurator) {
     $services = $configurator->services()

@@ -1,8 +1,9 @@
 <?php
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+namespace App\Infrastructure\ArrayKeysNameConverter;
 
-use App\Infrastructure\ArrayKeysNameConverter\ArrayKeysNameConverter;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
 
 return static function (ContainerConfigurator $configurator) {
     $services = $configurator->services()

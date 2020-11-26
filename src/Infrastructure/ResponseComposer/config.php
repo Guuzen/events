@@ -1,10 +1,11 @@
 <?php
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+namespace App\Infrastructure\ResponseComposer;
 
 use App\ApiGateway\Responses\PromocodeResponse;
-use App\Infrastructure\ResponseComposer\ResourceProviders;
 use App\Promocode\Query\FindPromocodeResources\FindPromocodeResources;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
 
 return static function (ContainerConfigurator $configurator) {
     $services = $configurator->services()

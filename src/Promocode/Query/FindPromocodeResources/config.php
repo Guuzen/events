@@ -1,8 +1,8 @@
 <?php
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+namespace App\Promocode\Query\FindPromocodeResources;
 
-use App\Promocode\Query\FindPromocodeResources\FindPromocodeResources;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $configurator) {
     $services = $configurator->services()

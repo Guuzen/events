@@ -1,12 +1,14 @@
 <?php
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+namespace App\Product\Action\SendTicket;
 
 use App\Infrastructure\Email\HttpEmailTransport;
 use App\Product\Action\SendTicket\FindTicketEmail\FindTicketEmail;
 use App\Product\Action\SendTicket\TicketSending\TicketSending;
 use GuzzleHttp\Client;
 use Swift_Mailer;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\inline;
 
 return static function (ContainerConfigurator $configurator) {
     $services = $configurator->services()
