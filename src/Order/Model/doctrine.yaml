@@ -1,0 +1,8 @@
+doctrine:
+    orm:
+        mappings:
+            Order:
+                is_bundle: false
+                prefix: 'App\Order\Model'
+                type: annotation
+                dir: '%kernel.project_dir%/src/Order/Model'
