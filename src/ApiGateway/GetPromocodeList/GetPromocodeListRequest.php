@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Promocode\Query\GetPromocodeList;
+declare(strict_types=1);
+
+namespace App\ApiGateway\GetPromocodeList;
 
 use App\Infrastructure\Http\RequestResolver\AppRequest;
 

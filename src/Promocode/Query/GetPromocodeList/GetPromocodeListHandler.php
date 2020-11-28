@@ -4,27 +4,29 @@ declare(strict_types=1);
 
 namespace App\Promocode\Query\GetPromocodeList;
 
-use App\Infrastructure\Http\AppController\AppController;
+use App\Infrastructure\Persistence\DatabaseSerializer\DatabaseSerializer;
+use App\Promocode\Query\PromocodeResource;
 use Doctrine\DBAL\Connection;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 
-final class GetPromocodeListHttpAdapter extends AppController
+final class GetPromocodeListHandler
 {
     private $connection;
 
-    public function __construct(Connection $connection)
+    private $databaseSerializer;
+
+    public function __construct(Connection $connection, DatabaseSerializer $databaseSerializer)
     {
-        $this->connection = $connection;
+        $this->connection         = $connection;
+        $this->databaseSerializer = $databaseSerializer;
     }
 
-
     /**
-     * @Route("/admin/promocode/list", methods={"GET"})
+     * @return PromocodeResource[]
      */
-    public function __invoke(GetPromocodeListRequest $request): Response
+    public function handle(GetPromocodeList $request): array
     {
-        $stmt = $this->connection->prepare('
+        $stmt = $this->connection->prepare(
+            '
             select
                 json_agg(promocodes)
             from (                
@@ -35,7 +37,8 @@ final class GetPromocodeListHttpAdapter extends AppController
                 where
                     event_id = :event_id
             ) as promocodes
-        ');
+        '
+        );
         $stmt->bindValue('event_id', $request->eventId);
         $stmt->execute();
 
@@ -45,8 +48,6 @@ final class GetPromocodeListHttpAdapter extends AppController
             throw new PromocodeListNotFound('');
         }
 
-        $decoded = $this->deserializeFromDb($promocodesData);
-
-        return $this->response($decoded);
+        return $this->databaseSerializer->deserializeToArray($promocodesData, PromocodeResource::class);
     }
 }

@@ -7,6 +7,7 @@ namespace App\ApiGateway\Responses;
 use App\Infrastructure\ResponseComposer\Schema;
 use App\Infrastructure\ResponseComposer\SchemaProvider;
 use App\Promocode\Model\Discount\Discount;
+use App\Promocode\Query\AllowedTariffs;
 use App\Promocode\Query\PromocodeResource;
 
 final class PromocodeResponse implements SchemaProvider
@@ -53,7 +54,7 @@ final class PromocodeResponse implements SchemaProvider
         return $this->promocode->expireAt;
     }
 
-    public function getAllowedTariffs(): array
+    public function getAllowedTariffs(): AllowedTariffs
     {
         return $this->promocode->allowedTariffs;
     }

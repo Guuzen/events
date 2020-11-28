@@ -37,6 +37,8 @@ final class OrderResource
     public $userId;
 
     /**
+     * TODO new type money for resources ?
+     *
      * @var Money
      */
     public $price;

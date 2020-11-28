@@ -43,12 +43,12 @@ final class PromocodeResource
     public $expireAt;
 
     /**
-     * @var array
+     * @var AllowedTariffs
      */
     public $allowedTariffs;
 
     /**
-     * @var array
+     * @var string[]
      */
     public $usedInOrders;
 
