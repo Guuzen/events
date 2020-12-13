@@ -15,14 +15,16 @@ final class FindEventIdByDomainQuery
 
     public function __invoke(string $domain): string
     {
-        $stmt = $this->connection->prepare('
+        $stmt = $this->connection->prepare(
+            '
             select
                 id
             from
                 event_domain
             where
                 event_domain.domain = :domain
-        ');
+        '
+        );
         $stmt->bindParam('domain', $domain);
         $stmt->execute();
         /** @psalm-var array{id: string}|false */

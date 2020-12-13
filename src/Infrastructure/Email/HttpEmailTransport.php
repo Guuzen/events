@@ -46,13 +46,15 @@ final class HttpEmailTransport implements Swift_Transport
 
     public function send(Swift_Mime_SimpleMessage $message, &$failedRecipients = null): int
     {
-        $this->client->request('POST', '/send_ticket_email', [
-            'json' => [
-                'subject' => $message->getSubject(),
-                'from'    => $message->getFrom(),
-                'to'      => $message->getTo(),
-            ],
-        ]);
+        $this->client->request(
+            'POST', '/send_ticket_email', [
+                'json' => [
+                    'subject' => $message->getSubject(),
+                    'from'    => $message->getFrom(),
+                    'to'      => $message->getTo(),
+                ],
+            ]
+        );
 
         return 1;
     }

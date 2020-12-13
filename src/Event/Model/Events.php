@@ -15,14 +15,16 @@ final class Events extends ServiceEntityRepository
 
     public function findById(EventId $eventId): Event
     {
-        $query = $this->_em->createQuery('
+        $query = $this->_em->createQuery(
+            '
             select
                 e
             from
                 App\Event\Model\Event as e
             where
                 e.id = :id
-        ');
+        '
+        );
         $query->setParameter('id', $eventId);
 
         try {

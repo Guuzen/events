@@ -23,14 +23,16 @@ final class FindEventByIdHttpAdapter extends AppController
      */
     public function __invoke(FindEventByIdRequest $request): Response
     {
-        $stmt = $this->connection->prepare('
+        $stmt = $this->connection->prepare(
+            '
             select
                 *
             from
                 event_domain
             where
                 event_domain.id = :event_id
-        ');
+        '
+        );
         $stmt->bindValue('event_id', $request->eventId);
         $stmt->execute();
 

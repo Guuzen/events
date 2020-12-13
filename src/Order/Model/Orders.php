@@ -16,7 +16,8 @@ final class Orders extends ServiceEntityRepository
 
     public function getById(OrderId $orderId, EventId $eventId): Order
     {
-        $query = $this->_em->createQuery('
+        $query = $this->_em->createQuery(
+            '
             select
                 ord
             from
@@ -25,7 +26,8 @@ final class Orders extends ServiceEntityRepository
                 ord.id = :order_id
                 and
                 ord.eventId = :event_id
-        ');
+        '
+        );
         $query->setParameter('order_id', $orderId);
         $query->setParameter('event_id', $eventId);
 

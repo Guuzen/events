@@ -16,7 +16,8 @@ final class Tariffs extends ServiceEntityRepository
 
     public function findById(TariffId $tariffId, EventId $eventId): Tariff
     {
-        $query = $this->_em->createQuery('
+        $query = $this->_em->createQuery(
+            '
             select
                 tariff
             from
@@ -25,7 +26,8 @@ final class Tariffs extends ServiceEntityRepository
                 tariff.id = :tariff_id
                 and
                 tariff.eventId = :event_id
-        ');
+        '
+        );
         $query->setParameter('tariff_id', $tariffId);
         $query->setParameter('event_id', $eventId);
 

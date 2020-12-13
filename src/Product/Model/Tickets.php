@@ -16,7 +16,8 @@ final class Tickets extends ServiceEntityRepository
 
     public function findById(TicketId $ticketId, EventId $eventId): Ticket
     {
-        $query = $this->_em->createQuery('
+        $query = $this->_em->createQuery(
+            '
             select
                 ticket
             from
@@ -25,7 +26,8 @@ final class Tickets extends ServiceEntityRepository
                 ticket.id = :ticket_id
                 and
                 ticket.eventId = :event_id
-        ');
+        '
+        );
         $query->setParameter('ticket_id', $ticketId);
         $query->setParameter('event_id', $eventId);
 

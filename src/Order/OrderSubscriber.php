@@ -78,10 +78,12 @@ final class OrderSubscriber implements EventSubscriberInterface
                 new CreateTicket($orderMarkedPaid->eventId, $orderMarkedPaid->orderId, new DateTimeImmutable('now'))
             );
         } catch (\Throwable $exception) {
-            $this->logger->error('create ticket failed', [
-                'orderId'   => $orderMarkedPaid->orderId,
-                'exception' => $exception,
-            ]);
+            $this->logger->error(
+                'create ticket failed', [
+                    'orderId'   => $orderMarkedPaid->orderId,
+                    'exception' => $exception,
+                ]
+            );
 
             return;
         }
@@ -91,10 +93,12 @@ final class OrderSubscriber implements EventSubscriberInterface
         try {
             $this->sendTicketHandler->handle(new SendTicket($ticketId));
         } catch (\Throwable $exception) {
-            $this->logger->error('send ticket failed', [
-                'orderId'   => $orderMarkedPaid->orderId,
-                'exception' => $exception,
-            ]);
+            $this->logger->error(
+                'send ticket failed', [
+                    'orderId'   => $orderMarkedPaid->orderId,
+                    'exception' => $exception,
+                ]
+            );
 
             return;
         }

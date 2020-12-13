@@ -23,7 +23,8 @@ final class FindTariffByIdHttpAdapter extends AppController
      */
     public function __invoke(FindTariffByIdRequest $request): Response
     {
-        $stmt = $this->connection->prepare('
+        $stmt = $this->connection->prepare(
+            '
             select
                 row_to_json(tariff)
             from (
@@ -34,7 +35,8 @@ final class FindTariffByIdHttpAdapter extends AppController
                 where
                     tariff.id = :tariff_id
             ) as tariff
-        ');
+        '
+        );
         $stmt->bindValue('tariff_id', $request->tariffId);
         $stmt->execute();
 

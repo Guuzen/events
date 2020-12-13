@@ -23,7 +23,8 @@ final class FindTicketByIdHttpAdapter extends AppController
      */
     public function __invoke(FindTicketByIdRequest $request): Response
     {
-        $stmt = $this->connection->prepare('
+        $stmt = $this->connection->prepare(
+            '
             select
                 row_to_json(ticket)
             from (
@@ -34,7 +35,8 @@ final class FindTicketByIdHttpAdapter extends AppController
                 where
                     ticket.id = :ticket_id
             ) as ticket
-        ');
+        '
+        );
         $stmt->bindValue('ticket_id', $request->ticketId);
         $stmt->execute();
 

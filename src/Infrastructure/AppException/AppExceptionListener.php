@@ -18,9 +18,12 @@ final class AppExceptionListener
             if ($message === '') {
                 $message = $this->stringifyException($exception);
             }
-            $response = new JsonResponse([
-                'error' => $message,
-            ], 400);
+            $response = new JsonResponse(
+                [
+                    'error' => $message,
+                ],
+                400
+            );
             $event->setResponse($response);
         }
     }

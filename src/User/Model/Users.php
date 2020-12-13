@@ -20,14 +20,16 @@ final class Users extends ServiceEntityRepository
 
     public function findById(UserId $userId): User
     {
-        $query = $this->_em->createQuery('
+        $query = $this->_em->createQuery(
+            '
             select
                 u
             from
                 App\User\Model\User as u
             where
                 u.id = :user_id
-        ');
+        '
+        );
         $query->setParameter('user_id', $userId);
 
         try {

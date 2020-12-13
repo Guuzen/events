@@ -16,7 +16,8 @@ final class Promocodes extends ServiceEntityRepository
 
     public function findById(PromocodeId $promocodeId, EventId $eventId): Promocode
     {
-        $query = $this->_em->createQuery('
+        $query = $this->_em->createQuery(
+            '
             select
                 promocode
             from
@@ -25,7 +26,8 @@ final class Promocodes extends ServiceEntityRepository
                 promocode.id = :promocode_id
                 and
                 promocode.eventId = :event_id
-        ');
+        '
+        );
         $query->setParameter('promocode_id', $promocodeId);
         $query->setParameter('event_id', $eventId);
 
@@ -41,7 +43,8 @@ final class Promocodes extends ServiceEntityRepository
 
     public function findByCode(string $code, EventId $eventId): Promocode
     {
-        $query = $this->_em->createQuery('
+        $query = $this->_em->createQuery(
+            '
             select
                 promocode
             from
@@ -50,7 +53,8 @@ final class Promocodes extends ServiceEntityRepository
                 promocode.code = :code
                 and
                 promocode.eventId = :event_id
-        ');
+        '
+        );
         $query->setParameter('code', $code);
         $query->setParameter('event_id', $eventId);
 

@@ -17,7 +17,8 @@ final class FindTicketEmail
 
     public function find(TicketId $ticketId): TicketEmail
     {
-        $stmt = $this->connection->prepare('
+        $stmt = $this->connection->prepare(
+            '
             select
                 "user".contacts ->> \'email\' as email,
                 ticket.number
@@ -28,7 +29,8 @@ final class FindTicketEmail
             left join
                 "user" on "user".order_id = "order".id
             where ticket.id = :ticket_id
-        ');
+        '
+        );
         $stmt->bindValue('ticket_id', (string)$ticketId);
         $stmt->execute();
 

@@ -23,7 +23,8 @@ final class GetTicketListHttpAdapter extends AppController
      */
     public function __invoke(GetTicketListRequest $request): Response
     {
-        $stmt = $this->connection->prepare('
+        $stmt = $this->connection->prepare(
+            '
             select
                 json_agg(ticket)
             from (
@@ -34,7 +35,8 @@ final class GetTicketListHttpAdapter extends AppController
                 where
                     ticket.event_id = :event_id                 
             ) as ticket
-        ');
+        '
+        );
         $stmt->bindValue('event_id', $request->eventId);
         $stmt->execute();
 

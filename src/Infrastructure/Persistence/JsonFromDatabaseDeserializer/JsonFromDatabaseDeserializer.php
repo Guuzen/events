@@ -20,7 +20,7 @@ final class JsonFromDatabaseDeserializer
 
     public function __construct(DecoderInterface $decoder, ArrayKeysNameConverter $nameConverter)
     {
-        $this->decoder = $decoder;
+        $this->decoder       = $decoder;
         $this->nameConverter = $nameConverter;
     }
 

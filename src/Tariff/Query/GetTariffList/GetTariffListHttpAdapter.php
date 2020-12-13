@@ -23,7 +23,8 @@ final class GetTariffListHttpAdapter extends AppController
      */
     public function __invoke(GetTariffListRequest $request): Response
     {
-        $stmt = $this->connection->prepare('
+        $stmt = $this->connection->prepare(
+            '
             select
                 json_agg(tariff)
             from (
@@ -33,7 +34,8 @@ final class GetTariffListHttpAdapter extends AppController
                     tariff
                 where tariff.event_id = :event_id
             ) as tariff
-        ');
+        '
+        );
         $stmt->bindValue('event_id', $request->eventId);
         $stmt->execute();
 
