@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Order\Query\GetOrderList;
+namespace App\Order\Query;
 
 use App\Infrastructure\Persistence\DatabaseSerializer\DatabaseSerializer;
 use Doctrine\DBAL\Connection;
@@ -48,7 +48,7 @@ final class GetOrderListHandler
         /** @var string|false $ordersData */
         $ordersData = $stmt->fetchOne();
         if ($ordersData === false) {
-            throw new OrderListNotFound('');
+            throw new \RuntimeException('order list not found');
         }
 
         return $this->serializer->decode($ordersData);

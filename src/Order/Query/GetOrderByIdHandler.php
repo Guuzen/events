@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Order\Query\GetOrderById;
+namespace App\Order\Query;
 
 use App\Infrastructure\Persistence\DatabaseSerializer\DatabaseSerializer;
 use Doctrine\DBAL\Connection;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Promocode\Query\GetPromocodeList;
+namespace App\Promocode\Query;
 
 use App\Infrastructure\Persistence\DatabaseSerializer\DatabaseSerializer;
 use Doctrine\DBAL\Connection;
@@ -46,7 +46,7 @@ final class GetPromocodeListHandler
         /** @var string|false $promocodesData */
         $promocodesData = $stmt->fetchOne();
         if ($promocodesData === false) {
-            throw new PromocodeListNotFound('');
+            throw new \RuntimeException('promocode list not found');
         }
 
         return $this->databaseSerializer->decode($promocodesData);

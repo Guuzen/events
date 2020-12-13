@@ -2,10 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Order\Query\GetOrderList;
+namespace App\Queries\Order\GetOrderList;
 
 use App\Infrastructure\Http\AppController\AppController;
-use App\Order\Query\OrderResource;
+use App\Order\Query\GetOrderListHandler;
+use App\Queries\Order\GetOrderList\GetOrderListRequest;
+use App\Queries\Order\OrderResource;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 

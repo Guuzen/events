@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Order\Query;
+namespace App\Queries\Order;
 
 use App\Infrastructure\ArrayComposer\Path\Path;
 use App\Infrastructure\ArrayComposer\Schema;
 use App\Promocode\Model\Discount\Discount;
-use App\Promocode\Query\PromocodeResource;
+use App\Queries\Promocode\PromocodeResource;
 use Money\Money;
 
 /**

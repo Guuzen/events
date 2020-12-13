@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Promocode\Query;
+namespace App\Queries\Promocode;
 
 // TODO better names for return types for queries ?
 use App\Infrastructure\ArrayComposer\Schema;
 use App\Promocode\Model\Discount\Discount;
+use App\Queries\Promocode\AllowedTariffs;
 
 /**
  * @psalm-immutable

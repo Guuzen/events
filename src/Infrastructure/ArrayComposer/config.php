@@ -3,7 +3,7 @@
 namespace App\Infrastructure\ArrayComposer;
 
 use App\Promocode\Query\GetPromocodeResources;
-use App\Promocode\Query\PromocodeResource;
+use App\Queries\Promocode\PromocodeResource;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
 

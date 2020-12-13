@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Order\Query\GetOrderById;
+namespace App\Queries\Order\GetOrderById;
 
 use App\Infrastructure\Http\AppController\AppController;
-use App\Order\Query\OrderResource;
+use App\Order\Query\GetOrderByIdHandler;
+use App\Queries\Order\OrderResource;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
