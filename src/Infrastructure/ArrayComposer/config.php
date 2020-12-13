@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Infrastructure\ResponseComposer;
+namespace App\Infrastructure\ArrayComposer;
 
-use App\ApiGateway\Responses\PromocodeResponse;
-use App\Promocode\Query\FindPromocodeResources\FindPromocodeResources;
+use App\Promocode\Query\GetPromocodeResources;
+use App\Promocode\Query\PromocodeResource;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
 
@@ -18,7 +18,7 @@ return static function (ContainerConfigurator $configurator) {
         ->args(
             [
                 [
-                    PromocodeResponse::class => ref(FindPromocodeResources::class),
+                    PromocodeResource::class => ref(GetPromocodeResources::class),
                 ]
             ]
         );

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\ResponseComposer;
+namespace App\Infrastructure\ArrayComposer;
 
 final class ResourceProviders
 {

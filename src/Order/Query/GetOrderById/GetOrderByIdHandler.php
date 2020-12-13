@@ -2,14 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Order\Query\FindOrderById;
+namespace App\Order\Query\GetOrderById;
 
 use App\Infrastructure\Persistence\DatabaseSerializer\DatabaseSerializer;
-use App\Order\Query\OrderResource;
 use Doctrine\DBAL\Connection;
 
-// TODO getOrderByIdHandler ?
-final class FindOrderByIdHandler
+final class GetOrderByIdHandler
 {
     private $connection;
 
@@ -21,7 +19,7 @@ final class FindOrderByIdHandler
         $this->serializer = $serializer;
     }
 
-    public function execute(FindOrderById $query): OrderResource
+    public function execute(string $orderId): array
     {
         $stmt = $this->connection->prepare(
             '
@@ -37,12 +35,12 @@ final class FindOrderByIdHandler
             ) as "order"
         '
         );
-        $stmt->bindValue('order_id', $query->orderId);
+        $stmt->bindValue('order_id', $orderId);
         $stmt->execute();
 
         /** @var string $orderData */
         $orderData = $stmt->fetchOne();
 
-        return $this->serializer->deserialize($orderData, OrderResource::class);
+        return $this->serializer->decode($orderData);
     }
 }

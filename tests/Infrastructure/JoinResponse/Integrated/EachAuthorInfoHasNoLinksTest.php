@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Infrastructure\JoinResponse\Integrated;
 
-use App\Infrastructure\ResponseComposer\ResourceProviders;
-use App\Infrastructure\ResponseComposer\Schema;
-use App\Infrastructure\ResponseComposer\SchemaProvider;
+use App\Infrastructure\ArrayComposer\ResourceProviders;
+use App\Infrastructure\ArrayComposer\Schema;
 use PHPUnit\Framework\TestCase;
 
 final class EachAuthorInfoHasNoLinksTest extends TestCase
@@ -19,26 +18,10 @@ final class EachAuthorInfoHasNoLinksTest extends TestCase
             $authorInfo1,
             $authorInfo2,
         ];
-        $builder     = AuthorInfo::schema();
+        $builder = new Schema('authorInfoProvider');
 
-        $groupBuilder = $builder->collect($authorsInfo, new ResourceProviders([]));
-        $result       = $groupBuilder->build();
+        $builder->collect($authorsInfo, new ResourceProviders([]));
 
-        self::assertEquals([new AuthorInfo($authorInfo1), new AuthorInfo($authorInfo2)], $result);
-    }
-}
-
-final class AuthorInfo implements SchemaProvider
-{
-    private array $authorInfo;
-
-    public function __construct(array $authorInfo)
-    {
-        $this->authorInfo = $authorInfo;
-    }
-
-    public static function schema(): Schema
-    {
-        return new Schema(self::class);
+        self::assertEquals([$authorInfo1, $authorInfo2], $authorsInfo);
     }
 }

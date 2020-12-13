@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Promocode\Query\GetPromocodeList;
 
 use App\Infrastructure\Persistence\DatabaseSerializer\DatabaseSerializer;
-use App\Promocode\Query\PromocodeResource;
 use Doctrine\DBAL\Connection;
 
 final class GetPromocodeListHandler
@@ -21,9 +20,11 @@ final class GetPromocodeListHandler
     }
 
     /**
-     * @return PromocodeResource[]
+     * @psalm-suppress MixedReturnTypeCoercion
+     *
+     * @return array<int, array>
      */
-    public function handle(GetPromocodeList $request): array
+    public function handle(string $eventId): array
     {
         $stmt = $this->connection->prepare(
             '
@@ -39,7 +40,7 @@ final class GetPromocodeListHandler
             ) as promocodes
         '
         );
-        $stmt->bindValue('event_id', $request->eventId);
+        $stmt->bindValue('event_id', $eventId);
         $stmt->execute();
 
         /** @var string|false $promocodesData */
@@ -48,6 +49,6 @@ final class GetPromocodeListHandler
             throw new PromocodeListNotFound('');
         }
 
-        return $this->databaseSerializer->deserializeToArray($promocodesData, PromocodeResource::class);
+        return $this->databaseSerializer->decode($promocodesData);
     }
 }

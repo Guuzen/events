@@ -9,7 +9,7 @@ use App\Infrastructure\ArrayComposer\ResourceProviders;
 use App\Infrastructure\ArrayComposer\Schema;
 use PHPUnit\Framework\TestCase;
 
-final class EachUserHasOneUserInfoTest extends TestCase
+final class EachNestedUserHasOneUserInfoTest extends TestCase
 {
     public function test(): void
     {
@@ -17,32 +17,41 @@ final class EachUserHasOneUserInfoTest extends TestCase
         $userId2   = '2';
         $user1     = ['id' => $userId1];
         $user2     = ['id' => $userId2];
-        $users     = [
-            $user1,
-            $user2,
-        ];
         $userInfo1 = ['id' => 'nonsense', 'userId' => $userId1];
         $userInfo2 = ['id' => 'nonsense', 'userId' => $userId2];
+        $root      = [
+            'foo' => [
+                ['user' => $user1],
+                ['user' => $user2],
+            ],
+        ];
+
+        $userInfoProviderId = 'userInfoProvider';
 
         $schema = new Schema('userProvider');
+
         $schema->oneToOne(
-            new Schema('userInfoProvider'),
-            new Path(['id']),
+            new Schema($userInfoProviderId),
+            new Path(['foo', '[]', 'user', 'id']),
             new Path(['userId']),
             'userInfo'
         );
         $providers = new ResourceProviders(
             [
-                'userInfoProvider' => new StubResourceProvider([$userInfo1, $userInfo2]),
+                $userInfoProviderId => new StubResourceProvider([$userInfo1, $userInfo2]),
             ]
         );
 
-        $result = $schema->collect($users, $providers);
+        $result = $schema->collect([$root], $providers);
 
         self::assertEquals(
             [
-                ['id' => $userId1, 'userInfo' => $userInfo1],
-                ['id' => $userId2, 'userInfo' => $userInfo2],
+                [
+                    'foo' => [
+                        ['user' => ['id' => $userId1, 'userInfo' => $userInfo1]],
+                        ['user' => ['id' => $userId2, 'userInfo' => $userInfo2]],
+                    ],
+                ],
             ],
             $result
         );

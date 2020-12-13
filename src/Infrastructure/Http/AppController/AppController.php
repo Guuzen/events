@@ -2,18 +2,16 @@
 
 namespace App\Infrastructure\Http\AppController;
 
+use App\Infrastructure\ArrayComposer\ResourceProviders;
+use App\Infrastructure\ArrayComposer\Schema;
+use App\Infrastructure\Persistence\DatabaseSerializer\DatabaseSerializer;
 use App\Infrastructure\Persistence\JsonFromDatabaseDeserializer\JsonFromDatabaseDeserializer;
-use App\Infrastructure\ResponseComposer\ResourceProviders;
-use App\Infrastructure\ResponseComposer\Schema;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\SerializerInterface;
 
-/**
- * @psalm-import-type Resource from \App\Infrastructure\ResponseComposer\Schema
- */
 abstract class AppController
 {
     /**
@@ -38,20 +36,20 @@ abstract class AppController
         );
     }
 
-    /**
-     * @psalm-param Resource $resource
-     */
-    protected function responseJoinedOne($resource, Schema $schema): Response
+    protected function responseJoinedOne(array $resource, Schema $schema, string $resourceClass): Response
     {
-        return $this->response($this->responseJoined([$resource], $schema)[0]);
+        return $this->response($this->responseJoined([$resource], $schema, $resourceClass)[0]);
     }
 
     /**
-     * @psalm-param Resource[] $resources
+     * @psalm-param array<int, array> $resources
      */
-    protected function responseJoinedCollection(array $resources, Schema $schema): Response
+    protected function responseJoinedCollection(array $resources, Schema $schema, string $resourceClass): Response
     {
-        return $this->response($this->responseJoined($resources, $schema));
+
+        return $this->response(
+            $this->responseJoined($resources, $schema, $resourceClass)
+        );
     }
 
     protected function deserializeFromDb(string $json, array $context = []): array
@@ -97,13 +95,20 @@ abstract class AppController
     }
 
     /**
-     * @psalm-param Resource[] $resources
+     * @psalm-suppress MixedReturnStatement
+     * @psalm-suppress MixedInferredReturnType
+     * @psalm-param array<int, array> $resources
      */
-    private function responseJoined(array $resources, Schema $schema): array
+    private function responseJoined(array $resources, Schema $schema, string $resourceClass): array
     {
         /** @var ResourceProviders $resourceProviders */
         $resourceProviders = $this->locator->get('resourceProviders');
 
-        return $schema->collect($resources, $resourceProviders)->build();
+        /** @var DatabaseSerializer $serializer */
+        $serializer = $this->locator->get('databaseSerializer');
+
+        $collected = $schema->collect($resources, $resourceProviders);
+
+        return $serializer->denormalize($collected, $resourceClass . '[]');
     }
 }

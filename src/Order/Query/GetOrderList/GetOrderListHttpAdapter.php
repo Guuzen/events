@@ -2,13 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\ApiGateway\GetOrderList;
+namespace App\Order\Query\GetOrderList;
 
-use App\ApiGateway\Responses\OrderResponse;
-use App\Event\Model\EventId;
 use App\Infrastructure\Http\AppController\AppController;
-use App\Order\Query\GetOrderList\GetOrderList;
-use App\Order\Query\GetOrderList\GetOrderListHandler;
+use App\Order\Query\OrderResource;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -26,10 +23,8 @@ final class GetOrderListHttpAdapter extends AppController
      */
     public function __invoke(GetOrderListRequest $request): Response
     {
-        $orders = $this->getOrderList->execute(
-            new GetOrderList(new EventId($request->eventId))
-        );
+        $orders = $this->getOrderList->execute($request->eventId);
 
-        return $this->responseJoinedCollection($orders, OrderResponse::schema());
+        return $this->responseJoinedCollection($orders, OrderResource::schema(), OrderResource::class);
     }
 }

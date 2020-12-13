@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace App\Order\Query;
 
+use App\Infrastructure\ArrayComposer\Path\Path;
+use App\Infrastructure\ArrayComposer\Schema;
+use App\Promocode\Model\Discount\Discount;
+use App\Promocode\Query\PromocodeResource;
 use Money\Money;
 
 /**
@@ -64,7 +68,92 @@ final class OrderResource
     public $cancelled;
 
     /**
-     * @var string|null
+     * @var PromocodeResource|null
      */
     public $promocodeId;
+
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    public function getEventId(): string
+    {
+        return $this->eventId;
+    }
+
+    public function getTariffId(): string
+    {
+        return $this->tariffId;
+    }
+
+    public function getProductType(): string
+    {
+        return $this->productType;
+    }
+
+    public function getUserId(): string
+    {
+        return $this->userId;
+    }
+
+    public function getPrice(): Money
+    {
+        return $this->price;
+    }
+
+    public function getTotal(): Money
+    {
+        if ($this->promocodeId === null) {
+            return $this->price;
+        }
+
+        return $this->promocodeId->discount->apply($this->price);
+    }
+
+    public function getMakedAt(): \DateTimeImmutable
+    {
+        return $this->makedAt;
+    }
+
+    public function isPaid(): bool
+    {
+        return $this->paid;
+    }
+
+    public function isCancelled(): bool
+    {
+        return $this->cancelled;
+    }
+
+    public function getPromocodeId(): ?string
+    {
+        if ($this->promocodeId === null) {
+            return null;
+        }
+
+        return $this->promocodeId->id;
+    }
+
+    public function getDiscount(): ?Discount
+    {
+        if ($this->promocodeId === null) {
+            return null;
+        }
+
+        return $this->promocodeId->discount;
+    }
+
+    public static function schema(): Schema
+    {
+        $schema = new Schema(self::class);
+        $schema->oneToOne(
+            PromocodeResource::schema(),
+            new Path(['promocodeId']),
+            new Path(['id']),
+            'promocodeId',
+        );
+
+        return $schema;
+    }
 }

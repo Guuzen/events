@@ -2,12 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\ApiGateway\GetPromocodeList;
+namespace App\Promocode\Query\GetPromocodeList;
 
-use App\ApiGateway\Responses\PromocodeResponse;
 use App\Infrastructure\Http\AppController\AppController;
-use App\Promocode\Query\GetPromocodeList\GetPromocodeList;
-use App\Promocode\Query\GetPromocodeList\GetPromocodeListHandler;
+use App\Promocode\Query\PromocodeResource;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -25,10 +23,8 @@ final class GetPromocodeListHttpAdapter extends AppController
      */
     public function __invoke(GetPromocodeListRequest $request): Response
     {
-        $promocodes = $this->handler->handle(
-            new GetPromocodeList($request->eventId)
-        );
+        $promocodes = $this->handler->handle($request->eventId);
 
-        return $this->responseJoinedCollection($promocodes, PromocodeResponse::schema());
+        return $this->responseJoinedCollection($promocodes, PromocodeResource::schema(), PromocodeResource::class);
     }
 }

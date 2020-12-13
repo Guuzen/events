@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Infrastructure\JoinResponse\Integrated;
 
-use App\Infrastructure\ResponseComposer\ResourceProviders;
-use App\Infrastructure\ResponseComposer\Schema;
-use App\Infrastructure\ResponseComposer\SchemaProvider;
+use App\Infrastructure\ArrayComposer\Path\Path;
+use App\Infrastructure\ArrayComposer\ResourceProviders;
+use App\Infrastructure\ArrayComposer\Schema;
 use PHPUnit\Framework\TestCase;
 
 final class WriterHasNoBooksTest extends TestCase
@@ -14,63 +14,33 @@ final class WriterHasNoBooksTest extends TestCase
     public function test(): void
     {
         $writer  = [
-            'id'     => 'nonsense',
-            'bookId' => '10',
+            'id' => '10',
         ];
         $writers = [
             $writer,
         ];
 
-        $schema    = Writer::schema();
+        $schema = $schema = new Schema('writerProvider');
+        $schema->oneToMany(
+            new Schema('bookProvider'),
+            new Path(['id']),
+            new Path(['writer']),
+            'books',
+        );
         $providers = new ResourceProviders(
             [
-                Writer::class => new StubResourceProvider($writers),
-                Book::class   => new StubResourceProvider([]),
+                'writerProvider' => new StubResourceProvider($writers),
+                'bookProvider'   => new StubResourceProvider([]),
             ]
         );
 
-        $groupBuilder = $schema->collect($writers, $providers);
-        $resonses     = $groupBuilder->build();
+        $result = $schema->collect($writers, $providers);
 
-        self::assertEquals([new Writer($writer, [])], $resonses);
-    }
-}
-
-final class Writer implements SchemaProvider
-{
-    private array $writer;
-    private array $books;
-
-    public function __construct(array $writer, array $books)
-    {
-        $this->writer = $writer;
-        $this->books  = $books;
-    }
-
-    public static function schema(): Schema
-    {
-        $schema = new Schema(self::class);
-        $schema->oneToMany(
-            Book::schema(),
-            fn(array $writer) => (string)$writer['bookId'],
-            fn(array $book) => (string)$book['id'],
+        self::assertEquals(
+            [
+                ['id' => '10', 'books' => []]
+            ],
+            $result
         );
-
-        return $schema;
-    }
-}
-
-final class Book implements SchemaProvider
-{
-    private array $book;
-
-    public function __construct(array $book)
-    {
-        $this->book = $book;
-    }
-
-    public static function schema(): Schema
-    {
-        return new Schema(self::class);
     }
 }

@@ -1,15 +1,13 @@
 <?php
 
-declare(strict_types=1);
-
-namespace App\ApiGateway\GetPromocodeList;
+namespace App\Order\Query\GetOrderList;
 
 use App\Infrastructure\Http\RequestResolver\AppRequest;
 
 /**
  * @psalm-immutable
  */
-final class GetPromocodeListRequest implements AppRequest
+final class GetOrderListRequest implements AppRequest
 {
     public $eventId;
 

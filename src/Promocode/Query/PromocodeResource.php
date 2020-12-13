@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Promocode\Query;
 
 // TODO better names for return types for queries ?
+use App\Infrastructure\ArrayComposer\Schema;
 use App\Promocode\Model\Discount\Discount;
 
 /**
@@ -56,4 +57,9 @@ final class PromocodeResource
      * @var bool
      */
     public $usable;
+
+    public static function schema(): Schema
+    {
+        return new Schema(self::class);
+    }
 }

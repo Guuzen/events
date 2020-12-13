@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Order\Query\GetOrderList;
 
 use App\Infrastructure\Persistence\DatabaseSerializer\DatabaseSerializer;
-use App\Order\Query\OrderResource;
 use Doctrine\DBAL\Connection;
 
 final class GetOrderListHandler
@@ -16,15 +15,17 @@ final class GetOrderListHandler
 
     public function __construct(Connection $connection, DatabaseSerializer $serializer)
     {
-        $this->connection   = $connection;
-        $this->serializer   = $serializer;
+        $this->connection = $connection;
+        $this->serializer = $serializer;
     }
 
     // TODO should all exceptions be in docblock? Handlers may be used not only by http. What will happen on exception
     /**
-     * @return OrderResource[]
+     * @psalm-suppress MixedReturnTypeCoercion
+     *
+     * @return array<int, array>
      */
-    public function execute(GetOrderList $query): array
+    public function execute(string $eventId): array
     {
         $stmt = $this->connection->prepare(
             '
@@ -40,7 +41,7 @@ final class GetOrderListHandler
             ) as orders
         '
         );
-        $stmt->bindValue('event_id', $query->eventId);
+        $stmt->bindValue('event_id', $eventId);
         $stmt->execute();
 
         /** @var string|false $ordersData */
@@ -49,6 +50,6 @@ final class GetOrderListHandler
             throw new OrderListNotFound('');
         }
 
-        return $this->serializer->deserializeToArray($ordersData, OrderResource::class);
+        return $this->serializer->decode($ordersData);
     }
 }

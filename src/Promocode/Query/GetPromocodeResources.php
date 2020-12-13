@@ -2,14 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Promocode\Query\FindPromocodeResources;
+namespace App\Promocode\Query;
 
+use App\Infrastructure\ArrayComposer\ResourceProvider;
 use App\Infrastructure\Persistence\DatabaseSerializer\DatabaseSerializer;
-use App\Infrastructure\ResponseComposer\ResourceProvider;
-use App\Promocode\Query\PromocodeResource;
 use Doctrine\DBAL\Connection;
 
-final class FindPromocodeResources implements ResourceProvider
+final class GetPromocodeResources implements ResourceProvider
 {
     private $connection;
 
@@ -22,7 +21,7 @@ final class FindPromocodeResources implements ResourceProvider
     }
 
     /**
-     * @return PromocodeResource[]
+     * @psalm-suppress MixedReturnTypeCoercion
      */
     public function resources(array $promocodeIds): array
     {
@@ -48,6 +47,6 @@ final class FindPromocodeResources implements ResourceProvider
             return [];
         }
 
-        return $this->serializer->deserializeToArray($promocodes, PromocodeResource::class);
+        return $this->serializer->decode($promocodes);
     }
 }

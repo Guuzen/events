@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Order\Query\FindOrderById;
+namespace App\Order\Query\GetOrderById;
 
 use App\Order\Model\OrderId;
 
 /**
  * @psalm-immutable
  */
-final class FindOrderById
+final class GetOrderById
 {
     public $orderId;
 

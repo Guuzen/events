@@ -3,7 +3,7 @@
 namespace App\Promocode;
 
 use App\Promocode\Model\Promocodes;
-use App\Promocode\Query\FindPromocodeResources\FindPromocodeResources;
+use App\Promocode\Query\GetPromocodeResources;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $configurator) {
@@ -14,5 +14,5 @@ return static function (ContainerConfigurator $configurator) {
 
     $services->set(Promocodes::class);
 
-    $services->set(FindPromocodeResources::class); // TODO move to compiler pass ?
+    $services->set(GetPromocodeResources::class); // TODO move to compiler pass ?
 };

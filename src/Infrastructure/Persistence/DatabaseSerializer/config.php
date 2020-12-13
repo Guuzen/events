@@ -46,6 +46,7 @@ return static function (ContainerConfigurator $configurator) {
                 ref('serializer.mapping.class_discriminator_resolver'),
             ]
         );
+
     $services->set(DatabaseSerializer::class)
         ->args(
             [

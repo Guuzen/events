@@ -18,7 +18,7 @@ final class ArrayKeysNameConverter
         $this->nameConverter = $nameConverter;
     }
 
-    public function convert(array &$array): array
+    public function convert(array $array): array
     {
         $result = [];
         /** @psalm-suppress MixedAssignment */
