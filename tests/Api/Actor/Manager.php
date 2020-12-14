@@ -24,22 +24,14 @@ final class Manager
         ]);
     }
 
-    public function createsEvent(): string
+    public function createsEvent(array $createEvent): string
     {
-        $response = $this->client->post('/admin/event', []);
+        $response = $this->client->post('/admin/event', $createEvent);
         $this->assertResultMatchesPattern($response, [
             'data' => '@uuid@',
         ]);
 
         return $response['data'];
-    }
-
-    public function createsEventDomain(array $createEvent): void
-    {
-        $response = $this->client->post('/admin/eventDomain', $createEvent);
-        $this->assertResultMatchesPattern($response, [
-            'data' => [],
-        ]);
     }
 
     public function seeEventInList(array $events): void

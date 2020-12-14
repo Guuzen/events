@@ -55,9 +55,7 @@ final class BuyProductTest extends TestCase
      */
     public function byWire(): void
     {
-        $eventId = $this->manager->createsEvent();
-        $this->manager->createsEventDomain([
-            'id'     => $eventId,
+        $eventId = $this->manager->createsEvent([
             'name'   => '2019 foo event',
             'domain' => '2019foo.event.com',
         ]);
@@ -425,9 +423,7 @@ final class BuyProductTest extends TestCase
      */
     public function byCard(): void
     {
-        $eventId = $this->manager->createsEvent();
-        $this->manager->createsEventDomain([
-            'id'     => $eventId,
+        $eventId = $this->manager->createsEvent([
             'name'   => '2019 foo event',
             'domain' => '2019foo.event.com',
         ]);
