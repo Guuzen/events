@@ -1,3 +1,3 @@
-const failFast = require('jasmine-fail-fast');
-const jasmineEnv = jasmine.getEnv();
-jasmineEnv.addReporter(failFast.init());
+const path = require('path');
+
+require('dotenv').config({path: path.resolve(process.cwd(), '.env.test')});

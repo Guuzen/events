@@ -23,7 +23,7 @@ return static function (ContainerConfigurator $configurator) {
                                 ->args(
                                     [
                                         '$config' => [
-                                            'base_uri' => 'http://localhost:8001',
+                                            'base_uri' => '%env(TEST_MAILER_HOST)%',
                                         ]
                                     ]
                                 )

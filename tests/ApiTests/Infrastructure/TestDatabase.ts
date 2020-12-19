@@ -1,10 +1,9 @@
-class TestDatabase {
-    constructor(connection) {
-        this.connection = connection;
-    }
+const postgres = require('postgres');
 
+class TestDatabase {
     async prepare() {
-        await this.connection`
+        const connection = postgres(process.env.DB_URL);
+        await connection`
             DO $$
             BEGIN
                 execute
@@ -16,6 +15,7 @@ class TestDatabase {
             END
             $$;
         `;
+        await connection.end();
     }
 }
 

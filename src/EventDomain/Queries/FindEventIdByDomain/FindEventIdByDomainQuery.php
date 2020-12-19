@@ -30,7 +30,9 @@ final class FindEventIdByDomainQuery
         /** @psalm-var array{id: string}|false */
         $result = $stmt->fetchAssociative();
         if (false === $result) {
-            throw new EventIdByDomainNotFound('');
+            throw new EventIdByDomainNotFound(
+                \sprintf('Domain: %s not found', $domain)
+            );
         }
 
         return $result['id'];

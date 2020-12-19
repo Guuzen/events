@@ -6,7 +6,15 @@
   "scripts": {
     "test": "jest"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/jest": "^26.0.19",
+    "@types/node": "^14.14.14",
+    "chalk": "^4.1.0",
+    "debug": "^4.3.1",
+    "dotenv": "^8.2.0",
+    "mockttp": "^1.0.3"
+  },
   "devDependencies": {
     "axios": "^0.19.2",
     "express": "^4.17.1",
@@ -14,8 +22,6 @@
     "jest": "^25.1.0",
     "jest-extended": "^0.11.5",
     "jest-snapshot": "^25.2.3",
-    "pg": "^7.18.2",
-    "postgres": "^1.0.2",
-    "supertest": "^4.0.2"
+    "postgres": "^1.0.2"
   }
 }

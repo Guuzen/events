@@ -83,18 +83,6 @@ final class Manager
         $this->assertResultMatchesPattern($response, $tariff);
     }
 
-    public function createsTicket(array $createTicket): string
-    {
-        $response = $this->client->post('/admin/ticket/create', $createTicket);
-        $this->assertResultMatchesPattern($response, [
-            'data' => [
-                'id' => '@uuid@',
-            ],
-        ]);
-
-        return $response['data']['id'];
-    }
-
     public function seeTicketInList(string $eventId, array $tickets): string
     {
         $response = $this->client->get('/admin/ticket/list', [

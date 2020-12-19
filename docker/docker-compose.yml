@@ -29,6 +29,8 @@ services:
             - ./../:/var/www/html
             - ./php/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
             - ./php/php.ini:/usr/local/etc/php/conf.d/php.ini
+        extra_hosts:
+            - 'host.docker.internal:host-gateway'
 
     db:
         container_name: guuzen-events-pgsql
@@ -45,7 +47,7 @@ services:
     nodejs:
         container_name: guuzen-events-nodejs
         image: node:12-stretch
-        command: ["tail", "-f", "/dev/null"]
+        command: [ "tail", "-f", "/dev/null" ]
         working_dir: /usr/src/app
         networks:
             - guuzen-events
