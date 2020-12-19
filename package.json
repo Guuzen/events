@@ -19,9 +19,9 @@
     "axios": "^0.19.2",
     "express": "^4.17.1",
     "jasmine-fail-fast": "^2.0.1",
-    "jest": "^25.1.0",
+    "jest": "^25.5.4",
     "jest-extended": "^0.11.5",
-    "jest-snapshot": "^25.2.3",
+    "jest-snapshot": "^25.5.1",
     "postgres": "^1.0.2"
   }
 }
