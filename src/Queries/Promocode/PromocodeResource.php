@@ -58,9 +58,4 @@ final class PromocodeResource
      * @var bool
      */
     public $usable;
-
-    public static function schema(): Schema
-    {
-        return new Schema(self::class);
-    }
 }

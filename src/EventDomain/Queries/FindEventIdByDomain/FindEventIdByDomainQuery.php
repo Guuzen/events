@@ -25,7 +25,7 @@ final class FindEventIdByDomainQuery
                 event_domain.domain = :domain
         '
         );
-        $stmt->bindParam('domain', $domain);
+        $stmt->bindValue('domain', $domain);
         $stmt->execute();
         /** @psalm-var array{id: string}|false */
         $result = $stmt->fetchAssociative();

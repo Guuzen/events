@@ -4,39 +4,47 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\ArrayComposer;
 
-use App\Infrastructure\ArrayComposer\Path\Path;
 use App\Infrastructure\ArrayComposer\ResourceLink\OneToMany;
 use App\Infrastructure\ArrayComposer\ResourceLink\OneToOne;
-use App\Infrastructure\ArrayComposer\ResourceLink\ResourceLink;
 
 final class Schema
 {
-    private $providerId;
+    /**
+     * @var array<int, LinkParams>
+     */
+    private $linkParamsList = [];
 
     /**
-     * @psalm-var array<int, array{0: self, 1: ResourceLink, 2: Path, 3: Path, 4: string}>
+     * @var array<string, array{data: array<int, array>, linkParamsList: array<int, LinkParams>}>
      */
-    private array $linkParams = [];
+    private $resources = [];
 
-    public function __construct(string $providerId)
+    public function link(LinkParams $linkParams): void
     {
-        $this->providerId = $providerId;
+        $this->linkParamsList[] = $linkParams;
     }
 
-    public function link(Schema $schema, ResourceLink $link, Path $leftPath, Path $rightPath, string $writeField): void
+    public function oneToOne(
+        string $leftResource,
+        Path $leftPath,
+        string $rightResource,
+        Path $rightPath,
+        string $writePath
+    ): void
     {
-        $this->linkParams[] = [$schema, $link, $leftPath, $rightPath, $writeField];
+
+        $this->link(new LinkParams($leftResource, $leftPath, $rightResource, $rightPath, new OneToOne(), $writePath));
     }
 
-    public function oneToOne(Schema $schema, Path $leftPath, Path $rightPath, string $writeField): void
+    public function oneToMany(
+        string $leftResource,
+        Path $leftPath,
+        string $rightResource,
+        Path $rightPath,
+        string $writePath
+    ): void
     {
-
-        $this->link($schema, new OneToOne(), $leftPath, $rightPath, $writeField);
-    }
-
-    public function oneToMany(Schema $schema, Path $leftPath, Path $rightPath, string $writeField): void
-    {
-        $this->link($schema, new OneToMany(), $leftPath, $rightPath, $writeField);
+        $this->link(new LinkParams($leftResource, $leftPath, $rightResource, $rightPath, new OneToMany(), $writePath));
     }
 
     /**
@@ -44,59 +52,68 @@ final class Schema
      *
      * @return array<int, array>
      */
-    public function collect(array $resources, ResourceProviders $providers): array
+    public function collect(array $resources, string $leftResourceId, ResourceProviders $providers): array
     {
-        $groupedResources = [];
-        foreach ($this->linkParams as $linkParam) {
-            /** @var ResourceLink $link */
-            /** @var self $schema */
-            /** @var Path $leftPath */
-            [$schema, $link, $leftPath, $rightPath] = $linkParam;
-            $provider            = $providers->provider($schema->providerId);
-            $linkedResourcesKeys = $this->extractKeys(
-                $resources,
-                $leftPath->prependForArray()
-            );
-            $linkedResources     = $schema->collect(
-                $provider->resources($linkedResourcesKeys),
-                $providers
-            );
-            $groupedResources[]  = $link->group($linkedResources, $rightPath);
+        $resourcesBuffer = [
+            [$resources, $leftResourceId]
+        ];
+
+        $this->resources[$leftResourceId] = [
+            'data'           => $resources,
+            'linkParamsList' => $this->linkParamsList,
+        ];
+
+        foreach ($resourcesBuffer as $i => $iValue) {
+            [$bufferedResources, $bufferedLeftResourceId] = $resourcesBuffer[$i];
+            $leftResourceLinkParams           = $this->getLinkParamsByLeftResourceId($bufferedLeftResourceId);
+            $groupedByRightResourceLinkParams = $this->groupByRightResourceIdLinkParams($leftResourceLinkParams);
+            foreach ($groupedByRightResourceLinkParams as $rightResourceId => $groupedByRightResourceLinkParam) {
+                $keys                              = $this->collectLeftKeys($bufferedResources, $groupedByRightResourceLinkParam);
+                $providedResources                 = $providers->provide($keys, $rightResourceId);
+                $this->resources[$rightResourceId] = [
+                    'data'           => $providedResources,
+                    'linkParamsList' => $this->getLinkParamsByLeftResourceId($rightResourceId),
+                ];
+                $resourcesBuffer[]                 = [$providedResources, $rightResourceId];
+            }
         }
 
-        $newResources = [];
-        foreach ($resources as $resource) {
-            $newResource = $resource;
-            foreach ($this->linkParams as $linkIndex => $linkParam) {
-                [1 => $link, 2 => $leftPath, 4 => $writeField] = $linkParam;
+        foreach ($this->resources as &$resource) {
+            $data = &$resource['data'];
+            /** @var LinkParams[] $linkParams */
+            $linkParams = $resource['linkParamsList'];
+            foreach ($data as &$datum) {
+                foreach ($linkParams as $linkParam) {
+                    $expandedResourcePaths = $linkParam->leftPath->expand($datum);
+                    $groupedResources      = $linkParam->resourceLink->group(
+                        $this->resources[$linkParam->rightResourceId]['data'],
+                        $linkParam->rightPath
+                    );
+                    foreach ($expandedResourcePaths as $expandedResourcePath) {
+                        $writePath = $expandedResourcePath->previousPath();
+                        /** @var array $exposedResource */
+                        $exposedResource = &$writePath->expose($datum);
 
-                $resourceKeyPaths = $leftPath->unwrap($resource);
+                        /** @var array-key|null $resourceKey */
+                        $resourceKey = $expandedResourcePath->expose($datum);
+                        if ($resourceKey === null) {
+                            /** @psalm-suppress MixedAssignment */
+                            $exposedResource[$linkParam->writeField] = $linkParam->resourceLink->defaultEmptyValue();
+                            continue;
+                        }
+                        if (isset($groupedResources[$resourceKey]) === false) {
+                            /** @psalm-suppress MixedAssignment */
+                            $exposedResource[$linkParam->writeField] = $linkParam->resourceLink->defaultEmptyValue();
+                            continue;
+                        }
 
-                foreach ($resourceKeyPaths as $resourceKeyPath) {
-                    $previousPath = $resourceKeyPath->previousPath();
-                    /** @var array $exposedResource */
-                    $exposedResource = &$previousPath->expose($newResource);
-
-                    /** @var array-key|null $resourceKey */
-                    $resourceKey = $resourceKeyPath->expose($resource);
-                    if ($resourceKey === null) {
-                        /** @psalm-suppress MixedAssignment */
-                        $exposedResource[$writeField] = $link->defaultEmptyValue();
-                        continue;
+                        $exposedResource[$linkParam->writeField] = $groupedResources[$resourceKey];
                     }
-                    if (isset($groupedResources[$linkIndex][$resourceKey]) === false) {
-                        /** @psalm-suppress MixedAssignment */
-                        $exposedResource[$writeField] = $link->defaultEmptyValue();
-                        continue;
-                    }
-
-                    $exposedResource[$writeField] = $groupedResources[$linkIndex][$resourceKey];
                 }
             }
-            $newResources[] = $newResource;
         }
 
-        return $newResources;
+        return $this->resources[$leftResourceId]['data'];
     }
 
     /**
@@ -106,14 +123,63 @@ final class Schema
      */
     private function extractKeys(array $items, Path $path): array
     {
-        $transformedPaths = $path->unwrap($items);
-        $keys             = [];
-        foreach ($transformedPaths as $transformedPath) {
+        $expandedPaths = $path->expand($items);
+        $keys          = [];
+        foreach ($expandedPaths as $expandedPath) {
             /** @var array-key $key */
-            $key    = $transformedPath->expose($items);
+            $key    = $expandedPath->expose($items);
             $keys[] = $key;
         }
 
         return \array_filter($keys);
+    }
+
+    /**
+     * @return array<int, LinkParams>
+     */
+    private function getLinkParamsByLeftResourceId(string $leftResourceId): array
+    {
+        $result = [];
+        foreach ($this->linkParamsList as $linkParam) {
+            if ($linkParam->leftResourceId === $leftResourceId) {
+                $result[] = $linkParam;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param LinkParams[] $linkParams
+     *
+     * @return array<string, array<int, LinkParams>>
+     */
+    private function groupByRightResourceIdLinkParams(array $linkParams): array
+    {
+        $grouped = [];
+        foreach ($linkParams as $linkParam) {
+            $grouped[$linkParam->rightResourceId][] = $linkParam;
+        }
+
+        return $grouped;
+    }
+
+    /**
+     * @param array[]      $items
+     * @param LinkParams[] $linkParams
+     *
+     * @return array<int, array-key>
+     */
+    private function collectLeftKeys(array $items, array $linkParams): array
+    {
+        $keys = [];
+        foreach ($linkParams as $rightResource => $linkParam) {
+            $keys = [
+                ...$keys,
+                ...$this->extractKeys($items, $linkParam->leftPath->prependForArray()),
+            ];
+        }
+
+        return $keys;
     }
 }

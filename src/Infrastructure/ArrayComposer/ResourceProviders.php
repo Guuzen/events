@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\ArrayComposer;
 
-final class ResourceProviders
+class ResourceProviders
 {
     private $providers;
 
@@ -16,8 +16,13 @@ final class ResourceProviders
         $this->providers = $providers;
     }
 
-    public function provider(string $providerId): ResourceProvider
+    /**
+     * @param array-key[] $keys
+     *
+     * @return array<int, array>
+     */
+    public function provide(array $keys, string $providerId): array
     {
-        return $this->providers[$providerId];
+        return $this->providers[$providerId]->resources($keys);
     }
 }

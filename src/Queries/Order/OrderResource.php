@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Queries\Order;
 
-use App\Infrastructure\ArrayComposer\Path\Path;
+use App\Infrastructure\ArrayComposer\Path;
 use App\Infrastructure\ArrayComposer\Schema;
 use App\Promocode\Model\Discount\Discount;
 use App\Queries\Promocode\PromocodeResource;
@@ -146,10 +146,11 @@ final class OrderResource
 
     public static function schema(): Schema
     {
-        $schema = new Schema(self::class);
+        $schema = new Schema();
         $schema->oneToOne(
-            PromocodeResource::schema(),
+            self::class,
             new Path(['promocodeId']),
+            PromocodeResource::class,
             new Path(['id']),
             'promocodeId',
         );

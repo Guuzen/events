@@ -107,7 +107,7 @@ abstract class AppController
         /** @var DatabaseSerializer $serializer */
         $serializer = $this->locator->get('databaseSerializer');
 
-        $collected = $schema->collect($resources, $resourceProviders);
+        $collected = $schema->collect($resources, $resourceClass, $resourceProviders);
 
         return $serializer->denormalize($collected, $resourceClass . '[]');
     }

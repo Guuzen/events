@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Queries\Promocode\GetPromocodeList;
 
+use App\Infrastructure\ArrayComposer\Schema;
 use App\Infrastructure\Http\AppController\AppController;
 use App\Promocode\Query\GetPromocodeListHandler;
 use App\Queries\Promocode\GetPromocodeList\GetPromocodeListRequest;
@@ -27,6 +28,6 @@ final class GetPromocodeListHttpAdapter extends AppController
     {
         $promocodes = $this->handler->handle($request->eventId);
 
-        return $this->responseJoinedCollection($promocodes, PromocodeResource::schema(), PromocodeResource::class);
+        return $this->responseJoinedCollection($promocodes, new Schema(), PromocodeResource::class);
     }
 }

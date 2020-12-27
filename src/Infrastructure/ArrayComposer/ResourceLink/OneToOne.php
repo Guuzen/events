@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\ArrayComposer\ResourceLink;
 
-use App\Infrastructure\ArrayComposer\Path\Path;
+use App\Infrastructure\ArrayComposer\Path;
 
 final class OneToOne implements ResourceLink
 {
