@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Promocode\AdminApi\GetPromocodeList;
 
 use App\Infrastructure\Http\AppController\AppController;
-use App\Infrastructure\Persistence\DatabaseSerializer\DatabaseSerializer;
 use App\Infrastructure\ResComposer\ResourceComposer;
 use App\Promocode\AdminApi\Resource\PromocodeResource;
 use Doctrine\DBAL\Connection;
@@ -18,17 +17,10 @@ final class GetPromocodeListHttpAdapter extends AppController
 
     private $connection;
 
-    private $databaseSerializer;
-
-    public function __construct(
-        ResourceComposer $composer,
-        Connection $connection,
-        DatabaseSerializer $databaseSerializer
-    )
+    public function __construct(ResourceComposer $composer, Connection $connection)
     {
-        $this->composer           = $composer;
-        $this->connection         = $connection;
-        $this->databaseSerializer = $databaseSerializer;
+        $this->composer   = $composer;
+        $this->connection = $connection;
     }
 
     /**
@@ -60,7 +52,7 @@ final class GetPromocodeListHttpAdapter extends AppController
         }
 
         /** @var array<int, array> $promocodes */
-        $promocodes = $this->databaseSerializer->decode($promocodesData);
+        $promocodes = $this->deserializeFromDb($promocodesData);
 
         $resources = $this->composer->compose($promocodes, PromocodeResource::class);
 

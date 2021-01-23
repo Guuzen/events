@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tariff\Action;
+namespace App\Tariff\AdminApi\CreateTariff;
 
 use App\Event\Model\EventId;
 use App\Infrastructure\Http\RequestResolver\AppRequest;
@@ -17,14 +17,14 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 final class CreateTariffRequest implements AppRequest
 {
-    private $eventId;
+    public $eventId;
 
-    private $segments;
+    public $segments;
 
     /**
      * @Assert\NotBlank()
      */
-    private $productType;
+    public $productType;
 
     /**
      * @psalm-param array<
@@ -40,28 +40,5 @@ final class CreateTariffRequest implements AppRequest
         $this->eventId     = $eventId;
         $this->segments    = $segments;
         $this->productType = $productType;
-    }
-
-    public function toCreateTariff(): CreateTariff
-    {
-        $tariffSegments = [];
-        foreach ($this->segments as $segment) {
-            $tariffSegments[] = new TariffSegment(
-                new Money(
-                    $segment['price']['amount'],
-                    new Currency($segment['price']['currency'])
-                ),
-                new TariffTerm(
-                    new \DateTimeImmutable($segment['term']['start']),
-                    new \DateTimeImmutable($segment['term']['end'])
-                )
-            );
-        }
-
-        return new CreateTariff(
-            new EventId($this->eventId),
-            new TariffPriceNet($tariffSegments),
-            new ProductType($this->productType)
-        );
     }
 }

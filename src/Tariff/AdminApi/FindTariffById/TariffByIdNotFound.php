@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tariff\Query\FindTariffById;
+namespace App\Tariff\AdminApi\FindTariffById;
 
 use App\Infrastructure\AppException\AppException;
 

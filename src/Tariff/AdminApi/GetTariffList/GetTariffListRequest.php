@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tariff\Query\GetTariffList;
+namespace App\Tariff\AdminApi\GetTariffList;
 
 use App\Infrastructure\Http\RequestResolver\AppRequest;
 

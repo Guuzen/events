@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tariff\Query\FindTariffById;
+namespace App\Tariff\AdminApi\FindTariffById;
 
 use App\Infrastructure\Http\AppController\AppController;
 use Doctrine\DBAL\Connection;
