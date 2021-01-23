@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Product\Query\GetTicketList;
+namespace App\Product\AdminApi\GetTicketList;
 
 use App\Infrastructure\Http\RequestResolver\AppRequest;
 

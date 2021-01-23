@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Product\Query\GetTicketList;
+namespace App\Product\AdminApi\GetTicketList;
 
 use App\Infrastructure\AppException\AppException;
 

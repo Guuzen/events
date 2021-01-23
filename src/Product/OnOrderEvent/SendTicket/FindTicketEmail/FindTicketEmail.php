@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Product\Action\SendTicket\FindTicketEmail;
+namespace App\Product\OnOrderEvent\SendTicket\FindTicketEmail;
 
 use App\Product\Model\TicketId;
 use Doctrine\DBAL\Connection;

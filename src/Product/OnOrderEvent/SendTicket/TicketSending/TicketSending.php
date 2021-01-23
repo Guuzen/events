@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Product\Action\SendTicket\TicketSending;
+namespace App\Product\OnOrderEvent\SendTicket\TicketSending;
 
-use App\Product\Action\SendTicket\FindTicketEmail\TicketEmail;
+use App\Product\OnOrderEvent\SendTicket\FindTicketEmail\TicketEmail;
 use Swift_Mailer;
 use Swift_Message;
 use function sprintf;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Product\Query\FindTicketById;
+namespace App\Product\AdminApi\FindTicketById;
 
 use App\Infrastructure\Http\RequestResolver\AppRequest;
 

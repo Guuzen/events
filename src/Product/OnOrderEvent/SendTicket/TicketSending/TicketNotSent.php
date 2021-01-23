@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Product\Action\SendTicket\TicketSending;
+namespace App\Product\OnOrderEvent\SendTicket\TicketSending;
 
 use App\Infrastructure\AppException\AppException;
 
