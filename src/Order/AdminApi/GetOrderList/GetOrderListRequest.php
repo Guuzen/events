@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Queries\Order\GetOrderList;
+namespace App\Order\AdminApi\GetOrderList;
 
 use App\Infrastructure\Http\RequestResolver\AppRequest;
 

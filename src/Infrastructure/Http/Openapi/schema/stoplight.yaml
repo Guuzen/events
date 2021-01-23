@@ -427,10 +427,10 @@ paths:
         name: orderId
         in: path
         required: true
-  '/order/{orderId}/markPaidByFondy':
+  '/fondy/{orderId}/markPaid':
     post:
       summary: mark paid by fondy
-      operationId: post-order-markPaidByFondy
+      operationId: post-fondy-markPaid
       responses:
         '200':
           description: OK

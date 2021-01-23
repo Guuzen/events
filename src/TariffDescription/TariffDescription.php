@@ -6,6 +6,8 @@ use App\Infrastructure\Http\RequestResolver\AppRequest;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @psalm-immutable
+ *
  * @ORM\Entity
  */
 class TariffDescription implements AppRequest

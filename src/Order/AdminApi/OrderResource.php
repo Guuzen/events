@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Queries\Order;
+namespace App\Order\AdminApi;
 
 use App\Infrastructure\ResComposer\Promise;
 use App\Infrastructure\ResComposer\Resource;

@@ -4,7 +4,7 @@ const addLogger = require('../Infrastructure/logger');
 const axiosHttpAdapter = require('axios/lib/adapters/http');
 
 const httpClient = axios.create({
-    baseURL: process.env.TEST_API_URL,
+    baseURL: process.env.TEST_API_URL + '/fondy',
     headers: {
         'Content-Type': 'application/json'
     },
@@ -19,7 +19,7 @@ addLogger(httpClient, debug);
 
 class Fondy {
     async markOrderPaid(orderId) {
-        const response = await httpClient.post(`/order/${orderId}/markPaidByFondy`, {});
+        const response = await httpClient.post(`/${orderId}/markPaid`, {});
 
         expect(response.data).toEqual({data: []});
     }

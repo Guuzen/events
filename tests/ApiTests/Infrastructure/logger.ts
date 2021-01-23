@@ -4,7 +4,7 @@ const addLogger = function (httpClient, debug) {
     httpClient.interceptors.request.use(function (config) {
         const separator = '============================================================';
         const method = chalk.magenta(config.method.toUpperCase());
-        const url = chalk.magenta(config.url);
+        const url = chalk.magenta(config.baseURL + config.url);
         const data = JSON.stringify(config.data, null, 4);
 
         debug(`${separator} \n${method} ${url} \n${data}\n`);

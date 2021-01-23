@@ -6,6 +6,9 @@ namespace App\Promocode\ClientApi\UsePromocode;
 
 use App\Infrastructure\Http\RequestResolver\AppRequest;
 
+/**
+ * @psalm-immutable
+ */
 final class UsePromocodeRequest implements AppRequest
 {
     public $orderId;
