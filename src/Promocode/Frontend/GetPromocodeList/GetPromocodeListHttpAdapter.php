@@ -6,7 +6,7 @@ namespace App\Promocode\Frontend\GetPromocodeList;
 
 use App\Infrastructure\Http\AppController\AppController;
 use App\Infrastructure\ResComposer\ResourceComposer;
-use App\Promocode\Query\GetPromocodeListHandler;
+use App\Promocode\Frontend\GetPromocodeList\GetPromocodeListHandler;
 use App\Promocode\Frontend\Resource\PromocodeResource;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;

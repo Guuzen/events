@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Promocode\Action\CreateTariffPromocode;
+namespace App\Promocode\Frontend\CreateTariffPromocode;
 
 use App\Event\Model\EventId;
 use App\Promocode\Model\AllowedTariffs\SpecificAllowedTariffs;

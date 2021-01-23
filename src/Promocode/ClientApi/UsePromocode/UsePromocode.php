@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Promocode\Action\UsePromocode;
+namespace App\Promocode\ClientApi\UsePromocode;
 
 use App\Event\Model\EventId;
 use App\Order\Model\OrderId;

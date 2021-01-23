@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Promocode\Action\CreateTariffPromocode;
+namespace App\Promocode\Frontend\CreateTariffPromocode;
 
 use App\Event\Model\EventId;
 use App\Infrastructure\Http\RequestResolver\AppRequest;
