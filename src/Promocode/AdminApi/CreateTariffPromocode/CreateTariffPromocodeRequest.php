@@ -2,32 +2,26 @@
 
 namespace App\Promocode\AdminApi\CreateTariffPromocode;
 
-use App\Event\Model\EventId;
 use App\Infrastructure\Http\RequestResolver\AppRequest;
-use App\Promocode\Model\AllowedTariffs\SpecificAllowedTariffs;
-use App\Promocode\Model\Discount\FixedDiscount;
-use App\Tariff\Model\TariffId;
-use Money\Currency;
-use Money\Money;
 
 /**
  * @psalm-immutable
  */
 final class CreateTariffPromocodeRequest implements AppRequest
 {
-    private $eventId;
+    public $eventId;
 
-    private $code;
+    public $code;
 
-    private $discount;
+    public $discount;
 
-    private $useLimit;
+    public $useLimit;
 
-    private $expireAt;
+    public $expireAt;
 
-    private $usable;
+    public $usable;
 
-    private $allowedTariffIds;
+    public $allowedTariffIds;
 
     /**
      * @psalm-param array{
@@ -54,28 +48,5 @@ final class CreateTariffPromocodeRequest implements AppRequest
         $this->usable           = $usable;
         $this->allowedTariffIds = $allowedTariffIds;
         $this->eventId          = $eventId;
-    }
-
-    public function toCreateTariffPromocode(): CreateTariffPromocode
-    {
-        $allowedTariffIds = [];
-        foreach ($this->allowedTariffIds as $allowedTariffId) {
-            $allowedTariffIds[] = new TariffId($allowedTariffId);
-        }
-
-        return new CreateTariffPromocode(
-            new EventId($this->eventId),
-            $this->code,
-            new FixedDiscount(
-                new Money(
-                    $this->discount['amount'],
-                    new Currency($this->discount['currency'])
-                )
-            ),
-            $this->useLimit,
-            new \DateTimeImmutable($this->expireAt),
-            $this->usable,
-            new SpecificAllowedTariffs($allowedTariffIds)
-        );
     }
 }

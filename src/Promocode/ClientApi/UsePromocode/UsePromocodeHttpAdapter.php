@@ -6,16 +6,19 @@ namespace App\Promocode\ClientApi\UsePromocode;
 
 use App\Event\Model\EventId;
 use App\Infrastructure\Http\AppController\AppController;
+use App\Order\Model\OrderId;
+use App\Promocode\Model\Promocodes;
+use App\Tariff\Model\TariffId;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 final class UsePromocodeHttpAdapter extends AppController
 {
-    private $handler;
+    private $promocodes;
 
-    public function __construct(UsePromocodeHandler $handler)
+    public function __construct(Promocodes $promocodes)
     {
-        $this->handler = $handler;
+        $this->promocodes = $promocodes;
     }
 
     /**
@@ -23,8 +26,9 @@ final class UsePromocodeHttpAdapter extends AppController
      */
     public function __invoke(UsePromocodeRequest $request, EventId $eventId): Response
     {
-        $usePromocode = $request->toUsePromocode($eventId);
-        $this->handler->handle($usePromocode);
+        $promocode = $this->promocodes->findByCode($request->code, $eventId);
+
+        $promocode->use(new OrderId($request->orderId), new TariffId($request->tariffId), new \DateTimeImmutable());
 
         $this->flush();
 
