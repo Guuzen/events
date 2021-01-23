@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Queries\Promocode;
+namespace App\Promocode\Frontend\Resource;
 
 // TODO better names for return types for queries ?
 use App\Infrastructure\ResComposer\Resource;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Queries\Promocode\GetPromocodeList;
+namespace App\Promocode\Frontend\GetPromocodeList;
 
 use App\Infrastructure\Http\RequestResolver\AppRequest;
 

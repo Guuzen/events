@@ -7,7 +7,7 @@ namespace App\Promocode\Frontend;
 use App\Infrastructure\ResComposer\Link\OneToOne;
 use App\Infrastructure\ResComposer\PromiseGroup;
 use App\Infrastructure\ResComposer\PromiseGroupResolver;
-use App\Queries\Promocode\PromocodeResource;
+use App\Promocode\Frontend\Resource\PromocodeResource;
 
 final class OrderHasOnePromocode implements PromiseGroupResolver
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Queries\Promocode;
+namespace App\Promocode\Frontend\Resource;
 
 final class AllowedTariffs
 {

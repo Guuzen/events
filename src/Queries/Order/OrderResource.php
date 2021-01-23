@@ -8,7 +8,7 @@ use App\Infrastructure\ResComposer\Promise;
 use App\Infrastructure\ResComposer\Resource;
 use App\Promocode\Frontend\OrderHasOnePromocode;
 use App\Promocode\Model\Discount\Discount;
-use App\Queries\Promocode\PromocodeResource;
+use App\Promocode\Frontend\Resource\PromocodeResource;
 use Money\Money;
 
 /**
