@@ -2,9 +2,6 @@
 
 namespace App\Infrastructure\Http\AppController;
 
-use App\Infrastructure\ArrayComposer\ResourceProviders;
-use App\Infrastructure\ArrayComposer\Schema;
-use App\Infrastructure\Persistence\DatabaseSerializer\DatabaseSerializer;
 use App\Infrastructure\Persistence\JsonFromDatabaseDeserializer\JsonFromDatabaseDeserializer;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Container\ContainerInterface;
@@ -33,22 +30,6 @@ abstract class AppController
             [
                 'data' => $data ?? [],
             ], $status, $headers, $context
-        );
-    }
-
-    protected function responseJoinedOne(array $resource, Schema $schema, string $resourceClass): Response
-    {
-        return $this->response($this->responseJoined([$resource], $schema, $resourceClass)[0]);
-    }
-
-    /**
-     * @psalm-param array<int, array> $resources
-     */
-    protected function responseJoinedCollection(array $resources, Schema $schema, string $resourceClass): Response
-    {
-
-        return $this->response(
-            $this->responseJoined($resources, $schema, $resourceClass)
         );
     }
 
@@ -92,23 +73,5 @@ abstract class AppController
         );
 
         return new JsonResponse($json, $status, $headers, true);
-    }
-
-    /**
-     * @psalm-suppress MixedReturnStatement
-     * @psalm-suppress MixedInferredReturnType
-     * @psalm-param array<int, array> $resources
-     */
-    private function responseJoined(array $resources, Schema $schema, string $resourceClass): array
-    {
-        /** @var ResourceProviders $resourceProviders */
-        $resourceProviders = $this->locator->get('resourceProviders');
-
-        /** @var DatabaseSerializer $serializer */
-        $serializer = $this->locator->get('databaseSerializer');
-
-        $collected = $schema->collect($resources, $resourceClass, $resourceProviders);
-
-        return $serializer->denormalize($collected, $resourceClass . '[]');
     }
 }

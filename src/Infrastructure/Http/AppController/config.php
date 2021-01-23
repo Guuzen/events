@@ -4,7 +4,6 @@ namespace App\Infrastructure\Http\AppController;
 
 use App\Infrastructure\Persistence\DatabaseSerializer\DatabaseSerializer;
 use App\Infrastructure\Persistence\JsonFromDatabaseDeserializer\JsonFromDatabaseDeserializer;
-use App\Infrastructure\ArrayComposer\ResourceProviders;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\DependencyInjection\ServiceLocator;
@@ -31,7 +30,6 @@ return static function (ContainerConfigurator $configurator) {
                     'serializer'                => ref('app.infrastructure.http.serializer'),
                     'databaseSerializer'        => ref(DatabaseSerializer::class),
                     'jsonFromDatabaseConverter' => ref(JsonFromDatabaseDeserializer::class),
-                    'resourceProviders'         => ref(ResourceProviders::class),
                     'em'                        => ref(EntityManagerInterface::class),
                 ],
             ]

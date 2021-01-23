@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace App\Queries\Promocode;
 
 // TODO better names for return types for queries ?
-use App\Infrastructure\ArrayComposer\Schema;
+use App\Infrastructure\ResComposer\Resource;
 use App\Promocode\Model\Discount\Discount;
-use App\Queries\Promocode\AllowedTariffs;
 
 /**
  * @psalm-immutable
  */
-final class PromocodeResource
+final class PromocodeResource implements Resource
 {
     /**
      * @var string
@@ -58,4 +57,35 @@ final class PromocodeResource
      * @var bool
      */
     public $usable;
+
+    /**
+     * @param string[] $usedInOrders
+     */
+    public function __construct(
+        string $id,
+        string $eventId,
+        string $code,
+        Discount $discount,
+        int $useLimit,
+        \DateTimeImmutable $expireAt,
+        AllowedTariffs $allowedTariffs,
+        array $usedInOrders,
+        bool $usable
+    )
+    {
+        $this->id             = $id;
+        $this->eventId        = $eventId;
+        $this->code           = $code;
+        $this->discount       = $discount;
+        $this->useLimit       = $useLimit;
+        $this->expireAt       = $expireAt;
+        $this->allowedTariffs = $allowedTariffs;
+        $this->usedInOrders   = $usedInOrders;
+        $this->usable         = $usable;
+    }
+
+    public function promises(): array
+    {
+        return [];
+    }
 }

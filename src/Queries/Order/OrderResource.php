@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App\Queries\Order;
 
-use App\Infrastructure\ArrayComposer\Path;
-use App\Infrastructure\ArrayComposer\Schema;
+use App\Infrastructure\ResComposer\Promise;
+use App\Infrastructure\ResComposer\Resource;
+use App\Promocode\Frontend\OrderHasOnePromocode;
 use App\Promocode\Model\Discount\Discount;
 use App\Queries\Promocode\PromocodeResource;
 use Money\Money;
@@ -13,7 +14,7 @@ use Money\Money;
 /**
  * @psalm-immutable
  */
-final class OrderResource
+final class OrderResource implements Resource
 {
     /**
      * @var string
@@ -144,17 +145,8 @@ final class OrderResource
         return $this->promocodeId->discount;
     }
 
-    public static function schema(): Schema
+    public function promises(): array
     {
-        $schema = new Schema();
-        $schema->oneToOne(
-            self::class,
-            new Path(['promocodeId']),
-            PromocodeResource::class,
-            new Path(['id']),
-            'promocodeId',
-        );
-
-        return $schema;
+        return [Promise::withProperties('promocodeId', 'promocodeId', $this, OrderHasOnePromocode::class)];
     }
 }

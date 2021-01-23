@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Queries\Order\GetOrderById;
 
 use App\Infrastructure\Http\AppController\AppController;
+use App\Infrastructure\ResComposer\ResourceComposer;
 use App\Order\Query\GetOrderByIdHandler;
 use App\Queries\Order\OrderResource;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,9 +15,12 @@ final class GetOrderByIdHttpAdapter extends AppController
 {
     private $findOrderById;
 
-    public function __construct(GetOrderByIdHandler $findOrderById)
+    private $composer;
+
+    public function __construct(GetOrderByIdHandler $findOrderById, ResourceComposer $composer)
     {
         $this->findOrderById = $findOrderById;
+        $this->composer      = $composer;
     }
 
     /**
@@ -26,6 +30,8 @@ final class GetOrderByIdHttpAdapter extends AppController
     {
         $order = $this->findOrderById->execute($request->orderId);
 
-        return $this->responseJoinedOne($order, OrderResource::schema(), OrderResource::class);
+        $resource = $this->composer->composeOne($order, OrderResource::class);
+
+        return $this->response($resource);
     }
 }

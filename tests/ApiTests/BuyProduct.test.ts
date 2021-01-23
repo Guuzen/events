@@ -5,6 +5,15 @@ const Manager = require('./actors/Manager');
 const Visitor = require('./actors/Visitor');
 const Fondy = require('./actors/Fondy');
 
+const {toMatchSnapshot} = require('jest-snapshot');
+expect.extend({
+    toMatchSnapshot(...args) {
+        // @ts-ignore
+        this.dontThrow = () => {};
+        return toMatchSnapshot.call(this, ...args);
+    },
+});
+
 const visitorEmailServer = require('mockttp').getLocal();
 
 jest.setTimeout(10 * 1000);
