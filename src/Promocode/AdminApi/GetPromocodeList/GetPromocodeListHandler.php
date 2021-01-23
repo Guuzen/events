@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Promocode\Frontend\GetPromocodeList;
+namespace App\Promocode\AdminApi\GetPromocodeList;
 
 use App\Infrastructure\Persistence\DatabaseSerializer\DatabaseSerializer;
 use Doctrine\DBAL\Connection;

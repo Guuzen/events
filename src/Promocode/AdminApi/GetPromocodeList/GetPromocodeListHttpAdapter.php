@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Promocode\Frontend\GetPromocodeList;
+namespace App\Promocode\AdminApi\GetPromocodeList;
 
 use App\Infrastructure\Http\AppController\AppController;
 use App\Infrastructure\ResComposer\ResourceComposer;
-use App\Promocode\Frontend\GetPromocodeList\GetPromocodeListHandler;
-use App\Promocode\Frontend\Resource\PromocodeResource;
+use App\Promocode\AdminApi\Resource\PromocodeResource;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Promocode\Frontend\CreateTariffPromocode;
+namespace App\Promocode\AdminApi\CreateTariffPromocode;
 
 use App\Infrastructure\Http\AppController\AppController;
 use Symfony\Component\HttpFoundation\Response;

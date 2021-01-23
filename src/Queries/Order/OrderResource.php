@@ -6,9 +6,9 @@ namespace App\Queries\Order;
 
 use App\Infrastructure\ResComposer\Promise;
 use App\Infrastructure\ResComposer\Resource;
-use App\Promocode\Frontend\OrderHasOnePromocode;
+use App\Promocode\AdminApi\OrderHasOnePromocode;
 use App\Promocode\Model\Discount\Discount;
-use App\Promocode\Frontend\Resource\PromocodeResource;
+use App\Promocode\AdminApi\Resource\PromocodeResource;
 use Money\Money;
 
 /**

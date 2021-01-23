@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Promocode\Frontend;
+namespace App\Promocode\AdminApi;
 
 use App\Infrastructure\Persistence\DatabaseSerializer\DatabaseSerializer;
 use App\Infrastructure\ResComposer\ResourceDataLoader;

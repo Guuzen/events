@@ -2,8 +2,8 @@
 
 namespace App\Promocode;
 
-use App\Promocode\Frontend\OrderHasOnePromocode;
-use App\Promocode\Frontend\PromocodeLoader;
+use App\Promocode\AdminApi\OrderHasOnePromocode;
+use App\Promocode\AdminApi\PromocodeLoader;
 use App\Promocode\Model\Promocodes;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 

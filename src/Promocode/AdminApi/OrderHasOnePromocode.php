@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Promocode\Frontend;
+namespace App\Promocode\AdminApi;
 
 use App\Infrastructure\ResComposer\Link\OneToOne;
 use App\Infrastructure\ResComposer\PromiseGroup;
 use App\Infrastructure\ResComposer\PromiseGroupResolver;
-use App\Promocode\Frontend\Resource\PromocodeResource;
+use App\Promocode\AdminApi\Resource\PromocodeResource;
 
 final class OrderHasOnePromocode implements PromiseGroupResolver
 {
