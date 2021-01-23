@@ -6,6 +6,8 @@ use App\Infrastructure\DomainEvent\NotificationSubscriberPass;
 use App\Infrastructure\Persistence\DBALTypes\JsonDocumentType;
 use App\Infrastructure\Persistence\DBALTypesInitializer\CollectTypesPass;
 use App\Infrastructure\Persistence\DBALTypesInitializer\DBALTypes;
+use App\Infrastructure\ResComposer\CollectResourceResolversPass;
+use App\Infrastructure\ResComposer\PromiseGroupResolver;
 use Money\Money;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -69,6 +71,10 @@ class Kernel extends BaseKernel
     {
         $container->addCompilerPass(new NotificationSubscriberPass());
         $container->addCompilerPass(new CollectTypesPass());
+        $container->addCompilerPass(new CollectResourceResolversPass());
+        $container
+            ->registerForAutoconfiguration(PromiseGroupResolver::class)
+            ->addTag(CollectResourceResolversPass::RESOURCE_RESOLVER);
     }
 
     public function boot(): void
