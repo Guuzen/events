@@ -1,6 +1,6 @@
 <?php
 
-namespace App\EventDomain\Queries\FindEventIdByDomain;
+namespace App\EventDomain\EventIdResolver;
 
 use App\Infrastructure\AppException\AppException;
 

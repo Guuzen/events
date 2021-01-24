@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Order\Fondy\MarkOrderPaidByFondy;
+namespace App\Order\Fondy\MarkOrderPaid;
 
 use App\Infrastructure\Http\RequestResolver\AppRequest;
 

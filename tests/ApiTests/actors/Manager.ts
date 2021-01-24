@@ -22,8 +22,8 @@ addLogger(httpClient, debug);
 
 class Manager {
 
-    async createEvent() {
-        const response = await httpClient.post('/admin/event', {
+    async createEventDomain() {
+        const response = await httpClient.post('/admin/eventDomain', {
             name: '2019 foo event',
             domain: 'localhost',
         });

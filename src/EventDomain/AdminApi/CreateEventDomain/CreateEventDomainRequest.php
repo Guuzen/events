@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Queries\Event\CreateEvent;
+namespace App\EventDomain\AdminApi\CreateEventDomain;
 
 use App\Infrastructure\Http\RequestResolver\AppRequest;
 
 /**
  * @psalm-immutable
  */
-final class CreateEventRequest implements AppRequest
+final class CreateEventDomainRequest implements AppRequest
 {
     /**
      * @var string

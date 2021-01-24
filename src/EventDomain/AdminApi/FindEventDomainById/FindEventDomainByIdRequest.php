@@ -1,13 +1,13 @@
 <?php
 
-namespace App\EventDomain\Queries\FindEventById;
+namespace App\EventDomain\AdminApi\FindEventDomainById;
 
 use App\Infrastructure\Http\RequestResolver\AppRequest;
 
 /**
  * @psalm-immutable
  */
-final class FindEventByIdRequest implements AppRequest
+final class FindEventDomainByIdRequest implements AppRequest
 {
     public $eventId;
 

@@ -21,9 +21,9 @@ tags:
   - name: tariff
   - name: ticket
 paths:
-  /admin/event:
+  /admin/eventDomain:
     post:
-      summary: Create event
+      summary: Create event domain
       tags:
         - event
         - admin
@@ -46,40 +46,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ./event/createEvent.v1.json
+              $ref: ./eventDomain/createEventDomain.v1.json
         description: New event do not need any data
     parameters: []
-  /admin/eventDomain:
-    post:
-      summary: Create event domain
-      operationId: post-admin-eventDomain-create
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: ./emptyResponse.v1.json
-              examples:
-                example-1:
-                  value:
-                    data: []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: ./eventDomain/createEventDomain.v1.json
-            examples:
-              example-1:
-                value:
-                  id: 36ab2906-c924-4bbd-83dc-f1264d214e32
-                  name: 2019 foo event
-                  domain: 2019foo.event.com
-        description: event domain
-      description: Create event domain
-      tags:
-        - admin
-        - event
     get:
       summary: event domains
       tags:

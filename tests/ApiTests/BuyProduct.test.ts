@@ -32,7 +32,7 @@ describe('Buy ticket', function () {
     test('By wire', async () => {
         const manager = new Manager();
 
-        const eventId = await manager.createEvent();
+        const eventId = await manager.createEventDomain();
         await manager.getEventsInList();
         await manager.getEventById(eventId);
 
@@ -71,7 +71,7 @@ describe('Buy ticket', function () {
     test('By card', async () => {
         const manager = new Manager();
 
-        const eventId = await manager.createEvent();
+        const eventId = await manager.createEventDomain();
         await manager.getEventsInList();
         await manager.getEventById(eventId);
 

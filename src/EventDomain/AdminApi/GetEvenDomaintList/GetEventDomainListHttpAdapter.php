@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\EventDomain\Queries\GetEventList;
+namespace App\EventDomain\AdminApi\GetEvenDomaintList;
 
 use App\Infrastructure\Http\AppController\AppController;
 use Doctrine\DBAL\Connection;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-final class GetEventListHttpAdapter extends AppController
+final class GetEventDomainListHttpAdapter extends AppController
 {
     private $connection;
 

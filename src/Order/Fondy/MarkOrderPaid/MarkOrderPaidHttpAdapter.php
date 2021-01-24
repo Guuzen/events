@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Order\Fondy\MarkOrderPaidByFondy;
+namespace App\Order\Fondy\MarkOrderPaid;
 
 use App\Event\Model\EventId;
 use App\Infrastructure\Http\AppController\AppController;

@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\EventDomain\Queries\FindEventById;
+namespace App\EventDomain\AdminApi\FindEventDomainById;
 
 use App\Infrastructure\Http\AppController\AppController;
 use Doctrine\DBAL\Connection;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-final class FindEventByIdHttpAdapter extends AppController
+final class FindEventDomainByIdHttpAdapter extends AppController
 {
     private $connection;
 
@@ -21,7 +21,7 @@ final class FindEventByIdHttpAdapter extends AppController
     /**
      * @Route("/admin/eventDomain/{eventId}", methods={"GET"})
      */
-    public function __invoke(FindEventByIdRequest $request): Response
+    public function __invoke(FindEventDomainByIdRequest $request): Response
     {
         $stmt = $this->connection->prepare(
             '
@@ -39,7 +39,7 @@ final class FindEventByIdHttpAdapter extends AppController
         /** @var array|false */
         $event = $stmt->fetchAssociative();
         if (false === $event) {
-            throw new EventNotFound(''); // TODO exceptions in dev and in prod. In prod need only message. In dev - full trace?
+            throw new EventDomainNotFound(''); // TODO exceptions in dev and in prod. In prod need only message. In dev - full trace?
         }
 
         return $this->response($event);
