@@ -10,7 +10,7 @@ use Doctrine\DBAL\Types\Type;
 
 final class DBALTypes
 {
-    /** @psalm-var array<class-string, class-string> */
+    /** @psalm-var array<class-string, class-string<Type>> */
     private $types;
 
     private $jsonDocumentTypeSerializer;
@@ -22,7 +22,7 @@ final class DBALTypes
 
     /**
      * @psalm-param class-string $mappedClass
-     * @psalm-param class-string $dbalTypeClass
+     * @psalm-param class-string<Type> $dbalTypeClass
      */
     public function addType(string $mappedClass, string $dbalTypeClass): void
     {
