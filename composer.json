@@ -1,5 +1,6 @@
 {
     "type": "project",
+    "name": "guuzen/events",
     "license": "proprietary",
     "require": {
         "php": "^7.4",
