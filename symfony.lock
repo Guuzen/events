@@ -89,9 +89,6 @@
     "doctrine/persistence": {
         "version": "v1.1.0"
     },
-    "doctrine/reflection": {
-        "version": "v1.0.0"
-    },
     "doctrine/sql-formatter": {
         "version": "1.1.1"
     },
@@ -184,6 +181,9 @@
     },
     "openlss/lib-array2xml": {
         "version": "1.0.0"
+    },
+    "paragonie/constant_time_encoding": {
+        "version": "v2.4.0"
     },
     "phar-io/manifest": {
         "version": "1.0.3"
@@ -399,6 +399,9 @@
     },
     "symfony/dependency-injection": {
         "version": "v4.2.1"
+    },
+    "symfony/deprecation-contracts": {
+        "version": "v2.2.0"
     },
     "symfony/doctrine-bridge": {
         "version": "v4.2.1"
@@ -661,14 +664,8 @@
     "vimeo/psalm": {
         "version": "3.4.12"
     },
-    "webimpress/safe-writer": {
-        "version": "2.1.0"
-    },
     "webmozart/assert": {
         "version": "1.4.0"
-    },
-    "webmozart/glob": {
-        "version": "4.1.0"
     },
     "webmozart/path-util": {
         "version": "2.3.0"
