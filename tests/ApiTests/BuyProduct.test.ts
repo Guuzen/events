@@ -9,7 +9,8 @@ const {toMatchSnapshot} = require('jest-snapshot');
 expect.extend({
     toMatchSnapshot(...args) {
         // @ts-ignore
-        this.dontThrow = () => {};
+        this.dontThrow = () => {
+        };
         return toMatchSnapshot.call(this, ...args);
     },
 });
@@ -54,12 +55,14 @@ describe('Buy ticket', function () {
         await visitor.usePromocode(orderId, tariffId);
         await visitor.awaitsEmailWithTicket(visitorEmailServer);
 
+        await manager.wait(1300);
         await manager.getOrderListWithUsedPromocode(eventId);
         await manager.getOrderByIdWithUsedPromocode(orderId);
         await manager.getPromocodeListWithUsedPromocode(eventId);
 
         await manager.markOrderPaid(eventId, orderId);
 
+        await visitor.wait(1300);
         await visitor.receivesEmailWithTicket();
 
         await manager.getOrderListWithPaidOrder(eventId);
@@ -92,6 +95,7 @@ describe('Buy ticket', function () {
 
         await visitor.usePromocode(orderId, tariffId);
 
+        await manager.wait(1300);
         await manager.getOrderListWithUsedPromocode(eventId);
         await manager.getOrderByIdWithUsedPromocode(orderId);
         await manager.getPromocodeListWithUsedPromocode(eventId);
@@ -102,6 +106,7 @@ describe('Buy ticket', function () {
         const fondy = new Fondy();
         await fondy.markOrderPaid(orderId);
 
+        await visitor.wait(1300);
         await visitor.receivesEmailWithTicket();
 
         await manager.getOrderListWithPaidOrder(eventId);

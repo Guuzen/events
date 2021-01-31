@@ -7,9 +7,9 @@ namespace App\Order\OnPromocodeEvent;
 use App\Order\Model\Orders;
 use App\Promocode\Model\PromocodeUsed;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Messenger\Handler\MessageSubscriberInterface;
 
-final class OnPromocodeUsed implements EventSubscriberInterface
+final class OnPromocodeUsed implements MessageSubscriberInterface
 {
     private $em;
 
@@ -21,9 +21,11 @@ final class OnPromocodeUsed implements EventSubscriberInterface
         $this->orders = $orders;
     }
 
-    public static function getSubscribedEvents(): array
+    public static function getHandledMessages(): iterable
     {
-        return [PromocodeUsed::class => 'applyPromocode'];
+        yield PromocodeUsed::class => [
+            'method' => 'applyPromocode',
+        ];
     }
 
     public function applyPromocode(PromocodeUsed $event): void

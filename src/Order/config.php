@@ -14,6 +14,5 @@ return static function (ContainerConfigurator $configurator) {
 
     $services->set(Orders::class);
 
-    $services->set(OnPromocodeUsed::class)
-        ->tag('app.notification_subscriber');
+    $services->set(OnPromocodeUsed::class);
 };

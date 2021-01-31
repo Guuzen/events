@@ -1,0 +1,36 @@
+framework:
+    messenger:
+        # Uncomment this (and the failed transport below) to send failed messages to this transport for later handling.
+        failure_transport: failed
+
+        transports:
+            # https://symfony.com/doc/current/messenger.html#transport-configuration
+            async:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                retry_strategy:
+                    max_retries: 5
+                    # milliseconds delay
+                    delay: 1000
+                    # causes the delay to be higher before each retry
+                    # e.g. 1 second delay, 2 seconds, 4 seconds
+                    multiplier: 2
+            failed: 'doctrine://default?queue_name=failed'
+            # sync: 'sync://'
+
+        routing:
+            # Route your messages to the transports
+            'App\Infrastructure\DomainEvent\Event': async
+        buses:
+            messenger.bus.default:
+                default_middleware: false
+                middleware:
+                    - 'Symfony\Component\Messenger\Middleware\AddBusNameStampMiddleware'
+                    - 'failed_message_processing_middleware'
+                    - 'doctrine_ping_connection'
+                    - 'send_message'
+                    - 'handle_message'
+
+services:
+    Symfony\Component\Messenger\Middleware\AddBusNameStampMiddleware:
+        arguments:
+            - 'messenger.bus.default'

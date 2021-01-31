@@ -27,5 +27,5 @@ return static function (ContainerConfigurator $configurator) {
             ]
         );
 
-    $services->set(OnOrderMarkedPaid::class)->tag('app.notification_subscriber'); // TODO not notifications
+    $services->set(OnOrderMarkedPaid::class);
 };

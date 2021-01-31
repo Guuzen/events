@@ -2,6 +2,7 @@ const axios = require('axios');
 const debug = require('debug')('axios:Visitor');
 const addLogger = require('../Infrastructure/logger');
 const axiosHttpAdapter = require('axios/lib/adapters/http');
+const wait = require('../Infrastructure/wait');
 
 const httpClient = axios.create({
     baseURL: process.env.TEST_API_URL,
@@ -20,6 +21,10 @@ addLogger(httpClient, debug);
 let endpointMock;
 
 class Visitor {
+    async wait(milliseconds) {
+        await wait(milliseconds);
+    }
+
     async usePromocode(orderId, tariffId) {
         const response = await httpClient.post('/promocode/use', {
             tariffId: tariffId,

@@ -2,6 +2,7 @@ const axios = require('axios');
 const addLogger = require('../Infrastructure/logger');
 const debug = require('debug')('axios:Manager');
 const axiosHttpAdapter = require('axios/lib/adapters/http');
+const wait = require('../Infrastructure/wait');
 
 const httpClient = axios.create({
     baseURL: process.env.TEST_API_URL,
@@ -21,6 +22,10 @@ const httpClient = axios.create({
 addLogger(httpClient, debug);
 
 class Manager {
+
+    async wait(milliseconds) {
+        await wait(milliseconds);
+    }
 
     async createEventDomain() {
         const response = await httpClient.post('/admin/eventDomain', {

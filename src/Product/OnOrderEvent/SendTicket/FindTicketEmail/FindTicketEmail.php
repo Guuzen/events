@@ -2,7 +2,7 @@
 
 namespace App\Product\OnOrderEvent\SendTicket\FindTicketEmail;
 
-use App\Product\Model\TicketId;
+use App\Order\Model\OrderId;
 use Doctrine\DBAL\Connection;
 
 // TODO rename GetTicketEmail ?
@@ -15,7 +15,7 @@ final class FindTicketEmail
         $this->connection = $connection;
     }
 
-    public function find(TicketId $ticketId): TicketEmail
+    public function find(OrderId $orderId): TicketEmail
     {
         $stmt = $this->connection->prepare(
             '
@@ -28,10 +28,10 @@ final class FindTicketEmail
                 "order" on ticket.order_id = "order".id
             left join
                 "user" on "user".order_id = "order".id
-            where ticket.id = :ticket_id
+            where ticket.order_id = :order_id
         '
         );
-        $stmt->bindValue('ticket_id', (string)$ticketId);
+        $stmt->bindValue('order_id', (string)$orderId);
         $stmt->execute();
 
         /** @var array{email: string, number: string}|false */

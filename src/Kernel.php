@@ -2,7 +2,6 @@
 
 namespace App;
 
-use App\Infrastructure\DomainEvent\NotificationSubscriberPass;
 use App\Infrastructure\Persistence\DBALTypes\JsonDocumentType;
 use App\Infrastructure\Persistence\DBALTypesInitializer\CollectTypesPass;
 use App\Infrastructure\Persistence\DBALTypesInitializer\DBALTypes;
@@ -69,7 +68,6 @@ class Kernel extends BaseKernel
 
     protected function build(ContainerBuilder $container): void
     {
-        $container->addCompilerPass(new NotificationSubscriberPass());
         $container->addCompilerPass(new CollectTypesPass());
         $container->addCompilerPass(new CollectResourceResolversPass());
         $container

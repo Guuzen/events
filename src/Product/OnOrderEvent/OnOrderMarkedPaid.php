@@ -13,9 +13,9 @@ use App\Product\OnOrderEvent\SendTicket\TicketSending\TicketSending;
 use App\Tariff\Model\ProductType;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Messenger\Handler\MessageSubscriberInterface;
 
-final class OnOrderMarkedPaid implements EventSubscriberInterface
+final class OnOrderMarkedPaid implements MessageSubscriberInterface
 {
     private $events;
 
@@ -46,10 +46,14 @@ final class OnOrderMarkedPaid implements EventSubscriberInterface
         $this->findTicketEmail = $findTicketEmail;
     }
 
-    public static function getSubscribedEvents(): array
+    public static function getHandledMessages(): iterable
     {
-        return [
-            OrderMarkedPaid::class => 'createTicket',
+        yield OrderMarkedPaid::class => [
+            'method' => 'createTicket',
+        ];
+
+        yield OrderMarkedPaid::class => [
+            'method' => 'sendTicket',
         ];
     }
 
@@ -60,49 +64,30 @@ final class OnOrderMarkedPaid implements EventSubscriberInterface
             return; // TODO saga ?
         }
 
-        try {
-            $event = $this->events->findById($orderMarkedPaid->eventId);
+        $event = $this->events->findById($orderMarkedPaid->eventId);
 
-            $ticketId = TicketId::new();
-            $ticket   = $event->createTicket(
-                $ticketId,
-                $orderMarkedPaid->orderId,
-                (string)\random_int(10000000, 99999999), // TODO
-                new \DateTimeImmutable('now')
-            );
-            $this->tickets->add($ticket);
-
-        } catch (\Throwable $exception) {
-            $this->logger->error(
-                'create ticket failed', [
-                    'orderId'   => $orderMarkedPaid->orderId,
-                    'exception' => $exception,
-                ]
-            );
-
-            return;
-        }
+        $ticketId = TicketId::new();
+        $ticket   = $event->createTicket(
+            $ticketId,
+            $orderMarkedPaid->orderId,
+            (string)\random_int(10000000, 99999999), // TODO
+            new \DateTimeImmutable('now')
+        );
+        $this->tickets->add($ticket);
 
         $this->em->flush();
+    }
 
+    public function sendTicket(OrderMarkedPaid $event): void
+    {
         // TODO problems with this flow - sagas / bullshit subscribers priorities / change flow ?
         // TODO order marked paid ->
         // TODO 1. create ticket
         // TODO 2. send ticket (application side joins + retries with backoff if ticket still not created)
-        try {
-            $ticketEmail = $this->findTicketEmail->find($ticketId);
+        //        try {
+        $ticketEmail = $this->findTicketEmail->find($event->orderId);
 
-            $this->ticketDelivery->send($ticketEmail);
-        } catch (\Throwable $exception) {
-            $this->logger->error(
-                'send ticket failed', [
-                    'orderId'   => $orderMarkedPaid->orderId,
-                    'exception' => $exception,
-                ]
-            );
-
-            return;
-        }
+        $this->ticketDelivery->send($ticketEmail);
 
         $this->em->flush();
     }

@@ -5,15 +5,15 @@ namespace App\Infrastructure\DomainEvent;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\PostFlushEventArgs;
 use Doctrine\ORM\Events;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
 
-final class DoctrineNotificationSubscriber implements EventSubscriber
+final class DomainEventSubscriber implements EventSubscriber
 {
-    private $eventDispatcher;
+    private $dispatcher;
 
-    public function __construct(EventDispatcherInterface $eventDispatcher)
+    public function __construct(MessageBusInterface $dispatcher)
     {
-        $this->eventDispatcher = $eventDispatcher;
+        $this->dispatcher = $dispatcher;
     }
 
     public function getSubscribedEvents(): array
@@ -27,19 +27,18 @@ final class DoctrineNotificationSubscriber implements EventSubscriber
     {
         $em  = $postFlushEventArgs->getEntityManager();
         $uow = $em->getUnitOfWork();
-        /** @var Entity[][] $identityMap */
+        /** @var array<int, array<int, Entity|object>> $identityMap */
         $identityMap = $uow->getIdentityMap();
 
         foreach ($identityMap as $entities) {
             foreach ($entities as $entity) {
                 // TODO remove entity check when all entity extend base entity
-                /** @psalm-suppress DocblockTypeContradiction */
                 if (!$entity instanceof Entity) {
                     continue;
                 }
                 $events = $entity->releaseEvents();
                 foreach ($events as $event) {
-                    $this->eventDispatcher->dispatch($event);
+                    $this->dispatcher->dispatch($event);
                 }
             }
         }
