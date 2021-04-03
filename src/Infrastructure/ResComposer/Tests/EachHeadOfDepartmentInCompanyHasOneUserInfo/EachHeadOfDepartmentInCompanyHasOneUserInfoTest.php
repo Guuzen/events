@@ -7,7 +7,6 @@ namespace App\Infrastructure\ResComposer\Tests\EachHeadOfDepartmentInCompanyHasO
 use App\Infrastructure\ResComposer\Link\OneToOne;
 use App\Infrastructure\ResComposer\Tests\StubResourceDataLoader;
 use App\Infrastructure\ResComposer\Tests\TestCase;
-use App\Infrastructure\ResComposer\Tests\TestPromiseGroupResolver;
 
 final class EachHeadOfDepartmentInCompanyHasOneUserInfoTest extends TestCase
 {
@@ -32,7 +31,7 @@ final class EachHeadOfDepartmentInCompanyHasOneUserInfoTest extends TestCase
         $companies = [$company];
 
         $this->composer->addResolver(
-            new TestPromiseGroupResolver(
+            new HeadOfDepartmentHasUser(
                 new StubResourceDataLoader([$userInfo1, $userInfo2]),
                 new OneToOne('userId'),
                 UserInfo::class
@@ -42,19 +41,20 @@ final class EachHeadOfDepartmentInCompanyHasOneUserInfoTest extends TestCase
         /** @var Company[] $resources */
         $resources = $this->composer->compose($companies, Company::class);
 
-        $expectedCompanies = \array_map(
-            static fn(Company $company) => \array_map(
-                static fn(Department $department) => $department->head->userInfo,
-                $company->departments
-            ),
-            $resources
-        )[0];
+        $headOfDepartment1           = new User($userId1);
+        $headOfDepartment1->userInfo = new UserInfo($userInfoId1, $userId1);
+        $headOfDepartment2           = new User($userId2);
+        $headOfDepartment2->userInfo = new UserInfo($userInfoId2, $userId2);
         self::assertEquals(
             [
-                new UserInfo($userInfoId1, $userId1),
-                new UserInfo($userInfoId2, $userId2),
+                new Company(
+                    [
+                        new Department($headOfDepartment1),
+                        new Department($headOfDepartment2),
+                    ]
+                ),
             ],
-            $expectedCompanies
+            $resources,
         );
     }
 }

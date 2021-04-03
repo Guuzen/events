@@ -17,7 +17,7 @@ final class Author implements Resource
         $this->commentId = $commentId;
     }
 
-    public function promises(): array
+    public static function resolvers(): array
     {
         return [];
     }

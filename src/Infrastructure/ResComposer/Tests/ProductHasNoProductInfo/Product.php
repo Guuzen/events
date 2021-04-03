@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\ResComposer\Tests\ProductHasNoProductInfo;
 
-use App\Infrastructure\ResComposer\Promise;
 use App\Infrastructure\ResComposer\Resource;
-use App\Infrastructure\ResComposer\Tests\TestPromiseGroupResolver;
 
 final class Product implements Resource
 {
@@ -25,8 +23,8 @@ final class Product implements Resource
         $this->id = $id;
     }
 
-    public function promises(): array
+    public static function resolvers(): array
     {
-        return [Promise::withProperties('id', 'productInfo', $this, TestPromiseGroupResolver::class)];
+        return [ProductHasProductInfo::class];
     }
 }

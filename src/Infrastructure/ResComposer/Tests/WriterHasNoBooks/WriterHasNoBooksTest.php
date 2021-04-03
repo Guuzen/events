@@ -7,7 +7,6 @@ namespace App\Infrastructure\ResComposer\Tests\WriterHasNoBooks;
 use App\Infrastructure\ResComposer\Link\OneToMany;
 use App\Infrastructure\ResComposer\Tests\StubResourceDataLoader;
 use App\Infrastructure\ResComposer\Tests\TestCase;
-use App\Infrastructure\ResComposer\Tests\TestPromiseGroupResolver;
 
 final class WriterHasNoBooksTest extends TestCase
 {
@@ -19,7 +18,7 @@ final class WriterHasNoBooksTest extends TestCase
         ];
 
         $this->composer->addResolver(
-            new TestPromiseGroupResolver(
+            new WriterHasBooks(
                 new StubResourceDataLoader([]),
                 new OneToMany('writerId'),
                 Book::class

@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\ResComposer\Tests\EachUserHasOneUserInfo;
 
-use App\Infrastructure\ResComposer\Promise;
 use App\Infrastructure\ResComposer\Resource;
-use App\Infrastructure\ResComposer\Tests\TestPromiseGroupResolver;
 
 final class User implements Resource
 {
@@ -26,8 +24,8 @@ final class User implements Resource
 
     }
 
-    public function promises(): array
+    public static function resolvers(): array
     {
-        return [Promise::withProperties('id', 'userInfo', $this, TestPromiseGroupResolver::class)];
+        return [UserHasUserInfo::class];
     }
 }

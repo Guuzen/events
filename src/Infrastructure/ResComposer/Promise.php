@@ -24,34 +24,28 @@ final class Promise
      */
     private $object;
 
-    public $resolverId;
-
     /**
      * @param callable(object): ?string $idExtractor
      * @param callable(WriteObject, mixed): void $writer
-     * @param WriteObject                        $object
-     * @param class-string<PromiseGroupResolver> $resolverId
+     * @param WriteObject $object
      */
-    public function __construct($idExtractor, $writer, $object, string $resolverId)
+    public function __construct($idExtractor, $writer, $object)
     {
         $this->idExtractor = $idExtractor;
         $this->writer      = $writer;
         $this->object      = $object;
-        $this->resolverId  = $resolverId;
     }
 
     /**
      * @psalm-mutation-free
      *
-     * @param string                             $idProperty
-     * @param string                             $writeProperty
-     * @param class-string<PromiseGroupResolver> $resolverId
+     * @param string $idProperty
+     * @param string $writeProperty
      */
     public static function withProperties(
         string $idProperty,
         string $writeProperty,
-        object $object,
-        string $resolverId
+        object $object
     ): self
     {
         $idExtractor = static function (object $object) use ($idProperty): ?string {
@@ -87,7 +81,7 @@ final class Promise
                 $object->$writeProperty = $value;
             };
 
-        return new self($idExtractor, $writer, $object, $resolverId);
+        return new self($idExtractor, $writer, $object);
     }
 
     public function id(): ?string

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\ResComposer;
 
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
+use App\Infrastructure\ResComposer\Resource;
 
 final class ResourceDenormalizer
 {
@@ -33,10 +34,12 @@ final class ResourceDenormalizer
          */
         $resources = $this->denormalizer->denormalize($data, $type . '[]');
         foreach ($resources as $resource) {
-            $promises = $resource->promises();
-            /** @var Promise $promise */
-            foreach ($promises as $promise) {
-                $this->promises->remember($promise);
+            $resolvers = $resource::resolvers();
+            foreach ($resolvers as $resolver) {
+                $promises = $resolver::collectPromises($resource);
+                foreach ($promises as $promise) {
+                    $this->promises->remember($promise, $resolver);
+                }
             }
         }
 

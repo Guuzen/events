@@ -7,7 +7,7 @@ namespace App\Infrastructure\ResComposer;
 interface Resource
 {
     /**
-     * @return array<int, Promise>
+     * @return class-string<PromiseGroupResolver>[]
      */
-    public function promises(): array;
+    public static function resolvers(): array;
 }

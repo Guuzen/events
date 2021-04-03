@@ -10,7 +10,7 @@ use App\Infrastructure\ResComposer\PromiseGroupResolver;
 use App\Infrastructure\ResComposer\Resource;
 use App\Infrastructure\ResComposer\ResourceDataLoader;
 
-class TestPromiseGroupResolver implements PromiseGroupResolver
+abstract class TestPromiseGroupResolver implements PromiseGroupResolver
 {
     private $loader;
     private $link;

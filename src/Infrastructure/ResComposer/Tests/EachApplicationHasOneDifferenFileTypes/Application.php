@@ -42,11 +42,8 @@ final class Application implements Resource
         $this->fileBId = $fileB;
     }
 
-    public function promises(): array
+    public static function resolvers(): array
     {
-        return [
-            Promise::withProperties('fileAId', 'fileA', $this, TestPromiseGroupResolver::class),
-            Promise::withProperties('fileBId', 'fileB', $this, TestPromiseGroupResolver::class),
-        ];
+        return [ApplicationHasFiles::class];
     }
 }

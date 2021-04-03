@@ -63,12 +63,10 @@ final class ResourceComposer
 
     private function processResources(): void
     {
-        $promises = $this->promises->release();
-        if (0 === \count($promises)) {
+        $promiseGroups = $this->promises->release($this->denormalizer);
+        if (0 === \count($promiseGroups)) {
             return;
         }
-
-        $promiseGroups = $this->groupByResolverId($promises);
 
         foreach ($promiseGroups as $resolverId => $promiseGroup) {
             if (isset($this->resolvers[$resolverId]) === false) {
@@ -81,28 +79,5 @@ final class ResourceComposer
         }
 
         $this->processResources();
-    }
-
-    /**
-     * @param array<int, Promise> $promises
-     *
-     * @return array<string, PromiseGroup>
-     */
-    private function groupByResolverId(array $promises): array
-    {
-        $groupedPromises = [];
-        foreach ($promises as $promise) {
-            $groupedPromises[$promise->resolverId][] = $promise;
-        }
-
-        $promiseGroups = [];
-        foreach ($groupedPromises as $resolverId => $group) {
-            $promiseGroups[$resolverId] = new PromiseGroup(
-                $groupedPromises[$resolverId],
-                $this->denormalizer
-            );
-        }
-
-        return $promiseGroups;
     }
 }

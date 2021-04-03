@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\ResComposer\Tests\CustomerHasOrdersWhichHasDetails;
 
-use App\Infrastructure\ResComposer\Promise;
 use App\Infrastructure\ResComposer\Resource;
-use App\Infrastructure\ResComposer\Tests\SecondTestPromiseGroupResolver;
 
 final class Order implements Resource
 {
@@ -31,9 +29,8 @@ final class Order implements Resource
         $this->customerId = $customerId;
     }
 
-    public function promises(): array
+    public static function resolvers(): array
     {
-        return [Promise::withProperties('id', 'details', $this, SecondTestPromiseGroupResolver::class)];
+        return [OrderHasDetails::class];
     }
 }
-

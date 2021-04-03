@@ -17,7 +17,7 @@ final class Order implements Resource
         $this->price = $price;
     }
 
-    public function promises(): array
+    public static function resolvers(): array
     {
         return [];
     }

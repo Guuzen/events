@@ -7,7 +7,6 @@ namespace App\Infrastructure\ResComposer\Tests\EachUserHasOneUserInfo;
 use App\Infrastructure\ResComposer\Link\OneToOne;
 use App\Infrastructure\ResComposer\Tests\StubResourceDataLoader;
 use App\Infrastructure\ResComposer\Tests\TestCase;
-use App\Infrastructure\ResComposer\Tests\TestPromiseGroupResolver;
 
 final class EachUserHasOneUserInfoTest extends TestCase
 {
@@ -27,7 +26,7 @@ final class EachUserHasOneUserInfoTest extends TestCase
         $userInfo2   = ['id' => $userInfoId2, 'userId' => $userId2];
 
         $this->composer->addResolver(
-            new TestPromiseGroupResolver(
+            new UserHasUserInfo(
                 new StubResourceDataLoader([$userInfo1, $userInfo2]),
                 new OneToOne('userId'),
                 UserInfo::class
@@ -37,12 +36,16 @@ final class EachUserHasOneUserInfoTest extends TestCase
         /** @var User[] $resources */
         $resources = $this->composer->compose($users, User::class);
 
+        $user1           = new User($userId1);
+        $user1->userInfo = new UserInfo($userInfoId1, $userId1);
+        $user2           = new User($userId2);
+        $user2->userInfo = new UserInfo($userInfoId2, $userId2);
         self::assertEquals(
             [
-                new UserInfo($userInfoId1, $userId1),
-                new UserInfo($userInfoId2, $userId2),
+                $user1,
+                $user2,
             ],
-            [$resources[0]->userInfo, $resources[1]->userInfo],
+            $resources,
         );
     }
 }

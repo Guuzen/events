@@ -7,7 +7,6 @@ namespace App\Infrastructure\ResComposer\Tests\EachAuthorHasManyPosts;
 use App\Infrastructure\ResComposer\Link\OneToMany;
 use App\Infrastructure\ResComposer\Tests\StubResourceDataLoader;
 use App\Infrastructure\ResComposer\Tests\TestCase;
-use App\Infrastructure\ResComposer\Tests\TestPromiseGroupResolver;
 
 final class EachAuthorHasManyPostsTest extends TestCase
 {
@@ -31,7 +30,7 @@ final class EachAuthorHasManyPostsTest extends TestCase
         ];
 
         $this->composer->addResolver(
-            new TestPromiseGroupResolver(
+            new AuthorHasPosts(
                 new StubResourceDataLoader($posts),
                 new OneToMany('authorId'),
                 Post::class

@@ -17,7 +17,7 @@ final class Post implements Resource
         $this->authorId = $authorId;
     }
 
-    public function promises(): array
+    public static function resolvers(): array
     {
         return [];
     }

@@ -84,7 +84,7 @@ final class PromocodeResource implements Resource
         $this->usable         = $usable;
     }
 
-    public function promises(): array
+    public static function resolvers(): array
     {
         return [];
     }

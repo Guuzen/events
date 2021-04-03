@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\ResComposer\Tests\EachAuthorHasManyPosts;
 
-use App\Infrastructure\ResComposer\Promise;
 use App\Infrastructure\ResComposer\Resource;
-use App\Infrastructure\ResComposer\Tests\TestPromiseGroupResolver;
 
 final class Author implements Resource
 {
@@ -25,10 +23,8 @@ final class Author implements Resource
         $this->id = $id;
     }
 
-    public function promises(): array
+    public static function resolvers(): array
     {
-        return [
-            Promise::withProperties('id', 'posts', $this, TestPromiseGroupResolver::class),
-        ];
+        return [AuthorHasPosts::class];
     }
 }

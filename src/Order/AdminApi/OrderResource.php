@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace App\Order\AdminApi;
 
-use App\Infrastructure\ResComposer\Promise;
 use App\Infrastructure\ResComposer\Resource;
 use App\Promocode\AdminApi\OrderHasOnePromocode;
-use App\Promocode\Model\Discount\Discount;
 use App\Promocode\AdminApi\Resource\PromocodeResource;
+use App\Promocode\Model\Discount\Discount;
 use Money\Money;
 
 /**
@@ -145,8 +144,8 @@ final class OrderResource implements Resource
         return $this->promocodeId->discount;
     }
 
-    public function promises(): array
+    public static function resolvers(): array
     {
-        return [Promise::withProperties('promocodeId', 'promocodeId', $this, OrderHasOnePromocode::class)];
+        return [OrderHasOnePromocode::class];
     }
 }

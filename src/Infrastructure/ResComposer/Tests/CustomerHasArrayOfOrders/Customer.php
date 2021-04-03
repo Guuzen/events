@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\ResComposer\Tests\CustomerHasArrayOfOrders;
 
-use App\Infrastructure\ResComposer\Promise;
 use App\Infrastructure\ResComposer\Resource;
 
 final class Customer implements Resource
@@ -33,18 +32,8 @@ final class Customer implements Resource
         $this->ordersIds = $ordersIds;
     }
 
-    public function promises(): array
+    public static function resolvers(): array
     {
-        $promises = [];
-
-        foreach ($this->ordersIds as $index => $orderId) {
-            $idExtractor = fn(): string => $orderId;
-            $writer      = function (Customer $object, Order $value) use ($index): void {
-                $object->orders[$index] = $value;
-            };
-            $promises[]  = new Promise($idExtractor, $writer, $this, CustomerHasOrders::class);
-        }
-
-        return $promises;
+        return [CustomerHasOrders::class];
     }
 }

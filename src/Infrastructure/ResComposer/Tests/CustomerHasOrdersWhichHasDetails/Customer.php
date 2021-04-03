@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\ResComposer\Tests\CustomerHasOrdersWhichHasDetails;
 
-use App\Infrastructure\ResComposer\Promise;
 use App\Infrastructure\ResComposer\Resource;
-use App\Infrastructure\ResComposer\Tests\TestPromiseGroupResolver;
 
 final class Customer implements Resource
 {
@@ -25,8 +23,8 @@ final class Customer implements Resource
         $this->id = $id;
     }
 
-    public function promises(): array
+    public static function resolvers(): array
     {
-        return [Promise::withProperties('id', 'orders', $this, TestPromiseGroupResolver::class)];
+        return [CustomerHasOrders::class];
     }
 }

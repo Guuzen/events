@@ -6,10 +6,8 @@ namespace App\Infrastructure\ResComposer\Tests\CustomerHasOrdersWhichHasDetails;
 
 use App\Infrastructure\ResComposer\Link\OneToMany;
 use App\Infrastructure\ResComposer\Link\OneToOne;
-use App\Infrastructure\ResComposer\Tests\SecondTestPromiseGroupResolver;
 use App\Infrastructure\ResComposer\Tests\StubResourceDataLoader;
 use App\Infrastructure\ResComposer\Tests\TestCase;
-use App\Infrastructure\ResComposer\Tests\TestPromiseGroupResolver;
 
 final class CustomerHasOrdersWhichHasDetailsTest extends TestCase
 {
@@ -29,14 +27,14 @@ final class CustomerHasOrdersWhichHasDetailsTest extends TestCase
         ];
 
         $this->composer->addResolver(
-            new TestPromiseGroupResolver(
+            new CustomerHasOrders(
                 new StubResourceDataLoader([$order]),
                 new OneToMany('customerId'),
                 Order::class
             )
         );
         $this->composer->addResolver(
-            new SecondTestPromiseGroupResolver(
+            new OrderHasDetails(
                 new StubResourceDataLoader([$orderDetails]),
                 new OneToOne('id'),
                 OrderDetails::class

@@ -18,7 +18,7 @@ final class File implements Resource
         $this->id = $id;
     }
 
-    public function promises(): array
+    public static function resolvers(): array
     {
         return [];
     }

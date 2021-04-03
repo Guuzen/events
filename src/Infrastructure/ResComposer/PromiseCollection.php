@@ -7,22 +7,32 @@ namespace App\Infrastructure\ResComposer;
 final class PromiseCollection
 {
     /**
-     * @var array<int, Promise>
+     * @var array<class-string<PromiseGroupResolver>, array<int, Promise>>
      */
     private $promises = [];
 
-    public function remember(Promise $promise): void
+    /**
+     * @param class-string<PromiseGroupResolver> $resolverId
+     */
+    public function remember(Promise $promise, string $resolverId): void
     {
-        $this->promises[] = $promise;
+        $this->promises[$resolverId][] = $promise;
     }
 
     /**
-     * @return array<int, Promise>
+     * @return array<string, PromiseGroup>
      */
-    public function release(): array
+    public function release(ResourceDenormalizer $resourceDenormalizer): array
     {
+        $promiseGroups = [];
         [$promises, $this->promises] = [$this->promises, []];
+        foreach ($promises as $resolverId => $group) {
+            $promiseGroups[$resolverId] = new PromiseGroup(
+                $group,
+                $resourceDenormalizer,
+            );
+        }
 
-        return $promises;
+        return $promiseGroups;
     }
 }
