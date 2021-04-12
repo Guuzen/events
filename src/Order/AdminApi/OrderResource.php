@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace App\Order\AdminApi;
 
+use App\Infrastructure\ResComposer\Link\OneToOne;
+use App\Infrastructure\ResComposer\Promise;
 use App\Infrastructure\ResComposer\Resource;
-use App\Promocode\AdminApi\OrderHasOnePromocode;
+use App\Infrastructure\ResComposer\ResourceResolver;
+use App\Promocode\AdminApi\PromocodeLoader;
 use App\Promocode\AdminApi\Resource\PromocodeResource;
 use App\Promocode\Model\Discount\Discount;
 use Money\Money;
@@ -144,8 +147,23 @@ final class OrderResource implements Resource
         return $this->promocodeId->discount;
     }
 
-    public static function resolvers(): array
+
+    /** @psalm-suppress InvalidArgument */
+    public static function create(): ResourceResolver
     {
-        return [OrderHasOnePromocode::class];
+        return new ResourceResolver(
+            self::class,
+            new OneToOne('id'),
+            PromocodeResource::class,
+            PromocodeLoader::class,
+            fn(self $order) => [
+                new Promise(
+                    fn(self $order) => $order->promocodeId,
+                    /** @psalm-suppress InaccessibleProperty */
+                    fn(self $order, ?PromocodeResource $promocode) => $order->promocodeId = $promocode,
+                    $order,
+                )
+            ],
+        );
     }
 }

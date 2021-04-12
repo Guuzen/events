@@ -31,9 +31,4 @@ final class Customer implements Resource
         $this->id        = $id;
         $this->ordersIds = $ordersIds;
     }
-
-    public static function resolvers(): array
-    {
-        return [CustomerHasOrders::class];
-    }
 }

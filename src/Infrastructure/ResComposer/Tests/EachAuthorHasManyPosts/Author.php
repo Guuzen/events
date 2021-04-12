@@ -22,9 +22,4 @@ final class Author implements Resource
     {
         $this->id = $id;
     }
-
-    public static function resolvers(): array
-    {
-        return [AuthorHasPosts::class];
-    }
 }

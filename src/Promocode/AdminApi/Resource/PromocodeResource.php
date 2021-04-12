@@ -83,9 +83,4 @@ final class PromocodeResource implements Resource
         $this->usedInOrders   = $usedInOrders;
         $this->usable         = $usable;
     }
-
-    public static function resolvers(): array
-    {
-        return [];
-    }
 }

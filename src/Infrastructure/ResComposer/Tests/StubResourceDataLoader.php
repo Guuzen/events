@@ -6,7 +6,7 @@ namespace App\Infrastructure\ResComposer\Tests;
 
 use App\Infrastructure\ResComposer\ResourceDataLoader;
 
-final class StubResourceDataLoader implements ResourceDataLoader
+class StubResourceDataLoader implements ResourceDataLoader
 {
     private $resources;
 

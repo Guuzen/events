@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Infrastructure\ResComposer\Tests\EachApplicationHasOneDifferenFileTypes;
 
 use App\Infrastructure\ResComposer\Link\OneToOne;
+use App\Infrastructure\ResComposer\Promise;
+use App\Infrastructure\ResComposer\ResourceResolver;
 use App\Infrastructure\ResComposer\Tests\StubResourceDataLoader;
 use App\Infrastructure\ResComposer\Tests\TestCase;
 
@@ -28,11 +30,25 @@ final class EachApplicationHasOneDifferenFileTypesTest extends TestCase
         ];
         $applications = [$application];
 
-        $this->composer->addResolver(
-            new ApplicationHasFiles(
-                new StubResourceDataLoader([$fileA, $fileB]),
+        $this->composer->registerLoader(new StubResourceDataLoader([$fileA, $fileB]));
+        $this->composer->registerResolver(
+            new ResourceResolver(
+                Application::class,
                 new OneToOne('id'),
-                File::class
+                File::class,
+                StubResourceDataLoader::class,
+                fn (Application $application) => [
+                    new Promise(
+                        fn (Application $application) => $application->fileAId,
+                        fn (Application $application, File $file) => $application->fileA = $file,
+                        $application,
+                    ),
+                    new Promise(
+                        fn (Application $application) => $application->fileBId,
+                        fn (Application $application, File $file) => $application->fileB = $file,
+                        $application,
+                    )
+                ],
             )
         );
 

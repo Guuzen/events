@@ -25,10 +25,5 @@ final class Writer implements Resource
     {
         $this->id = $id;
     }
-
-    public static function resolvers(): array
-    {
-        return [WriterHasBooks::class];
-    }
 }
 

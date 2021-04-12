@@ -17,9 +17,4 @@ final class Post implements Resource
         $this->id        = $id;
         $this->commentId = $commentId;
     }
-
-    public static function resolvers(): array
-    {
-        return [];
-    }
 }

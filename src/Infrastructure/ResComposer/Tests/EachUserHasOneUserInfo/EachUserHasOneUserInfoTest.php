@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Infrastructure\ResComposer\Tests\EachUserHasOneUserInfo;
 
 use App\Infrastructure\ResComposer\Link\OneToOne;
+use App\Infrastructure\ResComposer\Promise;
+use App\Infrastructure\ResComposer\ResourceResolver;
 use App\Infrastructure\ResComposer\Tests\StubResourceDataLoader;
 use App\Infrastructure\ResComposer\Tests\TestCase;
 
@@ -25,11 +27,20 @@ final class EachUserHasOneUserInfoTest extends TestCase
         $userInfo1   = ['id' => $userInfoId1, 'userId' => $userId1];
         $userInfo2   = ['id' => $userInfoId2, 'userId' => $userId2];
 
-        $this->composer->addResolver(
-            new UserHasUserInfo(
-                new StubResourceDataLoader([$userInfo1, $userInfo2]),
+        $this->composer->registerLoader(new StubResourceDataLoader([$userInfo1, $userInfo2]));
+        $this->composer->registerResolver(
+            new ResourceResolver(
+                User::class,
                 new OneToOne('userId'),
-                UserInfo::class
+                UserInfo::class,
+                StubResourceDataLoader::class,
+                fn(User $user) => [
+                    new Promise(
+                        fn(User $user) => $user->id,
+                        fn(User $user, UserInfo $userInfo) => $user->userInfo = $userInfo,
+                        $user,
+                    ),
+                ],
             )
         );
 

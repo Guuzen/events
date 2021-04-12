@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\ResComposer;
 
+use App\Infrastructure\ResComposer\Link\Link;
+
 final class ResourceComposer
 {
     private $denormalizer;
@@ -11,9 +13,14 @@ final class ResourceComposer
     private $promises;
 
     /**
-     * @var array<class-string<PromiseGroupResolver>, PromiseGroupResolver>
+     * @var array<int, ResourceResolver>
      */
     private $resolvers = [];
+
+    /**
+     * @var array<class-string<ResourceDataLoader>, ResourceDataLoader>
+     */
+    private $loaders = [];
 
     public function __construct(ResourceDenormalizer $denormalizer, PromiseCollection $promises)
     {
@@ -21,16 +28,20 @@ final class ResourceComposer
         $this->promises     = $promises;
     }
 
-    public function addResolver(PromiseGroupResolver $resolver): void
+    public function registerLoader(ResourceDataLoader $loader): void
     {
-        $resolverClass = \get_class($resolver);
-        if (isset($this->resolvers[$resolverClass]) === true) {
+        if (isset($this->loaders[\get_class($loader)]) === true) {
             throw new \RuntimeException(
-                \sprintf('Resolver with type %s already exists in composer', $resolverClass)
+                \sprintf('Loader with type %s already exists in composer', \get_class($loader))
             );
         }
 
-        $this->resolvers[$resolverClass] = $resolver;
+        $this->loaders[\get_class($loader)] = $loader;
+    }
+
+    public function registerResolver(ResourceResolver $resolver): void
+    {
+        $this->resolvers[] = $resolver;
     }
 
     /**
@@ -43,7 +54,8 @@ final class ResourceComposer
      */
     public function compose(array $resources, string $resourceType): array
     {
-        $result = $this->denormalizer->denormalize($resources, $resourceType);
+        $result = $this->denormalizer->denormalize($resources, $resourceType, $this->resolvers);
+
         $this->processResources();
 
         return $result;
@@ -75,7 +87,8 @@ final class ResourceComposer
                 );
             }
             $resolver = $this->resolvers[$resolverId];
-            $resolver->resolve($promiseGroup);
+            $loader   = $this->loaders[$resolver->loader];
+            $promiseGroup->resolve($loader, $resolver->link, $resolver->relatedResource, $this->resolvers);
         }
 
         $this->processResources();

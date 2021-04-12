@@ -6,8 +6,4 @@ namespace App\Infrastructure\ResComposer;
 
 interface Resource
 {
-    /**
-     * @return class-string<PromiseGroupResolver>[]
-     */
-    public static function resolvers(): array;
 }

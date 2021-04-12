@@ -27,12 +27,4 @@ final class Comment implements Resource
     {
         $this->id = $id;
     }
-
-    public static function resolvers(): array
-    {
-        return [
-            CommentHasAuthor::class,
-            CommentHasPost::class,
-        ];
-    }
 }

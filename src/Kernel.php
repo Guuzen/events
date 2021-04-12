@@ -6,7 +6,9 @@ use App\Infrastructure\Persistence\DBALTypes\JsonDocumentType;
 use App\Infrastructure\Persistence\DBALTypesInitializer\CollectTypesPass;
 use App\Infrastructure\Persistence\DBALTypesInitializer\DBALTypes;
 use App\Infrastructure\ResComposer\CollectResourceResolversPass;
-use App\Infrastructure\ResComposer\PromiseGroupResolver;
+use App\Infrastructure\ResComposer\RegisterDataLoadersPass;
+use App\Infrastructure\ResComposer\ResourceDataLoader;
+use App\Infrastructure\ResComposer\ResourceResolver;
 use Money\Money;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -71,8 +73,12 @@ class Kernel extends BaseKernel
         $container->addCompilerPass(new CollectTypesPass());
         $container->addCompilerPass(new CollectResourceResolversPass());
         $container
-            ->registerForAutoconfiguration(PromiseGroupResolver::class)
+            ->registerForAutoconfiguration(ResourceResolver::class)
             ->addTag(CollectResourceResolversPass::RESOURCE_RESOLVER);
+        $container->addCompilerPass(new RegisterDataLoadersPass());
+        $container
+            ->registerForAutoconfiguration(ResourceDataLoader::class)
+            ->addTag(RegisterDataLoadersPass::DATA_LOADER);
     }
 
     public function boot(): void

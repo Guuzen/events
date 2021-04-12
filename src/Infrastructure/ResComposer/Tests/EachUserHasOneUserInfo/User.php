@@ -23,9 +23,4 @@ final class User implements Resource
         $this->id = $id;
 
     }
-
-    public static function resolvers(): array
-    {
-        return [UserHasUserInfo::class];
-    }
 }

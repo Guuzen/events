@@ -22,9 +22,4 @@ final class Product implements Resource
     {
         $this->id = $id;
     }
-
-    public static function resolvers(): array
-    {
-        return [ProductHasProductInfo::class];
-    }
 }

@@ -16,9 +16,4 @@ final class Order implements Resource
         $this->id    = $id;
         $this->price = $price;
     }
-
-    public static function resolvers(): array
-    {
-        return [];
-    }
 }

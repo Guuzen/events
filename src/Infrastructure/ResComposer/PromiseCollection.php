@@ -7,20 +7,17 @@ namespace App\Infrastructure\ResComposer;
 final class PromiseCollection
 {
     /**
-     * @var array<class-string<PromiseGroupResolver>, array<int, Promise>>
+     * @var array<int, array<int, Promise>>
      */
     private $promises = [];
 
-    /**
-     * @param class-string<PromiseGroupResolver> $resolverId
-     */
-    public function remember(Promise $promise, string $resolverId): void
+    public function remember(Promise $promise, int $resolverId): void
     {
         $this->promises[$resolverId][] = $promise;
     }
 
     /**
-     * @return array<string, PromiseGroup>
+     * @return array<int, PromiseGroup>
      */
     public function release(ResourceDenormalizer $resourceDenormalizer): array
     {

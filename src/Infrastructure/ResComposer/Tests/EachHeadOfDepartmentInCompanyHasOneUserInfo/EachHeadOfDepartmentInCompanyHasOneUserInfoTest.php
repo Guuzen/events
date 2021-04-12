@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Infrastructure\ResComposer\Tests\EachHeadOfDepartmentInCompanyHasOneUserInfo;
 
 use App\Infrastructure\ResComposer\Link\OneToOne;
+use App\Infrastructure\ResComposer\Promise;
+use App\Infrastructure\ResComposer\ResourceResolver;
 use App\Infrastructure\ResComposer\Tests\StubResourceDataLoader;
 use App\Infrastructure\ResComposer\Tests\TestCase;
 
@@ -30,11 +32,25 @@ final class EachHeadOfDepartmentInCompanyHasOneUserInfoTest extends TestCase
         ];
         $companies = [$company];
 
-        $this->composer->addResolver(
-            new HeadOfDepartmentHasUser(
-                new StubResourceDataLoader([$userInfo1, $userInfo2]),
+        $this->composer->registerLoader(new StubResourceDataLoader([$userInfo1, $userInfo2]));
+        $this->composer->registerResolver(
+            new ResourceResolver(
+                Company::class,
                 new OneToOne('userId'),
-                UserInfo::class
+                UserInfo::class,
+                StubResourceDataLoader::class,
+                function (Company $company) {
+                    $promises = [];
+                    foreach ($company->departments as $department) {
+                        $promises[] = new Promise(
+                            fn (Department $department) => $department->head->id,
+                            fn (Department $department, UserInfo $userInfo) => $department->head->userInfo = $userInfo,
+                            $department,
+                        );
+                    }
+
+                    return $promises;
+                }
             )
         );
 

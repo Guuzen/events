@@ -20,9 +20,4 @@ final class Company implements Resource
     {
         $this->departments = $departments;
     }
-
-    public static function resolvers(): array
-    {
-        return [HeadOfDepartmentHasUser::class];
-    }
 }

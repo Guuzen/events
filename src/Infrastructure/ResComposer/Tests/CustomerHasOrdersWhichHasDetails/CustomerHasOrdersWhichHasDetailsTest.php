@@ -6,7 +6,8 @@ namespace App\Infrastructure\ResComposer\Tests\CustomerHasOrdersWhichHasDetails;
 
 use App\Infrastructure\ResComposer\Link\OneToMany;
 use App\Infrastructure\ResComposer\Link\OneToOne;
-use App\Infrastructure\ResComposer\Tests\StubResourceDataLoader;
+use App\Infrastructure\ResComposer\Promise;
+use App\Infrastructure\ResComposer\ResourceResolver;
 use App\Infrastructure\ResComposer\Tests\TestCase;
 
 final class CustomerHasOrdersWhichHasDetailsTest extends TestCase
@@ -26,18 +27,37 @@ final class CustomerHasOrdersWhichHasDetailsTest extends TestCase
             'id' => $orderId,
         ];
 
-        $this->composer->addResolver(
-            new CustomerHasOrders(
-                new StubResourceDataLoader([$order]),
+        $this->composer->registerLoader(new OrdersLoader([$order]));
+        $this->composer->registerResolver(
+            new ResourceResolver(
+                Customer::class,
                 new OneToMany('customerId'),
-                Order::class
+                Order::class,
+                OrdersLoader::class,
+                fn (Customer $customer) => [
+                    new Promise(
+                        fn (Customer $customer) => $customer->id,
+                        /** @param Order[] $orders */
+                        fn (Customer $customer, array $orders) => $customer->orders = $orders,
+                        $customer
+                    ),
+                ],
             )
         );
-        $this->composer->addResolver(
-            new OrderHasDetails(
-                new StubResourceDataLoader([$orderDetails]),
+        $this->composer->registerLoader(new OrderDetailsLoader([$orderDetails]));
+        $this->composer->registerResolver(
+            new ResourceResolver(
+                Order::class,
                 new OneToOne('id'),
-                OrderDetails::class
+                OrderDetails::class,
+                OrderDetailsLoader::class,
+                fn (Order $order) => [
+                    new Promise(
+                        fn (Order $order) => $order->id,
+                        fn (Order $order, OrderDetails $orderDetails) => $order->details = $orderDetails,
+                        $order,
+                    ),
+                ],
             )
         );
 

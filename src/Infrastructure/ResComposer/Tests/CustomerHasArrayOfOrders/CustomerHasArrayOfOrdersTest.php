@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Infrastructure\ResComposer\Tests\CustomerHasArrayOfOrders;
 
 use App\Infrastructure\ResComposer\Link\OneToOne;
+use App\Infrastructure\ResComposer\Promise;
+use App\Infrastructure\ResComposer\ResourceResolver;
 use App\Infrastructure\ResComposer\Tests\StubResourceDataLoader;
 use App\Infrastructure\ResComposer\Tests\TestCase;
 
@@ -28,11 +30,26 @@ final class CustomerHasArrayOfOrdersTest extends TestCase
             ],
         ];
 
-        $this->composer->addResolver(
-            new CustomerHasOrders(
-                new StubResourceDataLoader([$order1, $order2]),
+        $this->composer->registerLoader(new StubResourceDataLoader([$order1, $order2]));
+        $this->composer->registerResolver(
+            new ResourceResolver(
+                Customer::class,
                 new OneToOne('id'),
-                Order::class
+                Order::class,
+                StubResourceDataLoader::class,
+                function (Customer $customer) {
+                    $promises = [];
+                    foreach ($customer->ordersIds as $index => $orderId) {
+                        /** @psalm-suppress MissingClosureReturnType */
+                        $idExtractor = fn() => $orderId;
+                        $writer      = function (Customer $customer, Order $value) use ($index): void {
+                            $customer->orders[$index] = $value;
+                        };
+                        $promises[]  = new Promise($idExtractor, $writer, $customer);
+                    }
+
+                    return $promises;
+                },
             )
         );
 

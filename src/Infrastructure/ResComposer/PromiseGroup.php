@@ -21,9 +21,10 @@ final class PromiseGroup
     }
 
     /**
-     * @param class-string<Resource> $resourceType
+     * @param class-string $resourceType
+     * @param array<int, ResourceResolver> $resolvers
      */
-    public function resolve(ResourceDataLoader $loader, Link $link, string $resourceType): void
+    public function resolve(ResourceDataLoader $loader, Link $link, string $resourceType, array $resolvers): void
     {
         $ids = [];
         foreach ($this->promises as $promise) {
@@ -36,7 +37,7 @@ final class PromiseGroup
 
         $loadedResources = $loader->load(\array_unique($ids));
 
-        $denormalizedResources = $this->denormalizer->denormalize($loadedResources, $resourceType);
+        $denormalizedResources = $this->denormalizer->denormalize($loadedResources, $resourceType, $resolvers);
 
         $groupedResources = $link->group($denormalizedResources);
 

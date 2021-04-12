@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\ResComposer\Tests\EachApplicationHasOneDifferenFileTypes;
 
-use App\Infrastructure\ResComposer\Promise;
 use App\Infrastructure\ResComposer\Resource;
-use App\Infrastructure\ResComposer\Tests\TestPromiseGroupResolver;
 
 final class Application implements Resource
 {
@@ -40,10 +38,5 @@ final class Application implements Resource
         $this->id      = $id;
         $this->fileAId = $fileA;
         $this->fileBId = $fileB;
-    }
-
-    public static function resolvers(): array
-    {
-        return [ApplicationHasFiles::class];
     }
 }

@@ -6,6 +6,7 @@ namespace App\Infrastructure\ResComposer;
 
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use App\Infrastructure\ResComposer\Resource;
+use App\Infrastructure\ResComposer\Link\Link;
 
 final class ResourceDenormalizer
 {
@@ -19,14 +20,15 @@ final class ResourceDenormalizer
     }
 
     /**
-     * @template T of Resource
+     * @template T
      *
-     * @param mixed           $data
-     * @param class-string<T> $type
+     * @param mixed                        $data
+     * @param class-string<T>              $type
+     * @param array<int, ResourceResolver> $resolvers
      *
      * @return array<int, T>
      */
-    public function denormalize($data, string $type)
+    public function denormalize($data, string $type, array $resolvers)
     {
         /**
          * @psalm-var array<int, T> $resources
@@ -34,11 +36,12 @@ final class ResourceDenormalizer
          */
         $resources = $this->denormalizer->denormalize($data, $type . '[]');
         foreach ($resources as $resource) {
-            $resolvers = $resource::resolvers();
-            foreach ($resolvers as $resolver) {
-                $promises = $resolver::collectPromises($resource);
-                foreach ($promises as $promise) {
-                    $this->promises->remember($promise, $resolver);
+            foreach ($resolvers as $resolverId => $resolver) {
+                if ($resolver->resource === $type) {
+                    $promises = ($resolver->resolver)($resource);
+                    foreach ($promises as $promise) {
+                        $this->promises->remember($promise, $resolverId);
+                    }
                 }
             }
         }

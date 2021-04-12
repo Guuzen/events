@@ -8,18 +8,18 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
-final class CollectResourceResolversPass implements CompilerPassInterface
+final class RegisterDataLoadersPass implements CompilerPassInterface
 {
-    public const RESOURCE_RESOLVER = 'resource_resolver';
+    public const DATA_LOADER = 'data_loader';
 
     public function process(ContainerBuilder $container): void
     {
         $composer = $container->getDefinition(ResourceComposer::class);
         /** @var array<string, array> $taggedServices */
-        $taggedServices = $container->findTaggedServiceIds(self::RESOURCE_RESOLVER);
+        $taggedServices = $container->findTaggedServiceIds(self::DATA_LOADER);
         foreach ($taggedServices as $serviceId => $tags) {
             $composer->addMethodCall(
-                'registerResolver',
+                'registerLoader',
                 [new Reference($serviceId)]
             );
         }

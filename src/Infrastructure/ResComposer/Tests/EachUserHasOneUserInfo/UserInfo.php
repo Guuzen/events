@@ -16,9 +16,4 @@ final class UserInfo implements Resource
         $this->id     = $id;
         $this->userId = $userId;
     }
-
-    public static function resolvers(): array
-    {
-        return [];
-    }
 }

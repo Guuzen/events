@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\ResComposer\Link;
 
-use App\Infrastructure\ResComposer\Resource;
-
 interface Link
 {
     /**
-     * @param array<int, Resource> $resources
+     * @param array<int, object> $resources
      *
      * @return array<string, mixed>
      */
