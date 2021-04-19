@@ -190,7 +190,7 @@ final class BuyProductTest extends TestCase
             'email'     => 'john@email.com',
             'phone'     => '+123456789',
         ]);
-        $this->visitor->awaitsForEmailWithTicket();
+
         $this->manager->seeOrderInList($eventId, [
             'data' => [
                 [
@@ -698,7 +698,6 @@ final class BuyProductTest extends TestCase
         ]);
 
         $this->visitor->payOrderByCard($orderId);
-        $this->visitor->awaitsForEmailWithTicket();
         $this->fondy->orderPaid($orderId);
         $this->visitor->receivesEmailWithTicket([
             'subject' => 'Thanks for buy ticket',

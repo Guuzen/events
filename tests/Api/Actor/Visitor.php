@@ -25,8 +25,6 @@ final class Visitor
             'Accept'       => 'application/json',
             'Content-Type' => 'application/json',
         ]);
-        static::setUpHttpMockBeforeClass(8001);
-        $this->setUpHttpMock();
     }
 
     protected function assertSame($expected, $actual, string $message = ''): void
@@ -60,18 +58,6 @@ final class Visitor
         ]);
 
         return $response['data'];
-    }
-
-    public function awaitsForEmailWithTicket(): void
-    {
-        $this->http->mock
-            ->when()
-            ->methodIs('POST')
-            ->pathIs('/send_ticket_email')
-            ->then()
-            ->statusCode(200)
-            ->end();
-        $this->http->setUp();
     }
 
     public function receivesEmailWithTicket(array $email): void

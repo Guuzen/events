@@ -1,7 +1,7 @@
-FROM php:7.4-fpm-buster
+FROM php:8.0-fpm-buster
 ARG HOST_UID
 
-RUN pecl install xdebug-2.9.8 \
+RUN pecl install xdebug-3.0.4 \
     && docker-php-ext-enable xdebug
 
 RUN apt-get update && apt-get install -y libzip-dev \
