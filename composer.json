@@ -60,7 +60,7 @@
         "symfony/var-dumper": "*",
         "symfony/web-profiler-bundle": "^4.4",
         "symfony/web-server-bundle": "^4.4",
-        "vimeo/psalm": "^4.0"
+        "vimeo/psalm": "4.6.*"
     },
     "config": {
         "preferred-install": {
