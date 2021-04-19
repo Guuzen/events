@@ -7,9 +7,9 @@ namespace App\Infrastructure\ResComposer\Link;
 interface Link
 {
     /**
-     * @param array<int, object> $resources
+     * @param array<array-key, \ArrayObject> $resources
      *
-     * @return array<string, mixed>
+     * @return array<array-key, mixed>
      */
     public function group(array $resources): array;
 

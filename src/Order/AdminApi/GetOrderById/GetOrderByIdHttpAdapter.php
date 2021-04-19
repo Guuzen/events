@@ -50,7 +50,7 @@ final class GetOrderByIdHttpAdapter extends AppController
 
         $order = $this->deserializeFromDb($orderData);
 
-        $resource = $this->composer->composeOne($order, OrderResource::class);
+        $resource = $this->composer->composeOne($order, 'order');
 
         return $this->response($resource);
     }

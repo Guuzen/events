@@ -19,7 +19,7 @@ final class OneToOne implements Link
         $rightKey = $this->rightKey;
         foreach ($resources as $resource) {
             /** @psalm-suppress MixedAssignment */
-            $mapId = $resource->$rightKey;
+            $mapId = $resource[$rightKey];
             if (\is_string($mapId) === false) {
                 throw new \RuntimeException(
                     \sprintf('Resource group key must be a string %s given', \gettype($mapId))

@@ -61,13 +61,6 @@ class Order extends Entity
     private $price;
 
     /**
-     * @var Money
-     *
-     * @ORM\Column(type=Money::class)
-     */
-    private $total;
-
-    /**
      * @ORM\Column(type="datetimetz_immutable")
      */
     private $makedAt;
@@ -108,7 +101,6 @@ class Order extends Entity
         $this->tariffId    = $tariffId;
         $this->userId      = $userId;
         $this->price       = $price;
-        $this->total       = $price;
         $this->makedAt     = $asOf;
         $this->paid        = $paid;
     }

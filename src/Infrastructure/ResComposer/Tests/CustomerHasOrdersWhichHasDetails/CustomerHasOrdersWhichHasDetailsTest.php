@@ -6,8 +6,7 @@ namespace App\Infrastructure\ResComposer\Tests\CustomerHasOrdersWhichHasDetails;
 
 use App\Infrastructure\ResComposer\Link\OneToMany;
 use App\Infrastructure\ResComposer\Link\OneToOne;
-use App\Infrastructure\ResComposer\Promise;
-use App\Infrastructure\ResComposer\ResourceResolver;
+use App\Infrastructure\ResComposer\PromiseCollector\SimpleCollector;
 use App\Infrastructure\ResComposer\Tests\TestCase;
 
 final class CustomerHasOrdersWhichHasDetailsTest extends TestCase
@@ -28,42 +27,37 @@ final class CustomerHasOrdersWhichHasDetailsTest extends TestCase
         ];
 
         $this->composer->registerLoader(new OrdersLoader([$order]));
-        $this->composer->registerResolver(
-            new ResourceResolver(
-                Customer::class,
-                new OneToMany('customerId'),
-                Order::class,
-                OrdersLoader::class,
-                fn (Customer $customer) => [
-                    new Promise(
-                        fn (Customer $customer) => $customer->id,
-                        /** @param Order[] $orders */
-                        fn (Customer $customer, array $orders) => $customer->orders = $orders,
-                        $customer
-                    ),
-                ],
-            )
+        $this->composer->registerConfig(
+            'customer',
+            new OneToMany('customerId'),
+            'order',
+            OrdersLoader::class,
+            new SimpleCollector('id', 'orders'),
         );
         $this->composer->registerLoader(new OrderDetailsLoader([$orderDetails]));
-        $this->composer->registerResolver(
-            new ResourceResolver(
-                Order::class,
-                new OneToOne('id'),
-                OrderDetails::class,
-                OrderDetailsLoader::class,
-                fn (Order $order) => [
-                    new Promise(
-                        fn (Order $order) => $order->id,
-                        fn (Order $order, OrderDetails $orderDetails) => $order->details = $orderDetails,
-                        $order,
-                    ),
-                ],
-            )
+        $this->composer->registerConfig(
+            'order',
+            new OneToOne('id'),
+            'orderDetails',
+            OrderDetailsLoader::class,
+            new SimpleCollector('id', 'details'),
         );
 
-        /** @var Customer $resource */
-        $resource = $this->composer->composeOne($customer, Customer::class);
+        $resource = $this->composer->composeOne($customer, 'customer');
 
-        self::assertEquals(new OrderDetails($orderId), $resource->orders[0]->details);
+        self::assertEquals(
+            [
+                'id'     => $customerId,
+                'orders' => [
+                    [
+                        'id'         => $orderId,
+                        'customerId' => $customerId,
+                        'details'    => $orderDetails,
+                    ]
+                ],
+
+            ],
+            $resource,
+        );
     }
 }

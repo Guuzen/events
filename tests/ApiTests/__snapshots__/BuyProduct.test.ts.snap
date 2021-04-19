@@ -26,7 +26,6 @@ exports[`Buy ticket By card: get order by id 1`] = `
 Object {
   "data": Object {
     "cancelled": false,
-    "discount": null,
     "eventId": Any<String>,
     "id": Any<String>,
     "makedAt": Any<String>,
@@ -38,10 +37,6 @@ Object {
     "productType": "ticket",
     "promocodeId": null,
     "tariffId": Any<String>,
-    "total": Object {
-      "amount": "200",
-      "currency": "RUB",
-    },
     "userId": Any<String>,
   },
 }
@@ -51,13 +46,6 @@ exports[`Buy ticket By card: get order by id with paid order 1`] = `
 Object {
   "data": Object {
     "cancelled": false,
-    "discount": Object {
-      "amount": Object {
-        "amount": "100",
-        "currency": "RUB",
-      },
-      "type": "fixed",
-    },
     "eventId": Any<String>,
     "id": Any<String>,
     "makedAt": Any<String>,
@@ -67,12 +55,17 @@ Object {
       "currency": "RUB",
     },
     "productType": "ticket",
-    "promocodeId": Any<String>,
-    "tariffId": Any<String>,
-    "total": Object {
-      "amount": "100",
-      "currency": "RUB",
+    "promocodeId": Object {
+      "discount": Object {
+        "amount": Object {
+          "amount": "100",
+          "currency": "RUB",
+        },
+        "type": "fixed",
+      },
+      "id": Any<String>,
     },
+    "tariffId": Any<String>,
     "userId": Any<String>,
   },
 }
@@ -82,13 +75,6 @@ exports[`Buy ticket By card: get order by id with used promocode 1`] = `
 Object {
   "data": Object {
     "cancelled": false,
-    "discount": Object {
-      "amount": Object {
-        "amount": "100",
-        "currency": "RUB",
-      },
-      "type": "fixed",
-    },
     "eventId": Any<String>,
     "id": Any<String>,
     "makedAt": Any<String>,
@@ -98,12 +84,17 @@ Object {
       "currency": "RUB",
     },
     "productType": "ticket",
-    "promocodeId": Any<String>,
-    "tariffId": Any<String>,
-    "total": Object {
-      "amount": "100",
-      "currency": "RUB",
+    "promocodeId": Object {
+      "discount": Object {
+        "amount": Object {
+          "amount": "100",
+          "currency": "RUB",
+        },
+        "type": "fixed",
+      },
+      "id": Any<String>,
     },
+    "tariffId": Any<String>,
     "userId": Any<String>,
   },
 }
@@ -114,13 +105,6 @@ Object {
   "data": Array [
     Object {
       "cancelled": false,
-      "discount": Object {
-        "amount": Object {
-          "amount": "100",
-          "currency": "RUB",
-        },
-        "type": "fixed",
-      },
       "eventId": Any<String>,
       "id": Any<String>,
       "makedAt": Any<String>,
@@ -130,12 +114,17 @@ Object {
         "currency": "RUB",
       },
       "productType": "ticket",
-      "promocodeId": Any<String>,
-      "tariffId": Any<String>,
-      "total": Object {
-        "amount": "100",
-        "currency": "RUB",
+      "promocodeId": Object {
+        "discount": Object {
+          "amount": Object {
+            "amount": "100",
+            "currency": "RUB",
+          },
+          "type": "fixed",
+        },
+        "id": Any<String>,
       },
+      "tariffId": Any<String>,
       "userId": Any<String>,
     },
   ],
@@ -147,13 +136,6 @@ Object {
   "data": Array [
     Object {
       "cancelled": false,
-      "discount": Object {
-        "amount": Object {
-          "amount": "100",
-          "currency": "RUB",
-        },
-        "type": "fixed",
-      },
       "eventId": Any<String>,
       "id": Any<String>,
       "makedAt": Any<String>,
@@ -163,12 +145,17 @@ Object {
         "currency": "RUB",
       },
       "productType": "ticket",
-      "promocodeId": Any<String>,
-      "tariffId": Any<String>,
-      "total": Object {
-        "amount": "100",
-        "currency": "RUB",
+      "promocodeId": Object {
+        "discount": Object {
+          "amount": Object {
+            "amount": "100",
+            "currency": "RUB",
+          },
+          "type": "fixed",
+        },
+        "id": Any<String>,
       },
+      "tariffId": Any<String>,
       "userId": Any<String>,
     },
   ],
@@ -180,7 +167,6 @@ Object {
   "data": Array [
     Object {
       "cancelled": false,
-      "discount": null,
       "eventId": Any<String>,
       "id": Any<String>,
       "makedAt": Any<String>,
@@ -192,10 +178,6 @@ Object {
       "productType": "ticket",
       "promocodeId": null,
       "tariffId": Any<String>,
-      "total": Object {
-        "amount": "200",
-        "currency": "RUB",
-      },
       "userId": Any<String>,
     },
   ],
@@ -360,7 +342,6 @@ exports[`Buy ticket By wire: get order by id 1`] = `
 Object {
   "data": Object {
     "cancelled": false,
-    "discount": null,
     "eventId": Any<String>,
     "id": Any<String>,
     "makedAt": Any<String>,
@@ -372,10 +353,6 @@ Object {
     "productType": "ticket",
     "promocodeId": null,
     "tariffId": Any<String>,
-    "total": Object {
-      "amount": "200",
-      "currency": "RUB",
-    },
     "userId": Any<String>,
   },
 }
@@ -385,13 +362,6 @@ exports[`Buy ticket By wire: get order by id with paid order 1`] = `
 Object {
   "data": Object {
     "cancelled": false,
-    "discount": Object {
-      "amount": Object {
-        "amount": "100",
-        "currency": "RUB",
-      },
-      "type": "fixed",
-    },
     "eventId": Any<String>,
     "id": Any<String>,
     "makedAt": Any<String>,
@@ -401,12 +371,17 @@ Object {
       "currency": "RUB",
     },
     "productType": "ticket",
-    "promocodeId": Any<String>,
-    "tariffId": Any<String>,
-    "total": Object {
-      "amount": "100",
-      "currency": "RUB",
+    "promocodeId": Object {
+      "discount": Object {
+        "amount": Object {
+          "amount": "100",
+          "currency": "RUB",
+        },
+        "type": "fixed",
+      },
+      "id": Any<String>,
     },
+    "tariffId": Any<String>,
     "userId": Any<String>,
   },
 }
@@ -416,13 +391,6 @@ exports[`Buy ticket By wire: get order by id with used promocode 1`] = `
 Object {
   "data": Object {
     "cancelled": false,
-    "discount": Object {
-      "amount": Object {
-        "amount": "100",
-        "currency": "RUB",
-      },
-      "type": "fixed",
-    },
     "eventId": Any<String>,
     "id": Any<String>,
     "makedAt": Any<String>,
@@ -432,12 +400,17 @@ Object {
       "currency": "RUB",
     },
     "productType": "ticket",
-    "promocodeId": Any<String>,
-    "tariffId": Any<String>,
-    "total": Object {
-      "amount": "100",
-      "currency": "RUB",
+    "promocodeId": Object {
+      "discount": Object {
+        "amount": Object {
+          "amount": "100",
+          "currency": "RUB",
+        },
+        "type": "fixed",
+      },
+      "id": Any<String>,
     },
+    "tariffId": Any<String>,
     "userId": Any<String>,
   },
 }
@@ -448,13 +421,6 @@ Object {
   "data": Array [
     Object {
       "cancelled": false,
-      "discount": Object {
-        "amount": Object {
-          "amount": "100",
-          "currency": "RUB",
-        },
-        "type": "fixed",
-      },
       "eventId": Any<String>,
       "id": Any<String>,
       "makedAt": Any<String>,
@@ -464,12 +430,17 @@ Object {
         "currency": "RUB",
       },
       "productType": "ticket",
-      "promocodeId": Any<String>,
-      "tariffId": Any<String>,
-      "total": Object {
-        "amount": "100",
-        "currency": "RUB",
+      "promocodeId": Object {
+        "discount": Object {
+          "amount": Object {
+            "amount": "100",
+            "currency": "RUB",
+          },
+          "type": "fixed",
+        },
+        "id": Any<String>,
       },
+      "tariffId": Any<String>,
       "userId": Any<String>,
     },
   ],
@@ -481,13 +452,6 @@ Object {
   "data": Array [
     Object {
       "cancelled": false,
-      "discount": Object {
-        "amount": Object {
-          "amount": "100",
-          "currency": "RUB",
-        },
-        "type": "fixed",
-      },
       "eventId": Any<String>,
       "id": Any<String>,
       "makedAt": Any<String>,
@@ -497,12 +461,17 @@ Object {
         "currency": "RUB",
       },
       "productType": "ticket",
-      "promocodeId": Any<String>,
-      "tariffId": Any<String>,
-      "total": Object {
-        "amount": "100",
-        "currency": "RUB",
+      "promocodeId": Object {
+        "discount": Object {
+          "amount": Object {
+            "amount": "100",
+            "currency": "RUB",
+          },
+          "type": "fixed",
+        },
+        "id": Any<String>,
       },
+      "tariffId": Any<String>,
       "userId": Any<String>,
     },
   ],
@@ -514,7 +483,6 @@ Object {
   "data": Array [
     Object {
       "cancelled": false,
-      "discount": null,
       "eventId": Any<String>,
       "id": Any<String>,
       "makedAt": Any<String>,
@@ -526,10 +494,6 @@ Object {
       "productType": "ticket",
       "promocodeId": null,
       "tariffId": Any<String>,
-      "total": Object {
-        "amount": "200",
-        "currency": "RUB",
-      },
       "userId": Any<String>,
     },
   ],

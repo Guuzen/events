@@ -19,7 +19,7 @@ final class OneToMany implements Link
         $rightKey = $this->rightKey;
         foreach ($resources as $resource) {
             /** @psalm-suppress MixedAssignment */
-            $groupId = $resource->$rightKey;
+            $groupId = $resource[$rightKey];
             if (\is_string($groupId) === false) {
                 throw new \RuntimeException(
                     \sprintf('Resource group key must be a string %s given', \gettype($groupId))

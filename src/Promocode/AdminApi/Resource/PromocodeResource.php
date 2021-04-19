@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace App\Promocode\AdminApi\Resource;
 
 // TODO better names for return types for queries ?
-use App\Infrastructure\ResComposer\Resource;
 use App\Promocode\Model\Discount\Discount;
 
 /**
  * @psalm-immutable
  */
-final class PromocodeResource implements Resource
+final class PromocodeResource
 {
     /**
      * @var string

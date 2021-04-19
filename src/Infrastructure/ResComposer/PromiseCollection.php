@@ -4,32 +4,38 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\ResComposer;
 
+use App\Infrastructure\ResComposer\PromiseCollector\PromiseCollector;
+
 final class PromiseCollection
 {
     /**
      * @var array<int, array<int, Promise>>
      */
-    private $promises = [];
+    private $promisesGroups = [];
 
-    public function remember(Promise $promise, int $resolverId): void
+    /**
+     * @param array<array-key, \ArrayObject> $resources
+     * @param array<int, PromiseCollector>   $collectors
+     */
+    public function remember(array $resources, array $collectors): void
     {
-        $this->promises[$resolverId][] = $promise;
+        foreach ($resources as $key => $resource) {
+            foreach ($collectors as $configId => $collector) {
+                $promises = $collector->collect($resource);
+                foreach ($promises as $promise) {
+                    $this->promisesGroups[$configId][] = $promise;
+                }
+            }
+        }
     }
 
     /**
-     * @return array<int, PromiseGroup>
+     * @return array<int, array<int, Promise>>
      */
-    public function release(ResourceDenormalizer $resourceDenormalizer): array
+    public function release(): array
     {
-        $promiseGroups = [];
-        [$promises, $this->promises] = [$this->promises, []];
-        foreach ($promises as $resolverId => $group) {
-            $promiseGroups[$resolverId] = new PromiseGroup(
-                $group,
-                $resourceDenormalizer,
-            );
-        }
+        [$promisesGroups, $this->promisesGroups] = [$this->promisesGroups, []];
 
-        return $promiseGroups;
+        return $promisesGroups;
     }
 }

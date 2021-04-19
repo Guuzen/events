@@ -6,7 +6,6 @@ namespace App\Order\AdminApi\GetOrderList;
 
 use App\Infrastructure\Http\AppController\AppController;
 use App\Infrastructure\ResComposer\ResourceComposer;
-use App\Order\AdminApi\OrderResource;
 use Doctrine\DBAL\Connection;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -54,7 +53,7 @@ final class GetOrderListHttpAdapter extends AppController
         /** @var array<int, array> $ordersData */
         $ordersData = $this->deserializeFromDb($orders);
 
-        $resources = $this->composer->compose($ordersData, OrderResource::class);
+        $resources = $this->composer->compose($ordersData, 'order');
 
         return $this->response($resources);
     }

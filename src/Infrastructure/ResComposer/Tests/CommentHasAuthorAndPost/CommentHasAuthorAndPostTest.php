@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\ResComposer\Tests\CommentHasAuthorAndPost;
 
 use App\Infrastructure\ResComposer\Link\OneToOne;
-use App\Infrastructure\ResComposer\Promise;
-use App\Infrastructure\ResComposer\ResourceResolver;
-use App\Infrastructure\ResComposer\Tests\StubResourceDataLoader;
+use App\Infrastructure\ResComposer\PromiseCollector\SimpleCollector;
 use App\Infrastructure\ResComposer\Tests\TestCase;
 
 final class CommentHasAuthorAndPostTest extends TestCase
@@ -28,42 +26,31 @@ final class CommentHasAuthorAndPostTest extends TestCase
         ];
 
         $this->composer->registerLoader(new AuthorsLoader([$author]));
-        $this->composer->registerResolver(
-            new ResourceResolver(
-                Comment::class,
-                new OneToOne('id'),
-                Author::class,
-                AuthorsLoader::class,
-                fn (Comment $comment) => [
-                    new Promise(
-                        fn(Comment $comment) => $comment->id,
-                        fn(Comment $comment, Author $author) => $comment->author = $author,
-                        $comment
-                    )
-                ],
-            )
+        $this->composer->registerConfig(
+            'comment',
+            new OneToOne('id'),
+            'author',
+            AuthorsLoader::class,
+            new SimpleCollector('id', 'author'),
         );
         $this->composer->registerLoader(new PostsLoader([$post]));
-        $this->composer->registerResolver(
-            new ResourceResolver(
-                Comment::class,
-                new OneToOne('id'),
-                Post::class,
-                PostsLoader::class,
-                fn (Comment $comment) => [
-                    new Promise(
-                        fn(Comment $comment) => $comment->id,
-                        fn(Comment $comment, Post $post) => $comment->post = $post,
-                        $comment
-                    ),
-                ],
-            )
+        $this->composer->registerConfig(
+            'comment',
+            new OneToOne('id'),
+            'post',
+            PostsLoader::class,
+            new SimpleCollector('id', 'post'),
         );
 
-        /** @var Comment $resource */
-        $resource = $this->composer->composeOne($comment, Comment::class);
+        $resource = $this->composer->composeOne($comment, 'comment');
 
-        self::assertEquals(new Author($authorId, $commentId), $resource->author);
-        self::assertEquals(new Post($postId, $commentId), $resource->post);
+        self::assertEquals(
+            [
+                'id'     => $commentId,
+                'author' => $author,
+                'post'   => $post,
+            ],
+            $resource,
+        );
     }
 }

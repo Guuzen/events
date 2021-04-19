@@ -10,35 +10,37 @@ namespace App\Infrastructure\ResComposer;
 final class Promise
 {
     /**
-     * @var callable(mixed): ?string
+     * @var callable(\ArrayObject): ?array-key
      */
     private $idExtractor;
 
     /**
-     * @var callable(WriteObject, mixed): void
+     * @var callable(\ArrayObject, mixed): void
      */
     private $writer;
 
     /**
-     * @var WriteObject
+     * @var \ArrayObject
      */
-    private $object;
+    private $array;
 
     /**
-     * @param callable(mixed): ?string $idExtractor
-     * @param callable(WriteObject, mixed): void $writer
-     * @param WriteObject $object
+     * @param callable(\ArrayObject): ?array-key $idExtractor
+     * @param callable(\ArrayObject, mixed): void $writer
      */
-    public function __construct($idExtractor, $writer, $object)
+    public function __construct($idExtractor, $writer, \ArrayObject $array)
     {
         $this->idExtractor = $idExtractor;
         $this->writer      = $writer;
-        $this->object      = $object;
+        $this->array       = $array;
     }
 
-    public function id(): ?string
+    /**
+     * @return array-key|null
+     */
+    public function id()
     {
-        return ($this->idExtractor)($this->object);
+        return ($this->idExtractor)($this->array);
     }
 
     /**
@@ -46,6 +48,6 @@ final class Promise
      */
     public function resolve($value): void
     {
-        ($this->writer)($this->object, $value);
+        ($this->writer)($this->array, $value);
     }
 }

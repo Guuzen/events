@@ -32,7 +32,7 @@ final class PromocodeLoader implements ResourceDataLoader
                 json_agg(promocode)
             from (
                 select
-                    *
+                    id, discount
                 from
                     promocode
                 where

@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\ResComposer\Tests\EachAuthorInfoHasNoLinks;
-
-use App\Infrastructure\ResComposer\Tests\TestCase;
+namespace App\Infrastructure\ResComposer\Tests;
 
 final class EachAuthorInfoHasNoLinksTest extends TestCase
 {
@@ -21,8 +19,8 @@ final class EachAuthorInfoHasNoLinksTest extends TestCase
             $authorInfo2,
         ];
 
-        $resources = $this->composer->compose($authorsInfo, AuthorInfo::class);
+        $resources = $this->composer->compose($authorsInfo, 'authorInfo');
 
-        self::assertEquals([new AuthorInfo($authorInfoId1), new AuthorInfo($authorInfoId2)], $resources);
+        self::assertEquals($authorsInfo, $resources);
     }
 }
