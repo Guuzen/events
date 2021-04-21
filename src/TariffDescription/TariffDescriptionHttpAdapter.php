@@ -40,7 +40,7 @@ final class TariffDescriptionHttpAdapter extends AppController
         /** @psalm-suppress PossiblyFalseArgument */
         $tariffDescription = $this->arrayKeysNameConverter->convert($tariffDescription);
 
-        return $this->response($tariffDescription);
+        return $this->validateResponse($tariffDescription);
     }
 
     /**
@@ -52,6 +52,6 @@ final class TariffDescriptionHttpAdapter extends AppController
 
         $this->flush();
 
-        return $this->response([]);
+        return $this->validateResponse([]);
     }
 }

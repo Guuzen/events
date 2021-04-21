@@ -2,11 +2,14 @@
 
 namespace App\Infrastructure\Http\AppController;
 
+use App\Infrastructure\Http\Openapi\OpenapiSchema;
+use App\Infrastructure\Http\Openapi\OpenapiValidator;
 use App\Infrastructure\Persistence\DatabaseSerializer\DatabaseSerializer;
 use App\Infrastructure\Persistence\JsonFromDatabaseDeserializer\JsonFromDatabaseDeserializer;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\DependencyInjection\ServiceLocator;
+use Symfony\Component\HttpFoundation\RequestStack;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
 
 return static function (ContainerConfigurator $configurator) {
@@ -31,6 +34,8 @@ return static function (ContainerConfigurator $configurator) {
                     'databaseSerializer'        => ref(DatabaseSerializer::class),
                     'jsonFromDatabaseConverter' => ref(JsonFromDatabaseDeserializer::class),
                     'em'                        => ref(EntityManagerInterface::class),
+                    'requestStack'              => ref(RequestStack::class),
+                    'openapiValidator'          => ref(OpenapiValidator::class)
                 ],
             ]
         );

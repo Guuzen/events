@@ -55,6 +55,6 @@ final class GetOrderListHttpAdapter extends AppController
 
         $resources = $this->composer->compose($ordersData, 'order');
 
-        return $this->response($resources);
+        return $this->validateResponse($resources);
     }
 }

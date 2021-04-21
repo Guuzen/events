@@ -48,6 +48,6 @@ final class FindTariffByIdHttpAdapter extends AppController
 
         $decoded = $this->deserializeFromDb($tariffData);
 
-        return $this->response($decoded);
+        return $this->validateResponse($decoded);
     }
 }

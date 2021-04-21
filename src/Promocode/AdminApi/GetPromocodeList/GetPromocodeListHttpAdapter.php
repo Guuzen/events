@@ -56,6 +56,6 @@ final class GetPromocodeListHttpAdapter extends AppController
 
         $resources = $this->composer->compose($promocodes, PromocodeResource::class);
 
-        return $this->response($resources);
+        return $this->validateResponse($resources);
     }
 }

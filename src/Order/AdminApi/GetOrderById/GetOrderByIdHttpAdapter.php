@@ -8,6 +8,7 @@ use App\Infrastructure\Http\AppController\AppController;
 use App\Infrastructure\ResComposer\ResourceComposer;
 use App\Order\AdminApi\OrderResource;
 use Doctrine\DBAL\Connection;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -52,6 +53,6 @@ final class GetOrderByIdHttpAdapter extends AppController
 
         $resource = $this->composer->composeOne($order, 'order');
 
-        return $this->response($resource);
+        return $this->validateResponse($resource);
     }
 }

@@ -20,26 +20,6 @@
     "price": {
       "$ref": "../money.v1.json"
     },
-    "discount": {
-      "nullable": true,
-      "type": "object",
-      "properties": {
-        "type": {
-          "type": "string"
-        },
-        "amount": {
-          "anyOf": [
-            {
-              "$ref": "../money.v1.json"
-            }
-          ]
-        }
-      },
-      "required": [
-        "type",
-        "amount"
-      ]
-    },
     "cancelled": {
       "type": "boolean"
     },
@@ -50,6 +30,41 @@
     "makedAt": {
       "type": "string",
       "format": "date-time"
+    },
+    "promocode": {
+      "type": "object",
+      "nullable": true,
+      "properties": {
+        "discount": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string"
+            },
+            "amount": {
+              "anyOf": [
+                {
+                  "$ref": "../money.v1.json"
+                }
+              ]
+            }
+          },
+          "required": [
+            "type",
+            "amount"
+          ]
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        }
+      }
+    },
+    "productType": {
+      "type": "string",
+      "enum": [
+        "ticket"
+      ]
     }
   },
   "required": [

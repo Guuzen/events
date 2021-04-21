@@ -48,6 +48,6 @@ final class GetTicketListHttpAdapter extends AppController
 
         $decoded = $this->deserializeFromDb($ticketData);
 
-        return $this->response($decoded);
+        return $this->validateResponse($decoded);
     }
 }

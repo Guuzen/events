@@ -2,10 +2,12 @@
 
 namespace App\Infrastructure\Http\AppController;
 
+use App\Infrastructure\Http\Openapi\OpenapiValidator;
 use App\Infrastructure\Persistence\JsonFromDatabaseDeserializer\JsonFromDatabaseDeserializer;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\SerializerInterface;
 
@@ -31,6 +33,23 @@ abstract class AppController
                 'data' => $data ?? [],
             ], $status, $headers, $context
         );
+    }
+
+    protected function validateResponse(mixed $data, int $status = 200, array $headers = [], array $context = []): Response
+    {
+        /** @var RequestStack $requestStack */
+        $requestStack = $this->locator->get('requestStack');
+        /** @var OpenapiValidator $openapiValidator */
+        $openapiValidator = $this->locator->get('openapiValidator');
+
+        $request = $requestStack->getCurrentRequest();
+
+        $response = $this->response($data, $status, $headers, $context);
+
+        /** @psalm-suppress PossiblyNullArgument */
+        $openapiValidator->validateResponse($request, $response);
+
+        return $response;
     }
 
     protected function deserializeFromDb(string $json, array $context = []): array

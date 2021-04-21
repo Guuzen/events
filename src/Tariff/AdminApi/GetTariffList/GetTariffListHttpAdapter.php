@@ -47,6 +47,6 @@ final class GetTariffListHttpAdapter extends AppController
 
         $decoded = $this->deserializeFromDb($tariffsData);
 
-        return $this->response($decoded);
+        return $this->validateResponse($decoded);
     }
 }

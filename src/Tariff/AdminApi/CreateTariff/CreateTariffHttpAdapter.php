@@ -61,6 +61,6 @@ final class CreateTariffHttpAdapter extends AppController
 
         $this->flush();
 
-        return $this->response($tariffId);
+        return $this->validateResponse($tariffId);
     }
 }

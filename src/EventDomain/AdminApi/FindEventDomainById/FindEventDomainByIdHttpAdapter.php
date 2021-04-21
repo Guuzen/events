@@ -42,6 +42,6 @@ final class FindEventDomainByIdHttpAdapter extends AppController
             throw new EventDomainNotFound(''); // TODO exceptions in dev and in prod. In prod need only message. In dev - full trace?
         }
 
-        return $this->response($event);
+        return $this->validateResponse($event);
     }
 }

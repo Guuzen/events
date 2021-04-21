@@ -10,6 +10,7 @@ use App\Event\Model\Events;
 use App\EventDomain\Model\EventDomain;
 use App\Infrastructure\Http\AppController\AppController;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -46,6 +47,6 @@ final class CreateEventDomainHttpAdapter extends AppController
 
         $this->em->flush();
 
-        return $this->response($eventId);
+        return $this->validateResponse($eventId);
     }
 }

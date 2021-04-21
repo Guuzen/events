@@ -29,6 +29,6 @@ final class MarkOrderPaidHttpAdapter extends AppController
 
         $this->flush();
 
-        return $this->response([]);
+        return $this->validateResponse([]);
     }
 }

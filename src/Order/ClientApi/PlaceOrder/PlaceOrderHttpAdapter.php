@@ -73,6 +73,6 @@ final class PlaceOrderHttpAdapter extends AppController
 
         $this->flush();
 
-        return $this->response($orderId);
+        return $this->validateResponse($orderId);
     }
 }

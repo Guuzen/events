@@ -74,6 +74,6 @@ final class AppRequestResolver implements ArgumentValueResolverInterface
         );
         $psr7request   = $psr7request->withQueryParams($request->query->all());
 
-        $this->validator->validate($psr7request);
+        $this->validator->validateRequest($psr7request);
     }
 }

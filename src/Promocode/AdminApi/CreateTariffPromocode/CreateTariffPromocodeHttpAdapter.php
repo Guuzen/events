@@ -59,6 +59,6 @@ final class CreateTariffPromocodeHttpAdapter extends AppController
 
         $this->flush();
 
-        return $this->response($promocodeId);
+        return $this->validateResponse($promocodeId);
     }
 }

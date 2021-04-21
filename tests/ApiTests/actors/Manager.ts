@@ -189,6 +189,7 @@ class Manager {
                     makedAt: expect.any(String),
                     tariffId: expect.any(String),
                     userId: expect.any(String),
+                    promocodeId: null,
                 },
             ],
         }, 'get orders list');
@@ -204,6 +205,7 @@ class Manager {
                 makedAt: expect.any(String),
                 tariffId: expect.any(String),
                 userId: expect.any(String),
+                promocodeId: null,
             },
         }, 'get order by id');
     }
@@ -219,9 +221,10 @@ class Manager {
                     makedAt: expect.any(String),
                     tariffId: expect.any(String),
                     userId: expect.any(String),
-                    promocodeId: {
+                    promocode: {
                         id: expect.any(String),
                     },
+                    promocodeId: expect.any(String),
                 },
             ],
         }, 'get order list with used promocode');
@@ -237,9 +240,10 @@ class Manager {
                 makedAt: expect.any(String),
                 tariffId: expect.any(String),
                 userId: expect.any(String),
-                promocodeId: {
+                promocode: {
                     id: expect.any(String),
                 },
+                promocodeId: expect.any(String),
             },
         }, 'get order by id with used promocode');
     }
@@ -261,9 +265,10 @@ class Manager {
                     makedAt: expect.any(String),
                     tariffId: expect.any(String),
                     userId: expect.any(String),
-                    promocodeId: {
+                    promocode: {
                         id: expect.any(String),
                     },
+                    promocodeId: expect.any(String),
                 },
             ],
         }, 'get order list with paid order');
@@ -279,9 +284,10 @@ class Manager {
                 makedAt: expect.any(String),
                 tariffId: expect.any(String),
                 userId: expect.any(String),
-                promocodeId: {
+                promocode: {
                     id: expect.any(String),
                 },
+                promocodeId: expect.any(String),
             },
         }, 'get order by id with paid order');
     }
