@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\ResComposer\Tests;
 
-use App\Infrastructure\ResComposer\PromiseCollector\CustomCollector;
 use App\Infrastructure\ResComposer\Link\OneToOne;
 use App\Infrastructure\ResComposer\Promise;
-use App\Infrastructure\ResComposer\TypeChecker;
+use App\Infrastructure\ResComposer\PromiseCollector\CustomCollector;
 
 final class EachHeadOfDepartmentInCompanyHasOneUserInfoTest extends TestCase
 {
@@ -40,20 +39,12 @@ final class EachHeadOfDepartmentInCompanyHasOneUserInfoTest extends TestCase
             new CustomCollector(
                 function (\ArrayObject $company) {
                     $promises = [];
-                    TypeChecker::assertThatValueIsIterable($company['departments']);
-                    /**
-                     * @psalm-suppress MixedArgumentTypeCoercion
-                     * @psalm-suppress MixedAssignment
-                     */
-                    foreach ($company['departments'] as $index => $department) {
+                    /** @var array<int, array{head: array{id: string}}> $departments */
+                    $departments = $company['departments'];
+                    foreach ($departments as $index => $department) {
                         $promises[] = new Promise(
-                        /**
-                         * @psalm-suppress MissingClosureReturnType
-                         * @psalm-suppress MixedArgumentTypeCoercion
-                         */
-                            function (\ArrayObject $company) use ($index) {
-                                /** @psalm-suppress MixedArrayAccess */
-                                return $company['departments'][$index]['head']['id'];
+                            function (\ArrayObject $company) use ($department): string {
+                                return $department['head']['id'];
                             },
                             function (\ArrayObject $company, \ArrayObject $userInfo) use ($index) {
                                 /**

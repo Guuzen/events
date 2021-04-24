@@ -162,7 +162,7 @@ final class ResourceComposer
     {
         $arrayObjects = [];
         foreach ($resources as $key => $resource) {
-            $arrayObjects[] = new \ArrayObject($resource);
+            $arrayObjects[$key] = new \ArrayObject($resource);
         }
 
         return $arrayObjects;

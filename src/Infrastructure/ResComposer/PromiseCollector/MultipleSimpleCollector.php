@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Infrastructure\ResComposer\PromiseCollector;
 
 use App\Infrastructure\ResComposer\Promise;
-use App\Infrastructure\ResComposer\TypeChecker;
 
 final class MultipleSimpleCollector implements PromiseCollector
 {
@@ -24,13 +23,12 @@ final class MultipleSimpleCollector implements PromiseCollector
         $promises = [];
         foreach ($this->keys as [$readKey, $writeKey]) {
             $promises[] = new Promise(
-                function (\ArrayObject $resource) use ($readKey) {
-                    TypeChecker::assertThatValueIsArrayKeyOrNull($resource[$readKey]);
-
+            /** @psalm-suppress MixedInferredReturnType */
+                function (\ArrayObject $resource) use ($readKey): string|int|null {
+                    /** @psalm-suppress MixedReturnStatement */
                     return $resource[$readKey];
                 },
-                /** @param mixed $writeValue */
-                function (\ArrayObject $resource, $writeValue) use ($writeKey): void {
+                function (\ArrayObject $resource, mixed $writeValue) use ($writeKey): void {
                     /** @psalm-suppress MixedAssignment */
                     $resource[$writeKey] = $writeValue;
                 },

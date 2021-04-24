@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Infrastructure\ResComposer\PromiseCollector;
 
 use App\Infrastructure\ResComposer\Promise;
-use App\Infrastructure\ResComposer\TypeChecker;
 
 final class SimpleCollector implements PromiseCollector
 {
@@ -23,14 +22,12 @@ final class SimpleCollector implements PromiseCollector
     {
         return [
             new Promise(
-                function (\ArrayObject $resource) {
-                    $id = $resource[$this->readKey];
-                    TypeChecker::assertThatValueIsArrayKeyOrNull($id);
-
-                    return $id;
+            /** @psalm-suppress MixedInferredReturnType */
+                function (\ArrayObject $resource): string|int|null {
+                    /** @psalm-suppress MixedReturnStatement */
+                    return $resource[$this->readKey];
                 },
-                /** @param mixed $writeValue */
-                function (\ArrayObject $resource, $writeValue): void {
+                function (\ArrayObject $resource, mixed $writeValue): void {
                     /** @psalm-suppress MixedAssignment */
                     $resource[$this->writeKey] = $writeValue;
                 },

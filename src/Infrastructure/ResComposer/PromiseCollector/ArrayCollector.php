@@ -21,18 +21,20 @@ final class ArrayCollector implements PromiseCollector
     public function collect(\ArrayObject $resource): array
     {
         $promises = [];
-        /** @psalm-suppress MixedAssignment */
-        foreach ($resource[$this->arrayOfKeys] as $index => $key) {
-            /** @psalm-suppress MixedArgumentTypeCoercion */
+
+        /** @var array<array-key,array-key> $keys */
+        $keys = $resource[$this->arrayOfKeys];
+        foreach ($keys as $index => $key) {
             $promises[] = new Promise(
-            /** @psalm-suppress MissingClosureReturnType */
-                fn(\ArrayObject $resource) => $key,
-                /** @param mixed $writeValue */
-                function (\ArrayObject $customer, $writeValue) use ($index): void {
+            /** @psalm-suppress MixedInferredReturnType */
+                function (\ArrayObject $resource) use ($key): string|int {
+                    /** @psalm-suppress MixedReturnStatement */
+                    return $key;
+                },
+                function (\ArrayObject $customer, mixed $writeValue) use ($index): void {
                     /**
-                     * @psalm-suppress MixedAssignment
                      * @psalm-suppress MixedArrayAssignment
-                     * @psalm-suppress MixedArrayOffset
+                     * @psalm-suppress MixedAssignment
                      */
                     $customer[$this->writeKey][$index] = $writeValue;
                 },
