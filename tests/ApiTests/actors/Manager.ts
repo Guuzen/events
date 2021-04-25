@@ -43,18 +43,26 @@ class Manager {
     async getEventsInList() {
         const response = await httpClient.get('/admin/eventDomain');
 
-        expect(response.data).toMatchSnapshot({
+        expect(response.data).toEqual({
             data: [
-                {id: expect.any(String)},
+                {
+                    id: expect.any(String),
+                    domain: 'localhost',
+                    name: '2019 foo event',
+                },
             ],
-        }, 'get events in list');
+        });
     }
 
     async getEventById(eventId) {
         const response = await httpClient.get(`/admin/eventDomain/${eventId}`);
-        expect(response.data).toMatchSnapshot({
-            data: {id: expect.any(String)},
-        }, 'get event by id');
+        expect(response.data).toEqual({
+            data: {
+                id: expect.any(String),
+                domain: 'localhost',
+                name: '2019 foo event',
+            },
+        });
     }
 
     async createTariff(eventId) {
@@ -99,25 +107,51 @@ class Manager {
     async getTariffsList(eventId) {
         const response = await httpClient.get(`/admin/tariff?eventId=${eventId}`);
 
-        expect(response.data).toMatchSnapshot({
+        expect(response.data).toEqual({
             data: [
                 {
                     id: expect.any(String),
                     eventId: expect.any(String),
+                    priceNet: [
+                        {
+                            price: {
+                                amount: '200',
+                                currency: 'RUB',
+                            },
+                            term: {
+                                end: '3000-01-01T12:00:00+00:00',
+                                start: '2000-01-01T12:00:00+00:00',
+                            },
+                        },
+                    ],
+                    productType: 'ticket',
                 },
             ],
-        }, 'get tariff list');
+        });
     }
 
     async getTariffById(tariffId) {
         const response = await httpClient.get(`/admin/tariff/${tariffId}`);
 
-        expect(response.data).toMatchSnapshot({
+        expect(response.data).toEqual({
             data: {
                 id: expect.any(String),
                 eventId: expect.any(String),
+                priceNet: [
+                    {
+                        price: {
+                            amount: '200',
+                            currency: 'RUB',
+                        },
+                        term: {
+                            end: '3000-01-01T12:00:00+00:00',
+                            start: '2000-01-01T12:00:00+00:00',
+                        },
+                    },
+                ],
+                productType: 'ticket',
             },
-        }, 'get tariff by id');
+        });
     }
 
     async createFixedPromocode(eventId, tariffId) {
@@ -146,42 +180,67 @@ class Manager {
     async getPromocodeList(eventId) {
         const response = await httpClient.get(`/admin/promocode/list?eventId=${eventId}`);
 
-        expect(response.data).toMatchSnapshot({
+        expect(response.data).toEqual({
             data: [
                 {
                     id: expect.any(String),
                     eventId: expect.any(String),
                     allowedTariffs: {
                         tariffIds: [expect.any(String)],
+                        type: 'specific',
                     },
+                    code: 'FOO',
+                    discount: {
+                        amount: {
+                            amount: '100',
+                            currency: 'RUB',
+                        },
+                        type: 'fixed',
+                    },
+                    expireAt: '3000-01-01T12:00:00+00:00',
+                    usable: true,
+                    useLimit: 10,
+                    usedInOrders: [],
                 },
             ],
-        }, 'get promocode list');
+        });
     }
 
     async getPromocodeListWithUsedPromocode(eventId) {
         const response = await httpClient.get(`/admin/promocode/list?eventId=${eventId}`);
 
-        expect(response.data).toMatchSnapshot({
+        expect(response.data).toEqual({
             data: [
                 {
                     id: expect.any(String),
                     eventId: expect.any(String),
                     allowedTariffs: {
                         tariffIds: [expect.any(String)],
+                        type: 'specific',
                     },
                     usedInOrders: [
                         expect.any(String),
                     ],
+                    code: 'FOO',
+                    discount: {
+                        amount: {
+                            amount: '100',
+                            currency: 'RUB',
+                        },
+                        type: 'fixed',
+                    },
+                    expireAt: '3000-01-01T12:00:00+00:00',
+                    usable: true,
+                    useLimit: 10,
                 },
             ],
-        }, 'get promocode list with used promocode');
+        });
     }
 
     async getOrdersList(eventId) {
         const response = await httpClient.get(`/admin/order?eventId=${eventId}`);
 
-        expect(response.data).toMatchSnapshot({
+        expect(response.data).toEqual({
             data: [
                 {
                     eventId: expect.any(String),
@@ -190,15 +249,23 @@ class Manager {
                     tariffId: expect.any(String),
                     userId: expect.any(String),
                     promocodeId: null,
+                    cancelled: false,
+                    paid: false,
+                    price: {
+                        amount: '200',
+                        currency: 'RUB',
+                    },
+                    productType: 'ticket',
+                    promocode: null,
                 },
             ],
-        }, 'get orders list');
+        });
     }
 
     async getOrderById(orderId) {
         const response = await httpClient.get(`/admin/order/${orderId}`);
 
-        expect(response.data).toMatchSnapshot({
+        expect(response.data).toEqual({
             data: {
                 eventId: expect.any(String),
                 id: expect.any(String),
@@ -206,14 +273,22 @@ class Manager {
                 tariffId: expect.any(String),
                 userId: expect.any(String),
                 promocodeId: null,
+                cancelled: false,
+                paid: false,
+                price: {
+                    amount: '200',
+                    currency: 'RUB',
+                },
+                productType: 'ticket',
+                promocode: null,
             },
-        }, 'get order by id');
+        });
     }
 
     async getOrderListWithUsedPromocode(eventId) {
         const response = await httpClient.get(`/admin/order?eventId=${eventId}`);
 
-        expect(response.data).toMatchSnapshot({
+        expect(response.data).toEqual({
             data: [
                 {
                     eventId: expect.any(String),
@@ -223,17 +298,31 @@ class Manager {
                     userId: expect.any(String),
                     promocode: {
                         id: expect.any(String),
+                        discount: {
+                            amount: {
+                                amount: '100',
+                                currency: 'RUB',
+                            },
+                            type: 'fixed',
+                        },
                     },
                     promocodeId: expect.any(String),
+                    cancelled: false,
+                    paid: false,
+                    price: {
+                        amount: '200',
+                        currency: 'RUB',
+                    },
+                    productType: 'ticket',
                 },
             ],
-        }, 'get order list with used promocode');
+        });
     }
 
     async getOrderByIdWithUsedPromocode(orderId) {
         const response = await httpClient.get(`/admin/order/${orderId}`);
 
-        expect(response.data).toMatchSnapshot({
+        expect(response.data).toEqual({
             data: {
                 eventId: expect.any(String),
                 id: expect.any(String),
@@ -242,10 +331,24 @@ class Manager {
                 userId: expect.any(String),
                 promocode: {
                     id: expect.any(String),
+                    discount: {
+                        amount: {
+                            amount: '100',
+                            currency: 'RUB',
+                        },
+                        type: 'fixed',
+                    },
                 },
                 promocodeId: expect.any(String),
+                cancelled: false,
+                paid: false,
+                price: {
+                    amount: '200',
+                    currency: 'RUB',
+                },
+                productType: 'ticket',
             },
-        }, 'get order by id with used promocode');
+        });
     }
 
     async markOrderPaid(eventId, orderId) {
@@ -257,7 +360,7 @@ class Manager {
     async getOrderListWithPaidOrder(eventId) {
         const response = await httpClient.get(`/admin/order?eventId=${eventId}`);
 
-        expect(response.data).toMatchSnapshot({
+        expect(response.data).toEqual({
             data: [
                 {
                     eventId: expect.any(String),
@@ -267,17 +370,31 @@ class Manager {
                     userId: expect.any(String),
                     promocode: {
                         id: expect.any(String),
+                        discount: {
+                            amount: {
+                                amount: '100',
+                                currency: 'RUB',
+                            },
+                            type: 'fixed',
+                        },
                     },
                     promocodeId: expect.any(String),
+                    cancelled: false,
+                    paid: true,
+                    price: {
+                        amount: '200',
+                        currency: 'RUB',
+                    },
+                    productType: 'ticket',
                 },
             ],
-        }, 'get order list with paid order');
+        });
     }
 
     async getOrderByIdWithPaidOrder(orderId) {
         const response = await httpClient.get(`/admin/order/${orderId}`);
 
-        expect(response.data).toMatchSnapshot({
+        expect(response.data).toEqual({
             data: {
                 eventId: expect.any(String),
                 id: expect.any(String),
@@ -286,16 +403,30 @@ class Manager {
                 userId: expect.any(String),
                 promocode: {
                     id: expect.any(String),
+                    discount: {
+                        amount: {
+                            amount: '100',
+                            currency: 'RUB',
+                        },
+                        type: 'fixed',
+                    },
                 },
                 promocodeId: expect.any(String),
+                cancelled: false,
+                paid: true,
+                price: {
+                    amount: '200',
+                    currency: 'RUB',
+                },
+                productType: 'ticket',
             },
-        }, 'get order by id with paid order');
+        });
     }
 
     async getTicketsList(eventId) {
         const response = await httpClient.get(`/admin/ticket/list?eventId=${eventId}`);
 
-        expect(response.data).toMatchSnapshot({
+        expect(response.data).toEqual({
             data: [
                 {
                     id: expect.any(String),
@@ -305,7 +436,7 @@ class Manager {
                     number: expect.any(String),
                 },
             ],
-        }, 'get tickets list');
+        });
 
         return response.data.data[0].id;
     }
@@ -313,7 +444,7 @@ class Manager {
     async getTicketById(ticketId) {
         const response = await httpClient.get(`/admin/ticket/show?ticketId=${ticketId}`);
 
-        expect(response.data).toMatchSnapshot({
+        expect(response.data).toEqual({
             data: {
                 id: expect.any(String),
                 orderId: expect.any(String),
@@ -321,7 +452,7 @@ class Manager {
                 createdAt: expect.any(String),
                 number: expect.any(String),
             },
-        }, 'get ticket by id');
+        });
     }
 }
 
