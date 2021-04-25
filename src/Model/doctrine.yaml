@@ -1,0 +1,8 @@
+doctrine:
+    orm:
+        mappings:
+            App\Model:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/Model'
+                prefix: 'App\Model'

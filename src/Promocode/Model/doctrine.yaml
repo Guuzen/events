@@ -1,8 +1,0 @@
-doctrine:
-    orm:
-        mappings:
-            Promocode:
-                is_bundle: false
-                prefix: 'App\Promocode\Model'
-                type: annotation
-                dir: '%kernel.project_dir%/src/Promocode/Model'

@@ -1,63 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <files psalm-version="4.6.4@97fe86c4e158b5a57c5150aa5055c38b5a809aab">
-  <file src="src/EventDomain/AdminApi/FindEventDomainById/FindEventDomainByIdHttpAdapter.php">
+  <file src="src/Adapters/AdminApi/Event/FindEventDomainById/FindEventDomainByIdHttpAdapter.php">
     <DeprecatedMethod occurrences="2">
       <code>execute</code>
       <code>fetchAssociative</code>
     </DeprecatedMethod>
   </file>
-  <file src="src/EventDomain/EventIdResolver/EventIdResolver.php">
+  <file src="src/Adapters/AdminApi/Order/GetOrderById/GetOrderByIdHttpAdapter.php">
+    <DeprecatedMethod occurrences="2">
+      <code>execute</code>
+      <code>fetchOne</code>
+    </DeprecatedMethod>
+  </file>
+  <file src="src/Adapters/AdminApi/Order/GetOrderList/GetOrderListHttpAdapter.php">
+    <DeprecatedMethod occurrences="2">
+      <code>execute</code>
+      <code>fetchOne</code>
+    </DeprecatedMethod>
+  </file>
+  <file src="src/Adapters/AdminApi/Product/FindTicketById/FindTicketByIdHttpAdapter.php">
+    <DeprecatedMethod occurrences="2">
+      <code>execute</code>
+      <code>fetchOne</code>
+    </DeprecatedMethod>
+  </file>
+  <file src="src/Adapters/AdminApi/Product/GetTicketList/GetTicketListHttpAdapter.php">
+    <DeprecatedMethod occurrences="2">
+      <code>execute</code>
+      <code>fetchOne</code>
+    </DeprecatedMethod>
+  </file>
+  <file src="src/Adapters/AdminApi/Promocode/GetPromocodeList/GetPromocodeListHttpAdapter.php">
+    <DeprecatedMethod occurrences="2">
+      <code>execute</code>
+      <code>fetchOne</code>
+    </DeprecatedMethod>
+  </file>
+  <file src="src/Adapters/AdminApi/Tariff/FindTariffById/FindTariffByIdHttpAdapter.php">
+    <DeprecatedMethod occurrences="2">
+      <code>execute</code>
+      <code>fetchOne</code>
+    </DeprecatedMethod>
+  </file>
+  <file src="src/Adapters/AdminApi/Tariff/GetTariffList/GetTariffListHttpAdapter.php">
+    <DeprecatedMethod occurrences="2">
+      <code>execute</code>
+      <code>fetchOne</code>
+    </DeprecatedMethod>
+  </file>
+  <file src="src/Infrastructure/EventIdResolver/EventIdResolver.php">
     <DeprecatedMethod occurrences="2">
       <code>execute</code>
       <code>fetchAssociative</code>
     </DeprecatedMethod>
   </file>
-  <file src="src/Order/AdminApi/GetOrderById/GetOrderByIdHttpAdapter.php">
-    <DeprecatedMethod occurrences="2">
-      <code>execute</code>
-      <code>fetchOne</code>
-    </DeprecatedMethod>
-  </file>
-  <file src="src/Order/AdminApi/GetOrderList/GetOrderListHttpAdapter.php">
-    <DeprecatedMethod occurrences="2">
-      <code>execute</code>
-      <code>fetchOne</code>
-    </DeprecatedMethod>
-  </file>
-  <file src="src/Product/AdminApi/FindTicketById/FindTicketByIdHttpAdapter.php">
-    <DeprecatedMethod occurrences="2">
-      <code>execute</code>
-      <code>fetchOne</code>
-    </DeprecatedMethod>
-  </file>
-  <file src="src/Product/AdminApi/GetTicketList/GetTicketListHttpAdapter.php">
-    <DeprecatedMethod occurrences="2">
-      <code>execute</code>
-      <code>fetchOne</code>
-    </DeprecatedMethod>
-  </file>
-  <file src="src/Product/OnOrderEvent/SendTicket/FindTicketEmail/FindTicketEmail.php">
+  <file src="src/Integrations/Email/SendTicket/FindTicketEmail/FindTicketEmail.php">
     <DeprecatedMethod occurrences="2">
       <code>execute</code>
       <code>fetchAssociative</code>
-    </DeprecatedMethod>
-  </file>
-  <file src="src/Promocode/AdminApi/GetPromocodeList/GetPromocodeListHttpAdapter.php">
-    <DeprecatedMethod occurrences="2">
-      <code>execute</code>
-      <code>fetchOne</code>
-    </DeprecatedMethod>
-  </file>
-  <file src="src/Tariff/AdminApi/FindTariffById/FindTariffByIdHttpAdapter.php">
-    <DeprecatedMethod occurrences="2">
-      <code>execute</code>
-      <code>fetchOne</code>
-    </DeprecatedMethod>
-  </file>
-  <file src="src/Tariff/AdminApi/GetTariffList/GetTariffListHttpAdapter.php">
-    <DeprecatedMethod occurrences="2">
-      <code>execute</code>
-      <code>fetchOne</code>
     </DeprecatedMethod>
   </file>
 </files>

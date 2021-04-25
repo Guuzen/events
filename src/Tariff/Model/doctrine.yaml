@@ -1,8 +1,0 @@
-doctrine:
-    orm:
-        mappings:
-            Tariff:
-                is_bundle: false
-                type: annotation
-                dir: '%kernel.project_dir%/src/Tariff/Model'
-                prefix: 'App\Tariff\Model'

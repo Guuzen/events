@@ -5,7 +5,7 @@ namespace App\Infrastructure\Persistence\DatabaseSerializer;
 use App\Infrastructure\ResComposer\Link\OneToOne;
 use App\Infrastructure\ResComposer\PromiseCollector\SimpleCollector;
 use App\Infrastructure\ResComposer\ResourceComposer;
-use App\Promocode\AdminApi\PromocodeLoader;
+use App\Adapters\AdminApi\Promocode\PromocodeLoader;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\inline;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;

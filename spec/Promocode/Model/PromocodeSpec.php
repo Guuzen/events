@@ -2,18 +2,18 @@
 
 namespace spec\App\Promocode\Model;
 
-use App\Event\Model\EventId;
-use App\Order\Model\OrderId;
-use App\Promocode\Model\AllowedTariffs\SpecificAllowedTariffs;
-use App\Promocode\Model\Discount\FixedDiscount;
-use App\Promocode\Model\Exception\PromocodeExpired;
-use App\Promocode\Model\Exception\PromocodeNotAllowedForTariff;
-use App\Promocode\Model\Exception\PromocodeNotUsable;
-use App\Promocode\Model\Exception\PromocodeNotUsedInOrder;
-use App\Promocode\Model\Exception\PromocodeUseLimitExceeded;
-use App\Promocode\Model\Promocode;
-use App\Promocode\Model\PromocodeId;
-use App\Tariff\Model\TariffId;
+use App\Model\Event\EventId;
+use App\Model\Order\OrderId;
+use App\Model\Promocode\AllowedTariffs\SpecificAllowedTariffs;
+use App\Model\Promocode\Discount\FixedDiscount;
+use App\Model\Promocode\Exception\PromocodeExpired;
+use App\Model\Promocode\Exception\PromocodeNotAllowedForTariff;
+use App\Model\Promocode\Exception\PromocodeNotUsable;
+use App\Model\Promocode\Exception\PromocodeNotUsedInOrder;
+use App\Model\Promocode\Exception\PromocodeUseLimitExceeded;
+use App\Model\Promocode\Promocode;
+use App\Model\Promocode\PromocodeId;
+use App\Model\Tariff\TariffId;
 use DateTimeImmutable;
 use Money\Currency;
 use Money\Money;

@@ -52,7 +52,7 @@ describe('Buy ticket', function () {
 
         await manager.markOrderPaid(eventId, orderId);
 
-        await visitor.wait(1300);
+        await visitor.wait(2300);
         await visitor.receivesEmailWithTicket();
 
         await manager.getOrderListWithPaidOrder(eventId);
@@ -96,7 +96,7 @@ describe('Buy ticket', function () {
         const fondy = new Fondy();
         await fondy.markOrderPaid(orderId);
 
-        await visitor.wait(1300);
+        await visitor.wait(2300);
         await visitor.receivesEmailWithTicket();
 
         await manager.getOrderListWithPaidOrder(eventId);

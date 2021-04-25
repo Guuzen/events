@@ -1,8 +1,0 @@
-doctrine:
-    orm:
-        mappings:
-            Product:
-                is_bundle: false
-                prefix: 'App\Product\Model'
-                type: annotation
-                dir: '%kernel.project_dir%/src/Product/Model'

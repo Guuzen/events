@@ -2,17 +2,17 @@
 
 namespace spec\App\Order\Model;
 
-use App\Event\Model\EventId;
-use App\Fondy\CantGetPaymentUrl;
-use App\Fondy\Fondy;
-use App\Order\Model\Exception\NotPossibleToApplyPromocodeTwiceOnOrder;
-use App\Order\Model\Exception\OrderAlreadyPaid;
-use App\Order\Model\OrderId;
-use App\Promocode\Model\Discount\FixedDiscount;
-use App\Promocode\Model\PromocodeId;
-use App\Tariff\Model\ProductType;
-use App\Tariff\Model\TariffId;
-use App\User\Model\UserId;
+use App\Model\Event\EventId;
+use App\Integrations\Fondy\CantGetPaymentUrl;
+use App\Integrations\Fondy\FondyClient;
+use App\Model\Order\Exception\NotPossibleToApplyPromocodeTwiceOnOrder;
+use App\Model\Order\Exception\OrderAlreadyPaid;
+use App\Model\Order\OrderId;
+use App\Model\Promocode\Discount\FixedDiscount;
+use App\Model\Promocode\PromocodeId;
+use App\Model\Tariff\ProductType;
+use App\Model\Tariff\TariffId;
+use App\Model\User\UserId;
 use DateTimeImmutable;
 use Money\Currency;
 use Money\Money;
@@ -60,10 +60,10 @@ class OrderSpec extends ObjectBehavior
         $this->shouldThrow(OrderAlreadyPaid::class)->during('markPaid');
     }
 
-    public function it_can_create_fondy_payment(Fondy $fondyGateway)
+    public function it_can_create_fondy_payment(FondyClient $fondyGateway)
     {
         $paymentUrl = 'http://fondy.checkout.url';
-        $fondyGateway->beADoubleOf(Fondy::class);
+        $fondyGateway->beADoubleOf(FondyClient::class);
         $fondyGateway
             ->checkoutUrl($this->hundredRubles, $this->orderId)
             ->shouldBeCalledOnce()

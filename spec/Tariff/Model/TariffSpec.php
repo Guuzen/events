@@ -2,15 +2,15 @@
 
 namespace spec\App\Tariff\Model;
 
-use App\Event\Model\EventId;
-use App\Order\Model\Order;
-use App\Order\Model\OrderId;
-use App\Tariff\Model\ProductType;
-use App\Tariff\Model\TariffId;
-use App\Tariff\Model\TariffPriceNet;
-use App\Tariff\Model\TariffSegment;
-use App\Tariff\Model\TariffTerm;
-use App\User\Model\UserId;
+use App\Model\Event\EventId;
+use App\Model\Order\Order;
+use App\Model\Order\OrderId;
+use App\Model\Tariff\ProductType;
+use App\Model\Tariff\TariffId;
+use App\Model\Tariff\TariffPriceNet;
+use App\Model\Tariff\TariffSegment;
+use App\Model\Tariff\TariffTerm;
+use App\Model\User\UserId;
 use DateTimeImmutable;
 use Money\Currency;
 use Money\Money;
