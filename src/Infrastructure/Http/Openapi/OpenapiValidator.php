@@ -62,7 +62,7 @@ final class OpenapiValidator
             }
 
             $constraintViolations = new ConstraintViolationList([$violation]);
-            throw new InvalidAppRequest($constraintViolations);
+            throw new InvalidAppRequest($constraintViolations, 'request validation failed', 0, $validationFailed);
         }
     }
 
@@ -97,7 +97,7 @@ final class OpenapiValidator
             } else {
                 $message = $validationFailed->getMessage();
             }
-            throw new \RuntimeException($message);
+            throw new \RuntimeException($message, 0, $validationFailed);
         }
     }
 }
