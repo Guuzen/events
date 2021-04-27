@@ -208,7 +208,6 @@ and result will be:
     ],
 ]
 ```
-Note that there is will be only one call to load **resources**.
 
 ### Custom collector
 Just gives option to do whatever you want inline.
