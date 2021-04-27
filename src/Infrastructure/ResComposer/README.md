@@ -125,7 +125,7 @@ It is made for case, when **main resource** contains array of ids by which you w
 For example join for Customer that has array of Orders
 ```php
 $customer = [
-    'id' => '1',
+    'id' => 'nonsense',
     'orders' => ['1', '2'],
 ];
 
@@ -149,7 +149,7 @@ $customerWithOrders = $composer->composeOne($customer, 'Customer');
 And result will be:
 ```php
 [
-    'id' => '1',
+    'id' => 'nonsense',
     'orders' => [
         ['id' => '1', 'price' => 100],
         ['id' => '2', 'price' => 200],
