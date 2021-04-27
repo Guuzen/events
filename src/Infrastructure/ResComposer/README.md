@@ -83,7 +83,7 @@ $userWithInfo will contains
 
 ## Promise collectors
 
-Promise collectors collect promises from every **main resource**. Promises allow to defer **related resources** loading and assigning **related resources** to **main resources** for preformance reasons.
+Promise collectors collect promises for every **main resource**. Promises allow to defer **related resources** loading and assigning **related resources** to **main resources** for preformance reasons.
 You can control how ids from **main resource** will be collected and how assigning **related resources** will be done.
 
 ### Simple collector
@@ -120,7 +120,7 @@ final class SimpleCollector implements PromiseCollector
 ```
 
 ### Array collector
-It is made for case, when **main resource** contains array of ids by which you want to made join.
+Use case is when **main resource** contains array of ids by which you want to made join.
 
 For example join for Customer that has array of Orders
 ```php
@@ -146,7 +146,7 @@ $composer->registerConfig(
 );
 $customerWithOrders = $composer->composeOne($customer, 'Customer');
 ```
-And result will be:
+and result will be:
 ```php
 [
     'id' => 'nonsense',
@@ -156,3 +156,57 @@ And result will be:
     ],
 ]
 ```
+
+### Multiple simple collector
+Use case is when there is need to do multiple joins with **related resource** of same type but write it to a different fields in **main resource** and do not do request to storage for every field.
+
+For example Application has Files of one type but in different fields.
+```php
+$application = [
+    'id' => 'nonsense',
+    'fileA' => 'typeA',
+    'fileB' => 'typeB',
+];
+
+$fileA = [
+    'id' => 'typeA',
+    'path' => 'some path to A',
+];
+$fileB = [
+    'id' => 'typeB',
+    'path' => 'some path to B',
+];
+```
+can be configured like this:
+```php
+$composer = new ResourceComposer();
+$composer->registerConfig(
+    'Application',
+    OneToOne('id'),
+    'File',
+    new FileLoader($connection),
+    new MultipleSimpleCollector([
+        ['fileA', 'fileA'],
+        ['fileB', 'fileB'],
+    ]),
+);
+$applicationWithFiles = $composer->composeOne($application, 'Application');
+```
+and result will be:
+```php
+[
+    'id' => 'nonsense',
+    'fileA' => [
+        'id' => 'typeA',
+        'path' => 'some path to A',
+    ],
+    'fileB' => [
+        'id' => 'typeB',
+        'path' => 'some path to B',
+    ],
+]
+```
+Note that there is will be only one call to load **resources**.
+
+### Custom collector
+Just gives option to do whatever you want inline.
