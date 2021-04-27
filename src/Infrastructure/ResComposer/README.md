@@ -1,7 +1,7 @@
 ## Overview
 This is a library which goal is to simplify arrays (**resources** in terms of library) joins from different data sources (databases, APIs, etc).
 
-There is two resource types in one relationship:
+There is two resource types in context of one relationship:
 
 **related resource** - will be joined to main resource.
 
