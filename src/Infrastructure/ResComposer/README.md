@@ -1,10 +1,11 @@
-## How to use it by example
+## Overview
 This is a library which goal is to simplify arrays (**resources** in terms of library) joins from different data sources (databases, APIs, etc).
 
 There is two resource types:
 1. **related resource** - will be joined to main resource.
 2. **main resource** - resource to which related resource will be joined.
 
+## How to use it by example
 For example - you have **main resource**, let's call it User, which is stored in document database.
 When loaded from database it will look like this: 
 ```php
