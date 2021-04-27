@@ -30,12 +30,11 @@ final class EachHeadOfDepartmentInCompanyHasOneUserInfoTest extends TestCase
         ];
         $companies = [$company];
 
-        $this->composer->registerLoader(new StubResourceDataLoader([$userInfo1, $userInfo2]));
         $this->composer->registerConfig(
             'company',
             new OneToOne('userId'),
             'userInfo',
-            StubResourceDataLoader::class,
+            new StubResourceDataLoader([$userInfo1, $userInfo2]),
             new CustomCollector(
                 function (\ArrayObject $company) {
                     $promises = [];

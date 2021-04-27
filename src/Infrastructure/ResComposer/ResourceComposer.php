@@ -22,45 +22,19 @@ final class ResourceComposer
      */
     private $configs = [];
 
-    /**
-     * @var array<class-string<ResourceDataLoader>, ResourceDataLoader>
-     */
-    private $loaders = [];
-
     public function __construct()
     {
         $this->promises = new PromiseCollection();
     }
 
-    public function registerLoader(ResourceDataLoader $loader): void
-    {
-        if (isset($this->loaders[\get_class($loader)]) === true) {
-            throw new \RuntimeException(
-                \sprintf('Loader with type %s already exists in resource composer', \get_class($loader))
-            );
-        }
-
-        $this->loaders[\get_class($loader)] = $loader;
-    }
-
-    /**
-     * @param class-string<ResourceDataLoader> $loaderType
-     */
     public function registerConfig(
         string $resourceType,
         Link $link,
         string $relatedResourceType,
-        string $loaderType,
+        ResourceDataLoader $loader,
         PromiseCollector $collector
     ): void
     {
-        if (isset($this->loaders[$loaderType]) === false) {
-            throw new \RuntimeException(
-                \sprintf('Loader with type %s is not exists in resource composer. Register loader first.', $loaderType)
-            );
-        }
-        $loader = $this->loaders[$loaderType];
-
         $this->configs[] = [$resourceType, $link, $relatedResourceType, $loader, $collector];
     }
 

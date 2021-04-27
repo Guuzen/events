@@ -24,12 +24,11 @@ final class EachUserHasOneUserInfoTest extends TestCase
         $userInfo1   = ['id' => $userInfoId1, 'userId' => $userId1];
         $userInfo2   = ['id' => $userInfoId2, 'userId' => $userId2];
 
-        $this->composer->registerLoader(new StubResourceDataLoader([$userInfo1, $userInfo2]));
         $this->composer->registerConfig(
             'user',
             new OneToOne('userId'),
             'userInfo',
-            StubResourceDataLoader::class,
+            new StubResourceDataLoader([$userInfo1, $userInfo2]),
             new SimpleCollector('id', 'userInfo'),
         );
 

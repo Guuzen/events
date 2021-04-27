@@ -25,20 +25,18 @@ final class CommentHasAuthorAndPostTest extends TestCase
             'commentId' => $commentId,
         ];
 
-        $this->composer->registerLoader(new AuthorsLoader([$author]));
         $this->composer->registerConfig(
             'comment',
             new OneToOne('id'),
             'author',
-            AuthorsLoader::class,
+            new AuthorsLoader([$author]),
             new SimpleCollector('id', 'author'),
         );
-        $this->composer->registerLoader(new PostsLoader([$post]));
         $this->composer->registerConfig(
             'comment',
             new OneToOne('id'),
             'post',
-            PostsLoader::class,
+            new PostsLoader([$post]),
             new SimpleCollector('id', 'post'),
         );
 

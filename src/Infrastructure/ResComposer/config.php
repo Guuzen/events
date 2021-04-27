@@ -17,13 +17,12 @@ return static function (ContainerConfigurator $configurator) {
         ->autoconfigure(true);
 
     $services->set(ResourceComposer::class)
-        ->call('registerLoader', [ref(PromocodeLoader::class)])
         ->call(
             'registerConfig', [
                 'order',
                 inline(OneToOne::class)->args(['id']),
                 'promocode',
-                PromocodeLoader::class,
+                ref(PromocodeLoader::class),
                 inline(SimpleCollector::class)->args(['promocodeId', 'promocode']),
             ]
         );

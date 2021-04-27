@@ -27,12 +27,11 @@ final class CustomerHasArrayOfOrdersTest extends TestCase
             ],
         ];
 
-        $this->composer->registerLoader(new StubResourceDataLoader([$order1, $order2]));
         $this->composer->registerConfig(
             'customer',
             new OneToOne('id'),
             'order',
-            StubResourceDataLoader::class,
+            new StubResourceDataLoader([$order1, $order2]),
             new ArrayCollector('ordersIds', 'orders'),
         );
 

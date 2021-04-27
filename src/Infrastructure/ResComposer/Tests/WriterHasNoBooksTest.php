@@ -16,12 +16,11 @@ final class WriterHasNoBooksTest extends TestCase
             'id' => $writerId,
         ];
 
-        $this->composer->registerLoader(new StubResourceDataLoader([]));
         $this->composer->registerConfig(
             'writer',
             new OneToMany('writerId'),
             'book',
-            StubResourceDataLoader::class,
+            new StubResourceDataLoader([]),
             new SimpleCollector('id', 'books'),
         );
 

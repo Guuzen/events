@@ -28,12 +28,11 @@ final class EachApplicationHasOneDifferenFileTypesTest extends TestCase
         ];
         $applications  = [$application];
 
-        $this->composer->registerLoader(new StubResourceDataLoader([$fileA, $fileB]));
         $this->composer->registerConfig(
             'application',
             new OneToOne('id'),
             'file',
-            StubResourceDataLoader::class,
+            new StubResourceDataLoader([$fileA, $fileB]),
             new MultipleSimpleCollector(
                 [
                     ['fileA', 'fileA'],

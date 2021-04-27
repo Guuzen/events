@@ -26,20 +26,18 @@ final class CustomerHasOrdersWhichHasDetailsTest extends TestCase
             'id' => $orderId,
         ];
 
-        $this->composer->registerLoader(new OrdersLoader([$order]));
         $this->composer->registerConfig(
             'customer',
             new OneToMany('customerId'),
             'order',
-            OrdersLoader::class,
+            new OrdersLoader([$order]),
             new SimpleCollector('id', 'orders'),
         );
-        $this->composer->registerLoader(new OrderDetailsLoader([$orderDetails]));
         $this->composer->registerConfig(
             'order',
             new OneToOne('id'),
             'orderDetails',
-            OrderDetailsLoader::class,
+            new OrderDetailsLoader([$orderDetails]),
             new SimpleCollector('id', 'details'),
         );
 

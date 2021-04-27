@@ -28,12 +28,11 @@ final class EachAuthorHasManyPostsTest extends TestCase
             $post2,
         ];
 
-        $this->composer->registerLoader(new StubResourceDataLoader($posts));
         $this->composer->registerConfig(
             'author',
             new OneToMany('authorId'),
             'post',
-            StubResourceDataLoader::class,
+            new StubResourceDataLoader($posts),
             new SimpleCollector('id', 'posts'),
         );
 

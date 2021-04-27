@@ -13,12 +13,11 @@ final class ProductHasNoProductInfoTest extends TestCase
         $product     = ['id' => $productId];
         $productInfo = ['id' => '10'];
 
-        $this->composer->registerLoader(new StubResourceDataLoader([$productInfo]));
         $this->composer->registerConfig(
             'product',
             new OneToOne('id'),
             'productInfo',
-            StubResourceDataLoader::class,
+            new StubResourceDataLoader([$productInfo]),
             new SimpleCollector('id', 'productInfo'),
         );
 
