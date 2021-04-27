@@ -1,7 +1,7 @@
 ## Overview
 This is a library which goal is to simplify arrays (**resources** in terms of library) joins from different data sources (databases, APIs, etc).
 
-There is two resource types:
+There is two resource types in one relationship:
 1. **related resource** - will be joined to main resource.
 2. **main resource** - resource to which related resource will be joined.
 
@@ -80,3 +80,40 @@ $userWithInfo will contains
         'fullname' => 'John Doe',
 ]
 ```
+
+## Promise collectors
+
+Promise collectors collect promises from every **main resource**. Promises allow to defer **related resources** loading and assigning **related resources** to **main resources** for preformance reasons.
+You can control how ids from **main resource** will be collected and how assigning **related resources** will be done.
+Lets see code of SimpleCollector from previous example. It implements `PromiseCollector` interface and return array of promises from its single method.
+```php
+
+final class SimpleCollector implements PromiseCollector
+{
+    private $readKey;
+
+    private $writeKey;
+
+    public function __construct(string $readKey, string $writeKey)
+    {
+        $this->readKey  = $readKey;
+        $this->writeKey = $writeKey;
+    }
+
+    public function collect(\ArrayObject $resource): array
+    {
+        return [
+            new Promise(
+                function (\ArrayObject $resource): string|int|null {
+                    return $resource[$this->readKey] ?? null; // this is how id from main resource will be collected
+                },
+                function (\ArrayObject $resource, mixed $writeValue): void {
+                    $resource[$this->writeKey] = $writeValue; // this is how related resource will be written to main resource
+                },
+                $resource
+            )
+        ];
+    }
+}
+```
+
