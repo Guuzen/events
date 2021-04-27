@@ -86,7 +86,8 @@ $userWithInfo will contains
 Promise collectors collect promises from every **main resource**. Promises allow to defer **related resources** loading and assigning **related resources** to **main resources** for preformance reasons.
 You can control how ids from **main resource** will be collected and how assigning **related resources** will be done.
 
-Lets see code of SimpleCollector from previous example. It implements `PromiseCollector` interface and return array of promises from its single method.
+### Simple collector
+Lets see code of `SimpleCollector` from previous example. It implements `PromiseCollector` interface and return array of promises from its single method.
 ```php
 
 final class SimpleCollector implements PromiseCollector
@@ -118,3 +119,40 @@ final class SimpleCollector implements PromiseCollector
 }
 ```
 
+### Array collector
+It is made for case, when **main resource** contains array of ids by which you want to made join.
+
+For example join for Customer that has array of Orders
+```php
+$customer = [
+    'id' => '1',
+    'orders' => ['1', '2'],
+];
+
+$orders = [
+    ['id' => '1', 'price' => 100],
+    ['id' => '2', 'price' => 200],
+];
+```
+can be configured like this:
+```php
+$composer = new ResourceComposer();
+$composer->registerConfig(
+    'Customer',
+    OneToOne('id'),
+    'Order',
+    new OrderLoader($connection),
+    new ArrayCollector('orders', 'orders'),
+);
+$customerWithOrders = $composer->composeOne($customer, 'Customer');
+```
+And result will be:
+```php
+[
+    'id' => '1',
+    'orders' => [
+        ['id' => '1', 'price' => 100],
+        ['id' => '2', 'price' => 200],
+    ],
+]
+```
