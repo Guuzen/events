@@ -7,7 +7,7 @@ There is two resource types in one relationship:
 
 **main resource** - resource to which related resource will be joined.
 
-## How to use it by example
+## How to use it
 For example - you have **main resource**, let's call it User, which is stored in document database.
 When loaded from database it will look like this: 
 ```php
