@@ -73,6 +73,7 @@ $userWithInfo will contains
 ```php
 [
     'id' => '1',
+    'is_active' => true,
     'userInfo' => [
         'userId' => '1',
         'fullname' => 'John Doe',
