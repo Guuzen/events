@@ -64,7 +64,7 @@ $composer->registerConfig(
     new UserInfoLoader($connection), // loader for UserInfo
     new SimpleCollector(
         'id', // field in User by which join will took place
-        'userInfo', // field in User to which related resource will be written
+        'user_info', // field in User to which related resource will be written
     ),
 );
 $userWithInfo = $composer->composeOne($user, 'User');
@@ -74,8 +74,8 @@ $userWithInfo will contains
 [
     'id' => '1',
     'is_active' => true,
-    'userInfo' => [
-        'userId' => '1',
+    'user_info' => [
+        'user_id' => '1',
         'fullname' => 'John Doe',
 ]
 ```
