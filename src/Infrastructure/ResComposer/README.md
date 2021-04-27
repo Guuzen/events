@@ -85,6 +85,7 @@ $userWithInfo will contains
 
 Promise collectors collect promises from every **main resource**. Promises allow to defer **related resources** loading and assigning **related resources** to **main resources** for preformance reasons.
 You can control how ids from **main resource** will be collected and how assigning **related resources** will be done.
+
 Lets see code of SimpleCollector from previous example. It implements `PromiseCollector` interface and return array of promises from its single method.
 ```php
 
