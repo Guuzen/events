@@ -60,14 +60,18 @@ final class UserInfoLoader implements ResourceDataLoader
 4. Configure library accordingly and call `composeOne` (Because we have only one user. In case of list call `compose`) with **main resource** and its name.
 ```php
 $composer = new ResourceComposer();
-$composer->registerConfig(
-    'User', // name of the main resource to join.
-    OneToOne('user_id'), // User has one UserInfo and UserInfo will be joined by user_id
-    'UserInfo', // name of the related resource to join.
-    new UserInfoLoader($connection), // loader for UserInfo
-    new SimpleCollector(
-        'id', // field in User by which join will took place
-        'user_info', // field in User to which related resource will be written
+$composer->registerRelation(
+    new MainResource(
+        'User', // name of the main resource to join.
+        new SimpleCollector(
+            'id', // field in User by which join will took place
+            'user_info', // field in User to which related resource will be written
+        ),
+    OneToOne(), // User has one UserInfo
+    new RelatedResource(
+        'UserInfo', // name of the related resource to join.
+        'user_id', // UserInfo will be joined by user_id
+        new UserInfoLoader($connection), // loader for UserInfo
     ),
 );
 $userWithInfo = $composer->composeOne($user, 'User');
