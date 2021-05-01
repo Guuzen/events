@@ -25,7 +25,7 @@ final class SimpleCollector implements PromiseCollector
             /** @psalm-suppress MixedInferredReturnType */
                 function (\ArrayObject $resource): string|int|null {
                     /** @psalm-suppress MixedReturnStatement */
-                    return $resource[$this->readKey];
+                    return $resource[$this->readKey] ?? null;
                 },
                 function (\ArrayObject $resource, mixed $writeValue): void {
                     /** @psalm-suppress MixedAssignment */

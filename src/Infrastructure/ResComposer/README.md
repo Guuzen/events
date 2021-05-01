@@ -159,8 +159,8 @@ and result will be:
 ]
 ```
 
-### Multiple simple collector
-Use case is when there is need to do multiple joins with **related resource** of same type but write it to a different fields in **main resource** and do not do request to storage for every field.
+### Merge collector
+Use case is when there is need to merge array of collectors in order to of compose multiple joins with **related resource** of same type but write it to a different fields in **main resource** and do not do request to storage for every field.
 
 For example Application has Files of one type but in different fields.
 ```php
@@ -187,9 +187,9 @@ $composer->registerConfig(
     OneToOne('id'),
     'File',
     new FileLoader($connection),
-    new MultipleSimpleCollector([
-        ['fileA', 'fileA'],
-        ['fileB', 'fileB'],
+    new MergeCollector([
+        new SimpleCollector('fileA', 'fileA'),
+        new SimpleCollector('fileB', 'fileB'),
     ]),
 );
 $applicationWithFiles = $composer->composeOne($application, 'Application');

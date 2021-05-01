@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace App\Infrastructure\ResComposer\Tests;
 
 use App\Infrastructure\ResComposer\Link\OneToOne;
-use App\Infrastructure\ResComposer\PromiseCollector\MultipleSimpleCollector;
+use App\Infrastructure\ResComposer\PromiseCollector\MergeCollector;
+use App\Infrastructure\ResComposer\PromiseCollector\SimpleCollector;
 
 final class EachApplicationHasOneDifferenFileTypesTest extends TestCase
 {
@@ -33,10 +34,10 @@ final class EachApplicationHasOneDifferenFileTypesTest extends TestCase
             new OneToOne('id'),
             'file',
             new StubResourceDataLoader([$fileA, $fileB]),
-            new MultipleSimpleCollector(
+            new MergeCollector(
                 [
-                    ['fileA', 'fileA'],
-                    ['fileB', 'fileB'],
+                    new SimpleCollector('fileA', 'fileA'),
+                    new SimpleCollector('fileB', 'fileB'),
                 ],
             )
         );

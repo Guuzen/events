@@ -18,12 +18,25 @@ final class ArrayCollector implements PromiseCollector
         $this->writeKey    = $writeKey;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function collect(\ArrayObject $resource): array
     {
         $promises = [];
 
-        /** @var array<array-key,array-key> $keys */
-        $keys = $resource[$this->arrayOfKeys];
+        $keys = $resource[$this->arrayOfKeys] ??
+            throw new PromiseCollectionError(
+                \sprintf('Array of keys %s in main resource must exist', $this->arrayOfKeys)
+            );
+
+        if (\is_array($keys) === false) {
+            throw new PromiseCollectionError(
+                \sprintf('Array of keys %s in main resource must be array', $this->arrayOfKeys)
+            );
+        }
+
+        /** @psalm-suppress MixedAssignment */
         foreach ($keys as $index => $key) {
             $promises[] = new Promise(
             /** @psalm-suppress MixedInferredReturnType */
@@ -32,11 +45,28 @@ final class ArrayCollector implements PromiseCollector
                     return $key;
                 },
                 function (\ArrayObject $customer, mixed $writeValue) use ($index): void {
-                    /**
-                     * @psalm-suppress MixedArrayAssignment
-                     * @psalm-suppress MixedAssignment
-                     */
-                    $customer[$this->writeKey][$index] = $writeValue;
+                    if (isset($customer[$this->writeKey]) === false) {
+                        /**
+                         * @psalm-suppress MixedArrayAssignment
+                         * @psalm-suppress MixedAssignment
+                         */
+                        $customer[$this->writeKey][$index] = $writeValue;
+
+                        return;
+                    }
+
+                    if (\is_array($customer[$this->writeKey]) === true) {
+                        /**
+                         * @psalm-suppress MixedAssignment
+                         */
+                        $customer[$this->writeKey][$index] = $writeValue;
+
+                        return;
+                    }
+
+                    throw new PromiseCollectionError(
+                        \sprintf('Value in write key %s in main resource must be array', $this->writeKey)
+                    );
                 },
                 $resource
             );
