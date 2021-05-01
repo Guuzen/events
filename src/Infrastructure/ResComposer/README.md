@@ -54,10 +54,10 @@ final class UserInfoLoader implements ResourceDataLoader
     }
 }
 ```
-
-2. Choose how User and UserInfo related to each other and by what field UserInfo will be joined.
-3. Choose by what field in User you want to make join and to what field in User you want to join UserInfo.
-4. Configure library accordingly and call `composeOne` (Because we have only one user. In case of list call `compose`) with **main resource** and its name.
+1. Describe **main resource** by name and [collector](#-promise-collectors).
+2. Choose how User and UserInfo related to each other.
+3. Describe **related resource**. 
+4. Call `composeOne` (Because we have only one user. In case of list call `compose`) with **main resource** and its name.
 ```php
 $composer = new ResourceComposer();
 $composer->registerRelation(
