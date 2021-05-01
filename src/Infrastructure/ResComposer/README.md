@@ -54,7 +54,7 @@ final class UserInfoLoader implements ResourceDataLoader
     }
 }
 ```
-1. Describe **main resource** by name and [collector](#-promise-collectors).
+1. Describe **main resource** by name and [collector](#promise-collectors).
 2. Choose how User and UserInfo related to each other.
 3. Describe **related resource**. 
 4. Call `composeOne` (Because we have only one user. In case of list call `compose`) with **main resource** and its name.
