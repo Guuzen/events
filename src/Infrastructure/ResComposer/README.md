@@ -31,32 +31,9 @@ This is just an example and it is easy to assign UserInfo to User, but in real w
 
 To join User with UserInfo you need to:
 
-1. Write loader for **related resource** (UserInfo in this case).To achieve this you must implement `ResourceDataLoader` interface.
-```php
-final class UserInfoLoader implements ResourceDataLoader
-{
-    private Connection $db;
-
-    public function __construct(Connection $db)
-    {
-        $this->db = $db;
-    }
-
-    public function load(array $userIds): array
-    {
-        $userInfos = $this->db->fetchAllAssociative(
-            'select * from user_info where user_info.user_id in (:user_ids)',
-            ['user_ids' => $userIds],
-            ['user_ids' => Connection::PARAM_STR_ARRAY],
-        );
-
-        return $userInfos;
-    }
-}
-```
 1. Describe **main resource** by name and [collector](#promise-collectors).
 2. Choose how User and UserInfo related to each other.
-3. Describe **related resource**. 
+3. Describe **related resource** by name, key by wich UserInfo will be joined and [loader](#loader).
 4. Call `composeOne` (Because we have only one user. In case of list call `compose`) with **main resource** and its name.
 ```php
 $composer = new ResourceComposer();
@@ -76,7 +53,7 @@ $composer->registerRelation(
 );
 $userWithInfo = $composer->composeOne($user, 'User');
 ```
-$userWithInfo will contains
+$userWithInfo will contain:
 ```php
 [
     'id' => '1',
@@ -86,6 +63,34 @@ $userWithInfo will contains
         'fullname' => 'John Doe',
 ]
 ```
+## Loader
+
+Loader is implementation of fetching **related resource** from data storage. It can be database, api etc.
+
+Example implementation for first example and DBAL:
+
+```php
+final class UserInfoLoader implements ResourceDataLoader
+{
+    private Connection $db;
+
+    public function __construct(Connection $db)
+    {
+        $this->db = $db;
+    }
+
+    public function load(array $userIds): array
+    {
+        $userInfos = $this->db->fetchAllAssociative(
+            'select user_id, fullname from user_info where user_info.user_id in (:user_ids)',
+            ['user_ids' => $userIds],
+            ['user_ids' => Connection::PARAM_STR_ARRAY],
+        );
+
+        return $userInfos;
+    }
+}
+```
 
 ## Promise collectors
 
@@ -93,7 +98,7 @@ Promise collectors collect promises for every **main resource**. Promises allow 
 You can control how ids from **main resource** will be collected and how assigning **related resources** will be done.
 
 ### Simple collector
-Lets see code of `SimpleCollector` from previous example. It implements `PromiseCollector` interface and return array of promises from its single method.
+Lets see code of `SimpleCollector` from example. It implements `PromiseCollector` interface and return array of promises from its single method.
 ```php
 
 final class SimpleCollector implements PromiseCollector
@@ -143,12 +148,17 @@ $orders = [
 can be configured like this:
 ```php
 $composer = new ResourceComposer();
-$composer->registerConfig(
-    'Customer',
-    OneToOne('id'),
-    'Order',
-    new OrderLoader($connection),
-    new ArrayCollector('orders', 'orders'),
+$composer->registerRelation(
+    new MainResource(
+        'Customer',
+        new ArrayCollector('orders', 'orders'),
+    ),
+    OneToOne(),
+    new RelatedResource(
+        'Order', 
+        'id', 
+        new OrderLoader($connection),
+    ),
 );
 $customerWithOrders = $composer->composeOne($customer, 'Customer');
 ```
@@ -186,15 +196,16 @@ $fileB = [
 can be configured like this:
 ```php
 $composer = new ResourceComposer();
-$composer->registerConfig(
-    'Application',
-    OneToOne('id'),
-    'File',
-    new FileLoader($connection),
-    new MergeCollector([
-        new SimpleCollector('fileA', 'fileA'),
-        new SimpleCollector('fileB', 'fileB'),
-    ]),
+$composer->registerRelation(
+    new MainResource(
+        'Application', 
+        new MergeCollector([
+            new SimpleCollector('fileA', 'fileA'),
+            new SimpleCollector('fileB', 'fileB'),
+        ]),
+    ),
+    OneToOne(),
+    new RelatedResource('File', 'id', new FileLoader($connection)),    
 );
 $applicationWithFiles = $composer->composeOne($application, 'Application');
 ```
