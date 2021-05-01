@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\ResComposer\Tests;
 
+use App\Infrastructure\ResComposer\Config\MainResource;
+use App\Infrastructure\ResComposer\Config\RelatedResource;
 use App\Infrastructure\ResComposer\Link\OneToMany;
 use App\Infrastructure\ResComposer\PromiseCollector\SimpleCollector;
 
@@ -16,12 +18,10 @@ final class WriterHasNoBooksTest extends TestCase
             'id' => $writerId,
         ];
 
-        $this->composer->registerConfig(
-            'writer',
-            new OneToMany('writerId'),
-            'book',
-            new StubResourceDataLoader([]),
-            new SimpleCollector('id', 'books'),
+        $this->composer->registerRelation(
+            new MainResource('writer', new SimpleCollector('id', 'books')),
+            new OneToMany(),
+            new RelatedResource('book', 'writerId', new StubResourceDataLoader([])),
         );
 
         $resources = $this->composer->composeOne($writer, 'writer');

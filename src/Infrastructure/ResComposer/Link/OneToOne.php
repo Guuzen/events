@@ -6,20 +6,12 @@ namespace App\Infrastructure\ResComposer\Link;
 
 final class OneToOne implements Link
 {
-    private $rightKey;
-
-    public function __construct(string $rightKey)
+    public function group(array $resources, int|string $key): array
     {
-        $this->rightKey = $rightKey;
-    }
-
-    public function group(array $resources): array
-    {
-        $map      = [];
-        $rightKey = $this->rightKey;
+        $map = [];
         foreach ($resources as $resource) {
             /** @psalm-suppress MixedAssignment */
-            $mapId = $resource[$rightKey];
+            $mapId = $resource[$key];
             if (\is_string($mapId) === false) {
                 throw new \RuntimeException(
                     \sprintf('Resource group key must be a string %s given', \gettype($mapId))

@@ -11,10 +11,11 @@ interface Link
      *
      * @return array<array-key, mixed>
      */
-    public function group(array $resources): array;
+    public function group(array $resources, int|string $key): array;
 
     /**
      * @return mixed
+     * TODO
      */
     public function defaultEmptyValue();
 }

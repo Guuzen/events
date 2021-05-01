@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\ResComposer\Tests;
 
-use App\Infrastructure\ResComposer\PromiseCollector\ArrayCollector;
 use App\Infrastructure\ResComposer\Link\OneToOne;
+use App\Infrastructure\ResComposer\PromiseCollector\ArrayCollector;
+use App\Infrastructure\ResComposer\Config\MainResource;
+use App\Infrastructure\ResComposer\Config\RelatedResource;
 
 final class CustomerHasArrayOfOrdersTest extends TestCase
 {
@@ -27,12 +29,10 @@ final class CustomerHasArrayOfOrdersTest extends TestCase
             ],
         ];
 
-        $this->composer->registerConfig(
-            'customer',
-            new OneToOne('id'),
-            'order',
-            new StubResourceDataLoader([$order1, $order2]),
-            new ArrayCollector('ordersIds', 'orders'),
+        $this->composer->registerRelation(
+            new MainResource('customer', new ArrayCollector('ordersIds', 'orders')),
+            new OneToOne(),
+            new RelatedResource('order', 'id', new StubResourceDataLoader([$order1, $order2])),
         );
 
         $resource = $this->composer->composeOne($customer, 'customer');

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\ResComposer\Tests;
 
+use App\Infrastructure\ResComposer\Config\MainResource;
+use App\Infrastructure\ResComposer\Config\RelatedResource;
 use App\Infrastructure\ResComposer\Link\OneToOne;
 use App\Infrastructure\ResComposer\PromiseCollector\SimpleCollector;
 
@@ -24,12 +26,14 @@ final class EachUserHasOneUserInfoTest extends TestCase
         $userInfo1   = ['id' => $userInfoId1, 'userId' => $userId1];
         $userInfo2   = ['id' => $userInfoId2, 'userId' => $userId2];
 
-        $this->composer->registerConfig(
-            'user',
-            new OneToOne('userId'),
-            'userInfo',
-            new StubResourceDataLoader([$userInfo1, $userInfo2]),
-            new SimpleCollector('id', 'userInfo'),
+        $this->composer->registerRelation(
+            new MainResource('user', new SimpleCollector('id', 'userInfo')),
+            new OneToOne(),
+            new RelatedResource(
+                'userInfo',
+                'userId',
+                new StubResourceDataLoader([$userInfo1, $userInfo2])
+            ),
         );
 
         $resources = $this->composer->compose($users, 'user');

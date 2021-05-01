@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\ResComposer\Tests;
 
+use App\Infrastructure\ResComposer\Config\MainResource;
+use App\Infrastructure\ResComposer\Config\RelatedResource;
 use App\Infrastructure\ResComposer\Link\OneToOne;
 use App\Infrastructure\ResComposer\Promise;
 use App\Infrastructure\ResComposer\PromiseCollector\CustomCollector;
@@ -30,35 +32,40 @@ final class EachHeadOfDepartmentInCompanyHasOneUserInfoTest extends TestCase
         ];
         $companies = [$company];
 
-        $this->composer->registerConfig(
-            'company',
-            new OneToOne('userId'),
-            'userInfo',
-            new StubResourceDataLoader([$userInfo1, $userInfo2]),
-            new CustomCollector(
-                function (\ArrayObject $company) {
-                    $promises = [];
-                    /** @var array<int, array{head: array{id: string}}> $departments */
-                    $departments = $company['departments'];
-                    foreach ($departments as $index => $department) {
-                        $promises[] = new Promise(
-                            function (\ArrayObject $company) use ($department): string {
-                                return $department['head']['id'];
-                            },
-                            function (\ArrayObject $company, \ArrayObject $userInfo) use ($index) {
-                                /**
-                                 * @psalm-suppress MixedAssignment
-                                 * @psalm-suppress MixedArrayAssignment
-                                 */
-                                $company['departments'][$index]['head']['userInfo'] = $userInfo;
-                            },
-                            $company,
-                        );
-                    }
+        $this->composer->registerRelation(
+            new MainResource(
+                'company',
+                new CustomCollector(
+                    function (\ArrayObject $company) {
+                        $promises = [];
+                        /** @var array<int, array{head: array{id: string}}> $departments */
+                        $departments = $company['departments'];
+                        foreach ($departments as $index => $department) {
+                            $promises[] = new Promise(
+                                function (\ArrayObject $company) use ($department): string {
+                                    return $department['head']['id'];
+                                },
+                                function (\ArrayObject $company, \ArrayObject $userInfo) use ($index) {
+                                    /**
+                                     * @psalm-suppress MixedAssignment
+                                     * @psalm-suppress MixedArrayAssignment
+                                     */
+                                    $company['departments'][$index]['head']['userInfo'] = $userInfo;
+                                },
+                                $company,
+                            );
+                        }
 
-                    return $promises;
-                }
-            )
+                        return $promises;
+                    }
+                ),
+            ),
+            new OneToOne(),
+            new RelatedResource(
+                'userInfo',
+                'userId',
+                new StubResourceDataLoader([$userInfo1, $userInfo2])
+            ),
         );
 
         $resources = $this->composer->compose($companies, 'company');

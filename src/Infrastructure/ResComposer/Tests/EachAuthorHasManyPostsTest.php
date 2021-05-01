@@ -6,6 +6,8 @@ namespace App\Infrastructure\ResComposer\Tests;
 
 use App\Infrastructure\ResComposer\Link\OneToMany;
 use App\Infrastructure\ResComposer\PromiseCollector\SimpleCollector;
+use App\Infrastructure\ResComposer\Config\MainResource;
+use App\Infrastructure\ResComposer\Config\RelatedResource;
 
 final class EachAuthorHasManyPostsTest extends TestCase
 {
@@ -28,12 +30,10 @@ final class EachAuthorHasManyPostsTest extends TestCase
             $post2,
         ];
 
-        $this->composer->registerConfig(
-            'author',
-            new OneToMany('authorId'),
-            'post',
-            new StubResourceDataLoader($posts),
-            new SimpleCollector('id', 'posts'),
+        $this->composer->registerRelation(
+            new MainResource('author', new SimpleCollector('id', 'posts')),
+            new OneToMany(),
+            new RelatedResource('post', 'authorId', new StubResourceDataLoader($posts))
         );
 
         $resources = $this->composer->compose($authors, 'author');

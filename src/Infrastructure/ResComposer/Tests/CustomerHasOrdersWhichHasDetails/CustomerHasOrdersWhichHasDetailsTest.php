@@ -7,6 +7,8 @@ namespace App\Infrastructure\ResComposer\Tests\CustomerHasOrdersWhichHasDetails;
 use App\Infrastructure\ResComposer\Link\OneToMany;
 use App\Infrastructure\ResComposer\Link\OneToOne;
 use App\Infrastructure\ResComposer\PromiseCollector\SimpleCollector;
+use App\Infrastructure\ResComposer\Config\MainResource;
+use App\Infrastructure\ResComposer\Config\RelatedResource;
 use App\Infrastructure\ResComposer\Tests\TestCase;
 
 final class CustomerHasOrdersWhichHasDetailsTest extends TestCase
@@ -26,19 +28,15 @@ final class CustomerHasOrdersWhichHasDetailsTest extends TestCase
             'id' => $orderId,
         ];
 
-        $this->composer->registerConfig(
-            'customer',
-            new OneToMany('customerId'),
-            'order',
-            new OrdersLoader([$order]),
-            new SimpleCollector('id', 'orders'),
+        $this->composer->registerRelation(
+            new MainResource('customer', new SimpleCollector('id', 'orders')),
+            new OneToMany(),
+            new RelatedResource('order', 'customerId', new OrdersLoader([$order])),
         );
-        $this->composer->registerConfig(
-            'order',
-            new OneToOne('id'),
-            'orderDetails',
-            new OrderDetailsLoader([$orderDetails]),
-            new SimpleCollector('id', 'details'),
+        $this->composer->registerRelation(
+            new MainResource('order', new SimpleCollector('id', 'details')),
+            new OneToOne(),
+            new RelatedResource('orderDetails', 'id', new OrderDetailsLoader([$orderDetails])),
         );
 
         $resource = $this->composer->composeOne($customer, 'customer');

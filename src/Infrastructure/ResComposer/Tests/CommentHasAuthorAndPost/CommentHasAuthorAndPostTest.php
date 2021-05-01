@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\ResComposer\Tests\CommentHasAuthorAndPost;
 
+use App\Infrastructure\ResComposer\Config\MainResource;
+use App\Infrastructure\ResComposer\Config\RelatedResource;
 use App\Infrastructure\ResComposer\Link\OneToOne;
 use App\Infrastructure\ResComposer\PromiseCollector\SimpleCollector;
 use App\Infrastructure\ResComposer\Tests\TestCase;
@@ -25,19 +27,15 @@ final class CommentHasAuthorAndPostTest extends TestCase
             'commentId' => $commentId,
         ];
 
-        $this->composer->registerConfig(
-            'comment',
-            new OneToOne('id'),
-            'author',
-            new AuthorsLoader([$author]),
-            new SimpleCollector('id', 'author'),
+        $this->composer->registerRelation(
+            new MainResource('comment', new SimpleCollector('id', 'author')),
+            new OneToOne(),
+            new RelatedResource('author', 'id', new AuthorsLoader([$author])),
         );
-        $this->composer->registerConfig(
-            'comment',
-            new OneToOne('id'),
-            'post',
-            new PostsLoader([$post]),
-            new SimpleCollector('id', 'post'),
+        $this->composer->registerRelation(
+            new MainResource('comment', new SimpleCollector('id', 'post')),
+            new OneToOne(),
+            new RelatedResource('post', 'id', new PostsLoader([$post])),
         );
 
         $resource = $this->composer->composeOne($comment, 'comment');

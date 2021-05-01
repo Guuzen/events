@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\ResComposer\Tests;
 
+use App\Infrastructure\ResComposer\Config\MainResource;
+use App\Infrastructure\ResComposer\Config\RelatedResource;
 use App\Infrastructure\ResComposer\Link\OneToOne;
 use App\Infrastructure\ResComposer\PromiseCollector\MergeCollector;
 use App\Infrastructure\ResComposer\PromiseCollector\SimpleCollector;
@@ -29,17 +31,18 @@ final class EachApplicationHasOneDifferenFileTypesTest extends TestCase
         ];
         $applications  = [$application];
 
-        $this->composer->registerConfig(
-            'application',
-            new OneToOne('id'),
-            'file',
-            new StubResourceDataLoader([$fileA, $fileB]),
-            new MergeCollector(
-                [
-                    new SimpleCollector('fileA', 'fileA'),
-                    new SimpleCollector('fileB', 'fileB'),
-                ],
-            )
+        $this->composer->registerRelation(
+            new MainResource(
+                'application',
+                new MergeCollector(
+                    [
+                        new SimpleCollector('fileA', 'fileA'),
+                        new SimpleCollector('fileB', 'fileB'),
+                    ],
+                ),
+            ),
+            new OneToOne(),
+            new RelatedResource('file', 'id', new StubResourceDataLoader([$fileA, $fileB])),
         );
 
         $resources = $this->composer->compose($applications, 'application');

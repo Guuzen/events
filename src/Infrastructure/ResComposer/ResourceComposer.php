@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\ResComposer;
 
+use App\Infrastructure\ResComposer\Config\MainResource;
+use App\Infrastructure\ResComposer\Config\RelatedResource;
 use App\Infrastructure\ResComposer\Link\Link;
 use App\Infrastructure\ResComposer\PromiseCollector\PromiseCollector;
 
 /**
- * @psalm-type Config=array{0: string, 1: Link, 2: string, 3: ResourceDataLoader, 4: PromiseCollector}
+ * @psalm-type Config=array{0: MainResource, 1: Link, 2: RelatedResource}
  */
 final class ResourceComposer
 {
@@ -27,15 +29,9 @@ final class ResourceComposer
         $this->promises = new PromiseCollection();
     }
 
-    public function registerConfig(
-        string $resourceType,
-        Link $link,
-        string $relatedResourceType,
-        ResourceDataLoader $loader,
-        PromiseCollector $collector
-    ): void
+    public function registerRelation(MainResource $mainResource, Link $link, RelatedResource $relatedResource): void
     {
-        $this->configs[] = [$resourceType, $link, $relatedResourceType, $loader, $collector];
+        $this->configs[] = [$mainResource, $link, $relatedResource];
     }
 
     /**
@@ -79,10 +75,10 @@ final class ResourceComposer
     private function resolvePromises(array $promises, int $configId): void
     {
         /**
-         * @var Link               $link
-         * @var ResourceDataLoader $loader
+         * @var Link $link
+         * @var RelatedResource $relatedResource
          */
-        [1 => $link, 2 => $relatedResourceType, 3 => $loader] = $this->configs[$configId];
+        [1 => $link, 2 => $relatedResource] = $this->configs[$configId];
 
         $ids = [];
         foreach ($promises as $promise) {
@@ -94,13 +90,13 @@ final class ResourceComposer
         }
 
         /** @psalm-suppress MixedArgumentTypeCoercion TODO update psalm */
-        $loadedResources = $loader->load(\array_unique($ids));
+        $loadedResources = $relatedResource->loader->load(\array_unique($ids));
 
-        $collectors            = $this->resourceCollectors($relatedResourceType);
+        $collectors            = $this->resourceCollectors($relatedResource->name);
         $denormalizedResources = self::denormalize($loadedResources);
         $this->promises->remember($denormalizedResources, $collectors);
 
-        $groupedResources = $link->group($denormalizedResources);
+        $groupedResources = $link->group($denormalizedResources, $relatedResource->linkKey);
 
         foreach ($promises as $promise) {
             $promiseId = $promise->id();
@@ -119,8 +115,10 @@ final class ResourceComposer
     {
         $collectors = [];
         foreach ($this->configs as $configId => $config) {
-            if ($config[0] === $resourceType) {
-                $collectors[$configId] = $config[4];
+            /** @var MainResource $mainResource */
+            $mainResource = $config[0];
+            if ($mainResource->name === $resourceType) {
+                $collectors[$configId] = $mainResource->collector;
             }
         }
 
