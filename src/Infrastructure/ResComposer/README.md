@@ -7,6 +7,8 @@ There is two resource types in context of one relationship:
 
 **main resource** - resource to which related resource will be joined.
 
+Inspired by https://gist.github.com/fesor/2e1b7cea1b60aa764a9d0da7b7ea2a1d
+
 ## How to use it
 For example - you have **main resource**, let's call it User, which is stored in document database.
 When loaded from database it will look like this: 
