@@ -6,8 +6,8 @@ namespace App\Infrastructure\ResComposer;
 
 use App\Infrastructure\ResComposer\Config\MainResource;
 use App\Infrastructure\ResComposer\Config\RelatedResource;
-use App\Infrastructure\ResComposer\Link\Link;
-use App\Infrastructure\ResComposer\PromiseCollector\PromiseCollector;
+use App\Infrastructure\ResComposer\PromiseCollection\Promise;
+use App\Infrastructure\ResComposer\PromiseCollection\PromiseCollection;
 
 /**
  * @psalm-type Config=array{0: MainResource, 1: Link, 2: RelatedResource}

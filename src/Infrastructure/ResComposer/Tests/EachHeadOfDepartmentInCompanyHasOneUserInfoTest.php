@@ -7,7 +7,7 @@ namespace App\Infrastructure\ResComposer\Tests;
 use App\Infrastructure\ResComposer\Config\MainResource;
 use App\Infrastructure\ResComposer\Config\RelatedResource;
 use App\Infrastructure\ResComposer\Link\OneToOne;
-use App\Infrastructure\ResComposer\Promise;
+use App\Infrastructure\ResComposer\PromiseCollection\Promise;
 use App\Infrastructure\ResComposer\PromiseCollector\CustomCollector;
 
 final class EachHeadOfDepartmentInCompanyHasOneUserInfoTest extends TestCase

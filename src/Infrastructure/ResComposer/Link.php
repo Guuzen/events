@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\ResComposer\Link;
+namespace App\Infrastructure\ResComposer;
 
 interface Link
 {

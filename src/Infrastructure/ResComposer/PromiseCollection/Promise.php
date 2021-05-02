@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\ResComposer;
+namespace App\Infrastructure\ResComposer\PromiseCollection;
 
 /**
  * @template WriteObject of object

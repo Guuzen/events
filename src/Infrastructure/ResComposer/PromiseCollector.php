@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Infrastructure\ResComposer\PromiseCollector;
+namespace App\Infrastructure\ResComposer;
 
-use App\Infrastructure\ResComposer\Promise;
+use App\Infrastructure\ResComposer\PromiseCollection\Promise;
 
 interface PromiseCollector
 {

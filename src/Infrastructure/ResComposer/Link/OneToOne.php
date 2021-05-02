@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\ResComposer\Link;
 
+use App\Infrastructure\ResComposer\Link;
+
 final class OneToOne implements Link
 {
     public function group(array $resources, int|string $key): array

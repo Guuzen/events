@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\ResComposer\PromiseCollector;
 
-use App\Infrastructure\ResComposer\Promise;
+use App\Infrastructure\ResComposer\PromiseCollection\Promise;
+use App\Infrastructure\ResComposer\PromiseCollector;
 
 final class SimpleCollector implements PromiseCollector
 {

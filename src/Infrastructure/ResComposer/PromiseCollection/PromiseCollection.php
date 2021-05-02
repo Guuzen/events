@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\ResComposer;
+namespace App\Infrastructure\ResComposer\PromiseCollection;
 
-use App\Infrastructure\ResComposer\PromiseCollector\PromiseCollector;
+use App\Infrastructure\ResComposer\PromiseCollector;
 
 final class PromiseCollection
 {

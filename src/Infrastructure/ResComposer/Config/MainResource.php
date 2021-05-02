@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\ResComposer\Config;
 
-use App\Infrastructure\ResComposer\PromiseCollector\PromiseCollector;
+use App\Infrastructure\ResComposer\PromiseCollector;
 
 /**
  * @psalm-immutable

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\ResComposer\PromiseCollector;
 
+use App\Infrastructure\ResComposer\PromiseCollector;
+
 final class MergeCollector implements PromiseCollector
 {
     private $collectors;
