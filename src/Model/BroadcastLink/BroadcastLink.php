@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model\Product;
+namespace App\Model\BroadcastLink;
 
 use App\Model\Event\EventId;
 

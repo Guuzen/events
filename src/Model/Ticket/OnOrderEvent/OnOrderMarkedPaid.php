@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Model\Product\OnOrderEvent;
+namespace App\Model\Ticket\OnOrderEvent;
 
 use App\Model\Event\Events;
 use App\Model\Order\OrderMarkedPaid;
-use App\Model\Product\TicketId;
-use App\Model\Product\Tickets;
 use App\Model\Tariff\ProductType;
+use App\Model\Ticket\TicketId;
+use App\Model\Ticket\Tickets;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Handler\MessageSubscriberInterface;
 

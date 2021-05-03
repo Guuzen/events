@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Model\Product;
+namespace App\Model\Ticket;
 
 use App\Model\Event\EventId;
-use App\Model\Product\Exception\TicketLoadFailed;
+use App\Model\Ticket\Exception\TicketLoadFailed;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

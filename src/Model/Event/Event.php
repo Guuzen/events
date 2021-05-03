@@ -4,8 +4,8 @@ namespace App\Model\Event;
 
 use App\Model\Order\Order;
 use App\Model\Order\OrderId;
-use App\Model\Product\Ticket;
-use App\Model\Product\TicketId;
+use App\Model\Ticket\Ticket;
+use App\Model\Ticket\TicketId;
 use App\Model\Promocode\AllowedTariffs\AllowedTariffs;
 use App\Model\Promocode\AllowedTariffs\EventAllowedTariffs;
 use App\Model\Promocode\Discount\Discount;

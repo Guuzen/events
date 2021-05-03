@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model\Product;
+namespace App\Model\BroadcastLink;
 
 use App\Infrastructure\Persistence\DBALTypes\UuidType;
 use App\Infrastructure\Persistence\DBALTypesInitializer\CustomTypeAnnotation as DBALType;
@@ -9,9 +9,9 @@ use App\Infrastructure\Uuid;
 /**
  * @DBALType(typeClass=UuidType::class)
  *
- * @template-extends Uuid<TicketId>
+ * @template-extends Uuid<BroadcastLinkId>
  * @psalm-immutable
  */
-final class TicketId extends Uuid
+final class BroadcastLinkId extends Uuid
 {
 }

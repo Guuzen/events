@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Model\Product\Exception;
+namespace App\Model\Ticket\Exception;
 
 use App\Infrastructure\AppException\AppException;
 

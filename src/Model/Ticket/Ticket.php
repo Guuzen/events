@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model\Product;
+namespace App\Model\Ticket;
 
 use App\Model\Event\EventId;
 use App\Model\Order\OrderId;

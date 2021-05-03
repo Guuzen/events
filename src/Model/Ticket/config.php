@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Model\Product;
+namespace App\Model\Ticket;
 
-use App\Model\Product\OnOrderEvent\OnOrderMarkedPaid;
+use App\Model\Ticket\OnOrderEvent\OnOrderMarkedPaid;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $configurator) {

@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Adapters\AdminApi\Product\FindTicketById;
+namespace App\Adapters\AdminApi\Ticket\GetTicketList;
 
 use App\Infrastructure\Http\AppController\AppController;
 use Doctrine\DBAL\Connection;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-final class FindTicketByIdHttpAdapter extends AppController
+final class GetTicketListHttpAdapter extends AppController
 {
     private $connection;
 
@@ -19,31 +19,31 @@ final class FindTicketByIdHttpAdapter extends AppController
     }
 
     /**
-     * @Route("/admin/ticket/show", methods={"GET"})
+     * @Route("/admin/ticket/list", methods={"GET"})
      */
-    public function __invoke(FindTicketByIdRequest $request): Response
+    public function __invoke(GetTicketListRequest $request): Response
     {
         $stmt = $this->connection->prepare(
             '
             select
-                row_to_json(ticket)
+                json_agg(ticket)
             from (
                 select
                     *
                 from
                     ticket
                 where
-                    ticket.id = :ticket_id
+                    ticket.event_id = :event_id                 
             ) as ticket
         '
         );
-        $stmt->bindValue('ticket_id', $request->ticketId);
+        $stmt->bindValue('event_id', $request->eventId);
         $stmt->execute();
 
         /** @var string|false $ticketData */
         $ticketData = $stmt->fetchOne();
-        if (false === $ticketData) {
-            throw new TicketByIdNotFound('');
+        if ($ticketData === false) {
+            throw new TicketListNotFound('');
         }
 
         $decoded = $this->deserializeFromDb($ticketData);

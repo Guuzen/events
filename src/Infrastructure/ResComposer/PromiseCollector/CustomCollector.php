@@ -11,7 +11,7 @@ final class CustomCollector implements PromiseCollector
     private $collector;
 
     /**
-     * @param callable(mixed): \App\Infrastructure\ResComposer\Promise[] $collector
+     * @param callable(mixed): \App\Infrastructure\ResComposer\PromiseCollection\Promise[] $collector
      */
     public function __construct(callable $collector)
     {
