@@ -2,7 +2,7 @@
 
 namespace App\Model\Ticket;
 
-use App\Model\Ticket\OnOrderEvent\OnOrderMarkedPaid;
+use App\Model\Ticket\OnOrderEvent\OnTicketOrderPaymentConfirmed;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $configurator) {
@@ -13,5 +13,5 @@ return static function (ContainerConfigurator $configurator) {
 
     $services->set(Tickets::class);
 
-    $services->set(OnOrderMarkedPaid::class);
+    $services->set(OnTicketOrderPaymentConfirmed::class);
 };

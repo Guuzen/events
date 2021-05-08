@@ -7,7 +7,7 @@ const Fondy = require('./actors/Fondy');
 
 const visitorEmailServer = require('mockttp').getLocal();
 
-jest.setTimeout(10 * 1000);
+jest.setTimeout(30 * 1000);
 
 describe('Buy ticket', function () {
 
@@ -42,21 +42,21 @@ describe('Buy ticket', function () {
         await manager.getOrdersList(eventId);
         await manager.getOrderById(orderId);
 
-        await visitor.usePromocode(orderId, tariffId);
+        await visitor.applyPromocode(orderId);
         await visitor.awaitsEmailWithTicket(visitorEmailServer);
 
-        await manager.wait(1300);
-        await manager.getOrderListWithUsedPromocode(eventId);
-        await manager.getOrderByIdWithUsedPromocode(orderId);
-        await manager.getPromocodeListWithUsedPromocode(eventId);
+        await manager.getOrderListWithAppliedPromocode(eventId);
+        await manager.getOrderByIdWithAppliedPromocode(orderId);
+        await manager.getPromocodeList(eventId);
 
-        await manager.markOrderPaid(eventId, orderId);
+        await manager.confirmPayment(eventId, orderId);
 
         await visitor.wait(2300);
         await visitor.receivesEmailWithTicket();
 
         await manager.getOrderListWithPaidOrder(eventId);
         await manager.getOrderByIdWithPaidOrder(orderId);
+        await manager.getPromocodeListWithUsedPromocode(eventId);
         const ticketId = await manager.getTicketsList(eventId);
         await manager.getTicketById(ticketId);
     })
@@ -83,24 +83,24 @@ describe('Buy ticket', function () {
         await manager.getOrdersList(eventId);
         await manager.getOrderById(orderId);
 
-        await visitor.usePromocode(orderId, tariffId);
+        await visitor.applyPromocode(orderId);
 
-        await manager.wait(1300);
-        await manager.getOrderListWithUsedPromocode(eventId);
-        await manager.getOrderByIdWithUsedPromocode(orderId);
-        await manager.getPromocodeListWithUsedPromocode(eventId);
+        await manager.getOrderListWithAppliedPromocode(eventId);
+        await manager.getOrderByIdWithAppliedPromocode(orderId);
+        await manager.getPromocodeList(eventId);
 
         await visitor.payOrderByCard(orderId);
         await visitor.awaitsEmailWithTicket(visitorEmailServer);
 
         const fondy = new Fondy();
-        await fondy.markOrderPaid(orderId);
+        await fondy.confirmPayment(orderId);
 
         await visitor.wait(2300);
         await visitor.receivesEmailWithTicket();
 
         await manager.getOrderListWithPaidOrder(eventId);
         await manager.getOrderByIdWithPaidOrder(orderId);
+        await manager.getPromocodeListWithUsedPromocode(eventId);
         const ticketId = await manager.getTicketsList(eventId);
         await manager.getTicketById(ticketId);
     });

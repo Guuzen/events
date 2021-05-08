@@ -14,7 +14,7 @@ final class Promocodes extends ServiceEntityRepository
         parent::__construct($registry, Promocode::class);
     }
 
-    public function findById(PromocodeId $promocodeId, EventId $eventId): Promocode
+    public function getById(PromocodeId $promocodeId, EventId $eventId): Promocode
     {
         $query = $this->createQueryBuilder('promocode')
             ->where('promocode.id = :promocode_id')
@@ -33,7 +33,7 @@ final class Promocodes extends ServiceEntityRepository
         return $promocode;
     }
 
-    public function findByCode(string $code, EventId $eventId): Promocode
+    public function getByCode(string $code, EventId $eventId): Promocode
     {
         $query = $this->createQueryBuilder('promocode')
             ->where('promocode.code = :code')

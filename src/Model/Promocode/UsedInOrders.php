@@ -7,6 +7,7 @@ use App\Infrastructure\InlineNormalizer\InlineNormalizable;
 use App\Infrastructure\Persistence\DBALTypes\JsonDocumentType;
 use App\Infrastructure\Persistence\DBALTypesInitializer\CustomTypeAnnotation as DBALType;
 use App\Model\Order\OrderId;
+use App\Model\TicketOrder\TicketOrderId;
 
 /**
  * @DBALType(typeClass=JsonDocumentType::class)
@@ -19,19 +20,19 @@ use App\Model\Order\OrderId;
 final class UsedInOrders
 {
     /**
-     * @var OrderId[]
+     * @var TicketOrderId[]
      */
     private $orderIds;
 
     /**
-     * @param OrderId[] $orderIds
+     * @param TicketOrderId[] $orderIds
      */
     public function __construct(array $orderIds)
     {
         $this->orderIds = $orderIds;
     }
 
-    public function add(OrderId $orderId): self
+    public function add(TicketOrderId $orderId): self
     {
         $orderIds   = $this->orderIds;
         $orderIds[] = $orderId;

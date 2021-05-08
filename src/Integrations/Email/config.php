@@ -10,5 +10,5 @@ return static function (ContainerConfigurator $configurator) {
         ->autowire(true)
         ->autoconfigure(true);
 
-    $services->set(OnOrderMarkedPaid::class);
+    $services->set(OnTicketOrderPaymentConfirmed::class);
 };

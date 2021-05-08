@@ -22,5 +22,5 @@ use Symfony\Component\Serializer\Annotation\DiscriminatorMap;
  */
 interface Discount
 {
-    public function apply(Money $price): Money;
+    public function applyTo(Money $price): Money;
 }

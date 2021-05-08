@@ -128,7 +128,7 @@ class Order extends Entity
 
     public function createFondyPayment(FondyClient $fondy): string
     {
-        return $fondy->checkoutUrl($this->price, $this->id);
+        return $fondy->checkoutUrl($this->price, (string)$this->id);
     }
 
     public function applyPromocode(PromocodeId $promocodeId): void

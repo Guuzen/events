@@ -3,7 +3,6 @@
 namespace App\Model\User;
 
 use App\Infrastructure\DomainEvent\Entity;
-use App\Model\Order\OrderId;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -29,16 +28,10 @@ class User extends Entity
      */
     private $contacts;
 
-    /**
-     * @ORM\Column(type=OrderId::class)
-     */
-    private $orderId;
-
-    public function __construct(UserId $id, OrderId $orderId, FullName $fullName, Contacts $contacts)
+    public function __construct(UserId $id, FullName $fullName, Contacts $contacts)
     {
         $this->id       = $id;
         $this->fullName = $fullName;
         $this->contacts = $contacts;
-        $this->orderId  = $orderId;
     }
 }

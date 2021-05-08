@@ -13,13 +13,14 @@ servers:
   - url: 'http://web'
     description: docker
 tags:
-  - name: event
   - name: admin
+  - name: event
   - name: fondy
   - name: order
   - name: promocode
   - name: tariff
   - name: ticket
+  - name: ticketOrder
 paths:
   /admin/eventDomain:
     post:
@@ -202,7 +203,7 @@ paths:
         name: tariffId
         in: path
         required: true
-  /order/place:
+  /ticketOrder/place:
     post:
       summary: place order
       operationId: post-order-place
@@ -215,13 +216,13 @@ paths:
                 $ref: ./idResponse.v1.json
       tags:
         - admin
-        - order
-      description: places new order
+        - ticket
+      description: places new order for ticket
       requestBody:
         content:
           application/json:
             schema:
-              $ref: ./order/placeOrder.v1.json
+              $ref: ./ticketOrder/placeTicketOrder.v1.json
   /admin/order:
     get:
       summary: order list
@@ -273,39 +274,6 @@ paths:
       operationId: get-admin-order-show
       parameters: []
       description: shows one order
-    parameters:
-      - schema:
-          type: string
-          format: uuid
-        name: orderId
-        in: path
-        required: true
-  '/admin/order/{orderId}/markPaid':
-    post:
-      summary: mark paid
-      operationId: post-order-markPaid
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: ./emptyResponse.v1.json
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                eventId:
-                  type: string
-                  format: uuid
-              required:
-                - eventId
-      description: marks paid specific order
-      tags:
-        - order
-        - admin
     parameters:
       - schema:
           type: string
@@ -365,38 +333,7 @@ paths:
           name: ticketId
           required: true
       description: shows one ticket
-  '/order/{orderId}/payByCard':
-    post:
-      summary: pay by card
-      operationId: post-order-payByCard
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: string
-                required:
-                  - data
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-      description: starts payment by bank card
-      tags:
-        - order
-    parameters:
-      - schema:
-          type: string
-          format: uuid
-        name: orderId
-        in: path
-        required: true
-  '/fondy/{orderId}/markPaid':
+  '/fondy/ticketOrder/{orderId}/confirmPayment':
     post:
       summary: mark paid by fondy
       operationId: post-fondy-markPaid
@@ -417,7 +354,7 @@ paths:
       description: fondy confirms that specific order was paid
       tags:
         - fondy
-        - order
+        - ticketOrder
     parameters:
       - schema:
           type: string
@@ -472,38 +409,6 @@ paths:
           name: eventId
           required: true
       description: shows list of fixed promocodes
-  /promocode/use:
-    post:
-      summary: use promocode
-      operationId: post-promocode-use
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: ./emptyResponse.v1.json
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                code:
-                  type: string
-                orderId:
-                  type: string
-                  format: uuid
-                tariffId:
-                  type: string
-                  format: uuid
-              required:
-                - code
-                - orderId
-                - tariffId
-      description: use promocode on specific order
-      tags:
-        - promocode
   /admin/tariffDescription:
     post:
       summary: create tariff description
@@ -525,6 +430,56 @@ paths:
             schema:
               $ref: ./tariffDescription/tariffDescription.v1.json
     parameters: []
+  /ticketOrder/applyPromocode:
+    post:
+      summary: Apply promocode
+      operationId: post-ticketOrder-applyPromocode
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ./ticketOrder/applyPromocode.json
+      description: Applies promocode to ticket order
+      tags:
+        - ticketOrder
+  /admin/ticketOrder/confirmPayment:
+    parameters: []
+    post:
+      summary: Confirm payment
+      operationId: post-admin-ticketOrder-orderId-confirmPayment
+      responses:
+        '200':
+          description: OK
+      description: Confirm payment manually
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ./ticketOrder/confirmPayment.json
+        description: ''
+      tags:
+        - admin
+        - ticket
+  '/ticketOrder/{orderId}/payByCard':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: orderId
+        in: path
+        required: true
+    post:
+      summary: ''
+      operationId: post-ticketOrder-orderId-payByCard
+      responses:
+        '200':
+          description: OK
+      description: start payment by card
+      tags:
+        - ticketOrder
 components:
   schemas: {}
   securitySchemes: {}

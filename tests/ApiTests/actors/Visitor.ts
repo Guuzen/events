@@ -25,9 +25,8 @@ class Visitor {
         await wait(milliseconds);
     }
 
-    async usePromocode(orderId, tariffId) {
-        const response = await httpClient.post('/promocode/use', {
-            tariffId: tariffId,
+    async applyPromocode(orderId) {
+        const response = await httpClient.post('/ticketOrder/applyPromocode', {
             code: 'FOO',
             orderId: orderId,
         });
@@ -38,7 +37,7 @@ class Visitor {
     }
 
     async placeOrder(tariffId) {
-        const response = await httpClient.post('/order/place', {
+        const response = await httpClient.post('/ticketOrder/place', {
             tariffId: tariffId,
             firstName: 'john',
             lastName: 'Doe',
@@ -68,7 +67,7 @@ class Visitor {
     }
 
     async payOrderByCard(orderId) {
-         const response = await httpClient.post(`/order/${orderId}/payByCard`, {});
+         const response = await httpClient.post(`/ticketOrder/${orderId}/payByCard`, {});
 
          expect(response.data).toEqual({data: expect.any(String)});
     }

@@ -2,8 +2,8 @@
 
 namespace App\Model\Promocode;
 
-use App\Model\Event\EventId;
 use App\Infrastructure\DomainEvent\Entity;
+use App\Model\Event\EventId;
 use App\Model\Order\OrderId;
 use App\Model\Promocode\AllowedTariffs\AllowedTariffs;
 use App\Model\Promocode\Discount\Discount;
@@ -13,8 +13,10 @@ use App\Model\Promocode\Exception\PromocodeNotUsable;
 use App\Model\Promocode\Exception\PromocodeNotUsedInOrder;
 use App\Model\Promocode\Exception\PromocodeUseLimitExceeded;
 use App\Model\Tariff\TariffId;
+use App\Model\TicketOrder\TicketOrderId;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use Money\Money;
 
 /**
  * @ORM\Entity
@@ -24,11 +26,13 @@ class Promocode extends Entity
     /**
      * @var PromocodeId
      *
+     * @psalm-readonly
+     *
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
      * @ORM\Column(type=PromocodeId::class)
      */
-    private $id;
+    public $id;
 
     /**
      * @ORM\Column(type=EventId::class)
@@ -97,7 +101,7 @@ class Promocode extends Entity
         int $useLimit, // TODO primitive obsession ?
         DateTimeImmutable $expireAt,
         AllowedTariffs $allowedTariffs, // TODO tariffs MUST be for same event as promocode
-        bool $usable = true // TODO зачем нужен этот флаг ?
+        bool $usable = true,
     )
     {
         $this->id             = $id;
@@ -111,34 +115,31 @@ class Promocode extends Entity
         $this->usedInOrders   = new UsedInOrders([]);
     }
 
-    public function use(OrderId $orderId, TariffId $tariffId, DateTimeImmutable $asOf): void
+    public function applyTo(Money $price, TariffId $tariffId, DateTimeImmutable $asOf): Money
     {
         if (!$this->usable) {
             throw new PromocodeNotUsable('');
-        }
-
-        if ($this->useLimitExceeded()) {
-            throw new PromocodeUseLimitExceeded('');
-        }
-
-        if ($this->expired($asOf)) {
-            throw new PromocodeExpired('');
         }
 
         if (!$this->allowedTariffs->contains($tariffId)) {
             throw new PromocodeNotAllowedForTariff('');
         }
 
-        $this->usedInOrders = $this->usedInOrders->add($orderId);
+        if ($this->expired($asOf)) {
+            throw new PromocodeExpired('');
+        }
 
-        $this->rememberThat(
-            new PromocodeUsed(
-                $this->eventId,
-                $this->id,
-                $orderId,
-                $this->discount
-            )
-        );
+        return $this->discount->applyTo($price);
+    }
+
+    public function use(TicketOrderId $orderId): void
+    {
+        if ($this->useLimitExceeded()) {
+            // TODO raise event for refund, not exception
+            throw new PromocodeUseLimitExceeded('');
+        }
+
+        $this->usedInOrders = $this->usedInOrders->add($orderId); // TODO remove this ?
     }
 
     private function useLimitExceeded(): bool

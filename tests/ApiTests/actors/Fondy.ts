@@ -18,8 +18,8 @@ const httpClient = axios.create({
 addLogger(httpClient, debug);
 
 class Fondy {
-    async markOrderPaid(orderId) {
-        const response = await httpClient.post(`/${orderId}/markPaid`, {});
+    async confirmPayment(orderId) {
+        const response = await httpClient.post(`/ticketOrder/${orderId}/confirmPayment`, {});
 
         expect(response.data).toEqual({data: []});
     }

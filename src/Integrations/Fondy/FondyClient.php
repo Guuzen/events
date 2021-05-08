@@ -7,7 +7,7 @@ use Money\Money;
 
 class FondyClient
 {
-    public function checkoutUrl(Money $sum, OrderId $orderId): string
+    public function checkoutUrl(Money $sum, string $orderId): string
     {
         // TODO check for external call missing ?
         return 'http://fondy.checkout.url';

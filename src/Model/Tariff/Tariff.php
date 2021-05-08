@@ -3,9 +3,6 @@
 namespace App\Model\Tariff;
 
 use App\Model\Event\EventId;
-use App\Model\Order\Order;
-use App\Model\Order\OrderId;
-use App\Model\User\UserId;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
@@ -48,16 +45,5 @@ class Tariff
     public function calculatePrice(DateTimeImmutable $asOf): Money
     {
         return $this->priceNet->calculatePrice($asOf);
-    }
-
-    public function makeOrder(
-        OrderId $orderId,
-        EventId $eventId,
-        UserId $userId,
-        Money $price,
-        DateTimeImmutable $asOf
-    ): Order
-    {
-        return new Order($orderId, $eventId, $this->productType, $this->id, $userId, $price, $asOf);
     }
 }

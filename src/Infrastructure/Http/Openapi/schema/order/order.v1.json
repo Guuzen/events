@@ -31,6 +31,9 @@
       "type": "string",
       "format": "date-time"
     },
+    "tariffType": {
+      "type": "string"
+    },
     "promocode": {
       "type": "object",
       "nullable": true,
@@ -75,6 +78,7 @@
     "price",
     "cancelled",
     "userId",
-    "makedAt"
+    "makedAt",
+    "tariffType"
   ]
 }

@@ -14,4 +14,6 @@ return static function (ContainerConfigurator $configurator) {
     $services->set(Promocodes::class);
 
     $services->set(PromocodeLoader::class);
+
+    $services->set(OnTicketOrderPaymentConfirmed::class);
 };

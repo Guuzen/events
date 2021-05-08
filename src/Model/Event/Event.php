@@ -2,10 +2,6 @@
 
 namespace App\Model\Event;
 
-use App\Model\Order\Order;
-use App\Model\Order\OrderId;
-use App\Model\Ticket\Ticket;
-use App\Model\Ticket\TicketId;
 use App\Model\Promocode\AllowedTariffs\AllowedTariffs;
 use App\Model\Promocode\AllowedTariffs\EventAllowedTariffs;
 use App\Model\Promocode\Discount\Discount;
@@ -15,10 +11,8 @@ use App\Model\Tariff\ProductType;
 use App\Model\Tariff\Tariff;
 use App\Model\Tariff\TariffId;
 use App\Model\Tariff\TariffPriceNet;
-use App\Model\User\UserId;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
-use Money\Money;
 
 /**
  * @ORM\Entity
@@ -35,22 +29,6 @@ final class Event
     public function __construct(EventId $id)
     {
         $this->id = $id;
-    }
-
-    public function createTicket(TicketId $ticketId, OrderId $orderId, string $number, DateTimeImmutable $asOf): Ticket
-    {
-        return new Ticket($ticketId, $this->id, $orderId, $number, $asOf);
-    }
-
-    public function makeOrder(
-        OrderId $orderId,
-        Tariff $tariff,
-        UserId $userId,
-        Money $price,
-        DateTimeImmutable $asOf
-    ): Order
-    {
-        return $tariff->makeOrder($orderId, $this->id, $userId, $price, $asOf);
     }
 
     public function createTariff(TariffId $tariffId, TariffPriceNet $tariffPriceNet, ProductType $productType): Tariff

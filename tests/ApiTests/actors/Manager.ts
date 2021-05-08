@@ -255,7 +255,12 @@ class Manager {
                         amount: '200',
                         currency: 'RUB',
                     },
+                    total: {
+                        amount: '200',
+                        currency: 'RUB',
+                    },
                     productType: 'ticket',
+                    tariffType: 'silverPass',
                     promocode: null,
                 },
             ],
@@ -279,13 +284,18 @@ class Manager {
                     amount: '200',
                     currency: 'RUB',
                 },
+                total: {
+                    amount: '200',
+                    currency: 'RUB',
+                },
                 productType: 'ticket',
+                tariffType: 'silverPass',
                 promocode: null,
             },
         });
     }
 
-    async getOrderListWithUsedPromocode(eventId) {
+    async getOrderListWithAppliedPromocode(eventId) {
         const response = await httpClient.get(`/admin/order?eventId=${eventId}`);
 
         expect(response.data).toEqual({
@@ -313,13 +323,18 @@ class Manager {
                         amount: '200',
                         currency: 'RUB',
                     },
+                    total: {
+                        amount: '100',
+                        currency: 'RUB',
+                    },
                     productType: 'ticket',
+                    tariffType: 'silverPass',
                 },
             ],
         });
     }
 
-    async getOrderByIdWithUsedPromocode(orderId) {
+    async getOrderByIdWithAppliedPromocode(orderId) {
         const response = await httpClient.get(`/admin/order/${orderId}`);
 
         expect(response.data).toEqual({
@@ -346,13 +361,21 @@ class Manager {
                     amount: '200',
                     currency: 'RUB',
                 },
+                total: {
+                    amount: '100',
+                    currency: 'RUB',
+                },
                 productType: 'ticket',
+                tariffType: 'silverPass',
             },
         });
     }
 
-    async markOrderPaid(eventId, orderId) {
-        const response = await httpClient.post(`/admin/order/${orderId}/markPaid`, {eventId: eventId});
+    async confirmPayment(eventId, orderId) {
+        const response = await httpClient.post(`/admin/ticketOrder/confirmPayment`, {
+            orderId: orderId,
+            eventId: eventId,
+        });
 
         expect(response.data).toEqual({data: []});
     }
@@ -385,7 +408,12 @@ class Manager {
                         amount: '200',
                         currency: 'RUB',
                     },
+                    total: {
+                        amount: '100',
+                        currency: 'RUB',
+                    },
                     productType: 'ticket',
+                    tariffType: 'silverPass',
                 },
             ],
         });
@@ -418,7 +446,12 @@ class Manager {
                     amount: '200',
                     currency: 'RUB',
                 },
+                total: {
+                    amount: '100',
+                    currency: 'RUB',
+                },
                 productType: 'ticket',
+                tariffType: 'silverPass',
             },
         });
     }
@@ -434,6 +467,7 @@ class Manager {
                     eventId: expect.any(String),
                     createdAt: expect.any(String),
                     number: expect.any(String),
+                    userId: expect.any(String),
                 },
             ],
         });
@@ -451,6 +485,7 @@ class Manager {
                 eventId: expect.any(String),
                 createdAt: expect.any(String),
                 number: expect.any(String),
+                userId: expect.any(String),
             },
         });
     }

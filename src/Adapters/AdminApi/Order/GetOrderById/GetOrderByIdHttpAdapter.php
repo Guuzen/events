@@ -33,11 +33,11 @@ final class GetOrderByIdHttpAdapter extends AppController
                 row_to_json("order")
             from (
                 select
-                    *
+                    ticket_order.*, \'ticket\' as product_type
                 from
-                    "order"
+                    ticket_order
                 where
-                    "order".id = :order_id                 
+                    ticket_order.id = :order_id                 
             ) as "order"
         '
         );

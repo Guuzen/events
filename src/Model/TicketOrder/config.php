@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model\Tariff;
+namespace App\Model\TicketOrder;
 
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
@@ -10,5 +10,5 @@ return static function (ContainerConfigurator $configurator) {
         ->autowire(true)
         ->autoconfigure(true);
 
-    $services->set(Tariffs::class);
+    $services->set(TicketOrders::class);
 };

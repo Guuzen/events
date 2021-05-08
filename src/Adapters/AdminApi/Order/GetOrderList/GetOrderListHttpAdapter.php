@@ -33,11 +33,11 @@ final class GetOrderListHttpAdapter extends AppController
                 json_agg(orders)
             from (
                 select
-                    *
+                    ticket_order.*, \'ticket\' as product_type 
                 from
-                    "order"
+                    ticket_order
                 where
-                    "order".event_id = :event_id
+                    ticket_order.event_id = :event_id
             ) as orders
         '
         );

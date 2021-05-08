@@ -19,7 +19,7 @@ final class FixedDiscount implements Discount
         $this->amount = $amount;
     }
 
-    public function apply(Money $price): Money
+    public function applyTo(Money $price): Money
     {
         return $price->subtract($this->amount);
     }

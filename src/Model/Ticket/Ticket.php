@@ -3,7 +3,8 @@
 namespace App\Model\Ticket;
 
 use App\Model\Event\EventId;
-use App\Model\Order\OrderId;
+use App\Model\TicketOrder\TicketOrderId;
+use App\Model\User\UserId;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\UniqueConstraint;
@@ -29,7 +30,7 @@ final class Ticket
     private $eventId;
 
     /**
-     * @ORM\Column(type=OrderId::class)
+     * @ORM\Column(type=TicketOrderId::class)
      */
     private $orderId;
 
@@ -43,12 +44,18 @@ final class Ticket
      */
     private $createdAt;
 
-    public function __construct(TicketId $id, EventId $eventId, OrderId $orderId, string $number, DateTimeImmutable $createdAt)
+    /**
+     * @ORM\Column(type=UserId::class, nullable=false)
+     */
+    private $userId;
+
+    public function __construct(TicketId $id, EventId $eventId, TicketOrderId $orderId, UserId $userId, string $number, DateTimeImmutable $createdAt)
     {
         $this->id        = $id;
         $this->eventId   = $eventId;
         $this->number    = $number;
         $this->orderId   = $orderId;
         $this->createdAt = $createdAt;
+        $this->userId    = $userId;
     }
 }
