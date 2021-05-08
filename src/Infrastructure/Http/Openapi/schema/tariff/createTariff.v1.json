@@ -1,6 +1,7 @@
 {
-  "title": "create tariff",
   "type": "object",
+  "title": "create tariff",
+  "additionalProperties": false,
   "properties": {
     "eventId": {
       "type": "string",
@@ -10,6 +11,7 @@
       "type": "array",
       "items": {
         "type": "object",
+        "additionalProperties": false,
         "properties": {
           "price": {
             "$ref": "../money.v1.json"
@@ -20,6 +22,7 @@
               "start",
               "end"
             ],
+            "additionalProperties": false,
             "properties": {
               "start": {
                 "type": "string",

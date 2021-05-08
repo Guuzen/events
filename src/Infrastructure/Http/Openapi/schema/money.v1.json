@@ -1,7 +1,8 @@
 {
-  "title": "money",
   "type": "object",
+  "title": "money",
   "description": "money",
+  "additionalProperties": false,
   "properties": {
     "amount": {
       "type": "string",

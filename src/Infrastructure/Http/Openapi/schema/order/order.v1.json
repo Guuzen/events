@@ -1,6 +1,7 @@
 {
-  "title": "order",
   "type": "object",
+  "title": "order",
+  "additionalProperties": false,
   "properties": {
     "id": {
       "type": "string",
@@ -37,9 +38,11 @@
     "promocode": {
       "type": "object",
       "nullable": true,
+      "additionalProperties": false,
       "properties": {
         "discount": {
           "type": "object",
+          "additionalProperties": false,
           "properties": {
             "type": {
               "type": "string"
@@ -68,6 +71,9 @@
       "enum": [
         "ticket"
       ]
+    },
+    "total": {
+      "$ref": "../money.v1.json"
     }
   },
   "required": [
@@ -79,6 +85,7 @@
     "cancelled",
     "userId",
     "makedAt",
-    "tariffType"
+    "tariffType",
+    "total"
   ]
 }

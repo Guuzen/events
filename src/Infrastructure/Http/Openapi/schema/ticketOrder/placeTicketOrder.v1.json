@@ -1,6 +1,7 @@
 {
-  "title": "order",
   "type": "object",
+  "title": "order",
+  "additionalProperties": false,
   "properties": {
     "tariffId": {
       "type": "string",

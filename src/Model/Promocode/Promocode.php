@@ -152,20 +152,6 @@ class Promocode extends Entity
         return $this->expireAt < $at;
     }
 
-    public function cancel(OrderId $orderId): void
-    {
-        if (!$this->usedInOrders($orderId)) {
-            throw new PromocodeNotUsedInOrder('');
-        }
-
-        $this->usedInOrders = $this->usedInOrders->remove($orderId);
-    }
-
-    private function usedInOrders(OrderId $orderId): bool
-    {
-        return $this->usedInOrders->has($orderId);
-    }
-
     public function makeUsable(): void
     {
         $this->usable = true;

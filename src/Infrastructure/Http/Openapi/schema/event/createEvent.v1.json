@@ -1,10 +1,11 @@
 {
-  "title": "Create event",
   "type": "object",
+  "title": "Create event",
   "x-tags": [
     "admin",
     "event"
   ],
+  "additionalProperties": false,
   "properties": {
     "name": {
       "type": "string"

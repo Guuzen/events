@@ -248,7 +248,6 @@ class Manager {
                     makedAt: expect.any(String),
                     tariffId: expect.any(String),
                     userId: expect.any(String),
-                    promocodeId: null,
                     cancelled: false,
                     paid: false,
                     price: {
@@ -277,7 +276,6 @@ class Manager {
                 makedAt: expect.any(String),
                 tariffId: expect.any(String),
                 userId: expect.any(String),
-                promocodeId: null,
                 cancelled: false,
                 paid: false,
                 price: {
@@ -316,7 +314,6 @@ class Manager {
                             type: 'fixed',
                         },
                     },
-                    promocodeId: expect.any(String),
                     cancelled: false,
                     paid: false,
                     price: {
@@ -354,7 +351,6 @@ class Manager {
                         type: 'fixed',
                     },
                 },
-                promocodeId: expect.any(String),
                 cancelled: false,
                 paid: false,
                 price: {
@@ -401,7 +397,6 @@ class Manager {
                             type: 'fixed',
                         },
                     },
-                    promocodeId: expect.any(String),
                     cancelled: false,
                     paid: true,
                     price: {
@@ -439,7 +434,6 @@ class Manager {
                         type: 'fixed',
                     },
                 },
-                promocodeId: expect.any(String),
                 cancelled: false,
                 paid: true,
                 price: {

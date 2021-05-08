@@ -1,7 +1,8 @@
 {
-  "title": "emptyResponse",
   "type": "object",
+  "title": "emptyResponse",
   "description": "Default response without any data",
+  "additionalProperties": false,
   "properties": {
     "data": {
       "type": "array",

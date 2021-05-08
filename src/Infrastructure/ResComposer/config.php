@@ -24,7 +24,7 @@ return static function (ContainerConfigurator $configurator) {
                 inline(MainResource::class)->args(
                     [
                         'order',
-                        inline(SimpleCollector::class)->args(['promocodeId', 'promocode']),
+                        inline(SimpleCollector::class)->args(['promocode', 'promocode']),
                     ]
                 ),
                 inline(OneToOne::class),

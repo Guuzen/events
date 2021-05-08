@@ -1,7 +1,12 @@
 {
-  "title": "Create event domain",
   "type": "object",
+  "title": "Create event domain",
   "description": "",
+  "x-tags": [
+    "eventDomain",
+    "admin"
+  ],
+  "additionalProperties": false,
   "properties": {
     "name": {
       "type": "string"
@@ -13,9 +18,5 @@
   "required": [
     "name",
     "domain"
-  ],
-  "x-tags": [
-    "eventDomain",
-    "admin"
   ]
 }

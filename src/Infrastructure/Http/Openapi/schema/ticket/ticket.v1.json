@@ -1,6 +1,7 @@
 {
-  "title": "ticket",
   "type": "object",
+  "title": "ticket",
+  "additionalProperties": false,
   "properties": {
     "id": {
       "type": "string",
@@ -15,12 +16,22 @@
     },
     "createdAt": {
       "type": "string"
+    },
+    "orderId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "userId": {
+      "type": "string",
+      "format": "uuid"
     }
   },
   "required": [
     "id",
     "eventId",
     "number",
-    "createdAt"
+    "createdAt",
+    "orderId",
+    "userId"
   ]
 }

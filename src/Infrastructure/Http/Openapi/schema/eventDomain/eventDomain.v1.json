@@ -1,7 +1,12 @@
 {
-  "title": "event domain",
   "type": "object",
+  "title": "event domain",
   "description": "",
+  "x-tags": [
+    "eventDomain",
+    "admin"
+  ],
+  "additionalProperties": false,
   "properties": {
     "id": {
       "type": "string",
@@ -18,9 +23,5 @@
     "id",
     "name",
     "domain"
-  ],
-  "x-tags": [
-    "eventDomain",
-    "admin"
   ]
 }

@@ -1,7 +1,8 @@
 {
-  "title": "createFixedPromocode",
   "type": "object",
+  "title": "createFixedPromocode",
   "description": "",
+  "additionalProperties": false,
   "properties": {
     "eventId": {
       "type": "string",

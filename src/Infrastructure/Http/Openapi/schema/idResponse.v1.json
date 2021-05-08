@@ -1,7 +1,8 @@
 {
-  "title": "idResponse",
   "type": "object",
+  "title": "idResponse",
   "description": "Default success response for POST operations which returns id of created resource",
+  "additionalProperties": false,
   "properties": {
     "data": {
       "type": "string"

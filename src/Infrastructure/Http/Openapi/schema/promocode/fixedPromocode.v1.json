@@ -1,6 +1,8 @@
 {
-  "title": "fixedPromocode",
   "type": "object",
+  "title": "fixedPromocode",
+  "additionalProperties": false,
+  "description": "",
   "properties": {
     "id": {
       "type": "string",
@@ -19,6 +21,7 @@
         "amount",
         "type"
       ],
+      "additionalProperties": false,
       "properties": {
         "amount": {
           "$ref": "../money.v1.json"
@@ -54,6 +57,7 @@
         "type",
         "tariffIds"
       ],
+      "additionalProperties": false,
       "properties": {
         "type": {
           "type": "string",

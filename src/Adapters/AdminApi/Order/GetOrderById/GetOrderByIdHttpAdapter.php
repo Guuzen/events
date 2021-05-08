@@ -33,7 +33,18 @@ final class GetOrderByIdHttpAdapter extends AppController
                 row_to_json("order")
             from (
                 select
-                    ticket_order.*, \'ticket\' as product_type
+                    ticket_order.id,
+                    ticket_order.event_id,
+                    ticket_order.tariff_id,
+                    ticket_order.paid,
+                    ticket_order.price,
+                    ticket_order.cancelled,
+                    ticket_order.user_id,
+                    ticket_order.maked_at,
+                    ticket_order.tariff_type,
+                    ticket_order.total,
+                    ticket_order.promocode_id as promocode,
+                    \'ticket\' as product_type
                 from
                     ticket_order
                 where

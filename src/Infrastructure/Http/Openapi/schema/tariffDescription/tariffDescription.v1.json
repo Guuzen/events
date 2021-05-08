@@ -1,6 +1,7 @@
 {
-  "title": "show tariff description",
   "type": "object",
+  "title": "show tariff description",
+  "additionalProperties": false,
   "properties": {
     "id": {
       "type": "string",
