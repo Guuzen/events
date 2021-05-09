@@ -6,7 +6,6 @@ namespace App\Adapters\AdminApi\Promocode\GetPromocodeList;
 
 use App\Infrastructure\Http\AppController\AppController;
 use App\Infrastructure\ResComposer\ResourceComposer;
-use App\Adapters\AdminApi\Promocode\Resource\PromocodeResource;
 use Doctrine\DBAL\Connection;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
