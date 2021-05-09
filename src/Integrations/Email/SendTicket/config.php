@@ -2,13 +2,13 @@
 
 namespace App\Integrations\Email\SendTicket;
 
-use App\Infrastructure\ResComposer\Config\MainResource;
-use App\Infrastructure\ResComposer\Config\RelatedResource;
-use App\Infrastructure\ResComposer\Link\OneToOne;
-use App\Infrastructure\ResComposer\PromiseCollector\SimpleCollector;
-use App\Infrastructure\ResComposer\ResourceComposer;
 use App\Integrations\Email\SendTicket\TicketDelivery\TicketDelivery;
 use App\Integrations\Email\SendTicket\TicketDelivery\UserLoader;
+use Guuzen\ResourceComposer\Config\MainResource;
+use Guuzen\ResourceComposer\Config\RelatedResource;
+use Guuzen\ResourceComposer\Link\OneToOne;
+use Guuzen\ResourceComposer\PromiseCollector\SimpleCollector;
+use Guuzen\ResourceComposer\ResourceComposer;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\inline;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;

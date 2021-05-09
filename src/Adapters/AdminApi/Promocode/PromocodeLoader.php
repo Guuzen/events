@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Adapters\AdminApi\Promocode;
 
 use App\Infrastructure\Persistence\DatabaseSerializer\DatabaseSerializer;
-use App\Infrastructure\ResComposer\ResourceDataLoader;
 use Doctrine\DBAL\Connection;
+use Guuzen\ResourceComposer\ResourceDataLoader;
 
 final class PromocodeLoader implements ResourceDataLoader
 {

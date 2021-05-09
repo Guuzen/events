@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Integrations\Email\SendTicket\TicketDelivery;
 
 use App\Infrastructure\Persistence\DatabaseSerializer\DatabaseSerializer;
-use App\Infrastructure\ResComposer\ResourceDataLoader;
 use Doctrine\DBAL\Connection;
+use Guuzen\ResourceComposer\ResourceDataLoader;
 
 final class UserLoader implements ResourceDataLoader
 {

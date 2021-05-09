@@ -134,6 +134,9 @@
     "google/auth": {
         "version": "v1.4.0"
     },
+    "guuzen/resource-composer": {
+        "version": "dev-master"
+    },
     "guzzle/guzzle": {
         "version": "v3.8.1"
     },

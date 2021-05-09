@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Integrations\Email\SendTicket\TicketDelivery;
 
-use App\Infrastructure\ResComposer\ResourceComposer;
 use Doctrine\DBAL\Connection;
+use Guuzen\ResourceComposer\ResourceComposer;
 use Swift_Mailer;
 use Swift_Message;
 use function sprintf;

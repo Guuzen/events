@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Adapters\AdminApi\Order\GetOrderById;
 
 use App\Infrastructure\Http\AppController\AppController;
-use App\Infrastructure\ResComposer\ResourceComposer;
 use Doctrine\DBAL\Connection;
+use Guuzen\ResourceComposer\ResourceComposer;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 

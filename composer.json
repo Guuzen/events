@@ -16,6 +16,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.0",
         "doctrine/orm": "^2.7",
         "google/apiclient": "^2.2",
+        "guuzen/resource-composer": "dev-master",
         "guzzlehttp/guzzle": "^7.0",
         "league/openapi-psr7-validator": "0.15.*",
         "moneyphp/money": "^3.2",

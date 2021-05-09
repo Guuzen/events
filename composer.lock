@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4d79c8a490b31efe31a210ea53055016",
+    "content-hash": "958049974ae8dd0a42e0ff77df234d2a",
     "packages": [
         {
             "name": "brick/math",
@@ -1917,6 +1917,45 @@
                 "source": "https://github.com/googleapis/google-auth-library-php/tree/v1.15.0"
             },
             "time": "2021-02-05T20:50:04+00:00"
+        },
+        {
+            "name": "guuzen/resource-composer",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Guuzen/resource-composer.git",
+                "reference": "60241a0b0dd686549d6183917f7ce60113142518"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Guuzen/resource-composer/zipball/60241a0b0dd686549d6183917f7ce60113142518",
+                "reference": "60241a0b0dd686549d6183917f7ce60113142518",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.5",
+                "vimeo/psalm": "^4.7"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Guuzen\\ResourceComposer\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "application side joins implementation",
+            "support": {
+                "issues": "https://github.com/Guuzen/resource-composer/issues",
+                "source": "https://github.com/Guuzen/resource-composer/tree/dev"
+            },
+            "time": "2021-05-09T18:46:42+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -12834,7 +12873,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "guuzen/resource-composer": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

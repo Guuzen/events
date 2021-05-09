@@ -3,11 +3,11 @@
 namespace App\Infrastructure\Persistence\DatabaseSerializer;
 
 use App\Adapters\AdminApi\Promocode\PromocodeLoader;
-use App\Infrastructure\ResComposer\Config\MainResource;
-use App\Infrastructure\ResComposer\Config\RelatedResource;
-use App\Infrastructure\ResComposer\Link\OneToOne;
-use App\Infrastructure\ResComposer\PromiseCollector\SimpleCollector;
-use App\Infrastructure\ResComposer\ResourceComposer;
+use Guuzen\ResourceComposer\Config\MainResource;
+use Guuzen\ResourceComposer\Config\RelatedResource;
+use Guuzen\ResourceComposer\Link\OneToOne;
+use Guuzen\ResourceComposer\PromiseCollector\SimpleCollector;
+use Guuzen\ResourceComposer\ResourceComposer;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\inline;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
