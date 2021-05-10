@@ -5,7 +5,12 @@
   "additionalProperties": false,
   "properties": {
     "data": {
-      "type": "string"
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      }
     }
   },
   "required": [

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Model\TariffDescription;
 
-use App\Infrastructure\ArrayKeysNameConverter\ArrayKeysNameConverter;
 use App\Infrastructure\Http\AppController\AppController;
 use Doctrine\DBAL\Connection;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,18 +12,13 @@ use Symfony\Component\Routing\Annotation\Route;
 final class TariffDescriptionHttpAdapter extends AppController
 {
     private $connection;
-    private $tariffDescriptions;
-    private $arrayKeysNameConverter;
 
-    public function __construct(
-        Connection $connection,
-        ArrayKeysNameConverter $arrayKeysNameConverter,
-        TariffDescriptions $tariffDescriptions
-    )
+    private $tariffDescriptions;
+
+    public function __construct(Connection $connection, TariffDescriptions $tariffDescriptions)
     {
-        $this->connection             = $connection;
-        $this->arrayKeysNameConverter = $arrayKeysNameConverter;
-        $this->tariffDescriptions     = $tariffDescriptions;
+        $this->connection         = $connection;
+        $this->tariffDescriptions = $tariffDescriptions;
     }
 
     /**
@@ -38,9 +32,7 @@ final class TariffDescriptionHttpAdapter extends AppController
         );
 
         /** @psalm-suppress PossiblyFalseArgument */
-        $tariffDescription = $this->arrayKeysNameConverter->convert($tariffDescription);
-
-        return $this->validateResponse($tariffDescription);
+        return $this->response($tariffDescription);
     }
 
     /**
@@ -52,6 +44,6 @@ final class TariffDescriptionHttpAdapter extends AppController
 
         $this->flush();
 
-        return $this->validateResponse([]);
+        return $this->response([]);
     }
 }

@@ -2,9 +2,9 @@
 
 namespace App\Adapters\AdminApi\Promocode\CreateTariffPromocode;
 
+use App\Infrastructure\Http\AppController\AppController;
 use App\Model\Event\EventId;
 use App\Model\Event\Events;
-use App\Infrastructure\Http\AppController\AppController;
 use App\Model\Promocode\AllowedTariffs\SpecificAllowedTariffs;
 use App\Model\Promocode\Discount\FixedDiscount;
 use App\Model\Promocode\PromocodeId;
@@ -59,6 +59,6 @@ final class CreateTariffPromocodeHttpAdapter extends AppController
 
         $this->flush();
 
-        return $this->validateResponse($promocodeId);
+        return $this->response(['id' => (string)$promocodeId]);
     }
 }

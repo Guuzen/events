@@ -36,6 +36,6 @@ final class ApplyPromocodeHttpAdapter extends AppController
 
         $this->flush();
 
-        return $this->validateResponse([]);
+        return $this->response([]);
     }
 }

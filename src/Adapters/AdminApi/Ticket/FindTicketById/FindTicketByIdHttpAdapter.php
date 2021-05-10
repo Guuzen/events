@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Adapters\AdminApi\Ticket\FindTicketById;
 
 use App\Infrastructure\Http\AppController\AppController;
+use App\Infrastructure\Persistence\ResultSetMapping;
 use Doctrine\DBAL\Connection;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,31 +24,28 @@ final class FindTicketByIdHttpAdapter extends AppController
      */
     public function __invoke(FindTicketByIdRequest $request): Response
     {
-        $stmt = $this->connection->prepare(
+        /** @var \Doctrine\DBAL\Driver\PDO\Connection $pdo */
+        $pdo = $this->connection->getWrappedConnection();
+
+        $stmt = $pdo->prepare(
             '
             select
-                row_to_json(ticket)
-            from (
-                select
-                    *
-                from
-                    ticket
-                where
-                    ticket.id = :ticket_id
-            ) as ticket
-        '
+                *
+            from
+                ticket
+            where
+                ticket.id = :ticket_id
+            '
         );
         $stmt->bindValue('ticket_id', $request->ticketId);
         $stmt->execute();
 
-        /** @var string|false $ticketData */
-        $ticketData = $stmt->fetchOne();
-        if (false === $ticketData) {
-            throw new TicketByIdNotFound('');
-        }
+        /** @var array $ticket */
+        $ticket = $stmt->fetch(\PDO::FETCH_ASSOC);
 
-        $decoded = $this->deserializeFromDb($ticketData);
+        $mapping = ResultSetMapping::forStatement($stmt);
+        $ticket  = $mapping->mapKnownColumns($this->connection->getDatabasePlatform(), $ticket);
 
-        return $this->validateResponse($decoded);
+        return $this->response($ticket);
     }
 }

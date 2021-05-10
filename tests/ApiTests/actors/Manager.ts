@@ -34,10 +34,10 @@ class Manager {
         });
 
         expect(response.data).toEqual({
-            data: expect.any(String),
+            data: {id: expect.any(String)},
         });
 
-        return response.data.data;
+        return response.data.data.id;
     }
 
     async getEventsInList() {
@@ -78,10 +78,10 @@ class Manager {
         });
 
         expect(response.data).toEqual({
-            data: expect.any(String),
+            data: {id: expect.any(String)},
         });
 
-        return response.data.data;
+        return response.data.data.id;
     }
 
     async createTariffDescription(tariffId) {
@@ -171,10 +171,10 @@ class Manager {
         });
 
         expect(response.data).toEqual({
-            data: expect.any(String),
+            data: {id: expect.any(String)},
         });
 
-        return response.data.data;
+        return response.data.data.id;
     }
 
     async getPromocodeList(eventId) {
@@ -197,7 +197,7 @@ class Manager {
                         },
                         type: 'fixed',
                     },
-                    expireAt: '3000-01-01T12:00:00+00:00',
+                    expireAt: '3000-01-01 12:00:00+00',
                     usable: true,
                     useLimit: 10,
                     usedInOrders: [],
@@ -229,7 +229,7 @@ class Manager {
                         },
                         type: 'fixed',
                     },
-                    expireAt: '3000-01-01T12:00:00+00:00',
+                    expireAt: '3000-01-01 12:00:00+00',
                     usable: true,
                     useLimit: 10,
                 },

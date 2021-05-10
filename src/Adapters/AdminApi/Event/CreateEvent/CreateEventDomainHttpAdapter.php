@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace App\Adapters\AdminApi\Event\CreateEvent;
 
+use App\Infrastructure\Http\AppController\AppController;
 use App\Model\Event\Event;
 use App\Model\Event\EventId;
 use App\Model\Event\Events;
 use App\Model\EventDomain\EventDomain;
-use App\Infrastructure\Http\AppController\AppController;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -17,12 +16,9 @@ final class CreateEventDomainHttpAdapter extends AppController
 {
     private $events;
 
-    private $em;
-
-    public function __construct(Events $events, EntityManagerInterface $em)
+    public function __construct(Events $events)
     {
         $this->events = $events;
-        $this->em     = $em;
     }
 
     /**
@@ -36,7 +32,7 @@ final class CreateEventDomainHttpAdapter extends AppController
         $event = new Event($eventId);
         $this->events->add($event);
 
-        $this->em->persist(
+        $this->persist(
             new EventDomain(
                 (string)$eventId,
                 $request->name,
@@ -44,8 +40,8 @@ final class CreateEventDomainHttpAdapter extends AppController
             )
         );
 
-        $this->em->flush();
+        $this->flush();
 
-        return $this->validateResponse($eventId);
+        return $this->response(['id' => (string)$eventId]);
     }
 }

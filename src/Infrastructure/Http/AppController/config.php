@@ -2,10 +2,8 @@
 
 namespace App\Infrastructure\Http\AppController;
 
-use App\Infrastructure\Http\Openapi\OpenapiSchema;
+use App\Infrastructure\ArrayKeysNameConverter\ArrayKeysNameConverter;
 use App\Infrastructure\Http\Openapi\OpenapiValidator;
-use App\Infrastructure\Persistence\DatabaseSerializer\DatabaseSerializer;
-use App\Infrastructure\Persistence\JsonFromDatabaseDeserializer\JsonFromDatabaseDeserializer;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\DependencyInjection\ServiceLocator;
@@ -30,12 +28,10 @@ return static function (ContainerConfigurator $configurator) {
         ->args(
             [
                 [
-                    'serializer'                => service('app.infrastructure.http.serializer'),
-                    'databaseSerializer'        => service(DatabaseSerializer::class),
-                    'jsonFromDatabaseConverter' => service(JsonFromDatabaseDeserializer::class),
-                    'em'                        => service(EntityManagerInterface::class),
-                    'requestStack'              => service(RequestStack::class),
-                    'openapiValidator'          => service(OpenapiValidator::class)
+                    'keysNameConverter' => service(ArrayKeysNameConverter::class),
+                    'em'                => service(EntityManagerInterface::class),
+                    'requestStack'      => service(RequestStack::class),
+                    'openapiValidator'  => service(OpenapiValidator::class)
                 ],
             ]
         );

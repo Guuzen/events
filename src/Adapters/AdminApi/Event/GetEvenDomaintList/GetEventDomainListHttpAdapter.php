@@ -32,6 +32,6 @@ final class GetEventDomainListHttpAdapter extends AppController
             '
         );
 
-        return $this->validateResponse($eventList);
+        return $this->response($eventList);
     }
 }

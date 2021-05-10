@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Adapters\AdminApi\Tariff\FindTariffById;
 
 use App\Infrastructure\Http\AppController\AppController;
+use App\Infrastructure\Persistence\ResultSetMapping;
 use Doctrine\DBAL\Connection;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,31 +24,28 @@ final class FindTariffByIdHttpAdapter extends AppController
      */
     public function __invoke(FindTariffByIdRequest $request): Response
     {
-        $stmt = $this->connection->prepare(
+        /** @var \Doctrine\DBAL\Driver\PDO\Connection $pdo */
+        $pdo = $this->connection->getWrappedConnection();
+
+        $stmt = $pdo->prepare(
             '
             select
-                row_to_json(tariff)
-            from (
-                select
-                    *
-                from
-                    tariff
-                where
-                    tariff.id = :tariff_id
-            ) as tariff
-        '
+                *
+            from
+                tariff
+            where
+                tariff.id = :tariff_id
+            '
         );
         $stmt->bindValue('tariff_id', $request->tariffId);
         $stmt->execute();
 
-        /** @var string|false $tariffData */
-        $tariffData = $stmt->fetchOne();
-        if (false === $tariffData) {
-            throw new TariffByIdNotFound('');
-        }
+        /** @var array $tariff */
+        $tariff = $stmt->fetch(\PDO::FETCH_ASSOC);
 
-        $decoded = $this->deserializeFromDb($tariffData);
+        $mapping = ResultSetMapping::forStatement($stmt);
+        $tariff  = $mapping->mapKnownColumns($this->connection->getDatabasePlatform(), $tariff);
 
-        return $this->validateResponse($decoded);
+        return $this->response($tariff);
     }
 }

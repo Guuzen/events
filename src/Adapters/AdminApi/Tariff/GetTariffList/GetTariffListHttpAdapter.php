@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Adapters\AdminApi\Tariff\GetTariffList;
 
 use App\Infrastructure\Http\AppController\AppController;
+use App\Infrastructure\Persistence\ResultSetMapping;
 use Doctrine\DBAL\Connection;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,30 +24,27 @@ final class GetTariffListHttpAdapter extends AppController
      */
     public function __invoke(GetTariffListRequest $request): Response
     {
-        $stmt = $this->connection->prepare(
+        /** @var \Doctrine\DBAL\Driver\PDO\Connection $pdo */
+        $pdo = $this->connection->getWrappedConnection();
+
+        $stmt = $pdo->prepare(
             '
             select
-                json_agg(tariff)
-            from (
-                select
-                    *
-                from
-                    tariff
-                where tariff.event_id = :event_id
-            ) as tariff
-        '
+                *
+            from
+                tariff
+            where tariff.event_id = :event_id
+            '
         );
         $stmt->bindValue('event_id', $request->eventId);
         $stmt->execute();
 
-        /** @var string|false $tariffsData */
-        $tariffsData = $stmt->fetchOne();
-        if ($tariffsData === false) {
-            throw new TariffListNotFound('');
-        }
+        /** @var array<int, array> $tariffs */
+        $tariffs = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
-        $decoded = $this->deserializeFromDb($tariffsData);
+        $mapping = ResultSetMapping::forStatement($stmt);
+        $tariffs = $mapping->mapKnownColumnsArray($this->connection->getDatabasePlatform(), $tariffs);
 
-        return $this->validateResponse($decoded);
+        return $this->response($tariffs);
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Adapters\AdminApi\Order\GetOrderById;
 
 use App\Infrastructure\Http\AppController\AppController;
+use App\Infrastructure\Persistence\ResultSetMapping;
 use Doctrine\DBAL\Connection;
 use Guuzen\ResourceComposer\ResourceComposer;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,41 +28,41 @@ final class GetOrderByIdHttpAdapter extends AppController
      */
     public function __invoke(GetOrderByIdRequest $request): Response
     {
-        $stmt = $this->connection->prepare(
+        /** @var \Doctrine\DBAL\Driver\PDO\Connection $pdo */
+        $pdo = $this->connection->getWrappedConnection();
+
+        $stmt = $pdo->prepare(
             '
             select
-                row_to_json("order")
-            from (
-                select
-                    ticket_order.id,
-                    ticket_order.event_id,
-                    ticket_order.tariff_id,
-                    ticket_order.paid,
-                    ticket_order.price,
-                    ticket_order.cancelled,
-                    ticket_order.user_id,
-                    ticket_order.maked_at,
-                    ticket_order.tariff_type,
-                    ticket_order.total,
-                    ticket_order.promocode_id as promocode,
-                    \'ticket\' as product_type
-                from
-                    ticket_order
-                where
-                    ticket_order.id = :order_id                 
-            ) as "order"
-        '
+                ticket_order.id,
+                ticket_order.event_id,
+                ticket_order.tariff_id,
+                ticket_order.paid,
+                ticket_order.price,
+                ticket_order.cancelled,
+                ticket_order.user_id,
+                ticket_order.maked_at,
+                ticket_order.tariff_type,
+                ticket_order.total,
+                ticket_order.promocode_id as promocode,
+                \'ticket\' as product_type
+            from
+                ticket_order
+            where
+                ticket_order.id = :order_id
+            '
         );
         $stmt->bindValue('order_id', $request->orderId);
         $stmt->execute();
 
-        /** @var string $orderData */
-        $orderData = $stmt->fetchOne();
+        /** @var array $order */
+        $order = $stmt->fetch(\PDO::FETCH_ASSOC);
 
-        $order = $this->deserializeFromDb($orderData);
+        $mapping = ResultSetMapping::forStatement($stmt);
+        $order   = $mapping->mapKnownColumns($this->connection->getDatabasePlatform(), $order);
 
-        $resource = $this->composer->composeOne($order, 'order');
+        $order = $this->composer->composeOne($order, 'order');
 
-        return $this->validateResponse($resource);
+        return $this->response($order);
     }
 }

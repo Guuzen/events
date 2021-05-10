@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Adapters\AdminApi\Promocode\GetPromocodeList;
 
 use App\Infrastructure\Http\AppController\AppController;
+use App\Infrastructure\Persistence\ResultSetMapping;
 use Doctrine\DBAL\Connection;
 use Guuzen\ResourceComposer\ResourceComposer;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,34 +28,30 @@ final class GetPromocodeListHttpAdapter extends AppController
      */
     public function __invoke(GetPromocodeListRequest $request): Response
     {
-        $stmt = $this->connection->prepare(
+        /** @var \Doctrine\DBAL\Driver\PDO\Connection $pdo */
+        $pdo = $this->connection->getWrappedConnection();
+
+        $stmt = $pdo->prepare(
             '
             select
-                json_agg(promocodes)
-            from (                
-                select
-                    *        
-                from
-                    promocode
-                where
-                    event_id = :event_id
-            ) as promocodes
-        '
+                *        
+            from
+                promocode
+            where
+                event_id = :event_id
+            '
         );
         $stmt->bindValue('event_id', $request->eventId);
         $stmt->execute();
 
-        /** @var string|false $promocodesData */
-        $promocodesData = $stmt->fetchOne();
-        if ($promocodesData === false) {
-            throw new \RuntimeException('promocode list not found');
-        }
-
         /** @var array<int, array> $promocodes */
-        $promocodes = $this->deserializeFromDb($promocodesData);
+        $promocodes = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
-        $resources = $this->composer->compose($promocodes, 'promocode');
+        $mapping    = ResultSetMapping::forStatement($stmt);
+        $promocodes = $mapping->mapKnownColumnsArray($this->connection->getDatabasePlatform(), $promocodes);
 
-        return $this->validateResponse($resources);
+        $promocodes = $this->composer->compose($promocodes, 'promocode');
+
+        return $this->response($promocodes);
     }
 }

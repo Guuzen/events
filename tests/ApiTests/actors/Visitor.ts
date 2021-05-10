@@ -7,7 +7,7 @@ const wait = require('../Infrastructure/wait');
 const httpClient = axios.create({
     baseURL: process.env.TEST_API_URL,
     headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
     },
     transformResponse: function (data) {
         return JSON.parse(data);
@@ -42,14 +42,14 @@ class Visitor {
             firstName: 'john',
             lastName: 'Doe',
             email: 'john@email.com',
-            phone: '+123456789'
+            phone: '+123456789',
         });
 
         expect(response.data).toEqual({
-            data: expect.any(String)
+            data: {id: expect.any(String)},
         });
 
-        return response.data.data;
+        return response.data.data.id;
     }
 
     async awaitsEmailWithTicket(emailServer) {
@@ -63,13 +63,15 @@ class Visitor {
             subject: 'Thanks for buy ticket',
             from: {'no-reply@event.com': null},
             to: {'john@email.com': null},
-        })
+        });
     }
 
     async payOrderByCard(orderId) {
-         const response = await httpClient.post(`/ticketOrder/${orderId}/payByCard`, {});
+        const response = await httpClient.post(`/ticketOrder/${orderId}/payByCard`, {});
 
-         expect(response.data).toEqual({data: expect.any(String)});
+        expect(response.data).toEqual({
+            data: {url: expect.any(String)},
+        });
     }
 }
 

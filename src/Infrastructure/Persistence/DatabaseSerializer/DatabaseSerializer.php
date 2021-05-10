@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Persistence\DatabaseSerializer;
 
-use App\Infrastructure\ArrayKeysNameConverter\ArrayKeysNameConverter;
 use Symfony\Component\Serializer\Serializer;
 
 // TODO split serializer and deserializer ?
@@ -12,12 +11,9 @@ final class DatabaseSerializer
 {
     private $serializer;
 
-    private $arrayKeysNameConverter;
-
-    public function __construct(Serializer $serializer, ArrayKeysNameConverter $arrayKeysNameConverter)
+    public function __construct(Serializer $serializer)
     {
-        $this->serializer             = $serializer;
-        $this->arrayKeysNameConverter = $arrayKeysNameConverter;
+        $this->serializer = $serializer;
     }
 
     /**
@@ -41,27 +37,6 @@ final class DatabaseSerializer
         $deserialized = $this->serializer->deserialize($data, $type, 'json', $context);
 
         return $deserialized;
-    }
-
-    /**
-     * @psalm-suppress MixedReturnStatement
-     * @psalm-suppress MixedInferredReturnType
-     * @psalm-suppress MixedArgument
-     * @psalm-suppress MixedAssignment
-     */
-    public function decode(string $json): array
-    {
-        $decoded = $this->serializer->decode($json, 'json');
-
-        return $this->arrayKeysNameConverter->convert($decoded);
-    }
-
-    /**
-     * @return mixed
-     */
-    public function denormalize(array $data, string $type)
-    {
-        return $this->serializer->denormalize($data, $type);
     }
 
     /**

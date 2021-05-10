@@ -2,14 +2,13 @@
 
 namespace App\Infrastructure\Http\AppController;
 
+use App\Infrastructure\ArrayKeysNameConverter\ArrayKeysNameConverter;
 use App\Infrastructure\Http\Openapi\OpenapiValidator;
-use App\Infrastructure\Persistence\JsonFromDatabaseDeserializer\JsonFromDatabaseDeserializer;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Serializer\SerializerInterface;
 
 abstract class AppController
 {
@@ -23,19 +22,7 @@ abstract class AppController
         $this->locator = $locator;
     }
 
-    /**
-     * @param mixed $data
-     */
-    protected function response($data, int $status = 200, array $headers = [], array $context = []): Response
-    {
-        return $this->toJson(
-            [
-                'data' => $data ?? [],
-            ], $status, $headers, $context
-        );
-    }
-
-    protected function validateResponse(mixed $data, int $status = 200, array $headers = [], array $context = []): Response
+    protected function response(array $data, int $status = 200, array $headers = [], array $context = []): Response
     {
         /** @var RequestStack $requestStack */
         $requestStack = $this->locator->get('requestStack');
@@ -44,7 +31,15 @@ abstract class AppController
 
         $request = $requestStack->getCurrentRequest();
 
-        $response = $this->response($data, $status, $headers, $context);
+        /** @var ArrayKeysNameConverter $keysNameConverter */
+        $keysNameConverter = $this->locator->get('keysNameConverter');
+        $data              = $keysNameConverter->convert($data);
+
+        $response = $this->toJson(
+            [
+                'data' => $data,
+            ], $status, $headers, $context
+        );
 
         /** @psalm-suppress PossiblyNullArgument */
         $openapiValidator->validateResponse($request, $response);
@@ -52,15 +47,12 @@ abstract class AppController
         return $response;
     }
 
-    protected function deserializeFromDb(string $json, array $context = []): array
+    private function toJson(array $data, int $status, array $headers = [], array $context = []): JsonResponse
     {
-        /** @var JsonFromDatabaseDeserializer $deserializer */
-        $deserializer = $this->locator->get('jsonFromDatabaseConverter');
-
-        return $deserializer->deserialize($json, $context);
+        return new JsonResponse($data, $status, $headers);
     }
 
-    public function persist(object $object): void
+    protected function persist(object $object): void
     {
         /** @var EntityManagerInterface $em */
         $em = $this->locator->get('em');
@@ -68,29 +60,11 @@ abstract class AppController
         $em->persist($object);
     }
 
-    public function flush(): void
+    protected function flush(): void
     {
         /** @var EntityManagerInterface $em */
         $em = $this->locator->get('em');
 
         $em->flush();
-    }
-
-    /**
-     * @param mixed $data
-     */
-    private function toJson($data, int $status, array $headers = [], array $context = []): JsonResponse
-    {
-        /** @var SerializerInterface */
-        $serializer = $this->locator->get('serializer');
-        $json       = $serializer->serialize(
-            $data, 'json', \array_merge(
-                [
-                    'json_encode_options' => JsonResponse::DEFAULT_ENCODING_OPTIONS,
-                ], $context
-            )
-        );
-
-        return new JsonResponse($json, $status, $headers, true);
     }
 }

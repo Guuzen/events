@@ -80,6 +80,6 @@ final class PlaceTicketOrderHttpAdapter extends AppController
 
         $this->flush();
 
-        return $this->validateResponse($ticketOrderId);
+        return $this->response(['id' => (string)$ticketOrderId]);
     }
 }

@@ -23,7 +23,8 @@ final class FindEventDomainByIdHttpAdapter extends AppController
      */
     public function __invoke(FindEventDomainByIdRequest $request): Response
     {
-        $stmt = $this->connection->prepare(
+        /** @var array|false $event */
+        $event = $this->connection->fetchAssociative(
             '
             select
                 *
@@ -31,17 +32,14 @@ final class FindEventDomainByIdHttpAdapter extends AppController
                 event_domain
             where
                 event_domain.id = :event_id
-        '
+        ',
+            ['event_id' => $request->eventId]
         );
-        $stmt->bindValue('event_id', $request->eventId);
-        $stmt->execute();
 
-        /** @var array|false */
-        $event = $stmt->fetchAssociative();
         if (false === $event) {
             throw new EventDomainNotFound(''); // TODO exceptions in dev and in prod. In prod need only message. In dev - full trace?
         }
 
-        return $this->validateResponse($event);
+        return $this->response($event);
     }
 }

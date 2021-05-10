@@ -33,6 +33,6 @@ final class PayByCardHttpAdapter extends AppController
 
         $paymentUrl = $order->createFondyPayment($this->fondy);
 
-        return $this->validateResponse($paymentUrl);
+        return $this->response(['url' => $paymentUrl]);
     }
 }

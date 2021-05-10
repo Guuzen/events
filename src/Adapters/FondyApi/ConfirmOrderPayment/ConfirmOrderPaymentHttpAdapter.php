@@ -31,6 +31,6 @@ final class ConfirmOrderPaymentHttpAdapter extends AppController
 
         $this->flush();
 
-        return $this->validateResponse([]);
+        return $this->response([]);
     }
 }

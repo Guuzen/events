@@ -13,10 +13,8 @@ final class ResultSetMapping
      * @var string[]
      */
     private static $postgresTypeMapping = [
-        'timestamptz' => 'datetimetz_immutable',
-        'timestamp'   => 'datetime_immutable',
-        'json'        => 'json',
-        'jsonb'       => 'json',
+        'json'  => 'json',
+        'jsonb' => 'json',
     ];
 
     private $mappings;
@@ -71,6 +69,8 @@ final class ResultSetMapping
 
     /**
      * @param array<int, array> $rows
+     *
+     * @return array<int, array>
      */
     public function mapKnownColumnsArray(AbstractPlatform $platform, array $rows): array
     {

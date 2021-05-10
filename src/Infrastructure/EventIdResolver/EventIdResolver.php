@@ -36,7 +36,8 @@ final class EventIdResolver implements ArgumentValueResolverInterface
     {
         $domain = $request->getHost();
 
-        $stmt = $this->connection->prepare(
+        /** @psalm-var array{id: string}|false $result */
+        $result = $this->connection->fetchAssociative(
             '
             select
                 id
@@ -44,13 +45,10 @@ final class EventIdResolver implements ArgumentValueResolverInterface
                 event_domain
             where
                 event_domain.domain = :domain
-        '
+            ',
+            ['domain' => $domain],
         );
 
-        $stmt->bindValue('domain', $domain);
-        $stmt->execute();
-        /** @psalm-var array{id: string}|false */
-        $result = $stmt->fetchAssociative();
         if (false === $result) {
             throw new EventIdByDomainNotFound(
                 \sprintf('Domain: %s not found', $domain)

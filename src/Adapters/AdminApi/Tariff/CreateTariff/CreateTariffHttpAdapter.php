@@ -2,9 +2,9 @@
 
 namespace App\Adapters\AdminApi\Tariff\CreateTariff;
 
+use App\Infrastructure\Http\AppController\AppController;
 use App\Model\Event\EventId;
 use App\Model\Event\Events;
-use App\Infrastructure\Http\AppController\AppController;
 use App\Model\Tariff\ProductType;
 use App\Model\Tariff\TariffId;
 use App\Model\Tariff\TariffPriceNet;
@@ -61,6 +61,6 @@ final class CreateTariffHttpAdapter extends AppController
 
         $this->flush();
 
-        return $this->validateResponse($tariffId);
+        return $this->response(['id' => (string)$tariffId]);
     }
 }
