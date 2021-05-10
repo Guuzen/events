@@ -2,7 +2,6 @@
 
 namespace App\Model\Promocode;
 
-use App\Adapters\AdminApi\Promocode\PromocodeLoader;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $configurator) {
@@ -12,8 +11,6 @@ return static function (ContainerConfigurator $configurator) {
         ->autoconfigure(true);
 
     $services->set(Promocodes::class);
-
-    $services->set(PromocodeLoader::class);
 
     $services->set(OnTicketOrderPaymentConfirmed::class);
 };

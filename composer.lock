@@ -1924,12 +1924,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Guuzen/resource-composer.git",
-                "reference": "60241a0b0dd686549d6183917f7ce60113142518"
+                "reference": "43e51dc1ba62c9c11983d96a82b5fd8541e77782"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Guuzen/resource-composer/zipball/60241a0b0dd686549d6183917f7ce60113142518",
-                "reference": "60241a0b0dd686549d6183917f7ce60113142518",
+                "url": "https://api.github.com/repos/Guuzen/resource-composer/zipball/43e51dc1ba62c9c11983d96a82b5fd8541e77782",
+                "reference": "43e51dc1ba62c9c11983d96a82b5fd8541e77782",
                 "shasum": ""
             },
             "require": {
@@ -1953,9 +1953,9 @@
             "description": "application side joins implementation",
             "support": {
                 "issues": "https://github.com/Guuzen/resource-composer/issues",
-                "source": "https://github.com/Guuzen/resource-composer/tree/dev"
+                "source": "https://github.com/Guuzen/resource-composer/tree/master"
             },
-            "time": "2021-05-09T18:46:42+00:00"
+            "time": "2021-05-10T15:57:01+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Infrastructure\Persistence\DatabaseSerializer;
+namespace App\Adapters\AdminApi\Promocode;
 
-use App\Adapters\AdminApi\Promocode\PromocodeLoader;
+use App\Infrastructure\Persistence\ResourceComposer\PostgresLoader;
 use Guuzen\ResourceComposer\Config\MainResource;
 use Guuzen\ResourceComposer\Config\RelatedResource;
 use Guuzen\ResourceComposer\Link\OneToOne;
@@ -18,6 +18,14 @@ return static function (ContainerConfigurator $configurator) {
         ->autowire(true)
         ->autoconfigure(true);
 
+    $services->set('app.admin_api.promocode.resource_loader', PostgresLoader::class)->args(
+        [
+            '$table'       => 'promocode',
+            '$searchField' => 'id',
+            '$fields'      => ['id', 'discount'],
+        ]
+    );
+
     $services->set(ResourceComposer::class)
         ->call(
             'registerRelation', [
@@ -32,7 +40,7 @@ return static function (ContainerConfigurator $configurator) {
                     [
                         'promocode',
                         'id',
-                        ref(PromocodeLoader::class),
+                        ref('app.admin_api.promocode.resource_loader'),
                     ]
                 ),
             ]
