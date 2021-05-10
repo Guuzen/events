@@ -115,7 +115,12 @@ final class TicketOrder extends Entity
         $this->paid = true;
 
         $this->rememberThat(
-            new TicketOrderPaymentConfirmed($this->eventId, $this->id, $this->userId, $this->promocodeId)
+            new TicketOrderPaymentConfirmed(
+                (string)$this->eventId,
+                (string)$this->id,
+                (string)$this->userId,
+                (string)$this->promocodeId,
+            )
         );
     }
 

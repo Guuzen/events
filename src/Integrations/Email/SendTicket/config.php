@@ -10,8 +10,8 @@ use Guuzen\ResourceComposer\Link\OneToOne;
 use Guuzen\ResourceComposer\PromiseCollector\SimpleCollector;
 use Guuzen\ResourceComposer\ResourceComposer;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\inline;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\inline_service;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $configurator) {
     $services = $configurator->services()
@@ -29,18 +29,18 @@ return static function (ContainerConfigurator $configurator) {
     $services->set('app.ticket_composer', ResourceComposer::class)
         ->call(
             'registerRelation', [
-                inline(MainResource::class)->args(
+                inline_service(MainResource::class)->args(
                     [
                         'ticket',
-                        inline(SimpleCollector::class)->args(['user_id', 'user'])
+                        inline_service(SimpleCollector::class)->args(['user_id', 'user'])
                     ],
                 ),
-                inline(OneToOne::class),
-                inline(RelatedResource::class)->args(
+                inline_service(OneToOne::class),
+                inline_service(RelatedResource::class)->args(
                     [
                         'user',
                         'id',
-                        ref('app.integrations.email.send_ticket.user_loader')
+                        service('app.integrations.email.send_ticket.user_loader')
                     ]
                 )
             ]
@@ -49,9 +49,9 @@ return static function (ContainerConfigurator $configurator) {
     $services->set(TicketDelivery::class)
         ->args(
             [
-                '$mailer'   => ref('app.infrastructure.email.mailer'),
+                '$mailer'   => service('app.infrastructure.email.mailer'),
                 '$from'     => '%app.no_reply_email%',
-                '$composer' => ref('app.ticket_composer'),
+                '$composer' => service('app.ticket_composer'),
             ]
         );
 };

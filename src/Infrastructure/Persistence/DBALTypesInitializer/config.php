@@ -4,7 +4,7 @@ namespace App\Infrastructure\Persistence\DBALTypesInitializer;
 
 use App\Infrastructure\Persistence\DatabaseSerializer\DatabaseSerializer;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $configurator) {
     $services = $configurator->services()
@@ -13,5 +13,5 @@ return static function (ContainerConfigurator $configurator) {
         ->autoconfigure(true);
 
     $services->set(DBALTypes::class)
-        ->args([ref(DatabaseSerializer::class)]);
+        ->args([service(DatabaseSerializer::class)]);
 };

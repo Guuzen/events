@@ -26,6 +26,6 @@ final class OnTicketOrderPaymentConfirmed implements MessageSubscriberInterface
 
     public function sendTicket(TicketOrderPaymentConfirmed $event): void
     {
-        $this->ticketDelivery->send((string)$event->orderId);
+        $this->ticketDelivery->send($event->orderId);
     }
 }

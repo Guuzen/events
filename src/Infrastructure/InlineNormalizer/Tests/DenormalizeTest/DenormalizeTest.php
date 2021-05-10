@@ -47,6 +47,7 @@ final class DenormalizeTest extends TestCase
     {
         $data = null;
 
+        /** @var Denormalizable $object */
         $object = $this->normalizer->denormalize($data, Denormalizable::class);
 
         self::assertEquals(new Denormalizable(null), $object);
@@ -56,6 +57,7 @@ final class DenormalizeTest extends TestCase
     {
         $data = 'some string';
 
+        /** @var Denormalizable $object */
         $object = $this->normalizer->denormalize($data, Denormalizable::class);
 
         self::assertEquals(new Denormalizable('some string'), $object);
@@ -65,6 +67,7 @@ final class DenormalizeTest extends TestCase
     {
         $data = [1];
 
+        /** @var Denormalizable $object */
         $object = $this->normalizer->denormalize($data, Denormalizable::class);
 
         self::assertEquals(new Denormalizable([1]), $object);
@@ -77,6 +80,7 @@ final class DenormalizeTest extends TestCase
             'bar',
         ];
 
+        /** @var DenormalizableCollectionOfDenormalizables $object */
         $object = $this->normalizer->denormalize($data, DenormalizableCollectionOfDenormalizables::class);
 
         self::assertEquals(

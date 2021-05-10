@@ -9,8 +9,8 @@ use DateTimeInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\Serializer;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\inline;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\inline_service;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $configurator) {
     $services = $configurator->services()
@@ -18,7 +18,7 @@ return static function (ContainerConfigurator $configurator) {
         ->autowire(true)
         ->autoconfigure(true);
 
-    $dateTimeNormalizer = inline(DateTimeNormalizer::class)
+    $dateTimeNormalizer = inline_service(DateTimeNormalizer::class)
         ->args(
             [
                 '$defaultContext' => [
@@ -27,40 +27,40 @@ return static function (ContainerConfigurator $configurator) {
                 ]
             ]
         );
-    $inlineNormalizer   = inline(InlineNormalizer::class)
+    $inlineNormalizer   = inline_service(InlineNormalizer::class)
         ->args(
             [
-                ref('annotations.reader'),
-                ref('serializer.mapping.class_metadata_factory'),
-                ref('serializer.name_converter.camel_case_to_snake_case'),
-                ref('property_info.php_doc_extractor'),
-                ref('serializer.mapping.class_discriminator_resolver'),
+                service('annotations.reader'),
+                service('serializer.mapping.class_metadata_factory'),
+                service('serializer.name_converter.camel_case_to_snake_case'),
+                service('property_info.php_doc_extractor'),
+                service('serializer.mapping.class_discriminator_resolver'),
             ]
         );
-    $propertyNormalizer = inline(WithoutConstructorPropertyNormalizer::class)
+    $propertyNormalizer = inline_service(WithoutConstructorPropertyNormalizer::class)
         ->args(
             [
-                ref('serializer.mapping.class_metadata_factory'),
-                ref('serializer.name_converter.camel_case_to_snake_case'),
-                ref('property_info.php_doc_extractor'),
-                ref('serializer.mapping.class_discriminator_resolver'),
+                service('serializer.mapping.class_metadata_factory'),
+                service('serializer.name_converter.camel_case_to_snake_case'),
+                service('property_info.php_doc_extractor'),
+                service('serializer.mapping.class_discriminator_resolver'),
             ]
         );
 
     $services->set(DatabaseSerializer::class)
         ->args(
             [
-                inline(Serializer::class)
+                inline_service(Serializer::class)
                     ->args(
                         [
                             '$normalizers' => [
                                 $dateTimeNormalizer,
-                                ref('serializer.denormalizer.array'),
-                                inline(MoneyNormalizer::class),
+                                service('serializer.denormalizer.array'),
+                                inline_service(MoneyNormalizer::class),
                                 $inlineNormalizer,
                                 $propertyNormalizer,
                             ],
-                            '$encoders'    => [ref('serializer.encoder.json')]
+                            '$encoders'    => [service('serializer.encoder.json')]
                         ]
                     )
                 ,

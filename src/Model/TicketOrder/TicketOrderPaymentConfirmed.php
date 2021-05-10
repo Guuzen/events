@@ -5,9 +5,6 @@ declare(strict_types=1);
 namespace App\Model\TicketOrder;
 
 use App\Infrastructure\DomainEvent\Event;
-use App\Model\Event\EventId;
-use App\Model\Promocode\PromocodeId;
-use App\Model\User\UserId;
 
 /**
  * @psalm-immutable
@@ -22,7 +19,7 @@ final class TicketOrderPaymentConfirmed implements Event
 
     public $promocodeId;
 
-    public function __construct(EventId $eventId, TicketOrderId $orderId, UserId $userId, ?PromocodeId $promocodeId)
+    public function __construct(string $eventId, string $orderId, string $userId, ?string $promocodeId)
     {
         $this->eventId     = $eventId;
         $this->orderId     = $orderId;

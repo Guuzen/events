@@ -4,7 +4,7 @@ namespace App\Infrastructure\Persistence\JsonFromDatabaseDeserializer;
 
 use App\Infrastructure\ArrayKeysNameConverter\ArrayKeysNameConverter;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $configurator) {
     $services = $configurator->services()
@@ -15,8 +15,8 @@ return static function (ContainerConfigurator $configurator) {
     $services->set(JsonFromDatabaseDeserializer::class)
         ->args(
             [
-                ref('serializer.encoder.json'),
-                ref(ArrayKeysNameConverter::class)
+                service('serializer.encoder.json'),
+                service(ArrayKeysNameConverter::class)
             ]
         );
 };

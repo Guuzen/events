@@ -10,7 +10,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 use Symfony\Component\HttpFoundation\RequestStack;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $configurator) {
     $services = $configurator->services()
@@ -20,7 +20,7 @@ return static function (ContainerConfigurator $configurator) {
 
     $services
         ->instanceof(AppController::class)
-        ->call('setLocator', [ref(ServiceLocator::class)])
+        ->call('setLocator', [service(ServiceLocator::class)])
         ->tag('controller.service_arguments');
 
     $services->load('App\\', '../../../../src/**/*HttpAdapter.php');
@@ -30,12 +30,12 @@ return static function (ContainerConfigurator $configurator) {
         ->args(
             [
                 [
-                    'serializer'                => ref('app.infrastructure.http.serializer'),
-                    'databaseSerializer'        => ref(DatabaseSerializer::class),
-                    'jsonFromDatabaseConverter' => ref(JsonFromDatabaseDeserializer::class),
-                    'em'                        => ref(EntityManagerInterface::class),
-                    'requestStack'              => ref(RequestStack::class),
-                    'openapiValidator'          => ref(OpenapiValidator::class)
+                    'serializer'                => service('app.infrastructure.http.serializer'),
+                    'databaseSerializer'        => service(DatabaseSerializer::class),
+                    'jsonFromDatabaseConverter' => service(JsonFromDatabaseDeserializer::class),
+                    'em'                        => service(EntityManagerInterface::class),
+                    'requestStack'              => service(RequestStack::class),
+                    'openapiValidator'          => service(OpenapiValidator::class)
                 ],
             ]
         );

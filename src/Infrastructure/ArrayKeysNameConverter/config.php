@@ -3,7 +3,7 @@
 namespace App\Infrastructure\ArrayKeysNameConverter;
 
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $configurator) {
     $services = $configurator->services()
@@ -14,7 +14,7 @@ return static function (ContainerConfigurator $configurator) {
     $services->set(ArrayKeysNameConverter::class)
         ->args(
             [
-                ref('serializer.name_converter.camel_case_to_snake_case'),
+                service('serializer.name_converter.camel_case_to_snake_case'),
             ]
         );
 };

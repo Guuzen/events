@@ -12,8 +12,8 @@ use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 use Symfony\Component\Serializer\Serializer;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\inline;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\inline_service;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $configurator) {
     $services = $configurator->services()
@@ -30,15 +30,15 @@ return static function (ContainerConfigurator $configurator) {
     $services->set('app.infrastructure.http.serializer.php_doc_extractor', PhpDocExtractor::class);
 
     $services->set('app.infrastructure.http.serializer.inline_normalizer', InlineNormalizer::class)
-        ->args([ref('annotations.reader')]);
+        ->args([service('annotations.reader')]);
 
     $services->set('app.infrastructure.http.serializer.property_normalizer', WithoutConstructorPropertyNormalizer::class)
         ->args(
             [
-                ref('serializer.mapping.class_metadata_factory'),
+                service('serializer.mapping.class_metadata_factory'),
                 null,
-                ref('app.infrastructure.http.serializer.php_doc_extractor'),
-                ref('serializer.mapping.class_discriminator_resolver')
+                service('app.infrastructure.http.serializer.php_doc_extractor'),
+                service('serializer.mapping.class_discriminator_resolver')
             ]
         );
 
@@ -48,15 +48,15 @@ return static function (ContainerConfigurator $configurator) {
         ->args(
             [
                 '$normalizers' => [
-                    ref('app.infrastructure.http.serializer.normalizer.datetime'),
-                    ref('app.infrastructure.http.serializer.normalizer.array'),
-                    inline(MoneyNormalizer::class),
-                    ref('app.infrastructure.http.serializer.inline_normalizer'),
-                    ref('serializer.normalizer.json_serializable'),
-                    ref('app.infrastructure.http.get_set_method_normalizer'),
-                    ref('app.infrastructure.http.serializer.property_normalizer'),
+                    service('app.infrastructure.http.serializer.normalizer.datetime'),
+                    service('app.infrastructure.http.serializer.normalizer.array'),
+                    inline_service(MoneyNormalizer::class),
+                    service('app.infrastructure.http.serializer.inline_normalizer'),
+                    service('serializer.normalizer.json_serializable'),
+                    service('app.infrastructure.http.get_set_method_normalizer'),
+                    service('app.infrastructure.http.serializer.property_normalizer'),
                 ],
-                '$encoders'    => [ref('serializer.encoder.json')],
+                '$encoders'    => [service('serializer.encoder.json')],
             ]
         );
 };

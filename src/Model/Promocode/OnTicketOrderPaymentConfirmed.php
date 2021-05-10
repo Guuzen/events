@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Model\Promocode;
 
+use App\Model\Event\EventId;
+use App\Model\TicketOrder\TicketOrderId;
 use App\Model\TicketOrder\TicketOrderPaymentConfirmed;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Handler\MessageSubscriberInterface;
@@ -33,9 +35,9 @@ final class OnTicketOrderPaymentConfirmed implements MessageSubscriberInterface
             return;
         }
 
-        $promocode = $this->promocodes->getById($event->promocodeId, $event->eventId);
+        $promocode = $this->promocodes->getById(new PromocodeId($event->promocodeId), new EventId($event->eventId));
 
-        $promocode->use($event->orderId);
+        $promocode->use(new TicketOrderId($event->orderId));
 
         $this->em->flush();
     }

@@ -33,24 +33,14 @@ final class DatabaseSerializer
      */
     public function deserialize($data, string $type, array $context = [])
     {
-        /** @psalm-suppress InvalidReturnStatement */
-        return $this->serializer->deserialize($data, $type, 'json', $context);
-    }
+        /**
+         * @var T $deserialized
+         *
+         * @psalm-suppress InvalidReturnStatement
+         */
+        $deserialized = $this->serializer->deserialize($data, $type, 'json', $context);
 
-    /**
-     * @template T
-     *
-     * @psalm-param class-string<T> $type
-     *
-     * @psalm-return array<array-key, T>
-     *
-     * @psalm-suppress InvalidReturnType
-     * @psalm-suppress MixedReturnTypeCoercion
-     */
-    public function deserializeToArray(string $data, string $type, array $context = []): array
-    {
-        /** @psalm-suppress InvalidReturnStatement */
-        return $this->serializer->deserialize($data, $type . '[]', 'json', $context);
+        return $deserialized;
     }
 
     /**

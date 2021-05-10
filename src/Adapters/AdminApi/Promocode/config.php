@@ -9,8 +9,8 @@ use Guuzen\ResourceComposer\Link\OneToOne;
 use Guuzen\ResourceComposer\PromiseCollector\SimpleCollector;
 use Guuzen\ResourceComposer\ResourceComposer;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\inline;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\inline_service;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $configurator) {
     $services = $configurator->services()
@@ -29,18 +29,18 @@ return static function (ContainerConfigurator $configurator) {
     $services->set(ResourceComposer::class)
         ->call(
             'registerRelation', [
-                inline(MainResource::class)->args(
+                inline_service(MainResource::class)->args(
                     [
                         'order',
-                        inline(SimpleCollector::class)->args(['promocode', 'promocode']),
+                        inline_service(SimpleCollector::class)->args(['promocode', 'promocode']),
                     ]
                 ),
-                inline(OneToOne::class),
-                inline(RelatedResource::class)->args(
+                inline_service(OneToOne::class),
+                inline_service(RelatedResource::class)->args(
                     [
                         'promocode',
                         'id',
-                        ref('app.admin_api.promocode.resource_loader'),
+                        service('app.admin_api.promocode.resource_loader'),
                     ]
                 ),
             ]

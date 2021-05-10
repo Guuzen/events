@@ -3,7 +3,7 @@
 namespace App\Infrastructure\Http\RequestResolver;
 
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $configurator) {
     $services = $configurator->services()
@@ -16,5 +16,5 @@ return static function (ContainerConfigurator $configurator) {
 
     // RESOLVER FOR INJECTING APP REQUESTS AS HTTP ADAPTERS METHODS ARGUMENTS
     $services->set(AppRequestResolver::class)
-        ->args(['$serializer' => ref('app.infrastructure.http.serializer')]);
+        ->args(['$serializer' => service('app.infrastructure.http.serializer')]);
 };
