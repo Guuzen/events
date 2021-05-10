@@ -18,14 +18,6 @@ return static function (ContainerConfigurator $configurator) {
         ->autowire(true)
         ->autoconfigure(true);
 
-    $services->set('app.admin_api.promocode.resource_loader', PostgresLoader::class)->args(
-        [
-            '$table'       => 'promocode',
-            '$searchField' => 'id',
-            '$fields'      => ['id', 'discount'],
-        ]
-    );
-
     $services->set(ResourceComposer::class)
         ->call(
             'registerRelation', [
@@ -40,7 +32,14 @@ return static function (ContainerConfigurator $configurator) {
                     [
                         'promocode',
                         'id',
-                        service('app.admin_api.promocode.resource_loader'),
+                        inline_service(PostgresLoader::class)->args(
+                            [
+                                '$connection'  => service('doctrine.dbal.default_connection'),
+                                '$table'       => 'promocode',
+                                '$searchField' => 'id',
+                                '$fields'      => ['id', 'discount'],
+                            ]
+                        ),
                     ]
                 ),
             ]

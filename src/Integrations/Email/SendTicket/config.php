@@ -19,13 +19,6 @@ return static function (ContainerConfigurator $configurator) {
         ->autowire(true)
         ->autoconfigure(true);
 
-    $services->set('app.integrations.email.send_ticket.user_loader', PostgresLoader::class)
-        ->args(
-            [
-                '$table'       => '"user"',
-                '$searchField' => 'id',
-            ]
-        );
     $services->set('app.ticket_composer', ResourceComposer::class)
         ->call(
             'registerRelation', [
@@ -40,7 +33,13 @@ return static function (ContainerConfigurator $configurator) {
                     [
                         'user',
                         'id',
-                        service('app.integrations.email.send_ticket.user_loader')
+                        inline_service(PostgresLoader::class)->args(
+                            [
+                                '$connection'  => service('doctrine.dbal.default_connection'),
+                                '$table'       => '"user"',
+                                '$searchField' => 'id',
+                            ]
+                        )
                     ]
                 )
             ]
