@@ -3,12 +3,12 @@
 namespace App\Model\Promocode\Discount;
 
 use App\Infrastructure\Persistence\DBALTypes\JsonDocumentType;
-use App\Infrastructure\Persistence\DBALTypesInitializer\CustomTypeAnnotation as DBALType;
+use App\Infrastructure\Persistence\DBALTypesInitializer\DbalType;
 use Money\Money;
 use Symfony\Component\Serializer\Annotation\DiscriminatorMap;
 
 /**
- * @DBALType(typeClass=JsonDocumentType::class)
+ * @DbalType(typeClass=JsonDocumentType::class)
  *
  * @DiscriminatorMap(
  *     typeProperty="type",

@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Infrastructure;
+namespace App\Infrastructure\Persistence;
 
 use ReflectionClass;
 use RuntimeException;
 use Symfony\Component\Serializer\Normalizer\PropertyNormalizer;
 use function sprintf;
 
-class WithoutConstructorPropertyNormalizer extends PropertyNormalizer
+class PersistencePropertyNormalizer extends PropertyNormalizer
 {
     /**
      * @var array

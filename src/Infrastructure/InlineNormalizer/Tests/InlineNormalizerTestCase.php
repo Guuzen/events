@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\InlineNormalizer\Tests;
 
 use App\Infrastructure\InlineNormalizer\InlineNormalizer;
-use App\Infrastructure\WithoutConstructorPropertyNormalizer;
+use App\Infrastructure\Persistence\PersistencePropertyNormalizer;
 use Doctrine\Common\Annotations\AnnotationReader;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\PropertyInfo\Extractor\PhpDocExtractor;
@@ -27,7 +27,7 @@ abstract class InlineNormalizerTestCase extends TestCase
         $classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader($reader));
         $phpDocExtractor      = new PhpDocExtractor();
         $this->normalizer     = new InlineNormalizer($reader, $classMetadataFactory);
-        $propertyNormalizer   = new WithoutConstructorPropertyNormalizer($classMetadataFactory, null, $phpDocExtractor);
+        $propertyNormalizer   = new PersistencePropertyNormalizer($classMetadataFactory, null, $phpDocExtractor);
         $serializer           = new Serializer(
             [
                 new ArrayDenormalizer(),

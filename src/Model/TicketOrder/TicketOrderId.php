@@ -6,11 +6,11 @@ namespace App\Model\TicketOrder;
 
 use App\Infrastructure\InlineNormalizer\Inline;
 use App\Infrastructure\Persistence\DBALTypes\UuidType;
-use App\Infrastructure\Persistence\DBALTypesInitializer\CustomTypeAnnotation as DBALType;
+use App\Infrastructure\Persistence\DBALTypesInitializer\DbalType;
 use App\Infrastructure\Uuid;
 
 /**
- * @DBALType(typeClass=UuidType::class)
+ * @DbalType(typeClass=UuidType::class)
  *
  * @Inline
  *

@@ -5,7 +5,7 @@ namespace App\Infrastructure\Persistence\DBALTypes;
 use App\Infrastructure\InlineNormalizer\InlineNormalizer;
 use App\Infrastructure\MoneyNormalizer;
 use App\Infrastructure\Persistence\DBALTypesInitializer\CustomType;
-use App\Infrastructure\WithoutConstructorPropertyNormalizer;
+use App\Infrastructure\Persistence\PersistencePropertyNormalizer;
 use DateTimeInterface;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
@@ -83,7 +83,7 @@ final class JsonDocumentType extends Type implements CustomType
         $classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader($reader));
         $inlineNormalizer     = new InlineNormalizer($reader, $classMetadataFactory);
 
-        $propertyNormalizer = new WithoutConstructorPropertyNormalizer(
+        $propertyNormalizer = new PersistencePropertyNormalizer(
             $classMetadataFactory,
             new CamelCaseToSnakeCaseNameConverter(),
             new PhpDocExtractor(),

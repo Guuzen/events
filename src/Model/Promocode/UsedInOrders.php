@@ -4,11 +4,11 @@ namespace App\Model\Promocode;
 
 use App\Infrastructure\InlineNormalizer\Inline;
 use App\Infrastructure\Persistence\DBALTypes\JsonDocumentType;
-use App\Infrastructure\Persistence\DBALTypesInitializer\CustomTypeAnnotation as DBALType;
+use App\Infrastructure\Persistence\DBALTypesInitializer\DbalType;
 use App\Model\TicketOrder\TicketOrderId;
 
 /**
- * @DBALType(typeClass=JsonDocumentType::class)
+ * @DbalType(typeClass=JsonDocumentType::class)
  *
  * @Inline
  *

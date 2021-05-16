@@ -3,10 +3,10 @@
 namespace App\Model\User;
 
 use App\Infrastructure\Persistence\DBALTypes\JsonDocumentType;
-use App\Infrastructure\Persistence\DBALTypesInitializer\CustomTypeAnnotation as DBALType;
+use App\Infrastructure\Persistence\DBALTypesInitializer\DbalType;
 
 /**
- * @DBALType(typeClass=JsonDocumentType::class)
+ * @DbalType(typeClass=JsonDocumentType::class)
  */
 final class Contacts
 {

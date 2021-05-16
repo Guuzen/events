@@ -4,7 +4,7 @@ namespace App\Model\Tariff;
 
 use App\Infrastructure\InlineNormalizer\Inline;
 use App\Infrastructure\Persistence\DBALTypes\JsonDocumentType;
-use App\Infrastructure\Persistence\DBALTypesInitializer\CustomTypeAnnotation as DBALType;
+use App\Infrastructure\Persistence\DBALTypesInitializer\DbalType;
 use App\Model\Tariff\Exception\TariffSegmentNotFound;
 use App\Model\Tariff\Exception\TariffSegmentsCantIntersects;
 use DateTimeImmutable;
@@ -14,7 +14,7 @@ use Money\Money;
 // TODO цены должны не только не пересекаться, но ещё и идти всегда подряд?
 
 /**
- * @DBALType(typeClass=JsonDocumentType::class)
+ * @DbalType(typeClass=JsonDocumentType::class)
  *
  * @Inline
  *

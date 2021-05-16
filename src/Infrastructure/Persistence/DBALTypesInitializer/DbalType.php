@@ -9,7 +9,7 @@ namespace App\Infrastructure\Persistence\DBALTypesInitializer;
  *
  * @Target({"CLASS"})
  */
-final class CustomTypeAnnotation
+final class DbalType
 {
     /**
      * @Required
