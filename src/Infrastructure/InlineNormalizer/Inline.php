@@ -9,7 +9,6 @@ namespace App\Infrastructure\InlineNormalizer;
  *
  * @Target({"CLASS"})
  */
-final class InlineNormalizable
+final class Inline
 {
-
 }

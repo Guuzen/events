@@ -4,40 +4,38 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\InlineNormalizer;
 
-use App\Infrastructure\WithoutConstructorPropertyNormalizer;
 use Doctrine\Common\Annotations\Reader;
-use Symfony\Component\PropertyInfo\PropertyTypeExtractorInterface;
 use Symfony\Component\Serializer\Exception\UnexpectedValueException;
-use Symfony\Component\Serializer\Mapping\ClassDiscriminatorResolverInterface;
 use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactoryInterface;
-use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
+use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-final class InlineNormalizer extends WithoutConstructorPropertyNormalizer
+final class InlineNormalizer implements DenormalizerInterface, NormalizerInterface
 {
     /**
      * @var Reader
      */
     private $reader;
 
-    public function __construct(
-        Reader $reader,
-        ClassMetadataFactoryInterface $classMetadataFactory = null,
-        NameConverterInterface $nameConverter = null,
-        PropertyTypeExtractorInterface $propertyTypeExtractor = null,
-        ClassDiscriminatorResolverInterface $classDiscriminatorResolver = null,
-        callable $objectClassResolver = null,
-        array $defaultContext = []
-    )
+    /**
+     * @var ClassMetadataFactoryInterface
+     */
+    private $classMetadataFactory;
+
+    /**
+     * @var DenormalizerInterface
+     */
+    private $denormalizer;
+
+    /**
+     * @var NormalizerInterface
+     */
+    private $normalizer;
+
+    public function __construct(Reader $reader, ClassMetadataFactoryInterface $classMetadataFactory)
     {
-        $this->reader = $reader;
-        parent::__construct(
-            $classMetadataFactory,
-            $nameConverter,
-            $propertyTypeExtractor,
-            $classDiscriminatorResolver,
-            $objectClassResolver,
-            $defaultContext
-        );
+        $this->reader               = $reader;
+        $this->classMetadataFactory = $classMetadataFactory;
     }
 
     /**
@@ -60,8 +58,7 @@ final class InlineNormalizer extends WithoutConstructorPropertyNormalizer
         $firstProperty = $properties[0];
         $firstProperty->setAccessible(true);
 
-        /** @psalm-suppress UndefinedInterfaceMethod */
-        return $this->serializer->normalize($firstProperty->getValue($object));
+        return $this->normalizer->normalize($firstProperty->getValue($object));
     }
 
     public function supportsNormalization($data, $format = null): bool
@@ -75,8 +72,8 @@ final class InlineNormalizer extends WithoutConstructorPropertyNormalizer
         /** @psalm-suppress InternalMethod */
         $reflectionClass = $typeMetadata->getReflectionClass();
 
-        /** @var InlineDenormalizable|null $annotation */
-        $annotation = $this->reader->getClassAnnotation($reflectionClass, InlineNormalizable::class);
+        /** @var Inline|null $annotation */
+        $annotation = $this->reader->getClassAnnotation($reflectionClass, Inline::class);
 
         return $annotation !== null;
     }
@@ -105,19 +102,29 @@ final class InlineNormalizer extends WithoutConstructorPropertyNormalizer
             $firstProperty->setAccessible(true);
         }
 
-        return parent::denormalize([$firstProperty->getName() => $data], $type, $format, $context);
+        return $this->denormalizer->denormalize([$firstProperty->getName() => $data], $type, $format, $context);
     }
 
-    public function supportsDenormalization($data, $type, $format = null): bool
+    public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
     {
         /** @psalm-suppress PossiblyNullReference */
         $typeMetadata = $this->classMetadataFactory->getMetadataFor($type);
         /** @psalm-suppress InternalMethod */
         $reflectionClass = $typeMetadata->getReflectionClass();
 
-        /** @var InlineDenormalizable|null $annotation */
-        $annotation = $this->reader->getClassAnnotation($reflectionClass, InlineDenormalizable::class);
+        /** @var Inline|null $annotation */
+        $annotation = $this->reader->getClassAnnotation($reflectionClass, Inline::class);
 
         return $annotation !== null;
+    }
+
+    public function setDenormalizer(DenormalizerInterface $denormalizer): void
+    {
+        $this->denormalizer = $denormalizer;
+    }
+
+    public function setNormalizer(NormalizerInterface $normalizer): void
+    {
+        $this->normalizer = $normalizer;
     }
 }

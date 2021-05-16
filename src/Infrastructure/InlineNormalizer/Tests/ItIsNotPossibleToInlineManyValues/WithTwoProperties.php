@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\InlineNormalizer\Tests\NormalizeTest;
+namespace App\Infrastructure\InlineNormalizer\Tests\ItIsNotPossibleToInlineManyValues;
 
-use App\Infrastructure\InlineNormalizer\InlineDenormalizable;
+use App\Infrastructure\InlineNormalizer\Inline;
 
 /**
- * @InlineDenormalizable()
+ * @Inline
  */
 final class WithTwoProperties
 {

@@ -2,15 +2,13 @@
 
 namespace App\Model\TariffDescription;
 
-use App\Infrastructure\InlineNormalizer\InlineDenormalizable;
-use App\Infrastructure\InlineNormalizer\InlineNormalizable;
+use App\Infrastructure\InlineNormalizer\Inline;
 use App\Infrastructure\Persistence\DBALTypes\UuidType;
 use App\Infrastructure\Persistence\DBALTypesInitializer\CustomTypeAnnotation as DBALType;
 use App\Infrastructure\Uuid;
 
 /**
- * @InlineNormalizable()
- * @InlineDenormalizable()
+ * @Inline
  *
  * @DBALType(typeClass=UuidType::class)
  *

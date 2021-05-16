@@ -2,8 +2,7 @@
 
 namespace App\Model\Promocode;
 
-use App\Infrastructure\InlineNormalizer\InlineDenormalizable;
-use App\Infrastructure\InlineNormalizer\InlineNormalizable;
+use App\Infrastructure\InlineNormalizer\Inline;
 use App\Infrastructure\Persistence\DBALTypes\JsonDocumentType;
 use App\Infrastructure\Persistence\DBALTypesInitializer\CustomTypeAnnotation as DBALType;
 use App\Model\TicketOrder\TicketOrderId;
@@ -11,8 +10,7 @@ use App\Model\TicketOrder\TicketOrderId;
 /**
  * @DBALType(typeClass=JsonDocumentType::class)
  *
- * @InlineNormalizable()
- * @InlineDenormalizable()
+ * @Inline
  *
  * @psalm-immutable
  */

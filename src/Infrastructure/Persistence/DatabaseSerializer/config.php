@@ -27,17 +27,8 @@ return static function (ContainerConfigurator $configurator) {
                 ]
             ]
         );
-    $inlineNormalizer   = inline_service(InlineNormalizer::class)
-        ->args(
-            [
-                service('annotations.reader'),
-                service('serializer.mapping.class_metadata_factory'),
-                service('serializer.name_converter.camel_case_to_snake_case'),
-                service('property_info.php_doc_extractor'),
-                service('serializer.mapping.class_discriminator_resolver'),
-            ]
-        );
-    $propertyNormalizer = inline_service(WithoutConstructorPropertyNormalizer::class)
+
+    $services->set('app.db.property_normalizer', WithoutConstructorPropertyNormalizer::class)
         ->args(
             [
                 service('serializer.mapping.class_metadata_factory'),
@@ -47,23 +38,30 @@ return static function (ContainerConfigurator $configurator) {
             ]
         );
 
-    $services->set(DatabaseSerializer::class)
+    $inlineNormalizer = inline_service(InlineNormalizer::class)
         ->args(
             [
-                inline_service(Serializer::class)
-                    ->args(
-                        [
-                            '$normalizers' => [
-                                $dateTimeNormalizer,
-                                service('serializer.denormalizer.array'),
-                                inline_service(MoneyNormalizer::class),
-                                $inlineNormalizer,
-                                $propertyNormalizer,
-                            ],
-                            '$encoders'    => [service('serializer.encoder.json')]
-                        ]
-                    )
-                ,
+                service('annotations.reader'),
+                service('serializer.mapping.class_metadata_factory'),
+            ]
+        )
+        ->call('setDenormalizer', [service('app.db.property_normalizer')])
+        ->call('setNormalizer', [service('app.db.serializer')]);
+
+    $services->set('app.db.serializer', Serializer::class)
+        ->args(
+            [
+                '$normalizers' => [
+                    $dateTimeNormalizer,
+                    service('serializer.denormalizer.array'),
+                    inline_service(MoneyNormalizer::class),
+                    $inlineNormalizer,
+                    service('app.db.property_normalizer'),
+                ],
+                '$encoders'    => [service('serializer.encoder.json')]
             ]
         );
+
+    $services->set(DatabaseSerializer::class)
+        ->args([service('app.db.serializer')]);
 };
