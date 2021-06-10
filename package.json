@@ -16,7 +16,7 @@
     "mockttp": "^1.0.3"
   },
   "devDependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "express": "^4.17.1",
     "jasmine-fail-fast": "^2.0.1",
     "jest": "^25.5.4",
