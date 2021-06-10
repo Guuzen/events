@@ -1920,12 +1920,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Guuzen/resource-composer.git",
-                "reference": "43e51dc1ba62c9c11983d96a82b5fd8541e77782"
+                "reference": "332ac6fda9d82957aba094d289d34547d686ced3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Guuzen/resource-composer/zipball/43e51dc1ba62c9c11983d96a82b5fd8541e77782",
-                "reference": "43e51dc1ba62c9c11983d96a82b5fd8541e77782",
+                "url": "https://api.github.com/repos/Guuzen/resource-composer/zipball/332ac6fda9d82957aba094d289d34547d686ced3",
+                "reference": "332ac6fda9d82957aba094d289d34547d686ced3",
                 "shasum": ""
             },
             "require": {
@@ -1951,7 +1951,7 @@
                 "issues": "https://github.com/Guuzen/resource-composer/issues",
                 "source": "https://github.com/Guuzen/resource-composer/tree/master"
             },
-            "time": "2021-05-10T15:57:01+00:00"
+            "time": "2021-06-10T21:45:54+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Adapters\AdminApi\Order\GetOrderById;
 
+use App\Adapters\AdminApi\Order\OrderResource;
 use App\Infrastructure\Http\AppController\AppController;
 use App\Infrastructure\Persistence\ResultSetMapping;
 use Doctrine\DBAL\Connection;
@@ -61,7 +62,7 @@ final class GetOrderByIdHttpAdapter extends AppController
         $mapping = ResultSetMapping::forStatement($stmt);
         $order   = $mapping->mapKnownColumns($this->connection->getDatabasePlatform(), $order);
 
-        $order = $this->composer->composeOne($order, 'order');
+        $order = $this->composer->compose($order, OrderResource::class);
 
         return $this->response($order);
     }

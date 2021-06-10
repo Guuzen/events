@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Integrations\Email\SendTicket\TicketDelivery;
 
+use App\Integrations\Email\TicketResource;
 use Doctrine\DBAL\Connection;
 use Guuzen\ResourceComposer\ResourceComposer;
 use Swift_Mailer;
@@ -45,9 +46,9 @@ final class TicketDelivery
         /**
          * @var array{user: array{contacts: array{email: string}}, number: string} $ticket
          */
-        $ticket = $this->composer->composeOne($ticket, 'ticket');
+        $ticket = $this->composer->compose($ticket, TicketResource::class);
 
-        $email  = (new Swift_Message())
+        $email = (new Swift_Message())
             ->setSubject('Thanks for buy ticket')
             ->setFrom($this->from)
             ->setTo($ticket['user']['contacts']['email'])

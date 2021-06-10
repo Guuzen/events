@@ -6,9 +6,9 @@ namespace App\Infrastructure\Persistence\ResourceComposer;
 
 use App\Infrastructure\Persistence\ResultSetMapping;
 use Doctrine\DBAL\Connection;
-use Guuzen\ResourceComposer\ResourceDataLoader;
+use Guuzen\ResourceComposer\ResourceLoader;
 
-final class PostgresLoader implements ResourceDataLoader
+final class PostgresLoader implements ResourceLoader
 {
     private $connection;
 
@@ -68,5 +68,10 @@ final class PostgresLoader implements ResourceDataLoader
         $row     = $mapping->mapKnownColumnsArray($this->connection->getDatabasePlatform(), $set);
 
         return $row;
+    }
+
+    public function loadBy(): string
+    {
+        return $this->searchField;
     }
 }

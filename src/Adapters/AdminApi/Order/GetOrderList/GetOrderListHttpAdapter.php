@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Adapters\AdminApi\Order\GetOrderList;
 
+use App\Adapters\AdminApi\Order\OrderResource;
 use App\Infrastructure\Http\AppController\AppController;
 use App\Infrastructure\Persistence\ResultSetMapping;
 use Doctrine\DBAL\Connection;
@@ -62,7 +63,7 @@ final class GetOrderListHttpAdapter extends AppController
 
         $orders = $mapping->mapKnownColumnsArray($this->connection->getDatabasePlatform(), $orders);
 
-        $resources = $this->composer->compose($orders, 'order');
+        $resources = $this->composer->composeList($orders, OrderResource::class);
 
         return $this->response($resources);
     }
